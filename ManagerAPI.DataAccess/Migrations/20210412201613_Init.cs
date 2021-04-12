@@ -1,5 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ManagerAPI.DataAccess.Migrations
 {
@@ -11,12 +12,12 @@ namespace ManagerAPI.DataAccess.Migrations
                 name: "AspNetRoles",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(maxLength: 256, nullable: true),
-                    NormalizedName = table.Column<string>(maxLength: 256, nullable: true),
-                    ConcurrencyStamp = table.Column<string>(nullable: true),
-                    Discriminator = table.Column<string>(nullable: false),
-                    AccessLevel = table.Column<int>(nullable: true)
+                    Id = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    Discriminator = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: false),
+                    AccessLevel = table.Column<int>(type: "int", nullable: true),
+                    Name = table.Column<string>(type: "varchar(256) CHARACTER SET utf8mb4", maxLength: 256, nullable: true),
+                    NormalizedName = table.Column<string>(type: "varchar(256) CHARACTER SET utf8mb4", maxLength: 256, nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -27,9 +28,9 @@ namespace ManagerAPI.DataAccess.Migrations
                 name: "Genders",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -40,10 +41,10 @@ namespace ManagerAPI.DataAccess.Migrations
                 name: "GroupRoles",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(nullable: false),
-                    AccessLevel = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Title = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: false),
+                    AccessLevel = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -54,9 +55,9 @@ namespace ManagerAPI.DataAccess.Migrations
                 name: "MarkTypes",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(maxLength: 120, nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Title = table.Column<string>(type: "varchar(120) CHARACTER SET utf8mb4", maxLength: 120, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -67,9 +68,9 @@ namespace ManagerAPI.DataAccess.Migrations
                 name: "MovieCategories",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(maxLength: 120, nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(type: "varchar(120) CHARACTER SET utf8mb4", maxLength: 120, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -80,10 +81,10 @@ namespace ManagerAPI.DataAccess.Migrations
                 name: "NotificationSystems",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: false),
-                    ShortName = table.Column<string>(nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: false),
+                    ShortName = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -94,9 +95,9 @@ namespace ManagerAPI.DataAccess.Migrations
                 name: "PlanTypes",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -107,9 +108,9 @@ namespace ManagerAPI.DataAccess.Migrations
                 name: "SeriesCategories",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(maxLength: 120, nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(type: "varchar(120) CHARACTER SET utf8mb4", maxLength: 120, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -120,10 +121,10 @@ namespace ManagerAPI.DataAccess.Migrations
                 name: "WorkingDayTypes",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(maxLength: 100, nullable: false),
-                    DayIsActive = table.Column<bool>(nullable: false, defaultValue: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Title = table.Column<string>(type: "varchar(100) CHARACTER SET utf8mb4", maxLength: 100, nullable: false),
+                    DayIsActive = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
@@ -134,11 +135,11 @@ namespace ManagerAPI.DataAccess.Migrations
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    RoleId = table.Column<string>(nullable: false),
-                    ClaimType = table.Column<string>(nullable: true),
-                    ClaimValue = table.Column<string>(nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    RoleId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    ClaimType = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
+                    ClaimValue = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -155,36 +156,36 @@ namespace ManagerAPI.DataAccess.Migrations
                 name: "AspNetUsers",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
-                    UserName = table.Column<string>(maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
-                    Email = table.Column<string>(maxLength: 256, nullable: true),
-                    NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(nullable: false),
-                    PasswordHash = table.Column<string>(nullable: true),
-                    SecurityStamp = table.Column<string>(nullable: true),
-                    ConcurrencyStamp = table.Column<string>(nullable: true),
-                    PhoneNumber = table.Column<string>(nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
-                    LockoutEnabled = table.Column<bool>(nullable: false),
-                    AccessFailedCount = table.Column<int>(nullable: false),
-                    Discriminator = table.Column<string>(nullable: false),
-                    FullName = table.Column<string>(maxLength: 100, nullable: true),
-                    IsActive = table.Column<bool>(nullable: true, defaultValue: true),
-                    RegistrationDate = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValueSql: "getdate()"),
-                    LastLogin = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValueSql: "getdate()"),
-                    SecondaryEmail = table.Column<string>(nullable: true),
-                    TShirtSize = table.Column<string>(maxLength: 6, nullable: true),
-                    Allergy = table.Column<string>(nullable: true),
-                    Group = table.Column<string>(maxLength: 40, nullable: true),
-                    BirthDay = table.Column<DateTime>(nullable: true),
-                    ProfileImageTitle = table.Column<string>(nullable: true),
-                    ProfileImageData = table.Column<byte[]>(nullable: true),
-                    Country = table.Column<string>(maxLength: 120, nullable: true),
-                    GenderId = table.Column<int>(nullable: true),
-                    City = table.Column<string>(maxLength: 120, nullable: true)
+                    Id = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    Discriminator = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: false),
+                    FullName = table.Column<string>(type: "varchar(100) CHARACTER SET utf8mb4", maxLength: 100, nullable: true),
+                    IsActive = table.Column<bool>(type: "tinyint(1)", nullable: true, defaultValue: true),
+                    RegistrationDate = table.Column<DateTime>(type: "datetime(6)", nullable: true, defaultValueSql: "NOW()"),
+                    LastLogin = table.Column<DateTime>(type: "datetime(6)", nullable: true, defaultValueSql: "NOW()"),
+                    SecondaryEmail = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
+                    TShirtSize = table.Column<string>(type: "varchar(6) CHARACTER SET utf8mb4", maxLength: 6, nullable: true),
+                    Allergy = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
+                    Group = table.Column<string>(type: "varchar(40) CHARACTER SET utf8mb4", maxLength: 40, nullable: true),
+                    BirthDay = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    ProfileImageTitle = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
+                    ProfileImageData = table.Column<byte[]>(type: "longblob", nullable: true),
+                    Country = table.Column<string>(type: "varchar(120) CHARACTER SET utf8mb4", maxLength: 120, nullable: true),
+                    GenderId = table.Column<int>(type: "int", nullable: true),
+                    City = table.Column<string>(type: "varchar(120) CHARACTER SET utf8mb4", maxLength: 120, nullable: true),
+                    UserName = table.Column<string>(type: "varchar(256) CHARACTER SET utf8mb4", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "varchar(256) CHARACTER SET utf8mb4", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "varchar(256) CHARACTER SET utf8mb4", maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "varchar(256) CHARACTER SET utf8mb4", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    PasswordHash = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -201,11 +202,11 @@ namespace ManagerAPI.DataAccess.Migrations
                 name: "NotificationTypes",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(nullable: false),
-                    ImportanceLevel = table.Column<int>(nullable: false),
-                    SystemId = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Title = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: false),
+                    ImportanceLevel = table.Column<int>(type: "int", nullable: false),
+                    SystemId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -222,11 +223,11 @@ namespace ManagerAPI.DataAccess.Migrations
                 name: "AspNetUserClaims",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(nullable: false),
-                    ClaimType = table.Column<string>(nullable: true),
-                    ClaimValue = table.Column<string>(nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    UserId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    ClaimType = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
+                    ClaimValue = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -243,10 +244,10 @@ namespace ManagerAPI.DataAccess.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(nullable: false),
-                    ProviderKey = table.Column<string>(nullable: false),
-                    ProviderDisplayName = table.Column<string>(nullable: true),
-                    UserId = table.Column<string>(nullable: false)
+                    LoginProvider = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    ProviderKey = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    ProviderDisplayName = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
+                    UserId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -263,8 +264,8 @@ namespace ManagerAPI.DataAccess.Migrations
                 name: "AspNetUserRoles",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(nullable: false),
-                    RoleId = table.Column<string>(nullable: false)
+                    UserId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    RoleId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -287,10 +288,10 @@ namespace ManagerAPI.DataAccess.Migrations
                 name: "AspNetUserTokens",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(nullable: false),
-                    LoginProvider = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(nullable: false),
-                    Value = table.Column<string>(nullable: true)
+                    UserId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    LoginProvider = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    Name = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    Value = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -307,16 +308,16 @@ namespace ManagerAPI.DataAccess.Migrations
                 name: "Books",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(maxLength: 150, nullable: false),
-                    Author = table.Column<string>(maxLength: 150, nullable: false),
-                    Description = table.Column<string>(nullable: true),
-                    Publish = table.Column<DateTime>(nullable: true),
-                    CreatorId = table.Column<string>(nullable: false),
-                    LastUpdaterId = table.Column<string>(nullable: false),
-                    Creation = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
-                    LastUpdate = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()")
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(type: "varchar(150) CHARACTER SET utf8mb4", maxLength: 150, nullable: false),
+                    Author = table.Column<string>(type: "varchar(150) CHARACTER SET utf8mb4", maxLength: 150, nullable: false),
+                    Description = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
+                    Publish = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    CreatorId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    LastUpdaterId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    Creation = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()"),
+                    LastUpdate = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()")
                 },
                 constraints: table =>
                 {
@@ -339,21 +340,21 @@ namespace ManagerAPI.DataAccess.Migrations
                 name: "Csomors",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(maxLength: 120, nullable: false),
-                    Creation = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
-                    OwnerId = table.Column<string>(nullable: false),
-                    LastUpdate = table.Column<DateTime>(nullable: true, defaultValueSql: "getdate()"),
-                    LastUpdaterId = table.Column<string>(nullable: true),
-                    Start = table.Column<DateTime>(nullable: false),
-                    Finish = table.Column<DateTime>(nullable: false),
-                    MaxWorkHour = table.Column<int>(nullable: false),
-                    MinRestHour = table.Column<int>(nullable: false),
-                    IsShared = table.Column<bool>(nullable: false, defaultValue: false),
-                    IsPublic = table.Column<bool>(nullable: false, defaultValue: false),
-                    HasGeneratedCsomor = table.Column<bool>(nullable: false, defaultValue: false),
-                    LastGeneration = table.Column<DateTime>(nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Title = table.Column<string>(type: "varchar(120) CHARACTER SET utf8mb4", maxLength: 120, nullable: false),
+                    Creation = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()"),
+                    OwnerId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    LastUpdate = table.Column<DateTime>(type: "datetime(6)", nullable: true, defaultValueSql: "NOW()"),
+                    LastUpdaterId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: true),
+                    Start = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    Finish = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    MaxWorkHour = table.Column<int>(type: "int", nullable: false),
+                    MinRestHour = table.Column<int>(type: "int", nullable: false),
+                    IsShared = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false),
+                    IsPublic = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false),
+                    HasGeneratedCsomor = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false),
+                    LastGeneration = table.Column<DateTime>(type: "datetime(6)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -376,14 +377,14 @@ namespace ManagerAPI.DataAccess.Migrations
                 name: "FriendRequests",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    SenderId = table.Column<string>(nullable: false),
-                    DestinationId = table.Column<string>(nullable: false),
-                    SentDate = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
-                    Message = table.Column<string>(maxLength: 120, nullable: false),
-                    Response = table.Column<bool>(nullable: true),
-                    ResponseDate = table.Column<DateTime>(nullable: true, defaultValueSql: "getdate()")
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    SenderId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    DestinationId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    SentDate = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()"),
+                    Message = table.Column<string>(type: "varchar(120) CHARACTER SET utf8mb4", maxLength: 120, nullable: false),
+                    Response = table.Column<bool>(type: "tinyint(1)", nullable: true),
+                    ResponseDate = table.Column<DateTime>(type: "datetime(6)", nullable: true, defaultValueSql: "NOW()")
                 },
                 constraints: table =>
                 {
@@ -406,12 +407,12 @@ namespace ManagerAPI.DataAccess.Migrations
                 name: "Messages",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Text = table.Column<string>(type: "nvarchar(400)", nullable: false),
-                    SenderId = table.Column<string>(nullable: false),
-                    ReceiverId = table.Column<string>(nullable: false),
-                    Date = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()")
+                    SenderId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    ReceiverId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()")
                 },
                 constraints: table =>
                 {
@@ -434,20 +435,20 @@ namespace ManagerAPI.DataAccess.Migrations
                 name: "Movies",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(maxLength: 150, nullable: false),
-                    Description = table.Column<string>(maxLength: 999, nullable: true),
-                    ReleaseYear = table.Column<int>(nullable: true),
-                    Length = table.Column<int>(nullable: true),
-                    Director = table.Column<string>(maxLength: 60, nullable: true),
-                    TrailerUrl = table.Column<string>(maxLength: 200, nullable: true),
-                    ImageTitle = table.Column<string>(maxLength: 100, nullable: true),
-                    ImageData = table.Column<byte[]>(nullable: true),
-                    CreatorId = table.Column<string>(nullable: false),
-                    LastUpdaterId = table.Column<string>(nullable: false),
-                    Creation = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
-                    LastUpdate = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()")
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Title = table.Column<string>(type: "varchar(150) CHARACTER SET utf8mb4", maxLength: 150, nullable: false),
+                    Description = table.Column<string>(type: "varchar(999) CHARACTER SET utf8mb4", maxLength: 999, nullable: true),
+                    ReleaseYear = table.Column<int>(type: "int", nullable: true),
+                    Length = table.Column<int>(type: "int", nullable: true),
+                    Director = table.Column<string>(type: "varchar(60) CHARACTER SET utf8mb4", maxLength: 60, nullable: true),
+                    TrailerUrl = table.Column<string>(type: "varchar(200) CHARACTER SET utf8mb4", maxLength: 200, nullable: true),
+                    ImageTitle = table.Column<string>(type: "varchar(100) CHARACTER SET utf8mb4", maxLength: 100, nullable: true),
+                    ImageData = table.Column<byte[]>(type: "longblob", nullable: true),
+                    CreatorId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    LastUpdaterId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    Creation = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()"),
+                    LastUpdate = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()")
                 },
                 constraints: table =>
                 {
@@ -470,13 +471,13 @@ namespace ManagerAPI.DataAccess.Migrations
                 name: "News",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Content = table.Column<string>(maxLength: 512, nullable: false),
-                    CreatorId = table.Column<string>(nullable: false),
-                    Creation = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
-                    LastUpdaterId = table.Column<string>(nullable: false),
-                    LastUpdate = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()")
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Content = table.Column<string>(type: "varchar(512) CHARACTER SET utf8mb4", maxLength: 512, nullable: false),
+                    CreatorId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    Creation = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()"),
+                    LastUpdaterId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    LastUpdate = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()")
                 },
                 constraints: table =>
                 {
@@ -499,14 +500,14 @@ namespace ManagerAPI.DataAccess.Migrations
                 name: "PlanGroups",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: false),
-                    CreatorId = table.Column<string>(nullable: false),
-                    Creation = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
-                    LastUpdaterId = table.Column<string>(nullable: true),
-                    LastUpdate = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
-                    IsArchived = table.Column<bool>(nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: false),
+                    CreatorId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    Creation = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()"),
+                    LastUpdaterId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    LastUpdate = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()"),
+                    IsArchived = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -521,26 +522,25 @@ namespace ManagerAPI.DataAccess.Migrations
                         name: "FK_PlanGroups_AspNetUsers_LastUpdaterId",
                         column: x => x.LastUpdaterId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.SetNull);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
                 name: "Plans",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(maxLength: 150, nullable: false),
-                    Description = table.Column<string>(maxLength: 512, nullable: true),
-                    OwnerId = table.Column<string>(nullable: false),
-                    Creation = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
-                    LastUpdate = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
-                    StartTime = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
-                    EndTime = table.Column<DateTime>(nullable: true, defaultValueSql: "getdate()"),
-                    PriorityLevel = table.Column<int>(nullable: true),
-                    IsPublic = table.Column<bool>(nullable: false, defaultValue: false),
-                    PlanTypeId = table.Column<int>(nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Title = table.Column<string>(type: "varchar(150) CHARACTER SET utf8mb4", maxLength: 150, nullable: false),
+                    Description = table.Column<string>(type: "varchar(512) CHARACTER SET utf8mb4", maxLength: 512, nullable: true),
+                    OwnerId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    Creation = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()"),
+                    LastUpdate = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()"),
+                    StartTime = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()"),
+                    EndTime = table.Column<DateTime>(type: "datetime(6)", nullable: true, defaultValueSql: "NOW()"),
+                    PriorityLevel = table.Column<int>(type: "int", nullable: true),
+                    IsPublic = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false),
+                    PlanTypeId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -550,7 +550,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         column: x => x.OwnerId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Plans_PlanTypes_PlanTypeId",
                         column: x => x.PlanTypeId,
@@ -563,19 +563,19 @@ namespace ManagerAPI.DataAccess.Migrations
                 name: "Series",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(maxLength: 150, nullable: false),
-                    Description = table.Column<string>(maxLength: 999, nullable: true),
-                    StartYear = table.Column<int>(nullable: true),
-                    EndYear = table.Column<int>(nullable: true),
-                    TrailerUrl = table.Column<string>(maxLength: 200, nullable: true),
-                    ImageTitle = table.Column<string>(maxLength: 100, nullable: true),
-                    ImageData = table.Column<byte[]>(nullable: true),
-                    Creation = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
-                    LastUpdate = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
-                    CreatorId = table.Column<string>(nullable: false),
-                    LastUpdaterId = table.Column<string>(nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Title = table.Column<string>(type: "varchar(150) CHARACTER SET utf8mb4", maxLength: 150, nullable: false),
+                    Description = table.Column<string>(type: "varchar(999) CHARACTER SET utf8mb4", maxLength: 999, nullable: true),
+                    StartYear = table.Column<int>(type: "int", nullable: true),
+                    EndYear = table.Column<int>(type: "int", nullable: true),
+                    TrailerUrl = table.Column<string>(type: "varchar(200) CHARACTER SET utf8mb4", maxLength: 200, nullable: true),
+                    ImageTitle = table.Column<string>(type: "varchar(100) CHARACTER SET utf8mb4", maxLength: 100, nullable: true),
+                    ImageData = table.Column<byte[]>(type: "longblob", nullable: true),
+                    Creation = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()"),
+                    LastUpdate = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()"),
+                    CreatorId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    LastUpdaterId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -598,15 +598,15 @@ namespace ManagerAPI.DataAccess.Migrations
                 name: "Tasks",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(maxLength: 100, nullable: false),
-                    Description = table.Column<string>(nullable: false),
-                    IsSolved = table.Column<bool>(nullable: false, defaultValue: false),
-                    OwnerId = table.Column<string>(nullable: false),
-                    Creation = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
-                    LastUpdate = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
-                    Deadline = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Title = table.Column<string>(type: "varchar(100) CHARACTER SET utf8mb4", maxLength: 100, nullable: false),
+                    Description = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: false),
+                    IsSolved = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false),
+                    OwnerId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    Creation = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()"),
+                    LastUpdate = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()"),
+                    Deadline = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -623,41 +623,41 @@ namespace ManagerAPI.DataAccess.Migrations
                 name: "WorkingDays",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Day = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UserId = table.Column<string>(nullable: false),
-                    TypeId = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Day = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    UserId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    TypeId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_WorkingDays", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_WorkingDays_WorkingDayTypes_TypeId",
-                        column: x => x.TypeId,
-                        principalTable: "WorkingDayTypes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_WorkingDays_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_WorkingDays_WorkingDayTypes_TypeId",
+                        column: x => x.TypeId,
+                        principalTable: "WorkingDayTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Notifications",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Content = table.Column<string>(maxLength: 256, nullable: false),
-                    SentDate = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
-                    OwnerId = table.Column<string>(nullable: false),
-                    IsRead = table.Column<bool>(nullable: false, defaultValue: false),
-                    Archived = table.Column<bool>(nullable: false, defaultValue: false),
-                    TypeId = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Content = table.Column<string>(type: "varchar(256) CHARACTER SET utf8mb4", maxLength: 256, nullable: false),
+                    SentDate = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()"),
+                    OwnerId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    IsRead = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false),
+                    Archived = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false),
+                    TypeId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -680,38 +680,38 @@ namespace ManagerAPI.DataAccess.Migrations
                 name: "UserBookSwitch",
                 columns: table => new
                 {
-                    BookId = table.Column<int>(nullable: false),
-                    UserId = table.Column<string>(nullable: false),
-                    Read = table.Column<bool>(nullable: false, defaultValue: false),
-                    ReadOn = table.Column<DateTime>(nullable: true),
-                    AddOn = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()")
+                    BookId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    Read = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false),
+                    ReadOn = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    AddOn = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UserBookSwitch", x => new { x.UserId, x.BookId });
-                    table.ForeignKey(
-                        name: "FK_UserBookSwitch_Books_BookId",
-                        column: x => x.BookId,
-                        principalTable: "Books",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_UserBookSwitch_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_UserBookSwitch_Books_BookId",
+                        column: x => x.BookId,
+                        principalTable: "Books",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "CsomorPersons",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(maxLength: 120, nullable: false),
-                    CsomorId = table.Column<int>(nullable: false),
-                    PlusWorkCounter = table.Column<int>(nullable: false, defaultValue: 0),
-                    IsIgnored = table.Column<bool>(nullable: false, defaultValue: false)
+                    Id = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    Name = table.Column<string>(type: "varchar(120) CHARACTER SET utf8mb4", maxLength: 120, nullable: false),
+                    CsomorId = table.Column<int>(type: "int", nullable: false),
+                    PlusWorkCounter = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
+                    IsIgnored = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
@@ -728,9 +728,9 @@ namespace ManagerAPI.DataAccess.Migrations
                 name: "CsomorWorks",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(maxLength: 80, nullable: false),
-                    CsomorId = table.Column<int>(nullable: false)
+                    Id = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    Name = table.Column<string>(type: "varchar(80) CHARACTER SET utf8mb4", maxLength: 80, nullable: false),
+                    CsomorId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -747,24 +747,24 @@ namespace ManagerAPI.DataAccess.Migrations
                 name: "SharedCsomors",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(nullable: false),
-                    CsomorId = table.Column<int>(nullable: false),
-                    SharedOn = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
-                    HasWriteAccess = table.Column<bool>(nullable: false, defaultValue: false)
+                    UserId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    CsomorId = table.Column<int>(type: "int", nullable: false),
+                    SharedOn = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()"),
+                    HasWriteAccess = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SharedCsomors", x => new { x.UserId, x.CsomorId });
                     table.ForeignKey(
-                        name: "FK_SharedCsomors_Csomors_CsomorId",
-                        column: x => x.CsomorId,
-                        principalTable: "Csomors",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
                         name: "FK_SharedCsomors_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_SharedCsomors_Csomors_CsomorId",
+                        column: x => x.CsomorId,
+                        principalTable: "Csomors",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -773,10 +773,10 @@ namespace ManagerAPI.DataAccess.Migrations
                 name: "Friends",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(nullable: false),
-                    FriendId = table.Column<string>(nullable: false),
-                    ConnectionDate = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
-                    RequestId = table.Column<int>(nullable: false)
+                    UserId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    FriendId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    ConnectionDate = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()"),
+                    RequestId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -788,54 +788,54 @@ namespace ManagerAPI.DataAccess.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Friends_FriendRequests_RequestId",
-                        column: x => x.RequestId,
-                        principalTable: "FriendRequests",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
                         name: "FK_Friends_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Friends_FriendRequests_RequestId",
+                        column: x => x.RequestId,
+                        principalTable: "FriendRequests",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
                 name: "MovieComments",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    MovieId = table.Column<int>(nullable: false),
-                    UserId = table.Column<string>(nullable: false),
-                    Creation = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
-                    LastUpdate = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
-                    Comment = table.Column<string>(maxLength: 500, nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    MovieId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    Creation = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()"),
+                    LastUpdate = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()"),
+                    Comment = table.Column<string>(type: "varchar(500) CHARACTER SET utf8mb4", maxLength: 500, nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_MovieComments", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_MovieComments_Movies_MovieId",
-                        column: x => x.MovieId,
-                        principalTable: "Movies",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_MovieComments_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_MovieComments_Movies_MovieId",
+                        column: x => x.MovieId,
+                        principalTable: "Movies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "MovieMovieCategorySwitch",
                 columns: table => new
                 {
-                    MovieId = table.Column<int>(nullable: false),
-                    CategoryId = table.Column<int>(nullable: false)
+                    MovieId = table.Column<int>(type: "int", nullable: false),
+                    CategoryId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -858,55 +858,55 @@ namespace ManagerAPI.DataAccess.Migrations
                 name: "UserMovieSwitch",
                 columns: table => new
                 {
-                    MovieId = table.Column<int>(nullable: false),
-                    UserId = table.Column<string>(nullable: false),
-                    IsSeen = table.Column<bool>(nullable: false, defaultValue: false),
-                    IsAdded = table.Column<bool>(nullable: false),
-                    SeenOn = table.Column<DateTime>(nullable: true),
-                    AddedOn = table.Column<DateTime>(nullable: true, defaultValueSql: "getdate()"),
-                    Rate = table.Column<int>(nullable: true)
+                    MovieId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    IsSeen = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false),
+                    IsAdded = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    SeenOn = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    AddedOn = table.Column<DateTime>(type: "datetime(6)", nullable: true, defaultValueSql: "NOW()"),
+                    Rate = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UserMovieSwitch", x => new { x.UserId, x.MovieId });
-                    table.ForeignKey(
-                        name: "FK_UserMovieSwitch_Movies_MovieId",
-                        column: x => x.MovieId,
-                        principalTable: "Movies",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_UserMovieSwitch_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_UserMovieSwitch_Movies_MovieId",
+                        column: x => x.MovieId,
+                        principalTable: "Movies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "PlanGroupChatMessages",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Message = table.Column<string>(nullable: false),
-                    SenderId = table.Column<string>(nullable: false),
-                    Sent = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
-                    GroupId = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Message = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: false),
+                    SenderId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    Sent = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()"),
+                    GroupId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PlanGroupChatMessages", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PlanGroupChatMessages_PlanGroups_GroupId",
-                        column: x => x.GroupId,
-                        principalTable: "PlanGroups",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
                         name: "FK_PlanGroupChatMessages_AspNetUsers_SenderId",
                         column: x => x.SenderId,
                         principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_PlanGroupChatMessages_PlanGroups_GroupId",
+                        column: x => x.GroupId,
+                        principalTable: "PlanGroups",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -915,12 +915,12 @@ namespace ManagerAPI.DataAccess.Migrations
                 name: "PlanGroupIdeas",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Content = table.Column<string>(maxLength: 200, nullable: false),
-                    CreatorId = table.Column<string>(nullable: false),
-                    Creation = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
-                    GroupId = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Content = table.Column<string>(type: "varchar(200) CHARACTER SET utf8mb4", maxLength: 200, nullable: false),
+                    CreatorId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    Creation = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()"),
+                    GroupId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -936,51 +936,38 @@ namespace ManagerAPI.DataAccess.Migrations
                         column: x => x.GroupId,
                         principalTable: "PlanGroups",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
                 name: "PlanGroupPlans",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(maxLength: 150, nullable: false),
-                    Description = table.Column<string>(maxLength: 512, nullable: true),
-                    OwnerId = table.Column<string>(nullable: false),
-                    Creation = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
-                    LastUpdaterId = table.Column<string>(nullable: true),
-                    LastUpdate = table.Column<DateTime>(nullable: true, defaultValueSql: "getdate()"),
-                    StartTime = table.Column<DateTime>(nullable: false),
-                    EndTime = table.Column<DateTime>(nullable: true),
-                    PriorityLevel = table.Column<int>(nullable: true),
-                    IsPublic = table.Column<bool>(nullable: false, defaultValue: false),
-                    PlanTypeId = table.Column<int>(nullable: true),
-                    MarkedUserId = table.Column<string>(nullable: false),
-                    MarkTypeId = table.Column<int>(nullable: false),
-                    GroupId = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Title = table.Column<string>(type: "varchar(150) CHARACTER SET utf8mb4", maxLength: 150, nullable: false),
+                    Description = table.Column<string>(type: "varchar(512) CHARACTER SET utf8mb4", maxLength: 512, nullable: true),
+                    OwnerId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    Creation = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()"),
+                    LastUpdaterId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: true),
+                    LastUpdate = table.Column<DateTime>(type: "datetime(6)", nullable: true, defaultValueSql: "NOW()"),
+                    StartTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    EndTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    PriorityLevel = table.Column<int>(type: "int", nullable: true),
+                    IsPublic = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false),
+                    PlanTypeId = table.Column<int>(type: "int", nullable: true),
+                    MarkedUserId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    MarkTypeId = table.Column<int>(type: "int", nullable: false),
+                    GroupId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PlanGroupPlans", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PlanGroupPlans_PlanGroups_GroupId",
-                        column: x => x.GroupId,
-                        principalTable: "PlanGroups",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
                         name: "FK_PlanGroupPlans_AspNetUsers_LastUpdaterId",
                         column: x => x.LastUpdaterId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.SetNull);
-                    table.ForeignKey(
-                        name: "FK_PlanGroupPlans_MarkTypes_MarkTypeId",
-                        column: x => x.MarkTypeId,
-                        principalTable: "MarkTypes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_PlanGroupPlans_AspNetUsers_MarkedUserId",
                         column: x => x.MarkedUserId,
@@ -991,6 +978,18 @@ namespace ManagerAPI.DataAccess.Migrations
                         name: "FK_PlanGroupPlans_AspNetUsers_OwnerId",
                         column: x => x.OwnerId,
                         principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_PlanGroupPlans_MarkTypes_MarkTypeId",
+                        column: x => x.MarkTypeId,
+                        principalTable: "MarkTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_PlanGroupPlans_PlanGroups_GroupId",
+                        column: x => x.GroupId,
+                        principalTable: "PlanGroups",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -1005,11 +1004,11 @@ namespace ManagerAPI.DataAccess.Migrations
                 name: "UserPlanGroupsSwitch",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(nullable: false),
-                    GroupId = table.Column<int>(nullable: false),
-                    RoleId = table.Column<int>(nullable: false),
-                    Connection = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
-                    AddedById = table.Column<string>(nullable: false)
+                    UserId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    GroupId = table.Column<int>(type: "int", nullable: false),
+                    RoleId = table.Column<int>(type: "int", nullable: false),
+                    Connection = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()"),
+                    AddedById = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1021,11 +1020,11 @@ namespace ManagerAPI.DataAccess.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_UserPlanGroupsSwitch_PlanGroups_GroupId",
-                        column: x => x.GroupId,
-                        principalTable: "PlanGroups",
+                        name: "FK_UserPlanGroupsSwitch_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_UserPlanGroupsSwitch_GroupRoles_RoleId",
                         column: x => x.RoleId,
@@ -1033,21 +1032,21 @@ namespace ManagerAPI.DataAccess.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_UserPlanGroupsSwitch_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
+                        name: "FK_UserPlanGroupsSwitch_PlanGroups_GroupId",
+                        column: x => x.GroupId,
+                        principalTable: "PlanGroups",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Seasons",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Number = table.Column<int>(nullable: false),
-                    SeriesId = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Number = table.Column<int>(type: "int", nullable: false),
+                    SeriesId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1064,92 +1063,92 @@ namespace ManagerAPI.DataAccess.Migrations
                 name: "SeriesComments",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    SeriesId = table.Column<int>(nullable: false),
-                    UserId = table.Column<string>(nullable: false),
-                    Creation = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
-                    LastUpdate = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
-                    Comment = table.Column<string>(maxLength: 500, nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    SeriesId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    Creation = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()"),
+                    LastUpdate = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()"),
+                    Comment = table.Column<string>(type: "varchar(500) CHARACTER SET utf8mb4", maxLength: 500, nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SeriesComments", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_SeriesComments_Series_SeriesId",
-                        column: x => x.SeriesId,
-                        principalTable: "Series",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_SeriesComments_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_SeriesComments_Series_SeriesId",
+                        column: x => x.SeriesId,
+                        principalTable: "Series",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "SeriesSeriesCategoriesSwitch",
                 columns: table => new
                 {
-                    SeriesId = table.Column<int>(nullable: false),
-                    CategoryId = table.Column<int>(nullable: false)
+                    SeriesId = table.Column<int>(type: "int", nullable: false),
+                    CategoryId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SeriesSeriesCategoriesSwitch", x => new { x.SeriesId, x.CategoryId });
-                    table.ForeignKey(
-                        name: "FK_SeriesSeriesCategoriesSwitch_SeriesCategories_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "SeriesCategories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_SeriesSeriesCategoriesSwitch_Series_SeriesId",
                         column: x => x.SeriesId,
                         principalTable: "Series",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_SeriesSeriesCategoriesSwitch_SeriesCategories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "SeriesCategories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
                 name: "UserSeriesSwitch",
                 columns: table => new
                 {
-                    SeriesId = table.Column<int>(nullable: false),
-                    UserId = table.Column<string>(nullable: false),
-                    IsAdded = table.Column<bool>(nullable: false),
-                    AddedOn = table.Column<DateTime>(nullable: true, defaultValueSql: "getdate()"),
-                    Rate = table.Column<int>(nullable: true)
+                    SeriesId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    IsAdded = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    AddedOn = table.Column<DateTime>(type: "datetime(6)", nullable: true, defaultValueSql: "NOW()"),
+                    Rate = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UserSeriesSwitch", x => new { x.UserId, x.SeriesId });
-                    table.ForeignKey(
-                        name: "FK_UserSeriesSwitch_Series_SeriesId",
-                        column: x => x.SeriesId,
-                        principalTable: "Series",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_UserSeriesSwitch_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_UserSeriesSwitch_Series_SeriesId",
+                        column: x => x.SeriesId,
+                        principalTable: "Series",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "WorkingFields",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(maxLength: 200, nullable: false),
-                    Description = table.Column<string>(nullable: true),
-                    Length = table.Column<decimal>(nullable: false),
-                    WorkingDayId = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Title = table.Column<string>(type: "varchar(200) CHARACTER SET utf8mb4", maxLength: 200, nullable: false),
+                    Description = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
+                    Length = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
+                    WorkingDayId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1166,11 +1165,11 @@ namespace ManagerAPI.DataAccess.Migrations
                 name: "CsomorPersonTables",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
-                    Date = table.Column<DateTime>(nullable: false),
-                    PersonId = table.Column<string>(nullable: false),
-                    IsAvailable = table.Column<bool>(nullable: false, defaultValue: false),
-                    WorkId = table.Column<string>(nullable: true)
+                    Id = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    PersonId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    IsAvailable = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false),
+                    WorkId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -1193,11 +1192,11 @@ namespace ManagerAPI.DataAccess.Migrations
                 name: "CsomorWorkTables",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
-                    Date = table.Column<DateTime>(nullable: false),
-                    WorkId = table.Column<string>(nullable: false),
-                    IsActive = table.Column<bool>(nullable: false, defaultValue: false),
-                    PersonId = table.Column<string>(nullable: true)
+                    Id = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    WorkId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    IsActive = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false),
+                    PersonId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -1220,8 +1219,8 @@ namespace ManagerAPI.DataAccess.Migrations
                 name: "IgnoredWorks",
                 columns: table => new
                 {
-                    PersonId = table.Column<string>(nullable: false),
-                    WorkId = table.Column<string>(nullable: false)
+                    PersonId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    WorkId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1244,26 +1243,26 @@ namespace ManagerAPI.DataAccess.Migrations
                 name: "PlanGroupPlanComments",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Comment = table.Column<string>(maxLength: 256, nullable: false),
-                    SenderId = table.Column<string>(nullable: false),
-                    Creation = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
-                    PlanId = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Comment = table.Column<string>(type: "varchar(256) CHARACTER SET utf8mb4", maxLength: 256, nullable: false),
+                    SenderId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    Creation = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()"),
+                    PlanId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PlanGroupPlanComments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PlanGroupPlanComments_PlanGroupPlans_PlanId",
-                        column: x => x.PlanId,
-                        principalTable: "PlanGroupPlans",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
                         name: "FK_PlanGroupPlanComments_AspNetUsers_SenderId",
                         column: x => x.SenderId,
                         principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_PlanGroupPlanComments_PlanGroupPlans_PlanId",
+                        column: x => x.PlanId,
+                        principalTable: "PlanGroupPlans",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -1272,16 +1271,16 @@ namespace ManagerAPI.DataAccess.Migrations
                 name: "Episodes",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(maxLength: 150, nullable: false),
-                    Number = table.Column<int>(nullable: false),
-                    Description = table.Column<string>(maxLength: 300, nullable: true),
-                    SeasonId = table.Column<int>(nullable: false),
-                    LastUpdaterId = table.Column<string>(nullable: false),
-                    LastUpdate = table.Column<DateTime>(nullable: false),
-                    ImageTitle = table.Column<string>(nullable: true),
-                    ImageData = table.Column<byte[]>(nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Title = table.Column<string>(type: "varchar(150) CHARACTER SET utf8mb4", maxLength: 150, nullable: false),
+                    Number = table.Column<int>(type: "int", nullable: false),
+                    Description = table.Column<string>(type: "varchar(300) CHARACTER SET utf8mb4", maxLength: 300, nullable: true),
+                    SeasonId = table.Column<int>(type: "int", nullable: false),
+                    LastUpdaterId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    LastUpdate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    ImageTitle = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
+                    ImageData = table.Column<byte[]>(type: "longblob", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -1304,52 +1303,52 @@ namespace ManagerAPI.DataAccess.Migrations
                 name: "UserEpisodeSwitch",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(nullable: false),
-                    EpisodeId = table.Column<int>(nullable: false),
-                    Seen = table.Column<bool>(nullable: false, defaultValue: false),
-                    SeenOn = table.Column<DateTime>(nullable: true)
+                    UserId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    EpisodeId = table.Column<int>(type: "int", nullable: false),
+                    Seen = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false),
+                    SeenOn = table.Column<DateTime>(type: "datetime(6)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UserEpisodeSwitch", x => new { x.UserId, x.EpisodeId });
-                    table.ForeignKey(
-                        name: "FK_UserEpisodeSwitch_Episodes_EpisodeId",
-                        column: x => x.EpisodeId,
-                        principalTable: "Episodes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_UserEpisodeSwitch_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_UserEpisodeSwitch_Episodes_EpisodeId",
+                        column: x => x.EpisodeId,
+                        principalTable: "Episodes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
-                columns: new[] { "Id", "ConcurrencyStamp", "Discriminator", "Name", "NormalizedName", "AccessLevel" },
+                columns: new[] { "Id", "AccessLevel", "ConcurrencyStamp", "Discriminator", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "fa5deb78-59c2-4faa-83dc-6c3369eedf20", "5fa9966b-92bb-498c-a892-6a83d90eb630", "WebsiteRole", "Root", "ROOT", 4 },
-                    { "936e4ddc-5d3f-5466-af3a-3b4a4424d518", "4209642a-8daf-468b-b400-40cc0f5c1fac", "WebsiteRole", "Status Library Moderator", "STATUS LIBRARY MODERATOR", 3 },
-                    { "936e4ddc-5d3f-4355-af3a-304a4fe4f518", "8c591ae9-c29a-4c3e-91eb-76c3ad3cb35f", "WebsiteRole", "Status Library User", "STATUS LIBRARY USER", 1 },
-                    { "936e42dc-5d3f-4355-bc3a-304a4fe4f518", "491a02c2-9844-4f7a-8cfe-c0e422ee9991", "WebsiteRole", "Administrator", "ADMINISTRATOR", 3 },
-                    { "5e0a9192-793f-4c85-a0b1-3198295bf409", "77c7e1fc-b7b6-4cd7-8244-b18eb3a13f60", "WebsiteRole", "Moderator", "MODERATOR", 2 },
-                    { "776474d7-8d01-4809-963e-c721f39dbb45", "0d1a3e75-7a9c-4d93-b6ba-d18b74a12117", "WebsiteRole", "Normal", "NORMAL", 1 },
-                    { "2f76c2fc-bbca-41ff-86ed-5ef43d41d8f9", "ac92ea20-75bd-40bd-b1b3-2c7721f5f24f", "WebsiteRole", "Visitor", "VISITOR", 0 },
-                    { "936d4dfc-5536-4d5f-af2a-304d4fe4f518", "cabaad41-bdf8-4464-ba7a-dff9cfb4dd13", "WebsiteRole", "Status Library Administrator", "STATUS LIBRARY ADMINISTRATOR", 3 }
+                    { "fa5deb78-59c2-4faa-83dc-6c3369eedf20", 4, "c263e607-a09d-4193-ab44-848d6fff12b5", "WebsiteRole", "Root", "ROOT" },
+                    { "936e4ddc-5d3f-5466-af3a-3b4a4424d518", 3, "f3f304a8-a42d-49b7-bf46-5befd5b167f1", "WebsiteRole", "Status Library Moderator", "STATUS LIBRARY MODERATOR" },
+                    { "936e4ddc-5d3f-4355-af3a-304a4fe4f518", 1, "7803eb8b-a947-4a6f-8542-76599a7cf89a", "WebsiteRole", "Status Library User", "STATUS LIBRARY USER" },
+                    { "936e42dc-5d3f-4355-bc3a-304a4fe4f518", 3, "7e4825cd-fe38-4f6c-b4ba-8a7d16a1eb4e", "WebsiteRole", "Administrator", "ADMINISTRATOR" },
+                    { "5e0a9192-793f-4c85-a0b1-3198295bf409", 2, "e0886ef8-fbd2-4e26-91cb-98e606c24669", "WebsiteRole", "Moderator", "MODERATOR" },
+                    { "776474d7-8d01-4809-963e-c721f39dbb45", 1, "6427b27f-a984-493b-8440-d03ff98fdfd3", "WebsiteRole", "Normal", "NORMAL" },
+                    { "2f76c2fc-bbca-41ff-86ed-5ef43d41d8f9", 0, "36f016e1-6d49-4cd1-8869-c465e983aab7", "WebsiteRole", "Visitor", "VISITOR" },
+                    { "936d4dfc-5536-4d5f-af2a-304d4fe4f518", 3, "4a71b65a-7178-480b-93ff-aad89f800c02", "WebsiteRole", "Status Library Administrator", "STATUS LIBRARY ADMINISTRATOR" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName", "Allergy", "BirthDay", "City", "Country", "FullName", "GenderId", "Group", "IsActive", "ProfileImageData", "ProfileImageTitle", "SecondaryEmail", "TShirtSize" },
+                columns: new[] { "Id", "AccessFailedCount", "Allergy", "BirthDay", "City", "ConcurrencyStamp", "Country", "Discriminator", "Email", "EmailConfirmed", "FullName", "GenderId", "Group", "IsActive", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "ProfileImageData", "ProfileImageTitle", "SecondaryEmail", "SecurityStamp", "TShirtSize", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "fa2edf69-5fc8-a163-9fc5-726f3b94e51b", 0, "6eca96cd-81f1-44e3-bb16-41ce06b14792", "User", "barni.pbs@gmail.com", true, false, null, "BARNI.PBS@GMAIL.COM", "BARNI363HUN", "AQAAAAEAACcQAAAAEL9QeDNFqEAq8WDl2/fXBSc02Tzxxnek963ILEw1L3aQsFysXXG4L3KvFYIVg/LpLA==", null, false, "d7d39c56-cff0-4f78-88fb-50906ffde5de", false, "barni363hun", null, null, null, null, "Root", null, null, true, null, null, null, null },
-                    { "cd5e5069-59c8-4163-95c5-776fab95e51a", 0, "5b3afc34-1754-4c65-8f68-c3920c89350f", "User", "root@karcags.hu", true, false, null, "ROOT@KARCAGS.HU", "ROOT", "AQAAAAEAACcQAAAAEHdK+ODabrjejNLGhod4ftL37G5zT97p2g0Ck5dH9MchA2B/JFDiwb9kk9soZBPF5Q==", null, false, "586abc6c-4a1e-4567-91f8-3ec6cb818cc3", false, "root", null, null, null, null, "Root", null, null, true, null, null, null, null },
-                    { "f8237fac-c6dc-47b0-8f71-b72f93368b02", 0, "f1202b71-fd6c-4c2b-89b3-5101c7b5d4e6", "User", "aron.klenovszky@gmail.com", true, false, null, "ARON.KLENOVSZKY@GMAIL.COM", "AARONKAA", "AQAAAAEAACcQAAAAEL9QeDNFqEAq8WDl2/fXBSc02Tzxxnek963ILEw1L3aQsFysXXG4L3KvFYIVg/LpLA==", null, false, "41c3d685-b28b-4de7-a57e-444247fd1658", false, "aaronkaa", null, null, null, null, "Klenovszky Áron", null, null, true, null, null, null, null },
-                    { "44045506-66fd-4af8-9d59-133c47d1787c", 0, "8f9d1437-c8d5-42a5-8382-c258556bc740", "User", "karcagtamas@outlook.com", true, false, null, "KARCAGTAMAS@OUTLOOK.COM", "KARCAGTAMAS", "AQAAAAEAACcQAAAAEG9SljY4ow/I7990YZ15dSGvCesg0bad3pQSWi4ekt0RT8J5JuL3lQmNJCnxo2lGIA==", null, false, "76a53ee0-fdc2-499e-8e27-f36ea0246c54", false, "karcagtamas", null, null, null, null, "Karcag Tamas", null, null, true, null, null, null, null }
+                    { "fa2edf69-5fc8-a163-9fc5-726f3b94e51b", 0, null, null, null, "12294760-47a6-46cd-aa27-24e3e9663b9a", null, "User", "barni.pbs@gmail.com", true, "Root", null, null, true, false, null, "BARNI.PBS@GMAIL.COM", "BARNI363HUN", "AQAAAAEAACcQAAAAEL9QeDNFqEAq8WDl2/fXBSc02Tzxxnek963ILEw1L3aQsFysXXG4L3KvFYIVg/LpLA==", null, false, null, null, null, "08423e1b-54ac-4385-85a0-e42ffdecfc54", null, false, "barni363hun" },
+                    { "cd5e5069-59c8-4163-95c5-776fab95e51a", 0, null, null, null, "b752e32c-f81e-4679-b3f1-e3b2e047f119", null, "User", "root@karcags.hu", true, "Root", null, null, true, false, null, "ROOT@KARCAGS.HU", "ROOT", "AQAAAAEAACcQAAAAEHdK+ODabrjejNLGhod4ftL37G5zT97p2g0Ck5dH9MchA2B/JFDiwb9kk9soZBPF5Q==", null, false, null, null, null, "6bd9afe8-0d4b-4726-a549-30bf5bef47e8", null, false, "root" },
+                    { "f8237fac-c6dc-47b0-8f71-b72f93368b02", 0, null, null, null, "27c15edc-8ee3-4b53-9bc6-5b4fb9303624", null, "User", "aron.klenovszky@gmail.com", true, "Klenovszky Áron", null, null, true, false, null, "ARON.KLENOVSZKY@GMAIL.COM", "AARONKAA", "AQAAAAEAACcQAAAAEL9QeDNFqEAq8WDl2/fXBSc02Tzxxnek963ILEw1L3aQsFysXXG4L3KvFYIVg/LpLA==", null, false, null, null, null, "a60878fe-c124-4039-b6db-61ef0a73f40c", null, false, "aaronkaa" },
+                    { "44045506-66fd-4af8-9d59-133c47d1787c", 0, null, null, null, "aed1cc8b-bb0f-4611-84fb-66adda08a665", null, "User", "karcagtamas@outlook.com", true, "Karcag Tamas", null, null, true, false, null, "KARCAGTAMAS@OUTLOOK.COM", "KARCAGTAMAS", "AQAAAAEAACcQAAAAEG9SljY4ow/I7990YZ15dSGvCesg0bad3pQSWi4ekt0RT8J5JuL3lQmNJCnxo2lGIA==", null, false, null, null, null, "32ec8e40-c323-4d15-8ab3-37edcf2cbb69", null, false, "karcagtamas" }
                 });
 
             migrationBuilder.InsertData(
@@ -1565,8 +1564,7 @@ namespace ManagerAPI.DataAccess.Migrations
                 name: "RoleNameIndex",
                 table: "AspNetRoles",
                 column: "NormalizedName",
-                unique: true,
-                filter: "[NormalizedName] IS NOT NULL");
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserClaims_UserId",
@@ -1584,21 +1582,20 @@ namespace ManagerAPI.DataAccess.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_GenderId",
-                table: "AspNetUsers",
-                column: "GenderId");
-
-            migrationBuilder.CreateIndex(
                 name: "EmailIndex",
                 table: "AspNetUsers",
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_GenderId",
+                table: "AspNetUsers",
+                column: "GenderId");
+
+            migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
-                unique: true,
-                filter: "[NormalizedUserName] IS NOT NULL");
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Books_CreatorId",
@@ -1786,14 +1783,14 @@ namespace ManagerAPI.DataAccess.Migrations
                 column: "LastUpdaterId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PlanGroupPlans_MarkTypeId",
-                table: "PlanGroupPlans",
-                column: "MarkTypeId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_PlanGroupPlans_MarkedUserId",
                 table: "PlanGroupPlans",
                 column: "MarkedUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PlanGroupPlans_MarkTypeId",
+                table: "PlanGroupPlans",
+                column: "MarkTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PlanGroupPlans_OwnerId",
@@ -2048,10 +2045,10 @@ namespace ManagerAPI.DataAccess.Migrations
                 name: "NotificationSystems");
 
             migrationBuilder.DropTable(
-                name: "PlanGroups");
+                name: "MarkTypes");
 
             migrationBuilder.DropTable(
-                name: "MarkTypes");
+                name: "PlanGroups");
 
             migrationBuilder.DropTable(
                 name: "PlanTypes");

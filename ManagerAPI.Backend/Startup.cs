@@ -133,14 +133,15 @@ namespace ManagerAPI.Backend
             services.AddScoped<IGeneratorService, GeneratorService>();
             services.AddScoped<IPDFService, PDFService>();
 
-            new CustomAssemblyLoadContext().LoadUnmanagedLibrary($"{Directory.GetCurrentDirectory()}/assets/dll/libwkhtmltox.dll");
+            // TODO: Fix
+            // new CustomAssemblyLoadContext().LoadUnmanagedLibrary($"{Directory.GetCurrentDirectory()}/assets/dll/libwkhtmltox.dll");
             services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddDbContextPool<DatabaseContext>(options =>
             {
-                options.UseLazyLoadingProxies().UseSqlServer(this.Configuration.GetConnectionString("ManagerDb"));
+                options.UseLazyLoadingProxies().UseMySql(this.Configuration.GetConnectionString("DefaultConnection"), ServerVersion.AutoDetect(this.Configuration.GetConnectionString("DefaultConnection")));
             });
 
             services.AddIdentity<User, WebsiteRole>(o => o.Stores.MaxLengthForKeys = 128)

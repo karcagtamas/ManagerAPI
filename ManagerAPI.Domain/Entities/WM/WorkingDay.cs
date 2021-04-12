@@ -12,7 +12,6 @@ namespace ManagerAPI.Domain.Entities.WM
         public int Id { get; set; }
 
         [Required]
-        [Column(TypeName = "datetime2")]
         public DateTime Day { get; set; }
 
         [Required]

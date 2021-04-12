@@ -10,6 +10,7 @@ namespace ManagerAPI.DataAccess
     /// </summary>
     public class DatabaseContextFactory : IDesignTimeDbContextFactory<DatabaseContext>
     {
+        /// <inheritdoc />
         public DatabaseContext CreateDbContext(string[] args)
         {
             IConfiguration config = new ConfigurationBuilder()
@@ -18,7 +19,7 @@ namespace ManagerAPI.DataAccess
                 .Build();
 
             var optionsBuilder = new DbContextOptionsBuilder<DatabaseContext>();
-            optionsBuilder.UseSqlServer(config.GetConnectionString("ManagerDb"));
+            optionsBuilder.UseMySql(config.GetConnectionString("DefaultConnection"), ServerVersion.AutoDetect(config.GetConnectionString("DefaultConnection")));
             return new DatabaseContext(optionsBuilder.Options);
         }
     }

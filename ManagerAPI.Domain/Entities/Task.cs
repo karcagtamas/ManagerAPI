@@ -30,7 +30,6 @@ namespace ManagerAPI.Domain.Entities
         public DateTime LastUpdate { get; set; }
 
         [Required]
-        [Column(TypeName = "datetime2")]
         public DateTime Deadline { get; set; }
 
         public virtual User Owner { get; set; }

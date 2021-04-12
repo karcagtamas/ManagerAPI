@@ -19,11 +19,9 @@ namespace ManagerAPI.Domain.Entities
         public bool IsActive { get; set; }
 
         [Required]
-        [Column(TypeName = "datetime2")]
         public DateTime RegistrationDate { get; set; }
 
         [Required]
-        [Column(TypeName = "datetime2")]
         public DateTime LastLogin { get; set; }
 
         [EmailAddress]
