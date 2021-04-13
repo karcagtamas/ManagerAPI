@@ -26,7 +26,6 @@ namespace EventManager.Client
             builder.Services.AddBlazoredLocalStorage();
             builder.Services.AddOptions();
             builder.Services.AddAuthorizationCore();
-            // builder.Services.AddSingleton<HttpClient>();
             builder.Services.AddScoped(
                 sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
             builder.Services.AddScoped<AuthenticationStateProvider, ApiAuthenticationStateProvider>();
@@ -55,7 +54,7 @@ namespace EventManager.Client
 
             if (builder.HostEnvironment.IsDevelopment())
             {
-                ApplicationSettings.BaseUrl = "https://localhost:8000";
+                ApplicationSettings.BaseUrl = builder.Configration.GetSection("Api").Value; // TODO: FIX
                 ApplicationSettings.BaseApiUrl = ApplicationSettings.BaseUrl + "/api";
             }
 
@@ -67,6 +66,21 @@ namespace EventManager.Client
                 config.ShowCloseButton = true;
                 config.MaximumOpacity = 95;
                 config.VisibleStateDuration = 3000;
+            }); // TODO: Remove
+
+            // TODO: Add my lib
+
+            builder.Services.AddMudServices(config =>
+            {
+                config.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.BottomRight;
+
+                config.SnackbarConfiguration.PreventDuplicates = false;
+                config.SnackbarConfiguration.NewestOnTop = false;
+                config.SnackbarConfiguration.ShowCloseIcon = true;
+                config.SnackbarConfiguration.VisibleStateDuration = 10000;
+                config.SnackbarConfiguration.HideTransitionDuration = 500;
+                config.SnackbarConfiguration.ShowTransitionDuration = 500;
+                config.SnackbarConfiguration.SnackbarVariant = Variant.Filled;
             });
 
             builder.RootComponents.Add<App>("app");
