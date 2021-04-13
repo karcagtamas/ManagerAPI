@@ -6,13 +6,11 @@ using EventManager.Client.Services.Interfaces;
 using MatBlazor;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
+using MudBlazor;
+using MudBlazor.Services;
 using System;
-using System.IO;
 using System.Net.Http;
-using System.Reflection;
 using System.Threading.Tasks;
 
 namespace EventManager.Client
@@ -22,6 +20,8 @@ namespace EventManager.Client
         public static async Task Main(string[] args)
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
+            
+            builder.RootComponents.Add<App>("app");
 
             builder.Services.AddBlazoredLocalStorage();
             builder.Services.AddOptions();
@@ -52,11 +52,11 @@ namespace EventManager.Client
             builder.Services.AddScoped<ISeriesCommentService, SeriesCommentService>();
             builder.Services.AddScoped<IGeneratorService, GeneratorService>();
 
-            if (builder.HostEnvironment.IsDevelopment())
-            {
-                ApplicationSettings.BaseUrl = builder.Configration.GetSection("Api").Value; // TODO: FIX
-                ApplicationSettings.BaseApiUrl = ApplicationSettings.BaseUrl + "/api";
-            }
+            ApplicationSettings.BaseUrl = builder.Configuration.GetSection("Api").Value;
+            ApplicationSettings.BaseApiUrl = ApplicationSettings.BaseUrl + "/api";
+            
+            Console.WriteLine(builder.Configuration["Api"]);
+            
 
             builder.Services.AddMatToaster(config =>
             {
@@ -83,18 +83,7 @@ namespace EventManager.Client
                 config.SnackbarConfiguration.SnackbarVariant = Variant.Filled;
             });
 
-            builder.RootComponents.Add<App>("app");
-
             await builder.Build().RunAsync();
-        }
-
-        private static IConfiguration GetConfiguration()
-        {
-            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("appsettings.json"))
-            using (var reader = new StreamReader(stream))
-            {
-                return JsonConvert.DeserializeObject<IConfiguration>(reader.ReadToEnd());
-            }
         }
     }
 }

@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace EventManager.Client.Pages.Auth
 {
+    /// <summary>
+    /// Registration Page
+    /// </summary>
     public partial class RegistrationPage
     {
         [Inject]
@@ -13,9 +16,10 @@ namespace EventManager.Client.Pages.Auth
         [Inject]
         private NavigationManager NavigationManager { get; set; }
 
-        public string Title { get; set; } = "Registration";
-        public RegistrationModel Model { get; set; }
+        private string Title { get; set; } = "Registration";
+        private RegistrationModel Model { get; set; }
 
+        /// <inheritdoc />
         protected override void OnInitialized()
         {
             this.Model = new RegistrationModel
@@ -28,12 +32,12 @@ namespace EventManager.Client.Pages.Auth
             };
         }
 
-        protected void Navigate(string path)
+        private void Navigate(string path)
         {
             this.NavigationManager.NavigateTo(path);
         }
 
-        protected async Task SignUp()
+        private async Task SignUp()
         {
             await this.AuthService.Register(this.Model);
             this.Model = new RegistrationModel
