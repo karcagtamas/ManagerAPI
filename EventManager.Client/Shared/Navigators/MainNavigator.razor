@@ -1,9 +1,11 @@
-﻿<div class="em-navbar">
-    <div class="em-navbar-brand-outer">
-        <div class="em-navbar-brand">
-            Manager
+﻿<MudDrawer @bind-Open="IsOpen" Class="em-navbar">
+    <MudDrawerHeader>
+        <div class="em-navbar-brand-outer">
+            <div class="em-navbar-brand" style="background-color: @Colors.DeepPurple.Darken4">
+                Manager
+            </div>
         </div>
-    </div>
+    </MudDrawerHeader>
     <div class="em-navbar-menu">
         <MudNavMenu>
             <AuthorizeView Roles="Normal,Moderator,Administrator,Root">
@@ -43,16 +45,25 @@
                 <NotAuthorized></NotAuthorized>
             </AuthorizeView>
         </MudNavMenu>
-        @if (ChildContent != null)
-        {
-            @ChildContent
-        }
     </div>
+    
     <div class="em-navbar-footer">
         <AuthorizeView>
             <Authorized>
-                <CurrentUser />
+                <CurrentUser/>
             </Authorized>
         </AuthorizeView>
     </div>
-</div>
+</MudDrawer>
+
+
+
+@code {
+
+    /// <summary>
+    /// Drawer is open
+    /// </summary>
+    [Parameter]
+    public bool IsOpen { get; set; }
+
+}

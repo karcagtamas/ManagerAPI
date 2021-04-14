@@ -62,6 +62,9 @@ namespace ManagerAPI.Backend
         /// <param name="services">Service Collection</param>
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<ApplicationSettings>(this.Configuration.GetSection("ApplicationSettings"));
+            services.Configure<MailSettings>(this.Configuration.GetSection("MailSettings"));
+
             services.AddCors(options =>
             {
                 options.AddPolicy("ReleasePolicy",
@@ -71,7 +74,7 @@ namespace ManagerAPI.Backend
                             .AllowAnyHeader()
                             .AllowAnyMethod()
                             .AllowCredentials()
-                            .WithOrigins("http://localhost:8080", "http://192.168.1.80:8080", "https://localhost:8080", "https://192.168.1.80:8080", "http://100.98.107.134:8080");
+                            .WithOrigins(Configuration.GetSection("ApplicationSettings").GetSection("SecureClientUrl").Value, Configuration.GetSection("ApplicationSettings").GetSection("ClientUrl").Value);
                     });
                 options.AddPolicy("TestPolicy",
                     builder =>
@@ -80,12 +83,9 @@ namespace ManagerAPI.Backend
                             .AllowAnyHeader()
                             .AllowAnyMethod()
                             .AllowCredentials()
-                            .WithOrigins("https://localhost:5001", "https://localhost:44328");
+                            .WithOrigins(Configuration.GetSection("ApplicationSettings").GetSection("SecureClientUrl").Value, Configuration.GetSection("ApplicationSettings").GetSection("ClientUrl").Value);
                     });
             });
-
-            services.Configure<ApplicationSettings>(this.Configuration.GetSection("ApplicationSettings"));
-            services.Configure<MailSettings>(this.Configuration.GetSection("MailSettings"));
 
             var mapperConfig = new MapperConfiguration(x =>
             {

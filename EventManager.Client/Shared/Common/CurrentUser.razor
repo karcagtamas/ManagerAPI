@@ -3,13 +3,13 @@
 <div class="p-1 em-current-user">
     @if (User != null)
     {
-        <div class="p-1 data" title="@User.Username">
+        <div class="p-1 data">
             <strong>User Name: </strong> @User.Username
         </div>
-        <div class="p-1 data" title="@User.Email">
+        <div class="p-1 data">
             <strong>E-mail: </strong> @User.Email
         </div>
-        <div class="p-1 data" title="@DateHelper.DateToString(User.LastLogin)">
+        <div class="p-1 data">
             <strong>Last Login: </strong> @DateHelper.DateToString(User.LastLogin)
         </div>
         @if (UnReadNotificationCount > 0)
@@ -19,8 +19,8 @@
             </div>
         }
         <div>
-            <MatIconButton Icon="power_settings_new" @onclick="Logout"></MatIconButton>
-            <MatIconButton Icon="favorite"></MatIconButton>
+            <MudIconButton Icon="@Icons.Filled.PowerSettingsNew" OnClick="Logout"/>
+            <MudIconButton Icon="@Icons.Filled.Favorite"/>
         </div>
     }
 </div>
