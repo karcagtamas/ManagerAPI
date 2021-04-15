@@ -7,33 +7,69 @@ using System.Linq;
 
 namespace ManagerAPI.Shared.Models.CSM
 {
+    /// <summary>
+    /// Generator Settings Model
+    /// </summary>
     public class GeneratorSettingsModel
     {
+        /// <summary>
+        /// Id
+        /// </summary>
         [Required]
         [MaxLength(120)]
         public string Title { get; set; }
 
+        /// <summary>
+        /// Start
+        /// </summary>
         [Required]
         public DateTime Start { get; set; }
 
+        /// <summary>
+        /// Finish
+        /// </summary>
         [Required]
         public DateTime Finish { get; set; }
 
+        /// <summary>
+        /// Max Work hr
+        /// </summary>
         [Required]
         [MinNumber(1)]
         [MaxNumber(8)]
         public int MaxWorkHour { get; set; } = 3;
 
+        /// <summary>
+        /// Min rest hour
+        /// </summary>
         [Required]
         [MinNumber(1)]
         [MaxNumber(4)]
         public int MinRestHour { get; set; } = 1;
 
+        /// <summary>
+        /// Has any generated csomor
+        /// </summary>
         public bool HasGeneratedCsomor { get; set; }
+
+        /// <summary>
+        /// Last generation 
+        /// </summary>
         public DateTime? LastGeneration { get; set; }
+
+        /// <summary>
+        /// Persons
+        /// </summary>
         public List<PersonModel> Persons { get; set; }
+
+        /// <summary>
+        /// Works
+        /// </summary>
         public List<WorkModel> Works { get; set; }
 
+        /// <summary>
+        /// Init Generator Settings Model
+        /// </summary>
         public GeneratorSettingsModel()
         {
             this.Title = "New Generator";
@@ -50,6 +86,10 @@ namespace ManagerAPI.Shared.Models.CSM
             this.Works = new List<WorkModel>();
         }
 
+        /// <summary>
+        /// Init Generator Settings Model from Settings
+        /// </summary>
+        /// <param name="settings"></param>
         public GeneratorSettingsModel(GeneratorSettings settings)
         {
             this.Title = settings.Title;

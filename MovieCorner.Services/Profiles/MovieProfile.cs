@@ -12,6 +12,9 @@ namespace MovieCorner.Services.Profiles
     /// </summary>
     public class MovieProfile : Profile
     {
+        /// <summary>
+        /// Init Movie Profile
+        /// </summary>
         public MovieProfile()
         {
             this.CreateMap<Movie, MovieListDto>()

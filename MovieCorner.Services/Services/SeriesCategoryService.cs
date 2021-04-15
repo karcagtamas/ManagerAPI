@@ -11,9 +11,7 @@ using System.Linq;
 
 namespace MovieCorner.Services.Services
 {
-    /// <summary>
-    /// Series Category Series
-    /// </summary>
+    /// <inheritdoc />
     public class SeriesCategoryService : Repository<SeriesCategory, StatusLibraryNotificationType>,
         ISeriesCategoryService
     {
@@ -39,11 +37,7 @@ namespace MovieCorner.Services.Services
             this._databaseContext = context;
         }
 
-        /// <summary>
-        /// Gets selector list for the given series.
-        /// </summary>
-        /// <param name="seriesId">Series Id</param>
-        /// <returns>Series category selector list for the requested series.</returns>
+        /// <inheritdoc />
         public List<SeriesCategorySelectorListDto> GetSelectorList(int seriesId)
         {
             var user = this.Utils.GetCurrentUser();

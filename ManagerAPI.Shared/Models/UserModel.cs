@@ -10,36 +10,82 @@ namespace ManagerAPI.Shared.Models
     /// </summary>
     public class UserModel
     {
+        /// <summary>
+        /// Id
+        /// </summary>
         [Required(ErrorMessage = "Id field is required")]
         public string Id { get; set; }
 
+        /// <summary>
+        /// Full Name
+        /// </summary>
         [MaxLength(100, ErrorMessage = "Maximum length is 100")]
         public string FullName { get; set; }
+
+        /// <summary>
+        /// E-mail Address
+        /// </summary>
 
         [Required(ErrorMessage = "E-mail is required")]
         [EmailAddress(ErrorMessage = "Must be valid E-mail")]
         public string Email { get; set; }
 
+        /// <summary>
+        /// Secondary e-mail
+        /// </summary>
+
         [EmailAddress(ErrorMessage = "Must be valid E-mail")]
         public string SecondaryEmail { get; set; }
+
+        /// <summary>
+        /// Phone Number
+        /// </summary>
 
         [Phone(ErrorMessage = "Must be valid Phone Number")]
         public string PhoneNumber { get; set; }
 
+        /// <summary>
+        /// T-Shirt size
+        /// </summary>
+
         [MaxLength(6, ErrorMessage = "Maximum length is 6")]
         public string TShirtSize { get; set; }
 
+        /// <summary>
+        /// Allergy
+        /// </summary>
+
         public string Allergy { get; set; }
+
+        /// <summary>
+        /// Group
+        /// </summary>
 
         [MaxLength(40, ErrorMessage = "Maximum length is 40")]
         public string Group { get; set; }
 
+        /// <summary>
+        /// Birthy Day
+        /// </summary>
+
         public DateTime? BirthDay { get; set; }
+
+        /// <summary>
+        /// Country
+        /// </summary>
 
         [MaxLength(120, ErrorMessage = "Maximum length is 120")]
         public string Country { get; set; }
 
+        /// <summary>
+        /// Gender
+        /// </summary>
+
         public int? GenderId { get; set; }
+
+        /// <summary>
+        /// City
+        /// </summary>
 
         [MaxLength(120, ErrorMessage = "Maximum length is 120")]
         public string City { get; set; }
@@ -52,7 +98,7 @@ namespace ManagerAPI.Shared.Models
         /// <summary>
         /// Model from user data object
         /// </summary>
-        /// <param name="user"></param>
+        /// <param name="user">User</param>
         public UserModel(UserDto user)
         {
             this.Id = user.Id;

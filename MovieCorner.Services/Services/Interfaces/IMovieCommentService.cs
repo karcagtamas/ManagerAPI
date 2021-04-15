@@ -5,8 +5,16 @@ using System.Collections.Generic;
 
 namespace MovieCorner.Services.Services.Interfaces
 {
+    /// <summary>
+    /// Movie Comment Service
+    /// </summary>
     public interface IMovieCommentService : IRepository<MovieComment>
     {
+        /// <summary>
+        /// Get list of comments for the given movie.
+        /// </summary>
+        /// <param name="movieId">Movie Id</param>
+        /// <returns>List of comments</returns>
         List<MovieCommentListDto> GetList(int movieId);
     }
 }

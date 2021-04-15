@@ -7,8 +7,14 @@ namespace ManagerAPI.Shared.Models.SL
     /// </summary>
     public class BookReadStatusModel
     {
+        /// <summary>
+        /// Id
+        /// </summary>
         [Required] public int Id { get; set; }
 
+        /// <summary>
+        /// Read
+        /// </summary>
         [Required] public bool Read { get; set; }
     }
 }

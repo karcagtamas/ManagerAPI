@@ -7,6 +7,9 @@ namespace ManagerAPI.Shared.Models
     /// </summary>
     public class PostModel
     {
+        /// <summary>
+        /// Post Content
+        /// </summary>
         [Required(ErrorMessage = "Field is required")]
         [MaxLength(512, ErrorMessage = "Max length is 512")]
         public string Content { get; set; }

@@ -7,6 +7,9 @@ namespace ManagerAPI.Shared.Models.SL
     /// </summary>
     public class SeriesCategoryUpdateModel
     {
+        /// <summary>
+        /// Id List
+        /// </summary>
         public List<int> Ids { get; set; }
     }
 }

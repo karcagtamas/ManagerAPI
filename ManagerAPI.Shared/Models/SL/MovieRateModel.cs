@@ -5,6 +5,9 @@
     /// </summary>
     public class MovieRateModel
     {
+        /// <summary>
+        /// Rate
+        /// </summary>
         public int Rate { get; set; }
     }
 }

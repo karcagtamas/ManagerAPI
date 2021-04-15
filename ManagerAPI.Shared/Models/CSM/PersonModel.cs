@@ -7,18 +7,42 @@ using System.Linq;
 
 namespace ManagerAPI.Shared.Models.CSM
 {
+    /// <summary>
+    /// Person Model
+    /// </summary>
     public class PersonModel
     {
+        /// <summary>
+        /// Id
+        /// </summary>
         [Required(ErrorMessage = "Field is required")]
         public string Id { get; set; }
 
+        /// <summary>
+        /// Name
+        /// </summary>
         [Required(ErrorMessage = "Field is required")]
         [MaxLength(120, ErrorMessage = "Max length is 120")]
         public string Name { get; set; }
+
+        /// <summary>
+        /// Person Tables
+        /// </summary>
         public List<PersonTableModel> Tables { get; set; }
+
+        /// <summary>
+        /// Ignored Works
+        /// </summary>
         public List<string> IgnoredWorks { get; set; }
+
+        /// <summary>
+        /// Is Ignored
+        /// </summary>
         public bool IsIgnored { get; set; }
 
+        /// <summary>
+        /// Init Person Model
+        /// </summary>
         public PersonModel()
         {
             this.Id = Guid.NewGuid().ToString();
@@ -27,6 +51,10 @@ namespace ManagerAPI.Shared.Models.CSM
             this.IsIgnored = false;
         }
 
+        /// <summary>
+        /// Init Person Model from Name
+        /// </summary>
+        /// <param name="name">Name</param>
         public PersonModel(string name)
         {
             this.Id = Guid.NewGuid().ToString();
@@ -36,6 +64,10 @@ namespace ManagerAPI.Shared.Models.CSM
             this.Name = name;
         }
 
+        /// <summary>
+        /// Ini Person Model from Person
+        /// </summary>
+        /// <param name="person">Person</param>
         public PersonModel(Person person)
         {
             this.Id = person.Id;
@@ -45,6 +77,11 @@ namespace ManagerAPI.Shared.Models.CSM
             this.IsIgnored = person.IsIgnored;
         }
 
+        /// <summary>
+        /// Set tables by date interval
+        /// </summary>
+        /// <param name="start">Start</param>
+        /// <param name="finish">End</param>
         public void SetTables(DateTime start, DateTime finish)
         {
             var s = start;
@@ -55,6 +92,11 @@ namespace ManagerAPI.Shared.Models.CSM
             }
         }
 
+        /// <summary>
+        /// Update table by date interval
+        /// </summary>
+        /// <param name="newStart">Start</param>
+        /// <param name="newFinish">End</param>
         public void UpdateTable(DateTime newStart, DateTime newFinish)
         {
             var oldList = this.Tables;

@@ -10,6 +10,9 @@ namespace MovieCorner.Services.Profiles
     /// </summary>
     public class BookProfile : Profile
     {
+        /// <summary>
+        /// Init Book Profile
+        /// </summary>
         public BookProfile()
         {
             this.CreateMap<Book, BookListDto>()

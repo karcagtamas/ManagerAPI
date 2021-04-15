@@ -11,9 +11,7 @@ using System.Linq;
 
 namespace MovieCorner.Services.Services
 {
-    /// <summary>
-    /// Series Comment Service
-    /// </summary>
+    /// <inheritdoc />
     public class SeriesCommentService : Repository<SeriesComment, StatusLibraryNotificationType>, ISeriesCommentService
     {
         private readonly DatabaseContext _databaseContext;
@@ -38,11 +36,7 @@ namespace MovieCorner.Services.Services
             this._databaseContext = context;
         }
 
-        /// <summary>
-        /// Get list of comments for the given series.
-        /// </summary>
-        /// <param name="seriesId">Series Id</param>
-        /// <returns>List of comments</returns>
+        /// <inheritdoc />
         public List<SeriesCommentListDto> GetList(int seriesId)
         {
             var user = this.Utils.GetCurrentUser();

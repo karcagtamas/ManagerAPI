@@ -8,9 +8,24 @@ namespace ManagerAPI.Shared.Models.EM
     /// </summary>
     public class GtEventModel
     {
+        /// <summary>
+        /// Id
+        /// </summary>
         [Required] public int Id { get; set; }
+
+        /// <summary>
+        /// T-shirt color
+        /// </summary>
         public string TShirtColor { get; set; }
+
+        /// <summary>
+        /// Greeny number
+        /// </summary>
         public int? Greeny { get; set; }
+
+        /// <summary>
+        /// Greeny cost
+        /// </summary>
         public decimal? GreenyCost { get; set; }
 
         /// <summary>

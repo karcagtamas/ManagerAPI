@@ -5,6 +5,9 @@
     /// </summary>
     public interface IIdentified
     {
+        /// <summary>
+        /// Id
+        /// </summary>
         int Id { get; set; }
     }
 }
