@@ -1,3 +1,16 @@
-<div class="w-100">
-    <MatFileUpload OnChange="@FilesReady"></MatFileUpload>
-</div>
+<MudDialog>
+    <DialogContent>
+        <div class="text-center">
+            <InputFile id="fileInput" OnChange="@FilesReady" hidden></InputFile>
+            <MudButton HtmlTag="label" Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Filled.CloudUpload" for="fileInput">Upload Image</MudButton>
+            @if (File != null)
+            {
+                <div>@File.Name - @File.ContentType</div>
+            }
+        </div>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Save">Save</MudButton>
+    </DialogActions>
+</MudDialog>

@@ -12,8 +12,8 @@ namespace ManagerAPI.Shared.DTOs
         public string UserName { get; set; }
         public string Email { get; set; }
         public string FullName { get; set; }
-        public DateTime RegistrationDate { get; set; }
-        public DateTime LastLogin { get; set; }
+        public DateTime? RegistrationDate { get; set; }
+        public DateTime? LastLogin { get; set; }
         public string SecondaryEmail { get; set; }
         public string PhoneNumber { get; set; }
         public string TShirtSize { get; set; }

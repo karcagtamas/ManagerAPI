@@ -3,7 +3,7 @@
 @attribute [Authorize]
 
 
-<div class="em-my-profile">
+<div class="em-my-profile w-100">
 
     @if (ProfileIsLoading)
     {
@@ -20,95 +20,96 @@
                     <div class="my-profile-picture">
                         @if (User.ProfileImageData.Length == 0)
                         {
-                            <img src="/images/profile-icon.jpg" alt="@User.UserName" />
+                            <img src="/images/profile-icon.jpg" alt="@User.UserName"/>
                         }
                         else
                         {
-                            <img src="@Image" alt="@User.ProfileImageTitle" />
+                            <img src="@Image" alt="@User.ProfileImageTitle"/>
                         }
                     </div>
-                    <div class="info">
-
+                    <div class="info blue-label">
                         <div class="em-sub-title">Informations</div>
                         <div class="row col col-12">
                             <div class="col col-6 p-1">
-                                <MatDatePicker class="w-100" @bind-Value="User.LastLogin" Dense="true" ReadOnly="true" Label="Last Login" Outlined="true" Format="yyyy-MM-dd HH:mm:ss" DisableCalendar="true"></MatDatePicker>
+                                <MudDatePicker Class="w-100" @bind-Date="User.LastLogin" Editable="false" InputVariant="Variant.Outlined" Label="Last Login" DateFormat="yyyy-MM-dd HH:mm:ss" Disabled="true"/>
                             </div>
                             <div class="col col-6 p-1">
-                                <MatDatePicker class="w-100" @bind-Value="User.RegistrationDate" Dense="true" ReadOnly="true" Label="Registration Date" Outlined="true" Format="yyyy-MM-dd HH:mm:ss" DisableCalendar="true"></MatDatePicker>
+                                <MudDatePicker Class="w-100" @bind-Date="User.RegistrationDate" Editable="false" InputVariant="Variant.Outlined" Label="Registration Date" DateFormat="yyyy-MM-dd HH:mm:ss" Disabled="true"/>
                             </div>
                         </div>
                         <div class="col col-12 p-1">
-                            <MatTextField class="w-100" @bind-Value="Roles" Label="Roles" ReadOnly="true" Dense="true" Outlined="true"></MatTextField>
+                            <MudTextField @bind-Value="Roles" Label="Roles" FullWidth="true" Disabled="true" Variant="Variant.Outlined"/>
                         </div>
                     </div>
                 </div>
                 <div class="col col-12 col-md-6 p-2">
-                    <div class="settings">
+                    <div class="settings blue-label">
 
                         <EditForm Model="UserUpdate" OnValidSubmit="UpdateUser">
-                            <DataAnnotationsValidator />
+                            <DataAnnotationsValidator/>
                             <div class="em-sub-title">Settings</div>
                             <div class="row col col-12">
                                 <div class="col col-6 p-1">
-                                    <MatTextField class="w-100" @bind-Value="UserUpdate.FullName" Label="Full Name" Dense="true" Outlined="true"></MatTextField>
-                                    <ValidationMessage For="() => UserUpdate.FullName" />
+                                    <MudTextField @bind-Value="UserUpdate.FullName" Label="Full Name" FullWidth="true" Variant="Variant.Outlined"/>
+                                    <ValidationMessage For="() => UserUpdate.FullName"/>
                                 </div>
                                 <div class="col col-6 p-1">
-                                    <MatDatePicker class="w-100" @bind-Value="UserUpdate.BirthDay" Dense="true" Label="Birthday" Format="yyyy-MM-dd" Outlined="true" AllowInput="false"></MatDatePicker>
+                                    <MudDatePicker Class="w-100" @bind-Date="UserUpdate.BirthDay" InputVariant="Variant.Outlined" Label="Birthday" DateFormat="yyyy-MM-dd"/>
+                                    <ValidationMessage For="() => UserUpdate.BirthDay"/>
                                 </div>
                             </div>
                             <div class="col col-12 p-1">
-                                <MatTextField class="w-100" @bind-Value="UserUpdate.Email" Label="E-mail" Dense="true" Outlined="true"></MatTextField>
-                                <ValidationMessage For="() => UserUpdate.Email" />
+                                <MudTextField InputType="InputType.Email" @bind-Value="UserUpdate.Email" Label="E-mail" FullWidth="true" Variant="Variant.Outlined"/>
+                                <ValidationMessage For="() => UserUpdate.Email"/>
                             </div>
                             <div class="row col col-12">
                                 <div class="col col-6 p-1">
-                                    <MatTextField class="w-100" @bind-Value="UserUpdate.PhoneNumber" Label="Phone Number" Dense="true" Outlined="true"></MatTextField>
-                                    <ValidationMessage For="() => UserUpdate.PhoneNumber" />
+                                    <MudTextField @bind-Value="UserUpdate.PhoneNumber" Label="Phone Number" FullWidth="true" Variant="Variant.Outlined"/>
+                                    <ValidationMessage For="() => UserUpdate.PhoneNumber"/>
                                 </div>
                                 @if (Genders != null)
                                 {
                                     <div class="col col-6 p-1">
-                                        <MatSelect Class="w-100" @bind-Value="UserUpdate.GenderId" Label="Gender" Dense="true" Outlined="true">
-                                            <MatOption TValue="int?" Value="null"></MatOption>
+                                        <MudSelect T="int?" @bind-Value="UserUpdate.GenderId" Label="Gender" FullWidth="true" Variant="Variant.Outlined">
+                                            <MudSelectItem T="int?" Value="null">-</MudSelectItem>
                                             @foreach (var i in Genders)
                                             {
-                                                <MatOption TValue="int?" Value="i.Id">@i.Name</MatOption>
+                                                <MudSelectItem T="int?" Value="i.Id">@i.Name</MudSelectItem>
                                             }
-                                        </MatSelect>
+                                        </MudSelect>
                                     </div>
                                 }
                             </div>
                             <div class="col col-12 p-1">
-                                <MatTextField class="w-100" @bind-Value="UserUpdate.SecondaryEmail" Label="Secondary E-mail" Dense="true" Outlined="true"></MatTextField>
-                                <ValidationMessage For="() => UserUpdate.SecondaryEmail" />
+                                <MudTextField InputType="InputType.Email" @bind-Value="UserUpdate.SecondaryEmail" Label="Secondary E-mail" FullWidth="true" Variant="Variant.Outlined"/>
+                                <ValidationMessage For="() => UserUpdate.SecondaryEmail"/>
                             </div>
                             <div class="row col col-12">
                                 <div class="col col-6 p-1">
-                                    <MatTextField class="w-100" @bind-Value="UserUpdate.TShirtSize" Label="TShirt Size" Dense="true" Outlined="true"></MatTextField>
-                                    <ValidationMessage For="() => UserUpdate.TShirtSize" />
+                                    <MudTextField @bind-Value="UserUpdate.TShirtSize" Label="TShirt Size" FullWidth="true" Variant="Variant.Outlined"/>
+                                    <ValidationMessage For="() => UserUpdate.TShirtSize"/>
                                 </div>
                                 <div class="col col-6 p-1">
-                                    <MatTextField class="w-100" @bind-Value="UserUpdate.Group" Label="Group" Dense="true" Outlined="true"></MatTextField>
-                                    <ValidationMessage For="() => UserUpdate.Group" />
+                                    <MudTextField @bind-Value="UserUpdate.Group" Label="Group" FullWidth="true" Variant="Variant.Outlined"/>
+                                    <ValidationMessage For="() => UserUpdate.Group"/>
                                 </div>
                             </div>
                             <div class="col col-12 p-1">
-                                <MatTextField class="w-100" @bind-Value="UserUpdate.Allergy" Label="Allergy" Dense="true" Outlined="true" TextArea="true"></MatTextField>
+                                <MudTextField @bind-Value="UserUpdate.Allergy" Label="Allergy" FullWidth="true" Variant="Variant.Outlined" Lines="3"/>
+                                <ValidationMessage For="() => UserUpdate.Allergy"/>
                             </div>
                             <div class="row col col-12">
                                 <div class="col col-6 p-1">
-                                    <MatTextField class="w-100" @bind-Value="UserUpdate.Country" Label="Country" Dense="true" Outlined="true"></MatTextField>
-                                    <ValidationMessage For="() => UserUpdate.Country" />
+                                    <MudTextField @bind-Value="UserUpdate.Country" Label="Country" FullWidth="true" Variant="Variant.Outlined"/>
+                                    <ValidationMessage For="() => UserUpdate.Country"/>
                                 </div>
                                 <div class="col col-6 p-1">
-                                    <MatTextField class="w-100" @bind-Value="UserUpdate.City" Label="City" Dense="true" Outlined="true"></MatTextField>
-                                    <ValidationMessage For="() => UserUpdate.City" />
+                                    <MudTextField @bind-Value="UserUpdate.City" Label="City" FullWidth="true" Variant="Variant.Outlined"/>
+                                    <ValidationMessage For="() => UserUpdate.City"/>
                                 </div>
                             </div>
                             <div class="text-right">
-                                <MatButton Raised="true" type="submit">Save Settings</MatButton>
+                                <MudButton Variant="Variant.Filled" ButtonType="ButtonType.Submit" Color="Color.Primary">Save Settings</MudButton>
                             </div>
                         </EditForm>
                     </div>
@@ -118,22 +119,22 @@
                         <div class="row col col-12">
                             <div class="col col-12 col-sm-12 col-md-6">
                                 <div class="text-center">
-                                    <MatButton @onclick="OpenChangePasswordDialog">Change Password</MatButton>
+                                    <MudButton Variant="Variant.Text" Color="Color.Primary" OnClick="OpenChangePasswordDialog">Change Password</MudButton>
                                 </div>
                             </div>
                             <div class="col col-12 col-sm-12 col-md-6">
                                 <div class="text-center">
-                                    <MatButton @onclick="OpenUploadProfileImageDialog">Change Profile Image</MatButton>
+                                    <MudButton Variant="Variant.Text" Color="Color.Primary" OnClick="OpenUploadProfileImageDialog">Change Profile Image</MudButton>
                                 </div>
                             </div>
                             <div class="col col-12 col-sm-12 col-md-6">
                                 <div class="text-center">
-                                    <MatButton @onclick="OpenChangeUsernameDialog">Change Username</MatButton>
+                                    <MudButton Variant="Variant.Text" Color="Color.Primary" OnClick="OpenChangeUsernameDialog">Change Username</MudButton>
                                 </div>
                             </div>
                             <div class="col col-12 col-sm-12 col-md-6">
                                 <div class="text-center danger">
-                                    <MatButton @onclick="OpenUserDisableConfirmDialog">Disable User</MatButton>
+                                    <MudButton Variant="Variant.Text" Color="Color.Primary" OnClick="OpenUserDisableConfirmDialog">Disable User</MudButton>
                                 </div>
                             </div>
                         </div>

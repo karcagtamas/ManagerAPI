@@ -1,9 +1,17 @@
-<div class="w-100">
-    <EditForm EditContext="Context">
-        <DataAnnotationsValidator />
-        <div class="col col-12 p-1">
-            <MatTextField class="w-100" @bind-Value="UsernameUpdate.UserName" Label="New Username" Dense="true" Outlined="true"></MatTextField>
-            <ValidationMessage For="() => UsernameUpdate.UserName" />
+<MudDialog>
+    <DialogContent>
+        <div>
+            <EditForm EditContext="Context">
+                <DataAnnotationsValidator></DataAnnotationsValidator>
+                <div>
+                    <MudTextField @bind-Value="UsernameUpdate.UserName" Label="New Username" FullWidth="true" InputType="InputType.Password" Variant="Variant.Outlined" />
+                    <ValidationMessage For="() => UsernameUpdate.UserName"></ValidationMessage>
+                </div>
+            </EditForm>
         </div>
-    </EditForm>
-</div>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Save">Save</MudButton>
+    </DialogActions>
+</MudDialog>

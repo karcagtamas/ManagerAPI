@@ -399,3 +399,11 @@ app {
 .em-light-box {
   background-color: $white-trans !important;
 }
+
+.blue-label {
+  .mud-input-label {
+    background-color: $blue-light-trans !important;
+    opacity: 1 !important; 
+  }
+}
+

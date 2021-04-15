@@ -338,4 +338,9 @@ app {
   background-color: rgba(249, 249, 249, 0.55) !important;
 }
 
+.blue-label .mud-input-label {
+  background-color: rgba(187, 187, 255, 0.4) !important;
+  opacity: 1 !important;
+}
+
 /*# sourceMappingURL=site.css.map */
