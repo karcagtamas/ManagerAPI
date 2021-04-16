@@ -5,7 +5,14 @@ namespace ManagerAPI.Shared.DTOs.WM
     /// </summary>
     public class WorkingDayTypeCountDto
     {
+        /// <summary>
+        /// Type
+        /// </summary>
         public string Type { get; set; }
+
+        /// <summary>
+        /// Count
+        /// </summary>
         public int Count { get; set; }
     }
 }

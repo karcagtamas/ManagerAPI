@@ -5,8 +5,19 @@
     /// </summary>
     public class EpisodeListDto
     {
+        /// <summary>
+        /// Id
+        /// </summary>
         public int Id { get; set; }
+
+        /// <summary>
+        /// Title
+        /// </summary>
         public string Title { get; set; }
+
+        /// <summary>
+        /// Number
+        /// </summary>
         public int Number { get; set; }
     }
 }
