@@ -4,39 +4,46 @@ using EventManager.Client.Services;
 using EventManager.Client.Services.Interfaces;
 using EventManager.Client.Shared.Common;
 using ManagerAPI.Shared.DTOs.WM;
+using ManagerAPI.Shared.Models;
 using ManagerAPI.Shared.Models.WM;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using MudBlazor;
 using System.Threading.Tasks;
 
 namespace EventManager.Client.Shared.Components.WM
 {
+    /// <summary>
+    /// Field Modal
+    /// </summary>
     public partial class FieldModal
     {
-        [CascadingParameter] private ModalParameters Parameters { get; set; }
-
-        [CascadingParameter] public BlazoredModal BlazoredModal { get; set; }
+        [CascadingParameter] private MudDialogInstance Dialog { get; set; }
 
         [Inject] private IWorkingFieldService WorkingFieldService { get; set; }
 
-        [Inject] private IModalService ModalService { get; set; }
-
-        private int FormId { get; set; }
+        [Inject] private IDialogService DialogService { get; set; }
+        
         private WorkingFieldModel Model { get; set; }
         private EditContext Context { get; set; }
-        private bool IsEdit { get; set; } = false;
-        private int Id { get; set; }
-        private int WorkingDayId { get; set; }
+        private bool IsEdit { get; set; }
+
+        /// <summary>
+        /// Field Id
+        /// </summary>
+        [Parameter]
+        public int Id { get; set; }
+        
+        /// <summary>
+        /// Working day Id
+        /// </summary>
+        [Parameter]
+        public int WorkingDayId { get; set; }
         private WorkingFieldDto Field { get; set; }
 
+        /// <inheritdoc />
         protected override async Task OnInitializedAsync()
         {
-            this.FormId = this.Parameters.Get<int>("FormId");
-            this.Id = this.Parameters.TryGet<int>("field");
-            this.WorkingDayId = this.Parameters.Get<int>("working-day");
-
-            ((ModalService)this.ModalService).OnConfirm += this.OnConfirm;
-
             this.Model = new WorkingFieldModel
             {
                 Title = "",
@@ -60,60 +67,54 @@ namespace EventManager.Client.Shared.Components.WM
             }
         }
 
-        private async void OnConfirm()
+        private async void OpenDeleteDialog()
         {
-            bool isValid = this.Context.Validate();
+            var parameters = new DialogParameters
+            {
+                {
+                    "Input",
+                    new ConfirmDialogInput
+                    {
+                        Name = Field.Title,
+                        Action = ConfirmType.Delete,
+                        DeleteFunction = async () => await this.WorkingFieldService.Delete(this.Id)
+                    }
+                }
+            };
+
+            var dialog = DialogService.Show<ConfirmDialog>("Delete Confirm", parameters);
+            var result = await dialog.Result;
+
+            if (!result.Cancelled)
+            {
+                Dialog.Close(DialogResult.Ok(true));
+            }
+        }
+
+        private async void Save()
+        {
+            if (!Context.Validate()) return;
             this.Model.WorkingDayId = this.WorkingDayId;
+            
             if (this.IsEdit)
             {
-                if (isValid && await this.WorkingFieldService.Update(this.Id, this.Model))
+                if (await this.WorkingFieldService.Update(this.Id, this.Model))
                 {
-                    this.ModalService.Close(ModalResult.Ok<bool>(true));
-                    ((ModalService)this.ModalService).OnConfirm -= this.OnConfirm;
+                    Dialog.Close(DialogResult.Ok(true));
                 }
             }
             else
             {
-                if (isValid && await this.WorkingFieldService.Create(this.Model))
+                if (await this.WorkingFieldService.Create(this.Model))
                 {
-                    this.ModalService.Close(ModalResult.Ok<bool>(true));
-                    ((ModalService)this.ModalService).OnConfirm -= this.OnConfirm;
+                    Dialog.Close(DialogResult.Ok(true));
                 }
             }
         }
 
-        private async void DeleteField()
+        private void Cancel()
         {
-            if (await this.WorkingFieldService.Delete(this.Id))
-            {
-                this.ModalService.Close(ModalResult.Ok<bool>(true));
-            }
-        }
-
-        private void OpenDeleteDialog()
-        {
-            var parameters = new ModalParameters();
-            parameters.Add("FormId", 2);
-            parameters.Add("type", ConfirmType.Delete);
-            parameters.Add("name", this.Field.Title);
-
-            ((ModalService)this.ModalService).OnConfirm -= this.OnConfirm;
-
-            var options =
-                new ModalOptions(new ModalButtonOptions(true, true, CancelButton.Cancel, ConfirmButton.Confirm));
-
-            this.ModalService.OnClose += this.DeleteDialogClosed;
-            this.ModalService.Show<Confirm>("Working Field Delete", parameters, options);
-        }
-
-        private async void DeleteDialogClosed(ModalResult modalResult)
-        {
-            if (!modalResult.Cancelled && (bool)modalResult.Data && await this.WorkingFieldService.Delete(this.Id))
-            {
-                this.ModalService.Close(ModalResult.Ok<bool>(true));
-            }
-
-            this.ModalService.OnClose -= this.DeleteDialogClosed;
+            Dialog.Cancel();
         }
     }
 }

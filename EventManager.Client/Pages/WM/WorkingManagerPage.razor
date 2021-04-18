@@ -2,7 +2,7 @@
 @using ManagerAPI.Shared.Helpers
 @attribute [Microsoft.AspNetCore.Authorization.Authorize]
 
-<div class="wm">
+<div class="wm w-100">
     <div class="title-bar">
         <div class="em-page-title">Working Manager</div>
         <span class="spacer"></span>
@@ -18,15 +18,15 @@
 
             @if (WorkingDay == null)
             {
-                <MatButton @onclick="InitWorkingDay">Initialize</MatButton>
+                <MudButton Variant="Variant.Text" OnClick="InitWorkingDay" Color="Color.Primary">Initialize</MudButton>
             }
             else
             {
-                <MatButton @onclick="OpenAddFieldModal">Add Field</MatButton>
+                <MudButton Variant="Variant.Text" OnClick="OpenAddFieldModal" Color="Color.Primary">Add field</MudButton>
             }
             <span class="spacer"></span>
-            <MatIconButton Icon="chevron_left" @onclick="@(() => Redirect(false))"></MatIconButton>
-            <MatIconButton Icon="chevron_right" @onclick="@(() => Redirect(true))"></MatIconButton>
+            <MudIconButton Icon="@Icons.Filled.ChevronLeft" Color="Color.Primary" OnClick="@(() => Redirect(false))"/>
+            <MudIconButton Icon="@Icons.Filled.ChevronRight" Color="Color.Primary" OnClick="@(() => Redirect(true))"/>
         </div>
         <div>
             @if (WorkingDay == null)
@@ -35,24 +35,24 @@
             }
             else
             {
-                <div class="working-day-settings">
+                <div class="working-day-settings blue-label">
                     <div class="em-sub-title">Settings</div>
                     <EditForm Model="WorkingDay" OnValidSubmit="Save">
                         <div class="row col col-12">
                             @if (WorkingDayTypes != null)
                             {
                                 <div class="col col-12 col-sm-6 p1">
-                                    <MatSelect Class="w-100" @bind-Value="WorkingDay.Type" Label="Type" Dense="true" Outlined="true">
+                                    <MudSelect FullWidth="true" @bind-Value="WorkingDay.Type" Label="Type" Variant="Variant.Outlined">
                                         @foreach (var type in WorkingDayTypes)
-                                                    {
-                                            <MatOption TValue="int" Value="type.Id">@type.Title</MatOption>
-                                                    }
-                                    </MatSelect>
+                                        {
+                                            <MudSelectItem T="int" Value="type.Id">@type.Title</MudSelectItem>
+                                        }
+                                    </MudSelect>
                                 </div>
                             }
                         </div>
                         <div class="text-right">
-                            <MatButton Raised="true" type="submit">Save Settings</MatButton>
+                            <MudButton Variant="Variant.Filled" ButtonType="ButtonType.Submit" Color="Color.Primary">Save settings</MudButton>
                         </div>
                     </EditForm>
                 </div>
@@ -65,19 +65,19 @@
 
                         </div>
                         <div class="state">
-                            @if (@WorkingDayStat.IsALot)
+                            @if (WorkingDayStat.IsALot)
                             {
                                 <div class="is-lot">
                                     Lots of hour on this day
                                 </div>
                             }
-                            else if (@WorkingDayStat.IsOptimal)
+                            else if (WorkingDayStat.IsOptimal)
                             {
                                 <div class="optimal">
                                     Optimal hour on this day
                                 </div>
                             }
-                            else if (@WorkingDayStat.IsEnough)
+                            else if (WorkingDayStat.IsEnough)
                             {
                                 <div class="enough">
                                     Enough hour on this day
@@ -93,9 +93,12 @@
                     </div>
                     <div class="field-list">
                         <div class="em-sub-title">Working Fields</div>
-                        @foreach (var field in WorkingFields)
+                        @if (WorkingDayId != null)
                         {
-                            <FieldComponent WorkingField="field" WorkingDayId="(int)WorkingDayId" IsModifiable="true" Close="GetWorkingDay"></FieldComponent>
+                            @foreach (var field in WorkingFields)
+                            {
+                                <FieldComponent WorkingField="field" WorkingDayId="(int)WorkingDayId" IsModifiable="true" Close="GetWorkingDay" />
+                            }
                         }
                     </div>
                 }
