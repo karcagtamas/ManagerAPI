@@ -21,7 +21,7 @@ namespace ManagerAPI.Shared.Models
         /// </summary>
 
         [Required(ErrorMessage = "Field is required")]
-        public DateTime Deadline { get; set; }
+        public DateTime? Deadline { get; set; }
 
         /// <summary>
         /// Description
