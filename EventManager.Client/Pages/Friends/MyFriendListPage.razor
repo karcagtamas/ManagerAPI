@@ -2,11 +2,11 @@
 @using ManagerAPI.Shared.Helpers
 @attribute [Microsoft.AspNetCore.Authorization.Authorize]
 
-<div class="page">
+<div class="page w-100">
     <h1 class="em-page-title">My Friends</h1>
 
     <div class="action-bar">
-        <MatButton @onclick="OpenFriendRequestDialog">Invite</MatButton>
+        <MudButton OnClick="OpenFriendRequestDialog" Variant="Variant.Text" Color="Color.Primary">Invite</MudButton>
     </div>
     <div class="row col col-12">
         <!-- Friends -->
@@ -65,8 +65,8 @@
                                 @request.Message
                             </div>
                             <div class="request-action-bar">
-                                <MatIconButton Icon="done" @onclick="@(() => SendFriendRequestResponse(request.Id, true))"></MatIconButton>
-                                <MatIconButton Icon="clear" @onclick="@(() => SendFriendRequestResponse(request.Id, false))"></MatIconButton>
+                                <MudIconButton Icon="@Icons.Filled.Done" Color="Color.Primary" OnClick="@(() => SendFriendRequestResponse(request.Id, true))" />
+                                <MudIconButton Icon="@Icons.Filled.Clear" Color="Color.Primary" OnClick="@(() => SendFriendRequestResponse(request.Id, false))" />
                             </div>
                         </div>
                         }

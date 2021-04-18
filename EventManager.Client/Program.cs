@@ -54,9 +54,7 @@ namespace EventManager.Client
 
             ApplicationSettings.BaseUrl = builder.Configuration.GetSection("Api").Value;
             ApplicationSettings.BaseApiUrl = ApplicationSettings.BaseUrl + "/api";
-            
-            Console.WriteLine(builder.Configuration["Api"]);
-            
+
 
             builder.Services.AddMatToaster(config =>
             {
