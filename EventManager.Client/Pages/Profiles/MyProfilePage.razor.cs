@@ -82,26 +82,27 @@ namespace EventManager.Client.Pages.Profiles
             }
         }
 
-        private void OpenUserDisableConfirmDialog()
+        private async void OpenUserDisableConfirmDialog()
         {
-            var parameters = new ModalParameters();
-            parameters.Add("FormId", 1);
-            parameters.Add("type", ConfirmType.Disable);
-            parameters.Add("name", "yourself");
-
-            var options = new ModalOptions(new ModalButtonOptions(true, true, CancelButton.Cancel, ConfirmButton.Confirm));
-
-            this.Modal.OnClose += this.DisableConfirmDialogClosed;
-            this.Modal.Show<Confirm>("User disable", parameters, options);
-        }
-
-        private async void DisableConfirmDialogClosed(ModalResult modalResult)
-        {
-            if (!modalResult.Cancelled && (bool)modalResult.Data && await this.UserService.DisableUser())
+            var parameters = new DialogParameters
             {
-                await this.AuthService.Logout();
+                {
+                    "Input",
+                    new ConfirmDialogInput
+                    {
+                        Name = "yourself",
+                        Action = ConfirmType.Disable,
+                        DeleteFunction = async () => await UserService.DisableUser()
+                    }
+                }
+            };
+            var dialog = DialogService.Show<ConfirmDialog>("Confirm Delete", parameters);
+            var result = await dialog.Result;
+
+            if (!result.Cancelled)
+            {
+                await AuthService.Logout();
             }
-            this.Modal.OnClose -= this.DisableConfirmDialogClosed;
         }
 
         private async void OpenChangePasswordDialog()
