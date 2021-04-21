@@ -5,16 +5,22 @@ using System.Threading.Tasks;
 
 namespace EventManager.Client.Pages.WM
 {
+    /// <summary>
+    /// Working Month Stat Page
+    /// </summary>
     public partial class WorkingMonthStatPage
     {
+        /// <summary>
+        /// Year
+        /// </summary>
         [Parameter]
         public int Year { get; set; }
 
+        /// <summary>
+        /// Month
+        /// </summary>
         [Parameter]
         public int Month { get; set; }
-
-        [Inject]
-        private IHelperService HelperService { get; set; }
 
         [Inject]
         private NavigationManager NavigationManager { get; set; }
@@ -23,13 +29,15 @@ namespace EventManager.Client.Pages.WM
         private IWorkingFieldService FieldService { get; set; }
 
         private WorkingMonthStatDto MonthStat { get; set; }
-        private bool IsLoading { get; set; } = false;
+        private bool IsLoading { get; set; }
 
+        /// <inheritdoc />
         protected override async Task OnInitializedAsync()
         {
             await this.GetMonthStat();
         }
 
+        /// <inheritdoc />
         protected override async Task OnParametersSetAsync()
         {
             await this.GetMonthStat();
@@ -58,6 +66,7 @@ namespace EventManager.Client.Pages.WM
                 int year = month == 11 ? this.Year-- : this.Year;
                 this.NavigationManager.NavigateTo($"/wm/month/{year}/{month}");
             }
+            this.StateHasChanged();
         }
     }
 }

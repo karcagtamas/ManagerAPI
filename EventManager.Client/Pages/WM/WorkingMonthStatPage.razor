@@ -1,7 +1,7 @@
 ﻿@page "/wm/month/{year:int}/{month:int}"
 @using ManagerAPI.Shared.Helpers
 
-<div class="wm-month">
+<div class="wm-month w-100">
     <div class="title-bar">
         <div class="em-page-title">Working Month Statistics</div>
         <span class="spacer"></span>
@@ -15,8 +15,8 @@
     {
         <div class="action-bar">
             <span class="spacer"></span>
-            <MatIconButton Icon="chevron_left" @onclick="@(() => Redirect(false))"></MatIconButton>
-            <MatIconButton Icon="chevron_right" @onclick="@(() => Redirect(true))"></MatIconButton>
+            <MudIconButton Icon="@Icons.Filled.ChevronLeft" OnClick="@(() => Redirect(false))" Color="Color.Primary" />
+            <MudIconButton Icon="@Icons.Filled.ChevronRight" OnClick="@(() => Redirect(true))" Color="Color.Primary" />
         </div>
         @if (MonthStat != null)
         {

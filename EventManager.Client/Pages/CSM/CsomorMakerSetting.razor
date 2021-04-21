@@ -2,7 +2,7 @@
 @page "/csomor/{Id:int}"
 @using ManagerAPI.Shared.Enums;
 
-<div class="setting">
+<div class="setting w-100">
     <h1 class="em-page-title">
         Generator Settings
         @if (Id != null)
@@ -15,7 +15,6 @@
                     @Model.Title
                 }
             </span>
-
         }
         else
         {
@@ -26,72 +25,58 @@
         }
     </h1>
     <div class="action-bar">
-        <MatTooltip Tooltip="Save">
-            <MatIconButton RefBack="@context" Icon="done" @onclick="SaveSettings" Disabled="!CanSave()"></MatIconButton>
-        </MatTooltip>
-        <MatTooltip Tooltip="Generate">
-            <MatIconButton RefBack="@context" Icon="miscellaneous_services" @onclick="Generate" Disabled="!CanGenerate()"></MatIconButton>
-        </MatTooltip>
+        <MudIconButton Icon="@Icons.Filled.Done" OnClick="SaveSettings" Disabled="!CanSave()" Color="Color.Primary"/>
+        <MudIconButton Icon="@Icons.Filled.MiscellaneousServices" OnClick="Generate" Disabled="!CanGenerate()" Color="Color.Primary"/>
         @if (Settings != null)
         {
-            @if (Settings.IsPublic != null && (bool)Settings.IsPublic)
+            @if (Settings.IsPublic != null && (bool) Settings.IsPublic)
             {
-                <MatTooltip Tooltip="Hide">
-                    <MatIconButton RefBack="@context" Icon="visibility_off" Disabled="Id == null || !CheckRole(CsomorRole.Owner, CsomorRole.Write)" @onclick="@(() => OpenConfirmDialog(false))"></MatIconButton>
-                </MatTooltip>
+                <MudIconButton Icon="@Icons.Filled.VisibilityOff" OnClick="@(() => OpenConfirmDialog(false))" Disabled="Id == null || !CheckRole(CsomorRole.Owner, CsomorRole.Write)" Color="Color.Primary"/>
             }
-            @if (Settings.IsPublic != null && !(bool)Settings.IsPublic)
+            @if (Settings.IsPublic != null && !(bool) Settings.IsPublic)
             {
-                <MatTooltip Tooltip="Publish">
-                    <MatIconButton RefBack="@context" Icon="visibility" Disabled="Id == null || !CheckRole(CsomorRole.Owner, CsomorRole.Write)" @onclick="@(() => OpenConfirmDialog(true))"></MatIconButton>
-                </MatTooltip>
+                <MudIconButton Icon="@Icons.Filled.Visibility" OnClick="@(() => OpenConfirmDialog(true))" Disabled="Id == null || !CheckRole(CsomorRole.Owner, CsomorRole.Write)" Color="Color.Primary"/>
             }
         }
-        <MatTooltip Tooltip="Export Xlsx">
-            <MatIconButton RefBack="@context" Icon="arrow_circle_down" @onclick="ExportXls" Disabled="!CanExport()"></MatIconButton>
-        </MatTooltip>
-        <MatTooltip Tooltip="Export Pdf">
-            <MatIconButton RefBack="@context" Icon="arrow_circle_down" @onclick="ExportPdf" Disabled="!CanExport()"></MatIconButton>
-        </MatTooltip>
+        <MudIconButton Icon="@Icons.Filled.ArrowCircleDown" OnClick="ExportXls" Disabled="!CanExport()" Color="Color.Primary"/>
+        <MudIconButton Icon="@Icons.Filled.ArrowCircleDown" OnClick="ExportPdf" Disabled="!CanExport()" Color="Color.Primary"/>
         <span class="spacer"></span>
-        <MatTooltip Tooltip="Back to List">
-            <MatIconButton RefBack="@context" Icon="arrow_left" @onclick="@(() => NavigationManager.NavigateTo("/csomors"))"></MatIconButton>
-        </MatTooltip>
+        <MudIconButton Icon="@Icons.Filled.ArrowLeft" OnClick="@(() => NavigationManager.NavigateTo("/csomors"))" Color="Color.Primary"/>
     </div>
     <div class="csomor">
-        <MatTabGroup Class="tabs tab-group">
+        <MudTabs Class="tabs tab-group" Rounded="true" Color="Color.Primary" Centered="true">
             @if (CheckRole(CsomorRole.Owner, CsomorRole.Write, CsomorRole.Read))
             {
-                <MatTab Label="Settings">
+                <MudTabPanel Text="Settings">
                     <EditForm EditContext="Context">
-                        <DataAnnotationsValidator />
+                        <DataAnnotationsValidator/>
                         <div class="input-row">
-                            <MatTextField class="w-100" @bind-Value="Model.Title" Label="Title" Dense="true" Outlined="true" Disabled="CheckRole(CsomorRole.Read)"></MatTextField>
-                            <ValidationMessage For="() => Model.Title" />
+                            <MudTextField @bind-Value="Model.Title" Label="Title" FullWidth="true" Variant="Variant.Outlined" Disabled="CheckRole(CsomorRole.Read)"/>
+                            <ValidationMessage For="() => Model.Title"/>
                         </div>
                         <div class="col col-12 row">
                             <div class="input-row col col-12 col-md-6">
                                 <MatDatePicker class="w-100" Value="@Model.Start" ValueExpression="@(() => Model.Start)" TValue="DateTime" ValueChanged="@(date => ReSetup(date, "start"))" EnableTime="true" Enable24hours="true" AllowInput="false" Label="Start" Dense="true" Outlined="true" Disabled="CheckRole(CsomorRole.Read)"></MatDatePicker>
-                                <ValidationMessage For="() => Model.Start" />
+                                <ValidationMessage For="() => Model.Start"/>
                             </div>
                             <div class="input-row col col-12 col-md-6">
                                 <MatDatePicker class="w-100" Value="@Model.Finish" ValueExpression="@(() => Model.Finish)" TValue="DateTime" ValueChanged="@(date => ReSetup(date, "finish"))" EnableTime="true" Enable24hours="true" AllowInput="false" Label="Finish" Dense="true" Outlined="true" Disabled="CheckRole(CsomorRole.Read)"></MatDatePicker>
-                                <ValidationMessage For="() => Model.Finish" />
+                                <ValidationMessage For="() => Model.Finish"/>
                             </div>
                         </div>
                         <div class="col col-12 row">
                             <div class="input-row col col-12 col-md-6">
                                 <MatNumericUpDownField class="w-100" @bind-Value="Model.MaxWorkHour" Label="Maximum Work Hour" Dense="true" Minimum="1" Maximum="8" Outlined="true" Disabled="CheckRole(CsomorRole.Read)"></MatNumericUpDownField>
-                                <ValidationMessage For="() => Model.MaxWorkHour" />
+                                <ValidationMessage For="() => Model.MaxWorkHour"/>
                             </div>
                             <div class="input-row col col-12 col-md-6">
                                 <MatNumericUpDownField class="w-100" @bind-Value="Model.MinRestHour" Label="Minimum Rest Hour" Dense="true" Minimum="1" Maximum="4" Outlined="true" Disabled="CheckRole(CsomorRole.Read)"></MatNumericUpDownField>
-                                <ValidationMessage For="() => Model.MinRestHour" />
+                                <ValidationMessage For="() => Model.MinRestHour"/>
                             </div>
                         </div>
                     </EditForm>
-                </MatTab>
-                <MatTab Label="Persons">
+                </MudTabPanel>
+                <MudTabPanel Text="Persons">
                     @if (CheckRole(CsomorRole.Owner, CsomorRole.Write))
                     {
                         <div class="group">
@@ -103,10 +88,10 @@
                         @if (PersonEvent == EventManager.Client.Enums.AddType.Add)
                         {
                             <EditForm EditContext="PersonContext">
-                                <DataAnnotationsValidator />
+                                <DataAnnotationsValidator/>
                                 <div class="input-row">
                                     <MatTextField class="w-100" @bind-Value="PersonModel.Name" Label="Name" Dense="true" Outlined="true"></MatTextField>
-                                    <ValidationMessage For="() => PersonModel.Name" />
+                                    <ValidationMessage For="() => PersonModel.Name"/>
                                 </div>
                                 <div class="action">
                                     <span class="spacer"></span>
@@ -128,8 +113,8 @@
                             }
                         </div>
                     }
-                </MatTab>
-                <MatTab Label="Works">
+                </MudTabPanel>
+                <MudTabPanel Text="Works">
                     @if (CheckRole(CsomorRole.Owner, CsomorRole.Write))
                     {
                         <div class="group">
@@ -140,12 +125,11 @@
                         </div>
                         @if (WorkEvent == EventManager.Client.Enums.AddType.Add)
                         {
-
                             <EditForm EditContext="WorkContext">
-                                <DataAnnotationsValidator />
+                                <DataAnnotationsValidator/>
                                 <div class="input-row">
                                     <MatTextField class="w-100" @bind-Value="WorkModel.Name" Label="Name" Dense="true" Outlined="true"></MatTextField>
-                                    <ValidationMessage For="() => WorkModel.Name" />
+                                    <ValidationMessage For="() => WorkModel.Name"/>
                                 </div>
                                 <div class="action">
                                     <span class="spacer"></span>
@@ -167,20 +151,20 @@
                             }
                         </div>
                     }
-                </MatTab>
+                </MudTabPanel>
             }
             @if (Model.HasGeneratedCsomor)
             {
-                <MatTab Label="Csomor">
+                <MudTabPanel Text="Csomor">
                     <CsomorComponent Settings="Settings" @bind-TableType="Type" @bind-FilterList="FilterList"></CsomorComponent>
-                </MatTab>
+                </MudTabPanel>
             }
             @if (this.Id != null && CheckRole(CsomorRole.Owner))
             {
-                <MatTab Label="Share">
-                    <CsomorShareComponent Id="(int)Id"></CsomorShareComponent>
-                </MatTab>
+                <MudTabPanel Text="Share">
+                    <CsomorShareComponent Id="(int) Id"></CsomorShareComponent>
+                </MudTabPanel>
             }
-        </MatTabGroup>
+        </MudTabs>
     </div>
 </div>

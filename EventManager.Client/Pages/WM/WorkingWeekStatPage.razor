@@ -3,7 +3,7 @@
 @using ManagerAPI.Shared.Helpers
 @attribute [Authorize]
 
-<div class="wm-week">
+<div class="wm-week w-100">
     <div class="title-bar">
         <div class="em-page-title">Working Week Statistics</div>
         <span class="spacer"></span>
@@ -17,8 +17,8 @@
     {
         <div class="action-bar">
             <span class="spacer"></span>
-            <MatIconButton Icon="chevron_left" @onclick="@(() => Redirect(false))"></MatIconButton>
-            <MatIconButton Icon="chevron_right" @onclick="@(() => Redirect(true))"></MatIconButton>
+            <MudIconButton Icon="@Icons.Filled.ChevronLeft" OnClick="@(() => Redirect(false))" Color="Color.Primary"/>
+            <MudIconButton Icon="@Icons.Filled.ChevronRight" OnClick="@(() => Redirect(true))" Color="Color.Primary"/>
         </div>
         @if (WeekStat != null)
         {

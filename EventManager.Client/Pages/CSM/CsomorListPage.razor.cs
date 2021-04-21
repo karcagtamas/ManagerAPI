@@ -6,10 +6,13 @@ using System.Threading.Tasks;
 
 namespace EventManager.Client.Pages.CSM
 {
+    /// <summary>
+    /// Csomor List Page
+    /// </summary>
     public partial class CsomorListPage
     {
         [Inject]
-        public NavigationManager Navigation { get; set; }
+        private NavigationManager Navigation { get; set; }
 
         [Inject]
         private IGeneratorService GeneratorService { get; set; }
@@ -20,8 +23,9 @@ namespace EventManager.Client.Pages.CSM
         private List<CsomorListDTO> OwnedList { get; set; }
         private List<CsomorListDTO> SharedList { get; set; }
         private List<CsomorListDTO> PublicList { get; set; }
-        private bool IsLoggedIn { get; set; } = false;
+        private bool IsLoggedIn { get; set; }
 
+        /// <inheritdoc />
         protected override async Task OnInitializedAsync()
         {
             this.IsLoggedIn = await this.Auth.IsLoggedIn();

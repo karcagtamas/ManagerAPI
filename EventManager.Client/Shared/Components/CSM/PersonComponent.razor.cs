@@ -7,20 +7,38 @@ using System.Linq;
 
 namespace EventManager.Client.Shared.Components.CSM
 {
+    /// <summary>
+    /// Person Component
+    /// </summary>
     public partial class PersonComponent
     {
+        /// <summary>
+        /// Person
+        /// </summary>
         [Parameter]
         public PersonModel Person { get; set; }
 
+        /// <summary>
+        /// State changed event
+        /// </summary>
         [Parameter]
         public EventCallback StateChanged { get; set; }
 
+        /// <summary>
+        /// Role checker
+        /// </summary>
         [Parameter]
         public Func<CsomorRole[], bool> RoleChecker { get; set; }
 
+        /// <summary>
+        /// Work list
+        /// </summary>
         [Parameter]
         public List<WorkModel> Works { get; set; }
 
+        /// <summary>
+        /// Is editable
+        /// </summary>
         [Parameter]
         public bool IsEditable { get; set; } = false;
 

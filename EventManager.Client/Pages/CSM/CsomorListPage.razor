@@ -1,17 +1,15 @@
 @page "/csomors"
 
-<div class="csomor-list">
+<div class="csomor-list w-100">
     <h1 class="em-page-title">Generators</h1>
     <div class="action-bar">
-        <MatTooltip Tooltip="New Csomor">
-            <MatIconButton RefBack="@context" Icon="add" OnClick="@(() => Navigation.NavigateTo("/csomor"))" Disabled="!IsLoggedIn"></MatIconButton>
-        </MatTooltip>
+        <MudIconButton Color="Color.Primary" Icon="@Icons.Filled.Add" OnClick="@(() => Navigation.NavigateTo("/csomor"))" Disabled="!IsLoggedIn"/>
     </div>
     <div class="lists">
-        <MatTabGroup Class="tabs tab-group">
+        <MudTabs Class="tabs tab-group" Rounded="true" Color="Color.Primary" Centered="true">
             @if (OwnedList != null && OwnedList.Count != 0)
             {
-                <MatTab Label="Owned">
+                <MudTabPanel Text="Owned">
                     <div class="list owned-list">
                         <div class="elements">
                             @foreach (var csomor in OwnedList)
@@ -20,11 +18,11 @@
                             }
                         </div>
                     </div>
-                </MatTab>
+                </MudTabPanel>
             }
             @if (SharedList != null && SharedList.Count != 0)
             {
-                <MatTab Label="Shared">
+                <MudTabPanel Text="Shared">
                     <div class="list shared-list">
                         <div class="elements">
                             @foreach (var csomor in SharedList)
@@ -33,11 +31,11 @@
                             }
                         </div>
                     </div>
-                </MatTab>
+                </MudTabPanel>
             }
             @if (PublicList != null && PublicList.Count != 0)
             {
-                <MatTab Label="Public">
+                <MudTabPanel Text="Public">
                     <div class="list public-list">
                         <div class="em-sub-title">Public</div>
                         <div class="elements">
@@ -47,9 +45,8 @@
                             }
                         </div>
                     </div>
-                </MatTab>
+                </MudTabPanel>
             }
-        </MatTabGroup>
-
+        </MudTabs>
     </div>
 </div>
