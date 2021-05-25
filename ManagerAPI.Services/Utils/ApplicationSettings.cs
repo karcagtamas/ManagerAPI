@@ -5,6 +5,9 @@ namespace ManagerAPI.Services.Utils
     /// </summary>
     public class ApplicationSettings
     {
+        /// <summary>
+        /// JWT secret
+        /// </summary>
         public string JwtSecret { get; set; }
     }
 }
