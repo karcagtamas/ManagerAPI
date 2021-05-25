@@ -4,7 +4,8 @@
             <EditForm EditContext="Context">
                 <DataAnnotationsValidator></DataAnnotationsValidator>
                 <div>
-                    <MudTextField @bind-Value="UsernameUpdate.UserName" Label="New Username" FullWidth="true" InputType="InputType.Password" Variant="Variant.Outlined" />
+                    <MudTextField @bind-Value="UsernameUpdate.UserName" Label="New Username" FullWidth="true"
+                        Variant="Variant.Outlined" />
                     <ValidationMessage For="() => UsernameUpdate.UserName"></ValidationMessage>
                 </div>
             </EditForm>
