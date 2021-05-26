@@ -11,17 +11,28 @@ using System.Threading.Tasks;
 
 namespace EventManager.Client
 {
+    /// <summary>
+    /// Auth state manager
+    /// </summary>
     public class ApiAuthenticationStateProvider : AuthenticationStateProvider
     {
         private readonly HttpClient _httpClient;
         private readonly ILocalStorageService _localStorageService;
 
+        /// <summary>
+        /// Init Auth managing
+        /// </summary>
+        /// <param name="httpClient">HTTP Client</param>
+        /// <param name="localStorageService">Local storage service</param>
         public ApiAuthenticationStateProvider(HttpClient httpClient, ILocalStorageService localStorageService)
         {
             this._httpClient = httpClient;
             this._localStorageService = localStorageService;
         }
 
+        /// <summary>
+        /// Get current auth state
+        /// </summary>
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
             string savedToken = await this._localStorageService.GetItemAsync<string>("authToken");
@@ -37,11 +48,17 @@ namespace EventManager.Client
             return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity(await this.ParseClaimsFromJwt(savedToken), "jwt")));
         }
 
+        /// <summary>
+        /// Mark current user as authenticated
+        /// </summary>
         public void MarkUserAsAuthenticated()
         {
             this.NotifyAuthenticationStateChanged(this.GetAuthenticationStateAsync());
         }
 
+        /// <summary>
+        /// Get current user as logged out
+        /// </summary>
         private void MarkUserAsLoggedOut()
         {
             var anonymousUser = new ClaimsPrincipal(new ClaimsIdentity());
@@ -49,6 +66,10 @@ namespace EventManager.Client
             this.NotifyAuthenticationStateChanged(authState);
         }
 
+        /// <summary>
+        /// Parse claims from JWT
+        /// </summary>
+        /// <param name="jwt">JWT key</param>
         private async Task<IEnumerable<Claim>> ParseClaimsFromJwt(string jwt)
         {
             var claims = new List<Claim>();
@@ -106,6 +127,9 @@ namespace EventManager.Client
             return claims;
         }
 
+        /// <summary>
+        /// Clear storage
+        /// </summary>
         public async Task ClearStorage()
         {
             await this._localStorageService.RemoveItemAsync("authToken");

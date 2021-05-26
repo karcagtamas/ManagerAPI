@@ -6,6 +6,9 @@ using System;
 
 namespace EventManager.Client.Shared.Components
 {
+    /// <summary>
+    /// Blazored Modal
+    /// </summary>
     public partial class BlazoredModal : IDisposable
     {
         private const string DefaultStyle = "blazored-modal";

@@ -18,8 +18,14 @@ using System.Threading.Tasks;
 
 namespace EventManager.Client.Pages.CSM
 {
+    /// <summary>
+    /// Csomor Maker Settings page
+    /// </summary>
     public partial class CsomorMakerSetting : IDisposable
     {
+        /// <summary>
+        /// Id
+        /// </summary>
         [Parameter]
         public int? Id { get; set; }
 
@@ -51,6 +57,7 @@ namespace EventManager.Client.Pages.CSM
         private List<string> FilterList { get; set; } = new List<string>();
         private CsomorType Type { get; set; } = CsomorType.Work;
 
+        /// <inheritdoc />
         protected override void OnInitialized()
         {
             this.Model = new GeneratorSettingsModel();
@@ -70,6 +77,7 @@ namespace EventManager.Client.Pages.CSM
             this.IsModifiedState = true;
         }
 
+        /// <inheritdoc />
         protected override async Task OnParametersSetAsync()
         {
             await this.GetRole();
@@ -265,6 +273,7 @@ namespace EventManager.Client.Pages.CSM
             }
         }
 
+        /// <inheritdoc />
         public void Dispose()
         {
             this.Context.OnFieldChanged -= this.OnFieldChanged;

@@ -15,12 +15,20 @@ using System.Threading.Tasks;
 
 namespace EventManager.Client
 {
+
+    /// <summary>
+    /// Program
+    /// </summary>
     public class Program
     {
+
+        /// <summary>
+        /// Main
+        /// </summary>
         public static async Task Main(string[] args)
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
-            
+
             builder.RootComponents.Add<App>("app");
 
             builder.Services.AddBlazoredLocalStorage();
