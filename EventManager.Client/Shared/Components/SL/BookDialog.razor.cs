@@ -1,34 +1,36 @@
-﻿using EventManager.Client.Models;
-using EventManager.Client.Services;
-using EventManager.Client.Services.Interfaces;
+﻿using EventManager.Client.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.SL;
 using ManagerAPI.Shared.Models.SL;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using MudBlazor;
 using System.Threading.Tasks;
 
 namespace EventManager.Client.Shared.Components.SL
 {
+    /// <summary>
+    /// Book Dialog
+    /// </summary>
     public partial class BookDialog
     {
-        [CascadingParameter] public ModalParameters Parameters { get; set; }
-        [CascadingParameter] public BlazoredModal BlazoredModal { get; set; }
+        [CascadingParameter] private MudDialogInstance Dialog { get; set; }
+        
+        /// <summary>
+        /// Book Id
+        /// </summary>
+        [Parameter]
+        public int? BookId { get; set; }
         [Inject] private IBookService BookService { get; set; }
         [Inject] private IModalService ModalService { get; set; }
         private int FormId { get; set; }
         private BookModel Model { get; set; }
         private EditContext Context { get; set; }
         private bool IsEdit { get; set; }
-        private int Id { get; set; }
         private BookDto Book { get; set; }
 
+        /// <inheritdoc />
         protected override async Task OnInitializedAsync()
         {
-            this.FormId = this.Parameters.Get<int>("FormId");
-            this.Id = this.Parameters.TryGet<int>("book");
-
-            ((ModalService)this.ModalService).OnConfirm += this.OnConfirm;
-
             this.Model = new BookModel
             {
                 Name = "",
@@ -39,34 +41,44 @@ namespace EventManager.Client.Shared.Components.SL
 
             this.Context = new EditContext(this.Model);
 
-            if (this.Id != 0)
+            if (BookId != null)
             {
-                this.Book = await this.BookService.Get(this.Id);
+                this.Book = await this.BookService.Get((int)BookId);
                 this.Model = new BookModel(this.Book);
                 this.IsEdit = true;
                 this.Context = new EditContext(this.Model);
             }
         }
-
-        private async void OnConfirm()
+        private async void Save()
         {
-            bool isValid = this.Context.Validate();
+            if (!Context.Validate()) return;
+
             if (this.IsEdit)
             {
-                if (isValid && await this.BookService.Update(this.Id, this.Model))
+                if (BookId == null)
                 {
-                    this.ModalService.Close(ModalResult.Ok(true));
-                    ((ModalService)this.ModalService).OnConfirm -= this.OnConfirm;
+                    return;
+                }
+                
+                if (await this.BookService.Update((int)BookId, this.Model))
+                {
+                    Dialog.Close(DialogResult.Ok(true));
                 }
             }
             else
             {
-                if (isValid && await this.BookService.Create(this.Model))
+                if (await this.BookService.Create(this.Model))
                 {
-                    this.ModalService.Close(ModalResult.Ok(true));
-                    ((ModalService)this.ModalService).OnConfirm -= this.OnConfirm;
+                    Dialog.Close(DialogResult.Ok(true));
                 }
             }
+            
+            Dialog.Close(DialogResult.Ok(false));
+        }
+        
+        private void Cancel()
+        {
+            Dialog.Cancel();
         }
     }
 }

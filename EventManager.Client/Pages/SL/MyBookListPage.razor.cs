@@ -5,22 +5,26 @@ using EventManager.Client.Shared.Components.SL;
 using ManagerAPI.Shared.DTOs.SL;
 using ManagerAPI.Shared.Helpers;
 using Microsoft.AspNetCore.Components;
+using MudBlazor;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace EventManager.Client.Pages.SL
 {
+    /// <summary>
+    /// My Book List Page
+    /// </summary>
     public partial class MyBookListPage
     {
         [Inject] private IBookService BookService { get; set; }
         [Inject] private NavigationManager Navigation { get; set; }
-        [Inject] private IModalService Modal { get; set; }
+        [Inject] private IDialogService DialogService { get; set; }
 
         private List<MyBookListDto> BookList { get; set; }
         private bool IsLoading { get; set; }
 
-        private List<TableHeaderData<MyBookListDto>> Header { get; set; } = new List<TableHeaderData<MyBookListDto>>
+        private List<TableHeaderData<MyBookListDto>> Header { get; set; } = new()
         {
             new TableHeaderData<MyBookListDto>("Name", true, Alignment.Left)
                 {FooterRunnableData = (list) => list.Count.ToString()},
@@ -31,6 +35,7 @@ namespace EventManager.Client.Pages.SL
             new TableHeaderData<MyBookListDto>("Read", "Read", true, (e) => (bool) e ? "Read" : "Not read", Alignment.Center)
         };
 
+        /// <inheritdoc />
         protected override async Task OnInitializedAsync()
         {
             await this.GetBooks();
@@ -50,54 +55,28 @@ namespace EventManager.Client.Pages.SL
             this.Navigation.NavigateTo($"/books/{book.Id}");
         }
 
-        private void OpenEditMyBooksDialog()
+        private async void OpenEditMyBooksDialog()
         {
-            var parameters = new ModalParameters();
-            parameters.Add("FormId", 1);
-
-            var options = new ModalOptions
-            {
-                ButtonOptions = { ConfirmButtonType = ConfirmButton.Save, ShowConfirmButton = true }
-            };
-
-            this.Modal.OnClose += this.EditMyBooksModalClosed;
-
-            this.Modal.Show<BookSelectorDialog>("Edit My Books", parameters, options);
-        }
-
-        private async void EditMyBooksModalClosed(ModalResult modalResult)
-        {
-            if (!modalResult.Cancelled && (bool)modalResult.Data)
+            var parameters = new DialogParameters();
+            var dialog = DialogService.Show<BookSelectorDialog>("Edit My Books", parameters);
+            var result = await dialog.Result;
+            
+            if (!result.Cancelled)
             {
                 await this.GetBooks();
             }
-
-            this.Modal.OnClose -= this.EditMyBooksModalClosed;
         }
 
-        private void OpenEditReadBooksDialog()
+        private async void OpenEditReadBooksDialog()
         {
-            var parameters = new ModalParameters();
-            parameters.Add("FormId", 1);
+            var parameters = new DialogParameters();
+            var dialog = DialogService.Show<BookReadSelectorDialog>("Edit Read Books", parameters);
+            var result = await dialog.Result;
 
-            var options = new ModalOptions
-            {
-                ButtonOptions = { ConfirmButtonType = ConfirmButton.Save, ShowConfirmButton = true }
-            };
-
-            this.Modal.OnClose += this.EditReadBooksModalClosed;
-
-            this.Modal.Show<BookReadSelectorDialog>("Edit Read Books", parameters, options);
-        }
-
-        private async void EditReadBooksModalClosed(ModalResult modalResult)
-        {
-            if (!modalResult.Cancelled && (bool)modalResult.Data)
+            if (!result.Cancelled)
             {
                 await this.GetBooks();
             }
-
-            this.Modal.OnClose -= this.EditReadBooksModalClosed;
         }
     }
 }

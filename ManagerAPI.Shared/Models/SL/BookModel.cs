@@ -48,7 +48,7 @@ namespace ManagerAPI.Shared.Models.SL
         public string Description { get; set; }
 
         /// <summary>
-        /// Publishs
+        /// Publish
         /// </summary>
         public DateTime? Publish { get; set; }
     }

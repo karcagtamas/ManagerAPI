@@ -36,7 +36,7 @@
             </div>
             <div class="type-stat">
         <div class="em-sub-title">Type statistics</div>
-        @foreach (var type in @MonthStat.Counts)
+        @foreach (var type in MonthStat.Counts)
                 {
                     <div class="data-row">
                         <strong>@type.Type:</strong> @type.Count
@@ -45,7 +45,7 @@
             </div>
             <div class="field-list">
         <div class="em-sub-title">Working Fields</div>
-        @foreach (var field in @MonthStat.Fields)
+        @foreach (var field in MonthStat.Fields)
                 {
                     <FieldComponent WorkingField="field" IsModifiable="false"></FieldComponent>
                 }

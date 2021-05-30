@@ -1,29 +1,36 @@
 using EventManager.Client.Enums;
-using EventManager.Client.Models;
 using EventManager.Client.Services.Interfaces;
 using EventManager.Client.Shared.Common;
 using EventManager.Client.Shared.Components.SL;
 using ManagerAPI.Shared.DTOs.SL;
 using ManagerAPI.Shared.Models.SL;
 using Microsoft.AspNetCore.Components;
+using MudBlazor;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace EventManager.Client.Pages.SL
 {
+    /// <summary>
+    /// Book Data Page
+    /// </summary>
     public partial class BookDataPage
     {
+        /// <summary>
+        /// Book Id
+        /// </summary>
         [Parameter] public int Id { get; set; }
         private MyBookDto Book { get; set; }
         [Inject] private IBookService BookService { get; set; }
         [Inject] private NavigationManager Navigation { get; set; }
-        [Inject] private IModalService Modal { get; set; }
+        [Inject] private IDialogService DialogService { get; set; }
         [Inject] private IAuthService Auth { get; set; }
 
         private bool IsLoading { get; set; }
         private bool CanEdit { get; set; }
         private bool CanDelete { get; set; }
 
+        /// <inheritdoc />
         protected override async Task OnInitializedAsync()
         {
             await this.GetBook();
@@ -42,30 +49,16 @@ namespace EventManager.Client.Pages.SL
             this.StateHasChanged();
         }
 
-        private void OpenEditBookDialog()
+        private async void OpenEditBookDialog()
         {
-            var parameters = new ModalParameters();
-            parameters.Add("FormId", 1);
-            parameters.Add("book", this.Id);
-
-            var options = new ModalOptions
-            {
-                ButtonOptions = { ConfirmButtonType = ConfirmButton.Save, ShowConfirmButton = true }
-            };
-
-            this.Modal.OnClose += this.BookModalClosed;
-
-            this.Modal.Show<BookDialog>("Edit Book", parameters, options);
-        }
-
-        private async void BookModalClosed(ModalResult modalResult)
-        {
-            if (!modalResult.Cancelled && (bool)modalResult.Data)
+            var parameters = new DialogParameters {{"BookId", this.Id}};
+            var dialog = DialogService.Show<BookDialog>("Edit Book", parameters);
+            var result = await dialog.Result;
+            
+            if (!result.Cancelled)
             {
                 await this.GetBook();
             }
-
-            this.Modal.OnClose -= this.BookModalClosed;
         }
 
         private async void AddToMyBooks()
@@ -93,28 +86,21 @@ namespace EventManager.Client.Pages.SL
             }
         }
 
-        private void OpenDeleteDialog()
+        private async void OpenDeleteDialog()
         {
-            var parameters = new ModalParameters();
-            parameters.Add("FormId", 1);
-            parameters.Add("type", ConfirmType.Delete);
-            parameters.Add("name", this.Book.Name);
-
-            var options =
-                new ModalOptions(new ModalButtonOptions(true, true, CancelButton.Cancel, ConfirmButton.Confirm));
-
-            this.Modal.OnClose += this.DeleteDialogClosed;
-            this.Modal.Show<Confirm>("Book Delete", parameters, options);
-        }
-
-        private async void DeleteDialogClosed(ModalResult modalResult)
-        {
-            if (!modalResult.Cancelled && (bool)modalResult.Data && await this.BookService.Delete(this.Id))
+            var parameters = new DialogParameters {{"Input", new ConfirmDialogInput
+            {
+                Name = Book.Name,
+                Action = ConfirmType.Delete,
+                DeleteFunction = async () => await BookService.Delete(Book.Id)
+            }}};
+            var dialog = DialogService.Show<ConfirmDialog>("Task Delete", parameters);
+            var result = await dialog.Result;
+            
+            if (!result.Cancelled)
             {
                 this.Navigation.NavigateTo("books");
             }
-
-            this.Modal.OnClose -= this.DeleteDialogClosed;
         }
     }
 }
