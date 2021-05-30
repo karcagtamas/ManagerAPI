@@ -45,7 +45,7 @@ namespace EventManager.Client.Shared.Components.WM
                 return;
             }
 
-            var parameters = new DialogParameters {{"WorkingDayId", this.WorkingDayId}, {"Id", this.WorkingField.Id}};
+            var parameters = new DialogParameters { { "WorkingDayId", this.WorkingDayId }, { "Id", this.WorkingField.Id } };
 
             var dialog = this.DialogService.Show<FieldModal>("Update Working field", parameters);
             var result = await dialog.Result;

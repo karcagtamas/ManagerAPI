@@ -6,9 +6,12 @@
 <div class="em-my-tasks w-100 blue-label">
     <h1 class="em-page-title">My Tasks</h1>
     <div class="action-bar">
-        <MudIconButton Icon="@Icons.Filled.Add" OnClick="OpenAddTaskModal"></MudIconButton>
+        <div>
+            <MudIconButton Icon="@Icons.Filled.Add" OnClick="OpenAddTaskModal" />
+        </div>
         <span class="spacer"></span>
-        <MudSelect T="bool?" Value="IsSolvedSelectorValue" Label="Is solved" Variant="Variant.Outlined" ValueChanged="IsSolvedSelectorValueChanged">
+        <MudSelect T="bool?" Value="IsSolvedSelectorValue" Label="Is solved" Variant="Variant.Outlined"
+            ValueChanged="IsSolvedSelectorValueChanged">
             <MudSelectItem T="bool?" Value="null">-</MudSelectItem>
             <MudSelectItem T="bool?" Value="true">Only solved</MudSelectItem>
             <MudSelectItem T="bool?" Value="false">Not only solved</MudSelectItem>
@@ -33,7 +36,8 @@
                             <div class="title">
                                 <span class="text">@task.Title</span>
                                 <span class="spacer"></span>
-                                <MudSwitch T="bool" Checked="@task.IsSolved" CheckedChanged="@(e => IsSolvedChanged(e, task.Id, group))" />
+                                <MudSwitch T="bool" Checked="@task.IsSolved"
+                    CheckedChanged="@(e => IsSolvedChanged(e, task.Id, group))" />
                             </div>
                             <div class="description">
                                 <div class="description-text">@task.Description</div>

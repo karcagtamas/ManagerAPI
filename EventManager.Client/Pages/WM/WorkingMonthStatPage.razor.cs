@@ -56,14 +56,14 @@ namespace EventManager.Client.Pages.WM
         {
             if (direction)
             {
-                int month = this.Month == 11 ? 0 : this.Month++;
-                int year = month == 0 ? this.Year++ : this.Year;
+                int month = this.Month == 11 ? 0 : this.Month + 1;
+                int year = month == 0 ? this.Year + 1 : this.Year;
                 this.NavigationManager.NavigateTo($"/wm/month/{year}/{month}");
             }
             else
             {
-                int month = this.Month == 0 ? 11 : this.Month--;
-                int year = month == 11 ? this.Year-- : this.Year;
+                int month = this.Month == 0 ? 11 : this.Month - 1;
+                int year = month == 11 ? this.Year - 1 : this.Year;
                 this.NavigationManager.NavigateTo($"/wm/month/{year}/{month}");
             }
             this.StateHasChanged();

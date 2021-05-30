@@ -18,18 +18,24 @@
 
             @if (WorkingDay == null)
             {
-                <MudButton Variant="Variant.Text" OnClick="InitWorkingDay" Color="Color.Primary">Initialize</MudButton>
+                <div>
+                    <MudButton Variant="Variant.Text" OnClick="InitWorkingDay" Color="Color.Primary">Initialize</MudButton>
+                </div>
             }
             else
             {
-                <MudButton Variant="Variant.Text" OnClick="OpenAddFieldModal" Color="Color.Primary">Add field</MudButton>
+                <div>
+                    <MudButton Variant="Variant.Text" OnClick="OpenAddFieldModal" Color="Color.Primary">Add field</MudButton>
+                </div>
             }
             <span class="spacer"></span>
-            <MudIconButton Icon="@Icons.Filled.ChevronLeft" Color="Color.Primary" OnClick="@(() => Redirect(false))"/>
-            <MudIconButton Icon="@Icons.Filled.ChevronRight" Color="Color.Primary" OnClick="@(() => Redirect(true))"/>
+            <div>
+                <MudIconButton Icon="@Icons.Filled.ChevronLeft" Color="Color.Primary" OnClick="@(() => Redirect(false))" />
+                <MudIconButton Icon="@Icons.Filled.ChevronRight" Color="Color.Primary" OnClick="@(() => Redirect(true))" />
+            </div>
         </div>
         <div>
-            @if (WorkingDay == null)
+        @if (WorkingDay == null)
             {
                 <div class="text-center">You do not have working day settings on this day. Please create one.</div>
             }
@@ -42,7 +48,8 @@
                             @if (WorkingDayTypes != null)
                             {
                                 <div class="col col-12 col-sm-6 p1">
-                                    <MudSelect FullWidth="true" @bind-Value="WorkingDay.Type" Label="Type" Variant="Variant.Outlined">
+                                    <MudSelect FullWidth="true" @bind-Value="WorkingDay.Type" Label="Type"
+                            Variant="Variant.Outlined">
                                         @foreach (var type in WorkingDayTypes)
                                         {
                                             <MudSelectItem T="int" Value="type.Id">@type.Title</MudSelectItem>
@@ -52,7 +59,8 @@
                             }
                         </div>
                         <div class="text-right">
-                            <MudButton Variant="Variant.Filled" ButtonType="ButtonType.Submit" Color="Color.Primary">Save settings</MudButton>
+                            <MudButton Variant="Variant.Filled" ButtonType="ButtonType.Submit" Color="Color.Primary">Save
+                                settings</MudButton>
                         </div>
                     </EditForm>
                 </div>
@@ -92,12 +100,13 @@
                         </div>
                     </div>
                     <div class="field-list">
-                        <div class="em-sub-title">Working Fields</div>
-                        @if (WorkingDayId != null)
+            <div class="em-sub-title">Working Fields</div>
+            @if (WorkingDayId != null)
                         {
                             @foreach (var field in WorkingFields)
                             {
-                                <FieldComponent WorkingField="field" WorkingDayId="(int)WorkingDayId" IsModifiable="true" Close="GetWorkingDay" />
+                                <FieldComponent WorkingField="field" WorkingDayId="(int)WorkingDayId" IsModifiable="true"
+                Close="GetWorkingDay" />
                             }
                         }
                     </div>
