@@ -63,17 +63,6 @@ namespace EventManager.Client
             ApplicationSettings.BaseUrl = builder.Configuration.GetSection("Api").Value;
             ApplicationSettings.BaseApiUrl = ApplicationSettings.BaseUrl + "/api";
 
-
-            builder.Services.AddMatToaster(config =>
-            {
-                config.Position = MatToastPosition.BottomRight;
-                config.PreventDuplicates = true;
-                config.NewestOnTop = true;
-                config.ShowCloseButton = true;
-                config.MaximumOpacity = 95;
-                config.VisibleStateDuration = 3000;
-            }); // TODO: Remove
-
             // TODO: Add my lib
 
             builder.Services.AddMudServices(config =>
