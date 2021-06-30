@@ -10,7 +10,7 @@ namespace ManagerAPI.Shared.DTOs.WM
         /// <summary>
         /// Hour Sum
         /// </summary>
-        public int HourSum { get; set; }
+        public decimal HourSum { get; set; }
 
         /// <summary>
         /// Hour Avg

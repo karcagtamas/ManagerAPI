@@ -25,10 +25,10 @@
             <div class="stat-box">
                 <div class="em-sub-title">Statistics</div>
                 <div class="data-row">
-                    <strong>Summary hours: </strong> @MonthStat.HourSum h
+                    <strong>Summary hours: </strong> @($"{MonthStat.HourSum:0.00} h")
                 </div>
                 <div class="data-row">
-                    <strong>Avgerate hours: </strong> @Math.Round(MonthStat.HourAvg, 2) h
+                    <strong>Avgerate hours: </strong> @($"{MonthStat.HourAvg:0.00} h")
                 </div>
                 <div class="data-row">
                     <strong>Active / Work days: </strong> @MonthStat.ActiveDays / @MonthStat.WorkDays
