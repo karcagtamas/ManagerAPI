@@ -14,15 +14,13 @@ namespace EventManager.Client.Shared.Components.SL
     public partial class BookDialog
     {
         [CascadingParameter] private MudDialogInstance Dialog { get; set; }
-        
+
         /// <summary>
         /// Book Id
         /// </summary>
         [Parameter]
         public int? BookId { get; set; }
         [Inject] private IBookService BookService { get; set; }
-        [Inject] private IModalService ModalService { get; set; }
-        private int FormId { get; set; }
         private BookModel Model { get; set; }
         private EditContext Context { get; set; }
         private bool IsEdit { get; set; }
@@ -59,7 +57,7 @@ namespace EventManager.Client.Shared.Components.SL
                 {
                     return;
                 }
-                
+
                 if (await this.BookService.Update((int)BookId, this.Model))
                 {
                     Dialog.Close(DialogResult.Ok(true));
@@ -72,10 +70,10 @@ namespace EventManager.Client.Shared.Components.SL
                     Dialog.Close(DialogResult.Ok(true));
                 }
             }
-            
+
             Dialog.Close(DialogResult.Ok(false));
         }
-        
+
         private void Cancel()
         {
             Dialog.Cancel();

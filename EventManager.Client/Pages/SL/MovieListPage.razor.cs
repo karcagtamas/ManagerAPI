@@ -4,18 +4,20 @@ using EventManager.Client.Services.Interfaces;
 using EventManager.Client.Shared.Components.SL;
 using ManagerAPI.Shared.DTOs.SL;
 using Microsoft.AspNetCore.Components;
+using MudBlazor;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace EventManager.Client.Pages.SL
 {
+    /// <summary>
+    /// Movie List Page
+    /// </summary>
     public partial class MovieListPage
     {
         [Inject] private IMovieService MovieService { get; set; }
-
         [Inject] private NavigationManager Navigation { get; set; }
-
-        [Inject] private IModalService Modal { get; set; }
+        [Inject] private IDialogService DialogService { get; set; }
         [Inject] private IAuthService Auth { get; set; }
 
         private List<MovieListDto> MovieList { get; set; }
@@ -31,6 +33,7 @@ namespace EventManager.Client.Pages.SL
             new TableHeaderData<MovieListDto>("Creator", true, Alignment.Left)
         };
 
+        /// <inheritdoc />
         protected override async Task OnInitializedAsync()
         {
             await this.GetMovies();
@@ -52,29 +55,16 @@ namespace EventManager.Client.Pages.SL
             this.Navigation.NavigateTo($"/movies/{movie.Id}");
         }
 
-        private void OpenAddMovieDialog()
+        private async void OpenAddMovieDialog()
         {
-            var parameters = new ModalParameters();
-            parameters.Add("FormId", 1);
+            var parameters = new DialogParameters { { "MovieId", null } };
+            var dialog = DialogService.Show<MovieDialog>("Add Movie", parameters);
+            var result = await dialog.Result;
 
-            var options = new ModalOptions
-            {
-                ButtonOptions = { ConfirmButtonType = ConfirmButton.Save, ShowConfirmButton = true }
-            };
-
-            this.Modal.OnClose += this.MovieModalClosed;
-
-            this.Modal.Show<MovieDialog>("Create Movie", parameters, options);
-        }
-
-        private async void MovieModalClosed(ModalResult modalResult)
-        {
-            if (!modalResult.Cancelled && (bool)modalResult.Data)
+            if (!result.Cancelled)
             {
                 await this.GetMovies();
             }
-
-            this.Modal.OnClose -= this.MovieModalClosed;
         }
     }
 }

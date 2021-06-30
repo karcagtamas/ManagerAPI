@@ -5,36 +5,35 @@ using ManagerAPI.Shared.DTOs.SL;
 using ManagerAPI.Shared.Models.SL;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using MudBlazor;
 using System;
 using System.Threading.Tasks;
 
 namespace EventManager.Client.Shared.Components.SL
 {
+    /// <summary>
+    /// Movie Dialog
+    /// </summary>
     public partial class MovieDialog
     {
-        [CascadingParameter] public ModalParameters Parameters { get; set; }
+        [CascadingParameter] private MudDialogInstance Dialog { get; set; }
 
-        [CascadingParameter] public BlazoredModal BlazoredModal { get; set; }
+        /// <summary>
+        /// Movie Id
+        /// </summary>
+        [Parameter]
+        public int? MovieId { get; set; }
 
         [Inject] private IMovieService MovieService { get; set; }
 
-        [Inject] private IModalService ModalService { get; set; }
+        private MovieModel Model { get; set; }
+        private EditContext Context { get; set; }
+        private bool IsEdit { get; set; }
+        private MovieDto Movie { get; set; }
 
-        public int FormId { get; set; }
-
-        public MovieModel Model { get; set; }
-        public EditContext Context { get; set; }
-        public bool IsEdit { get; set; }
-        public int Id { get; set; }
-        public MovieDto Movie { get; set; }
-
+        /// <inheritdoc />
         protected override async Task OnInitializedAsync()
         {
-            this.FormId = this.Parameters.Get<int>("FormId");
-            this.Id = this.Parameters.TryGet<int>("movie");
-
-            ((ModalService)this.ModalService).OnConfirm += this.OnConfirm;
-
             this.Model = new MovieModel
             {
                 Title = "",
@@ -44,34 +43,45 @@ namespace EventManager.Client.Shared.Components.SL
 
             this.Context = new EditContext(this.Model);
 
-            if (this.Id != 0)
+            if (MovieId != null)
             {
-                this.Movie = await this.MovieService.Get(this.Id);
+                this.Movie = await this.MovieService.Get((int)this.MovieId);
                 this.Model = new MovieModel(this.Movie);
                 this.IsEdit = true;
                 this.Context = new EditContext(this.Model);
             }
         }
 
-        private async void OnConfirm()
+        private async void Save()
         {
-            bool isValid = this.Context.Validate();
+            if (!Context.Validate()) return;
+
             if (this.IsEdit)
             {
-                if (isValid && await this.MovieService.Update(this.Id, this.Model))
+                if (MovieId == null)
                 {
-                    this.ModalService.Close(ModalResult.Ok(true));
-                    ((ModalService)this.ModalService).OnConfirm -= this.OnConfirm;
+                    return;
+                }
+
+                if (await this.MovieService.Update((int)MovieId, this.Model))
+                {
+                    Dialog.Close(DialogResult.Ok(true));
                 }
             }
             else
             {
-                if (isValid && await this.MovieService.Create(this.Model))
+                if (await this.MovieService.Create(this.Model))
                 {
-                    this.ModalService.Close(ModalResult.Ok(true));
-                    ((ModalService)this.ModalService).OnConfirm -= this.OnConfirm;
+                    Dialog.Close(DialogResult.Ok(true));
                 }
             }
+
+            Dialog.Close(DialogResult.Ok(false));
+        }
+
+        private void Cancel()
+        {
+            Dialog.Cancel();
         }
     }
 }

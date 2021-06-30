@@ -51,10 +51,10 @@ namespace EventManager.Client.Pages.SL
 
         private async void OpenEditBookDialog()
         {
-            var parameters = new DialogParameters {{"BookId", this.Id}};
+            var parameters = new DialogParameters { { "BookId", this.Id } };
             var dialog = DialogService.Show<BookDialog>("Edit Book", parameters);
             var result = await dialog.Result;
-            
+
             if (!result.Cancelled)
             {
                 await this.GetBook();
@@ -94,9 +94,9 @@ namespace EventManager.Client.Pages.SL
                 Action = ConfirmType.Delete,
                 DeleteFunction = async () => await BookService.Delete(Book.Id)
             }}};
-            var dialog = DialogService.Show<ConfirmDialog>("Task Delete", parameters);
+            var dialog = DialogService.Show<ConfirmDialog>("Book Delete", parameters);
             var result = await dialog.Result;
-            
+
             if (!result.Cancelled)
             {
                 this.Navigation.NavigateTo("books");

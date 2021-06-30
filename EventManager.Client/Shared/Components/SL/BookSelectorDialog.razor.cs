@@ -21,8 +21,6 @@ namespace EventManager.Client.Shared.Components.SL
     {
         [CascadingParameter] private MudDialogInstance Dialog { get; set; }
         [Inject] private IBookService BookService { get; set; }
-        [Inject] private IModalService ModalService { get; set; }
-        private int FormId { get; set; }
         private List<MyBookSelectorListDto> List { get; set; }
         private List<int> SelectedIndexList { get; set; } = new();
         private bool IsLoading { get; set; }
@@ -30,7 +28,7 @@ namespace EventManager.Client.Shared.Components.SL
         private List<TableHeaderData<MyBookSelectorListDto>> Header { get; set; } = new()
         {
             new("Name", Alignment.Left),
-            new("Publish", "Publish", (e) => DateHelper.DateToString((DateTime?) e), Alignment.Left),
+            new("Publish", "Publish", (e) => DateHelper.DateToString((DateTime?)e), Alignment.Left),
             new("Author", Alignment.Left),
             new("Creator", Alignment.Left)
         };
@@ -50,7 +48,7 @@ namespace EventManager.Client.Shared.Components.SL
             this.IsLoading = false;
             this.StateHasChanged();
         }
-        
+
         private async void Save()
         {
             var indexList = this.List.Where(x => x.IsMine).Select(x => x.Id).ToList();

@@ -5,15 +5,31 @@ using Microsoft.AspNetCore.Components;
 
 namespace EventManager.Client.Shared.Components.SL
 {
+    /// <summary>
+    /// Movie comment
+    /// </summary>
     public partial class MovieCommentComponent
     {
+        /// <summary>
+        /// Comment
+        /// </summary>
         [Parameter] public MovieCommentListDto Comment { get; set; }
+
+        /// <summary>
+        /// Refresh
+        /// </summary>
+        /// <value></value>
         [Parameter] public EventCallback Refresh { get; set; }
+
+        /// <summary>
+        /// Movie Id
+        /// </summary>
         [Parameter] public int MovieId { get; set; }
+
         [Inject] private IMovieCommentService MovieCommentService { get; set; }
+
         private bool IsEdit { get; set; }
         private string CommentText { get; set; }
-
 
         private async void DeleteComment()
         {

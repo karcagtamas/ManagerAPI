@@ -1,15 +1,25 @@
-﻿<div class="sl-movie-seen-selector-dialog">
-    @if (IsLoading)
-    {
-        <Loader></Loader>
-    }
-    else
-    {
-        @if (List != null && List.Count > 0)
-        {
-            <div class="movie-list">
-                <ListTable Header="Header" Body="List" TList="ManagerAPI.Shared.DTOs.SL.MyMovieSelectorListDto" IsSelectionEnabled="true" SelectedIndexes="SelectedIndexList" FooterDisplay="false" OnRowClick="@(e => SwitchSeenFlag(e))"></ListTable>
-            </div>
-        }
-    }
-</div>
+﻿<MudDialog>
+    <DialogContent>
+        <div class="sl-movie-seen-selector-dialog">
+            @if (IsLoading)
+                {
+            <Loader></Loader>
+            }
+                else
+                {
+            @if (List != null && List.Count > 0)
+            {
+                <div class="movie-list">
+                    <ListTable Header="Header" Body="List" TList="ManagerAPI.Shared.DTOs.SL.MyMovieSelectorListDto"
+                    IsSelectionEnabled="true" SelectedIndexes="SelectedIndexList" FooterDisplay="false"
+                    OnRowClick="@(e => SwitchSeenFlag(e))"></ListTable>
+                </div>
+            }
+            }
+        </div>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Save">Save</MudButton>
+    </DialogActions>
+</MudDialog>
