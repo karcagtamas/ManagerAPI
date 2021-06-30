@@ -12,9 +12,7 @@ using System.Linq;
 
 namespace ManagerAPI.Services.Services
 {
-    /// <summary>
-    /// Service for managing notifications
-    /// </summary>
+    /// <inheritdoc />
     public class NotificationService : INotificationService
     {
         private readonly IUtilsService _utilsService;
@@ -38,13 +36,7 @@ namespace ManagerAPI.Services.Services
             this._loggerService = loggerService;
         }
 
-        /// <summary>
-        /// Add notification
-        /// </summary>
-        /// <param name="user">User</param>
-        /// <param name="type">Type of notification</param>
-        /// <param name="val">String base text</param>
-        /// <param name="args">Inject params</param>
+        /// <inheritdoc />
         public void AddNotification(User user, int type, string val, params string[] args)
         {
             // Create notification
@@ -61,12 +53,7 @@ namespace ManagerAPI.Services.Services
             this._loggerService.LogInformation(user, nameof(NotificationService), "add notification", notification.Id);
         }
 
-        /// <summary>
-        /// Add System notification by given type
-        /// </summary>
-        /// <param name="type">Type of notification</param>
-        /// <param name="user">Destination user</param>
-        /// <param name="args">Inject arguments</param>
+        /// <inheritdoc />
         public void AddSystemNotificationByType(SystemNotificationType type, User user, params string[] args)
         {
             if (user == null)
@@ -112,12 +99,7 @@ namespace ManagerAPI.Services.Services
             this.AddNotification(user, (int)type, val, args);
         }
 
-        /// <summary>
-        /// Add Working Manager notification by given type.
-        /// </summary>
-        /// <param name="type">Type of notification</param>
-        /// <param name="user">Destination user</param>
-        /// <param name="args">Inject arguments</param>
+        /// <inheritdoc />
         public void AddWorkingManagerNotificationByType(WorkingManagerNotificationType type, User user,
             params string[] args)
         {
@@ -146,12 +128,7 @@ namespace ManagerAPI.Services.Services
             this.AddNotification(user, (int)type, val, args);
         }
 
-        /// <summary>
-        /// Add Status Library notification by given type
-        /// </summary>
-        /// <param name="type">Type of notification</param>
-        /// <param name="user">Destination user</param>
-        /// <param name="args">Inject arguments</param>
+        /// <inheritdoc />
         public void AddStatusLibraryNotificationByType(StatusLibraryNotificationType type, User user,
             params string[] args)
         {
@@ -205,10 +182,7 @@ namespace ManagerAPI.Services.Services
             this.AddNotification(user, (int)type, val, args);
         }
 
-        /// <summary>
-        /// Get count of unread notifications
-        /// </summary>
-        /// <returns>Count</returns>
+        /// <inheritdoc />
         public int GetCountOfUnReadNotifications()
         {
             var user = this._utilsService.GetCurrentUser();
@@ -220,10 +194,7 @@ namespace ManagerAPI.Services.Services
             return count;
         }
 
-        /// <summary>
-        /// Get current logged in user's notifications
-        /// </summary>
-        /// <returns>List of notifications</returns>
+        /// <inheritdoc />
         public List<NotificationDto> GetMyNotifications()
         {
             var user = this._utilsService.GetCurrentUser();
@@ -237,10 +208,7 @@ namespace ManagerAPI.Services.Services
             return list;
         }
 
-        /// <summary>
-        /// Set notifications as read
-        /// </summary>
-        /// <param name="notifications">Ids of the notifications</param>
+        /// <inheritdoc />
         public void SetAsReadNotificationsById(int[] notifications)
         {
             var user = this._utilsService.GetCurrentUser();
@@ -258,13 +226,7 @@ namespace ManagerAPI.Services.Services
                 list.Select(x => x.Id).ToList());
         }
 
-        /// <summary>
-        /// Add notification by type
-        /// </summary>
-        /// <param name="type">Type of type</param>
-        /// <param name="typeVal">Type value</param>
-        /// <param name="user">User</param>
-        /// <param name="args">Args</param>
+        /// <inheritdoc />
         public void AddNotificationByType(Type type, object typeVal, User user, params string[] args)
         {
             if (type == typeof(SystemNotificationType))

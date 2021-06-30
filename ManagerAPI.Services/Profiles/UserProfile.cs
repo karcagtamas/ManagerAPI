@@ -10,6 +10,9 @@ namespace ManagerAPI.Services.Profiles
     /// </summary>
     public class UserProfile : Profile
     {
+        /// <summary>
+        /// Init mapper
+        /// </summary>
         public UserProfile()
         {
             this.CreateMap<User, UserDto>()

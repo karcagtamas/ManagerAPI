@@ -11,14 +11,21 @@ using System.Text;
 
 namespace ManagerAPI.Services.Common.PDF
 {
+    /// <inheritdoc />
     public class PDFService : IPDFService
     {
         private readonly IConverter _converter;
 
+        /// <summary>
+        /// Init PDF Service
+        /// </summary>
+        /// <param name="converter">Converter</param>
         public PDFService(IConverter converter)
         {
             this._converter = converter;
         }
+
+        /// <inheritdoc />
         public ExportResult GeneratePersonCsomor(List<CsomorPerson> persons)
         {
             persons = persons.OrderBy(x => x.Name).ToList();
@@ -81,6 +88,7 @@ namespace ManagerAPI.Services.Common.PDF
             return new ExportResult { Content = file, ContentType = contentType, FileName = name };
         }
 
+        /// <inheritdoc />
         public ExportResult GenerateWorkCsomor(List<CsomorWork> works)
         {
             works = works.OrderBy(x => x.Name).ToList();

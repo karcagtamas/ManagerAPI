@@ -50,11 +50,7 @@ namespace ManagerAPI.Services.Services
             this._databaseContext = context;
         }
 
-        /// <summary>
-        /// Get current user's messages
-        /// </summary>
-        /// <param name="friendId">Partner Id</param>
-        /// <returns>List of messages</returns>
+        /// <inheritdoc />
         public List<MessageDto> GetMessages(string friendId)
         {
             var user = this.Utils.GetCurrentUser();
@@ -73,10 +69,7 @@ namespace ManagerAPI.Services.Services
             return list;
         }
 
-        /// <summary>
-        /// Send message to partner
-        /// </summary>
-        /// <param name="model">Model of message sending</param>
+        /// <inheritdoc />
         public void SendMessage(MessageModel model)
         {
             var user = this.Utils.GetCurrentUser();

@@ -6,9 +6,7 @@ using System.Threading.Tasks;
 
 namespace ManagerAPI.Services.Common.Mail
 {
-    /// <summary>
-    /// Mail Service
-    /// </summary>
+    /// <inheritdoc />
     public class MailService : IMailService
     {
         private readonly MailSettings _settings;
@@ -22,11 +20,7 @@ namespace ManagerAPI.Services.Common.Mail
             this._settings = settings;
         }
 
-        /// <summary>
-        /// Send email async
-        /// </summary>
-        /// <param name="mail">Mail object</param>
-        /// <returns>Task</returns>
+        /// <inheritdoc />
         public async Task SendEmailAsync(Common.Mail.Mail mail)
         {
             var message = new MailMessage();

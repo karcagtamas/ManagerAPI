@@ -16,9 +16,7 @@ using System.Threading.Tasks;
 
 namespace ManagerAPI.Services.Services
 {
-    /// <summary>
-    /// Auth Service
-    /// </summary>
+    /// <inheritdoc />
     public class AuthService : IAuthService
     {
         private readonly UserManager<User> _userManager;
@@ -49,11 +47,7 @@ namespace ManagerAPI.Services.Services
             this._utilsService = utilsService;
         }
 
-        /// <summary>
-        /// Registration by registration model
-        /// </summary>
-        /// <param name="model">Model for the registration with main data</param>
-        /// <returns>Result of the registration</returns>
+        /// <inheritdoc />
         public async System.Threading.Tasks.Task Registration(RegistrationModel model)
         {
             var appUser = new User
@@ -76,12 +70,7 @@ namespace ManagerAPI.Services.Services
             }
         }
 
-        /// <summary>
-        /// Login by the login model
-        /// </summary>
-        /// <param name="model">Model for the login with login credentials</param>
-        /// <returns>Token</returns>
-        /// <exception cref="Exception">Incorrect credentials</exception>
+        /// <inheritdoc />
         public async Task<string> Login(LoginModel model)
         {
             var user = await this._userManager.FindByNameAsync(model.UserName);
@@ -119,10 +108,7 @@ namespace ManagerAPI.Services.Services
             throw new MessageException("Username or password is incorrect.");
         }
 
-        /// <summary>
-        /// Logout
-        /// </summary>
-        /// <param name="userId">User Id</param>
+        /// <inheritdoc />
         public void Logout(string userId)
         {
             var user = this._context.AppUsers.Find(userId);

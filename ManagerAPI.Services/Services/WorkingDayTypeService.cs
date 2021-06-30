@@ -8,9 +8,7 @@ using System.Collections.Generic;
 
 namespace ManagerAPI.Services.Services
 {
-    /// <summary>
-    /// Working Day Type Service
-    /// </summary>
+    /// <inheritdoc />
     public class WorkingDayTypeService : Repository<WorkingDayType, WorkingManagerNotificationType>,
         IWorkingDayTypeService
     {

@@ -11,9 +11,7 @@ using System.Linq;
 
 namespace ManagerAPI.Services.Services
 {
-    /// <summary>
-    /// Task Service
-    /// </summary>
+    /// <inheritdoc />
     public class TaskService : Repository<Task, SystemNotificationType>, ITaskService
     {
         // Action
@@ -39,11 +37,7 @@ namespace ManagerAPI.Services.Services
         {
         }
 
-        /// <summary>
-        /// Get tasks for the current user
-        /// </summary>
-        /// <param name="isSolved">Filter - task is solved or not</param>
-        /// <returns>List of tasks grouped by the deadline</returns>
+        /// <inheritdoc />
         public List<TaskDateDto> GetDate(bool? isSolved)
         {
             var user = this.Utils.GetCurrentUser();

@@ -20,10 +20,30 @@ namespace ManagerAPI.Services.Common.Repository
     {
         private readonly DbContext _context;
         private readonly NotificationArguments _arguments;
+
+        /// <summary>
+        /// Logger
+        /// </summary>
         protected readonly ILoggerService Logger;
+
+        /// <summary>
+        /// Utils
+        /// </summary>
         protected readonly IUtilsService Utils;
+
+        /// <summary>
+        /// Notifications
+        /// </summary>
         protected readonly INotificationService Notification;
+
+        /// <summary>
+        /// Mapper
+        /// </summary>
         protected readonly IMapper Mapper;
+
+        /// <summary>
+        /// Entity
+        /// </summary>
         protected readonly string Entity;
 
         /// <summary>
@@ -48,10 +68,7 @@ namespace ManagerAPI.Services.Common.Repository
             this._arguments = arguments;
         }
 
-        /// <summary>
-        /// Add entity
-        /// </summary>
-        /// <param name="entity">Entity object</param>
+        /// <inheritdoc />
         public void Add(TEntity entity)
         {
             // Add default data automatically
@@ -111,20 +128,13 @@ namespace ManagerAPI.Services.Common.Repository
             }
         }
 
-        /// <summary>
-        /// Add entity.
-        /// </summary>
-        /// <param name="entity">Entity</param>
-        /// <typeparam name="T">Type of mappable entity</typeparam>
+        /// <inheritdoc />
         public void Add<T>(T entity)
         {
             this.Add(this.Mapper.Map<TEntity>(entity));
         }
 
-        /// <summary>
-        /// Add multiple entity.
-        /// </summary>
-        /// <param name="entities">Entities</param>
+        /// <inheritdoc />
         public void AddRange(IEnumerable<TEntity> entities)
         {
             // Add default data automatically
@@ -197,29 +207,19 @@ namespace ManagerAPI.Services.Common.Repository
             }
         }
 
-        /// <summary>
-        /// Add multiple entity
-        /// </summary>
-        /// <param name="entities">Entities</param>
-        /// <typeparam name="T">Type of mappable entities</typeparam>
+        /// <inheritdoc />
         public void AddRange<T>(IEnumerable<T> entities)
         {
             this.AddRange(this.Mapper.Map<IEnumerable<TEntity>>(entities));
         }
 
-        /// <summary>
-        /// Save changes
-        /// </summary>
+        /// <inheritdoc />
         public void Complete()
         {
             this._context.SaveChanges();
         }
 
-        /// <summary>
-        /// Get entity
-        /// </summary>
-        /// <param name="keys">Identity keys of entity</param>
-        /// <returns>Entity with the given keys</returns>
+        /// <inheritdoc />
         public TEntity Get(params object[] keys)
         {
             // Get
@@ -240,21 +240,13 @@ namespace ManagerAPI.Services.Common.Repository
             return entity;
         }
 
-        /// <summary>
-        /// Get entity
-        /// </summary>
-        /// <param name="keys">Identity keys of entity</param>
-        /// <typeparam name="T">Type of mappable result type</typeparam>
-        /// <returns>Mapped entity to the destination type</returns>
+        /// <inheritdoc />
         public T Get<T>(params object[] keys)
         {
             return this.Mapper.Map<T>(this.Get(keys));
         }
 
-        /// <summary>
-        /// Get all entity
-        /// </summary>
-        /// <returns>All existing entity</returns>
+        /// <inheritdoc />
         public List<TEntity> GetAll()
         {
             // Get
@@ -277,44 +269,25 @@ namespace ManagerAPI.Services.Common.Repository
             return list;
         }
 
-        /// <summary>
-        /// Get all entity.
-        /// </summary>
-        /// <typeparam name="T">Type of mappable result type</typeparam>
-        /// <returns>Mapped entity list to the destination type</returns>
+        /// <inheritdoc />
         public List<T> GetAll<T>()
         {
             return this.Mapper.Map<List<T>>(this.GetAll());
         }
 
-        /// <summary>
-        /// Get list of entities.
-        /// </summary>
-        /// <param name="predicate">Filter predicate.</param>
-        /// <returns>Filtered list of entities</returns>
+        /// <inheritdoc />
         public List<TEntity> GetList(Expression<Func<TEntity, bool>> predicate)
         {
             return this.GetList(predicate, null, null);
         }
 
-        /// <summary>
-        /// Get list of entities.
-        /// </summary>
-        /// <param name="predicate">Filter predicate.</param>
-        /// <param name="count">Max result count.</param>
-        /// <returns>Filtered list of entities with max count.</returns>
+        /// <inheritdoc />
         public List<TEntity> GetList(Expression<Func<TEntity, bool>> predicate, int? count)
         {
             return this.GetList(predicate, count, null);
         }
 
-        /// <summary>
-        /// Get list of entities.
-        /// </summary>
-        /// <param name="predicate">Filter predicate.</param>
-        /// <param name="count">Max result count.</param>
-        /// <param name="skip">Skipped element number.</param>
-        /// <returns>Filtered list of entities with max count and first skip.</returns>
+        /// <inheritdoc />
         public List<TEntity> GetList(Expression<Func<TEntity, bool>> predicate, int? count, int? skip)
         {
             // Get
@@ -352,46 +325,25 @@ namespace ManagerAPI.Services.Common.Repository
             return list;
         }
 
-        /// <summary>
-        /// Get list of entities.
-        /// </summary>
-        /// <param name="predicate">Filter predicate.</param>
-        /// <typeparam name="T">Type of mappable result type</typeparam>
-        /// <returns>Mapped filtered list of entities to destination type</returns>
+        /// <inheritdoc />
         public List<T> GetList<T>(Expression<Func<TEntity, bool>> predicate)
         {
             return this.Mapper.Map<List<T>>(this.GetList(predicate));
         }
 
-        /// <summary>
-        /// Get list of entities.
-        /// </summary>
-        /// <param name="predicate">Filter predicate.</param>
-        /// <param name="count">Max result count.</param>
-        /// <typeparam name="T">Type of mappable result type</typeparam>
-        /// <returns>Mapped filtered list of entities with max count to destination type</returns>
+        /// <inheritdoc />
         public List<T> GetList<T>(Expression<Func<TEntity, bool>> predicate, int? count)
         {
             return this.Mapper.Map<List<T>>(this.GetList(predicate, count));
         }
 
-        /// <summary>
-        /// Get list of entities.
-        /// </summary>
-        /// <param name="predicate">Filter predicate.</param>
-        /// <param name="count">Max result count.</param>
-        /// <param name="skip">Skipped element number.</param>
-        /// <typeparam name="T">Type of mappable result type</typeparam>
-        /// <returns>Mapped filtered list of entities with max count and first skip to destination type</returns>
+        /// <inheritdoc />
         public List<T> GetList<T>(Expression<Func<TEntity, bool>> predicate, int? count, int? skip)
         {
             return this.Mapper.Map<List<T>>(this.GetList(predicate, count, skip));
         }
 
-        /// <summary>
-        /// Remove entity.
-        /// </summary>
-        /// <param name="entity">Entity</param>
+        /// <inheritdoc />
         public void Remove(TEntity entity)
         {
             // Determine Arguments
@@ -437,10 +389,7 @@ namespace ManagerAPI.Services.Common.Repository
             }
         }
 
-        /// <summary>
-        /// Remove by Id
-        /// </summary>
-        /// <param name="id">Id of entity</param>
+        /// <inheritdoc />
         public void Remove(int id)
         {
             // Get entity
@@ -456,10 +405,7 @@ namespace ManagerAPI.Services.Common.Repository
             this.Remove(this.Get(id));
         }
 
-        /// <summary>
-        /// Remove range
-        /// </summary>
-        /// <param name="entities">Entities</param>
+        /// <inheritdoc />
         public void RemoveRange(IEnumerable<TEntity> entities)
         {
             // Determine arguments
@@ -513,10 +459,7 @@ namespace ManagerAPI.Services.Common.Repository
             }
         }
 
-        /// <summary>
-        /// Remove range by Id
-        /// </summary>
-        /// <param name="ids">List of Ids</param>
+        /// <inheritdoc />
         public void RemoveRange(IEnumerable<int> ids)
         {
             // Remove
@@ -527,10 +470,7 @@ namespace ManagerAPI.Services.Common.Repository
             }
         }
 
-        /// <summary>
-        /// Update entity
-        /// </summary>
-        /// <param name="entity">Entity</param>
+        /// <inheritdoc />
         public void Update(TEntity entity)
         {
             // Set default update data
@@ -575,12 +515,7 @@ namespace ManagerAPI.Services.Common.Repository
             }
         }
 
-        /// <summary>
-        /// Update entity
-        /// </summary>
-        /// <param name="id">Id of entity</param>
-        /// <param name="entity">Entity model object</param>
-        /// <typeparam name="T">Mappable type</typeparam>
+        /// <inheritdoc />
         public void Update<T>(int id, T entity)
         {
             // Get original
@@ -599,10 +534,7 @@ namespace ManagerAPI.Services.Common.Repository
             this.Update(originalEntity);
         }
 
-        /// <summary>
-        /// Update multiple entity
-        /// </summary>
-        /// <param name="entities">Entities</param>
+        /// <inheritdoc />
         public void UpdateRange(IEnumerable<TEntity> entities)
         {
             // Update 
@@ -640,11 +572,7 @@ namespace ManagerAPI.Services.Common.Repository
             }
         }
 
-        /// <summary>
-        /// Update multiple entity
-        /// </summary>
-        /// <param name="entities">Entities</param>
-        /// <typeparam name="T">Mappable type</typeparam>
+        /// <inheritdoc />
         public void UpdateRange<T>(Dictionary<int, T> entities)
         {
             // Update
@@ -771,12 +699,7 @@ namespace ManagerAPI.Services.Common.Repository
             return args;
         }
 
-        /// <summary>
-        /// Get ordered list
-        /// </summary>
-        /// <param name="orderBy">Ordering by</param>
-        /// <param name="direction">Order direction</param>
-        /// <returns>Ordered all list</returns>
+        /// <inheritdoc />
         public List<TEntity> GetOrderedAll(string orderBy, string direction)
         {
             if (!string.IsNullOrEmpty(orderBy))
@@ -804,13 +727,7 @@ namespace ManagerAPI.Services.Common.Repository
             throw new ArgumentException("Order by value is empty or null");
         }
 
-        /// <summary>
-        /// Get ordered list
-        /// </summary>
-        /// <param name="orderBy">Order by</param>
-        /// <param name="direction">Order direction</param>
-        /// <typeparam name="T">Type of mappable result type</typeparam>
-        /// <returns>Mapped and ordered list</returns>
+        /// <inheritdoc />
         public List<T> GetOrderedAll<T>(string orderBy, string direction)
         {
             return this.Mapper.Map<List<T>>(this.GetOrderedAll(orderBy, direction));

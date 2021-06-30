@@ -10,11 +10,10 @@ using System.Linq;
 
 namespace ManagerAPI.Services.Common.Excel
 {
-    /// <summary>
-    /// Excel Service
-    /// </summary>
+    /// <inheritdoc />
     public class ExcelService : IExcelService
     {
+        /// <inheritdoc />
         public ExportResult GeneratePersonCsomor(List<CsomorPerson> persons)
         {
             persons = persons.OrderBy(x => x.Name).ToList();
@@ -54,15 +53,7 @@ namespace ManagerAPI.Services.Common.Excel
             }
         }
 
-        /// <summary>
-        /// Generate table export
-        /// </summary>
-        /// <param name="objectList">Object table</param>
-        /// <param name="columnList">Export columns</param>
-        /// <param name="fileName">Destination file name</param>
-        /// <param name="appendCurrentDate">Add current date to the name</param>
-        /// <typeparam name="T">Type of object list</typeparam>
-        /// <returns>File stream</returns>
+        /// <inheritdoc />
         public FileStreamResult GenerateTableExport<T>(IEnumerable<T> objectList, IEnumerable<Header> columnList,
             string fileName,
             bool appendCurrentDate)
@@ -101,6 +92,7 @@ namespace ManagerAPI.Services.Common.Excel
             }
         }
 
+        /// <inheritdoc />
         public ExportResult GenerateWorkCsomor(List<CsomorWork> works)
         {
             works = works.OrderBy(x => x.Name).ToList();

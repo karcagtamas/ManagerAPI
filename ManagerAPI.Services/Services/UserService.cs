@@ -67,11 +67,7 @@ namespace ManagerAPI.Services.Services
             this._loggerService = loggerService;
         }
 
-        /// <summary>
-        /// Gets current user's data object
-        /// </summary>
-        /// <returns>User DTO</returns>
-        /// <exception cref="Exception">Invalid user id</exception>
+        /// <inheritdoc />
         public async Task<UserDto> GetUser()
         {
             var user = this._utilsService.GetCurrentUser();
@@ -85,10 +81,7 @@ namespace ManagerAPI.Services.Services
             return userDto;
         }
 
-        /// <summary>
-        /// Get small data object from user object
-        /// </summary>
-        /// <returns>Minimized user data object</returns>
+        /// <inheritdoc />
         public UserShortDto GetShortUser()
         {
             var user = this._utilsService.GetCurrentUser();
@@ -98,11 +91,7 @@ namespace ManagerAPI.Services.Services
             return userDto;
         }
 
-        /// <summary>
-        /// Update current user's data object by the given update object
-        /// </summary>
-        /// <param name="model">Update object</param>
-        /// <exception cref="Exception">Invalid user update object</exception>
+        /// <inheritdoc />
         public void UpdateUser(UserModel model)
         {
             var user = this._utilsService.GetCurrentUser();
@@ -120,10 +109,7 @@ namespace ManagerAPI.Services.Services
             this._notificationService.AddSystemNotificationByType(SystemNotificationType.MyProfileUpdated, user);
         }
 
-        /// <summary>
-        /// Update profile image
-        /// </summary>
-        /// <param name="image">New image</param>
+        /// <inheritdoc />
         public void UpdateProfileImage(byte[] image)
         {
             var user = this._utilsService.GetCurrentUser();
@@ -141,12 +127,7 @@ namespace ManagerAPI.Services.Services
             this._notificationService.AddSystemNotificationByType(SystemNotificationType.ProfileImageChanged, user);
         }
 
-        /// <summary>
-        /// Update profile login password
-        /// </summary>
-        /// <param name="oldPassword">Old password for authentication</param>
-        /// <param name="newPassword">Newly cheesed password</param>
-        /// <returns>Void</returns>
+        /// <inheritdoc />
         public async System.Threading.Tasks.Task UpdatePassword(string oldPassword, string newPassword)
         {
             var user = this._utilsService.GetCurrentUser();
@@ -176,11 +157,7 @@ namespace ManagerAPI.Services.Services
             this._notificationService.AddSystemNotificationByType(SystemNotificationType.PasswordChanged, user);
         }
 
-        /// <summary>
-        /// Update profile username
-        /// </summary>
-        /// <param name="newUsername">New username</param>
-        /// <returns>Void</returns>
+        /// <inheritdoc />
         public async System.Threading.Tasks.Task UpdateUsername(string newUsername)
         {
             var user = this._utilsService.GetCurrentUser();
@@ -204,9 +181,7 @@ namespace ManagerAPI.Services.Services
                 user.UserName, newUsername);
         }
 
-        /// <summary>
-        /// Disable my user
-        /// </summary>
+        /// <inheritdoc />
         public void DisableUser()
         {
             var user = this._utilsService.GetCurrentUser();

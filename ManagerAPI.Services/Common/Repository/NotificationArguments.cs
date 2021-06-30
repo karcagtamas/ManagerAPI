@@ -7,8 +7,19 @@ namespace ManagerAPI.Services.Common.Repository
     /// </summary>
     public class NotificationArguments
     {
+        /// <summary>
+        /// Update args
+        /// </summary>
         public List<string> UpdateArguments { get; set; }
+
+        /// <summary>
+        /// Delete args
+        /// </summary>
         public List<string> DeleteArguments { get; set; }
+
+        /// <summary>
+        /// Create args
+        /// </summary>
         public List<string> CreateArguments { get; set; }
 
         /// <summary>
