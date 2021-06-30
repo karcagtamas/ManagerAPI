@@ -8,24 +8,39 @@ using System;
 
 namespace ManagerAPI.Backend.Controllers
 {
+    /// <summary>
+    /// Working field controller
+    /// </summary>
     [Route("api/working-field")]
     [ApiController]
-    public class
-        WorkingFieldController : MyController<WorkingField, WorkingFieldModel, WorkingFieldListDto, WorkingFieldDto>
+    public class WorkingFieldController : MyController<WorkingField, WorkingFieldModel, WorkingFieldListDto, WorkingFieldDto>
     {
         private readonly IWorkingFieldService _workingFieldService;
 
+        /// <summary>
+        /// Init working field controller
+        /// </summary>
+        /// <param name="workingFieldService">Working field service</param>
         public WorkingFieldController(IWorkingFieldService workingFieldService) : base(workingFieldService)
         {
             this._workingFieldService = workingFieldService;
         }
 
+        /// <summary>
+        /// Get week stat endpoint
+        /// </summary>
+        /// <param name="week">Week path param</param>
         [HttpGet("week-stat/{week}")]
         public IActionResult GetWeekStat(DateTime week)
         {
             return this.Ok(this._workingFieldService.GetWeekStat(week));
         }
 
+        /// <summary>
+        /// Get month status endpoint
+        /// </summary>
+        /// <param name="year">Year path param</param>
+        /// <param name="month">Month path param</param>
         [HttpGet("month-stat/{year}/{month}")]
         public IActionResult GetMonthStat(int year, int month)
         {

@@ -8,17 +8,29 @@ using System.Threading.Tasks;
 
 namespace ManagerAPI.Backend.Middlewares
 {
+    /// <summary>
+    /// Exception handler
+    /// </summary>
     public class ExceptionHandler
     {
         private readonly RequestDelegate _next;
         private ILoggerService _loggerService;
         private const string FatalError = "Something bad happened. Try again later";
 
+        /// <summary>
+        /// Init exception handler
+        /// </summary>
+        /// <param name="next">Request</param>
         public ExceptionHandler(RequestDelegate next)
         {
             this._next = next;
         }
 
+        /// <summary>
+        /// Invoke handler
+        /// </summary>
+        /// <param name="context">HTTP context</param>
+        /// <param name="logger">Logger</param>
         public async Task Invoke(HttpContext context, ILoggerService logger)
         {
             this._loggerService = logger;

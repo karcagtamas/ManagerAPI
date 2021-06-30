@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ManagerAPI.Backend.Controllers
 {
+    /// <summary>
+    /// Gender controller
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]

@@ -14,65 +14,249 @@ namespace ManagerAPI.DataAccess
     /// </summary>
     public class DatabaseContext : IdentityDbContext
     {
+        /// <summary>
+        /// Genders
+        /// </summary>
         public DbSet<Gender> Genders { get; set; }
+
+        /// <summary>
+        /// AppUsers
+        /// </summary>
         public DbSet<User> AppUsers { get; set; }
+
+        /// <summary>
+        /// AppRoles
+        /// </summary>
         public DbSet<WebsiteRole> AppRoles { get; set; }
+
+        /// <summary>
+        /// NotificationSystems
+        /// </summary>
         public DbSet<NotificationSystem> NotificationSystems { get; set; }
+
+        /// <summary>
+        /// NotificationTypes
+        /// </summary>
         public DbSet<NotificationType> NotificationTypes { get; set; }
+
+        /// <summary>
+        /// Notifications
+        /// </summary>
         public DbSet<Notification> Notifications { get; set; }
+
+        /// <summary>
+        /// FriendRequests
+        /// </summary>
         public DbSet<FriendRequest> FriendRequests { get; set; }
+
+        /// <summary>
+        /// Friends
+        /// </summary>
         public DbSet<Friends> Friends { get; set; }
+
+        /// <summary>
+        /// Messages
+        /// </summary>
         public DbSet<Message> Messages { get; set; }
+
+        /// <summary>
+        /// News
+        /// </summary>
         public DbSet<News> News { get; set; }
+
+        /// <summary>
+        /// Tasks
+        /// </summary>
         public DbSet<Task> Tasks { get; set; }
 
         // PM
+        /// <summary>
+        /// PlanTypes
+        /// </summary>
         public DbSet<PlanType> PlanTypes { get; set; }
+
+        /// <summary>
+        /// Plans
+        /// </summary>
         public DbSet<Plan> Plans { get; set; }
+
+        /// <summary>
+        /// PlanGroups
+        /// </summary>
         public DbSet<PlanGroup> PlanGroups { get; set; }
+
+        /// <summary>
+        /// PlanGroupIdeas
+        /// </summary>
         public DbSet<PlanGroupIdea> PlanGroupIdeas { get; set; }
+
+        /// <summary>
+        /// PlanGroupChatMessages
+        /// </summary>
         public DbSet<PlanGroupChatMessage> PlanGroupChatMessages { get; set; }
+
+        /// <summary>
+        /// MarkTypes
+        /// </summary>
         public DbSet<MarkType> MarkTypes { get; set; }
+
+        /// <summary>
+        /// PlanGroupPlans
+        /// </summary>
         public DbSet<PlanGroupPlan> PlanGroupPlans { get; set; }
+
+        /// <summary>
+        /// PlanGroupPlanComments
+        /// </summary>
         public DbSet<PlanGroupPlanComment> PlanGroupPlanComments { get; set; }
+
+        /// <summary>
+        /// GroupRoles
+        /// </summary>
         public DbSet<GroupRole> GroupRoles { get; set; }
+
+        /// <summary>
+        /// UserPlanGroupsSwitch
+        /// </summary>
         public DbSet<UserPlanGroup> UserPlanGroupsSwitch { get; set; }
 
         // WM
+        /// <summary>
+        /// WorkingDayTypes
+        /// </summary>
         public DbSet<WorkingDayType> WorkingDayTypes { get; set; }
+
+        /// <summary>
+        /// WorkingDays
+        /// </summary>
         public DbSet<WorkingDay> WorkingDays { get; set; }
+
+        /// <summary>
+        /// WorkingFields
+        /// </summary>
         public DbSet<WorkingField> WorkingFields { get; set; }
 
         // SL
+        /// <summary>
+        /// MovieCategories
+        /// </summary>
         public DbSet<MovieCategory> MovieCategories { get; set; }
+
+        /// <summary>
+        /// Movies
+        /// </summary>
         public DbSet<Movie> Movies { get; set; }
+
+        /// <summary>
+        /// MovieComments
+        /// </summary>
         public DbSet<MovieComment> MovieComments { get; set; }
+
+        /// <summary>
+        /// MovieMovieCategorySwitch
+        /// </summary>
         public DbSet<MovieMovieCategory> MovieMovieCategorySwitch { get; set; }
+
+        /// <summary>
+        /// UserMovieSwitch
+        /// </summary>
         public DbSet<UserMovie> UserMovieSwitch { get; set; }
+
+        /// <summary>
+        /// SeriesCategories
+        /// </summary>
         public DbSet<SeriesCategory> SeriesCategories { get; set; }
+
+        /// <summary>
+        /// Series
+        /// </summary>
         public DbSet<Series> Series { get; set; }
+
+        /// <summary>
+        /// SeriesComments
+        /// </summary>
         public DbSet<SeriesComment> SeriesComments { get; set; }
+
+        /// <summary>
+        /// SeriesSeriesCategoriesSwitch
+        /// </summary>
         public DbSet<SeriesSeriesCategory> SeriesSeriesCategoriesSwitch { get; set; }
+
+        /// <summary>
+        /// UserSeriesSwitch
+        /// </summary>
         public DbSet<UserSeries> UserSeriesSwitch { get; set; }
+
+        /// <summary>
+        /// Seasons
+        /// </summary>
         public DbSet<Season> Seasons { get; set; }
+
+        /// <summary>
+        /// Episodes
+        /// </summary>
         public DbSet<Episode> Episodes { get; set; }
+
+        /// <summary>
+        /// UserEpisodeSwitch
+        /// </summary>
         public DbSet<UserEpisode> UserEpisodeSwitch { get; set; }
+
+        /// <summary>
+        /// Books
+        /// </summary>
         public DbSet<Book> Books { get; set; }
+
+        /// <summary>
+        /// UserBookSwitch
+        /// </summary>
         public DbSet<UserBook> UserBookSwitch { get; set; }
 
         // CSM
+        /// <summary>
+        /// Csomors
+        /// </summary>
         public DbSet<Csomor> Csomors { get; set; }
+
+        /// <summary>
+        /// CsomorPersons
+        /// </summary>
         public DbSet<CsomorPerson> CsomorPersons { get; set; }
+
+        /// <summary>
+        /// CsomorWorks
+        /// </summary>
         public DbSet<CsomorWork> CsomorWorks { get; set; }
+
+        /// <summary>
+        /// CsomorPersonTables
+        /// </summary>
         public DbSet<CsomorPersonTable> CsomorPersonTables { get; set; }
+
+        /// <summary>
+        /// CsomorWorkTables
+        /// </summary>
         public DbSet<CsomorWorkTable> CsomorWorkTables { get; set; }
+
+        /// <summary>
+        /// SharedCsomors
+        /// </summary>
         public DbSet<UserCsomor> SharedCsomors { get; set; }
+
+        /// <summary>
+        /// IgnoredWorks
+        /// </summary>
         public DbSet<IgnoredWork> IgnoredWorks { get; set; }
 
+        /// <summary>
+        /// Init DbContext
+        /// </summary>
+        /// <param name="options">Database context options</param>
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
         {
         }
 
+        /// <inheritdoc />
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
