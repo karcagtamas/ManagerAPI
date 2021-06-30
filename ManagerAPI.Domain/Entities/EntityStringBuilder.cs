@@ -2,8 +2,18 @@
 
 namespace ManagerAPI.Domain.Entities
 {
+    /// <summary>
+    /// Entity string builder
+    /// </summary>
     public static class EntityStringBuilder
     {
+        /// <summary>
+        /// Build string
+        /// </summary>
+        /// <param name="entity">Entity</param>
+        /// <param name="properties">Props</param>
+        /// <typeparam name="T">Entitz type</typeparam>
+        /// <returns>Built string</returns>
         public static string BuildString<T>(T entity, params string[] properties)
         {
             var type = entity.GetType();
