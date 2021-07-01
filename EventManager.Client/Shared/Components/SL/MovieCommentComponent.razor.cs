@@ -18,7 +18,6 @@ namespace EventManager.Client.Shared.Components.SL
         /// <summary>
         /// Refresh
         /// </summary>
-        /// <value></value>
         [Parameter] public EventCallback Refresh { get; set; }
 
         /// <summary>

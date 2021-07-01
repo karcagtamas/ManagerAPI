@@ -5,16 +5,20 @@ using EventManager.Client.Shared.Components.SL;
 using ManagerAPI.Shared.DTOs.SL;
 using ManagerAPI.Shared.Helpers;
 using Microsoft.AspNetCore.Components;
+using MudBlazor;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace EventManager.Client.Pages.SL
 {
+    /// <summary>
+    /// My Series List Page
+    /// </summary>
     public partial class MySeriesListPage
     {
         [Inject] private ISeriesService SeriesService { get; set; }
         [Inject] private NavigationManager Navigation { get; set; }
-        [Inject] private IModalService Modal { get; set; }
+        [Inject] private IDialogService DialogService { get; set; }
 
         private List<MySeriesListDto> SeriesList { get; set; }
         private bool IsLoading { get; set; }
@@ -28,12 +32,13 @@ namespace EventManager.Client.Pages.SL
             new TableHeaderData<MySeriesListDto>("Creator", true, Alignment.Left)
         };
 
+        /// <inheritdoc />
         protected override async Task OnInitializedAsync()
         {
-            await this.GetMovies();
+            await this.GetSeriesList();
         }
 
-        private async Task GetMovies()
+        private async Task GetSeriesList()
         {
             this.IsLoading = true;
             this.StateHasChanged();
@@ -47,29 +52,16 @@ namespace EventManager.Client.Pages.SL
             this.Navigation.NavigateTo($"/series/{series.Id}");
         }
 
-        private void OpenEditMySeriesDialog()
+        private async void OpenEditMySeriesDialog()
         {
-            var parameters = new ModalParameters();
-            parameters.Add("FormId", 1);
+            var parameters = new DialogParameters();
+            var dialog = DialogService.Show<SeriesSelectorDialog>("Edit My Series List", parameters);
+            var result = await dialog.Result;
 
-            var options = new ModalOptions
+            if (!result.Cancelled)
             {
-                ButtonOptions = { ConfirmButtonType = ConfirmButton.Save, ShowConfirmButton = true }
-            };
-
-            this.Modal.OnClose += this.EditMySeriesDialogClosed;
-
-            this.Modal.Show<SeriesSelectorDialog>("Edit My Series", parameters, options);
-        }
-
-        private async void EditMySeriesDialogClosed(ModalResult modalResult)
-        {
-            if (!modalResult.Cancelled && (bool)modalResult.Data)
-            {
-                await this.GetMovies();
+                await this.GetSeriesList();
             }
-
-            this.Modal.OnClose -= this.EditMySeriesDialogClosed;
         }
     }
 }
