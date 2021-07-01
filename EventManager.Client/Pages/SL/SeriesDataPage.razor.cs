@@ -198,16 +198,6 @@ namespace EventManager.Client.Pages.SL
             }
         }
 
-        private async void EditSeriesImageDialogClosed(ModalResult modalResult)
-        {
-            if (!modalResult.Cancelled && (bool)modalResult.Data)
-            {
-                await this.GetSeries();
-            }
-
-            this.Modal.OnClose -= this.EditSeriesImageDialogClosed;
-        }
-
         private async void OpenDeleteDialog()
         {
             var parameters = new DialogParameters {{"Input", new ConfirmDialogInput {

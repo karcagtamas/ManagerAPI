@@ -44,7 +44,7 @@ namespace EventManager.Client.Shared.Components.SL
 
             if (this.EpisodeId != null)
             {
-                this.Episode = await this.EpisodeService.Get((int)this.EpisodId);
+                this.Episode = await this.EpisodeService.Get((int)this.EpisodeId);
                 this.Model = new EpisodeShortModel(this.Episode);
                 this.IsEdit = true;
                 this.Context = new EditContext(this.Model);
@@ -56,7 +56,7 @@ namespace EventManager.Client.Shared.Components.SL
             bool isValid = this.Context.Validate();
             if (this.IsEdit)
             {
-                if (isValid && await this.EpisodeService.UpdateShort(this.Id, this.Model))
+                if (isValid && await this.EpisodeService.UpdateShort((int)this.EpisodeId, this.Model))
                 {
                     this.ModalService.Close(ModalResult.Ok(true));
                     ((ModalService)this.ModalService).OnConfirm -= this.OnConfirm;
