@@ -19,8 +19,6 @@ namespace EventManager.Client.Shared.Components.MyProfile
 
         [Inject] private IUserService UserService { get; set; }
 
-        [Inject] private IMatToaster Toaster { get; set; }
-        
         [Inject] private ISnackbar Snackbar { get; set; }
         private IBrowserFile File { get; set; }
 
@@ -31,12 +29,6 @@ namespace EventManager.Client.Shared.Components.MyProfile
             "image/png",
             "image/bmp"
         };
-
-        /// <inheritdoc />
-        protected override void OnInitialized()
-        {
-
-        }
 
         private async void Save()
         {
@@ -67,7 +59,7 @@ namespace EventManager.Client.Shared.Components.MyProfile
                 Snackbar.Add("Invalid file extension. Please try again with a correct type.", Severity.Error);
             }
         }
-        
+
         private void Cancel()
         {
             Dialog.Cancel();

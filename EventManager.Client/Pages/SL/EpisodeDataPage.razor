@@ -3,7 +3,7 @@
 @using ManagerAPI.Shared.Helpers
 @attribute [Authorize(Roles = "Administrator,Status Library User,Status Library Moderator,Status Library Administrator,Root")]
 
-<div class="sl-episode-data">
+<div class="sl-episode-data w-100">
     @if (Episode != null)
     {
         <h1 class="em-page-title">@Episode.Title</h1>

@@ -16,29 +16,34 @@
             <h1 class="em-page-title">My Profile - @User.UserName</h1>
 
             <div class="row col col-12">
-                <div class="col col-12 col-md-6 p-2">
-                    <div class="my-profile-picture">
-                        @if (User.ProfileImageData.Length == 0)
+        <div class="col col-12 col-md-6 p-2">
+            <div class="my-profile-picture">
+                @if (User.ProfileImageData.Length == 0)
                         {
-                            <img src="/images/profile-icon.jpg" alt="@User.UserName"/>
+                            <img src="/images/profile-icon.jpg" alt="@User.UserName" />
                         }
                         else
                         {
-                            <img src="@Image" alt="@User.ProfileImageTitle"/>
+                            <img src="@Image" alt="@User.ProfileImageTitle" />
                         }
                     </div>
                     <div class="info blue-label">
                         <div class="em-sub-title">Informations</div>
                         <div class="row col col-12">
                             <div class="col col-6 p-1">
-                                <MudDatePicker Class="w-100" @bind-Date="User.LastLogin" Editable="false" InputVariant="Variant.Outlined" Label="Last Login" DateFormat="yyyy-MM-dd HH:mm:ss" Disabled="true"/>
+                                <MudDatePicker Class="w-100" @bind-Date="User.LastLogin" Editable="false"
+                            InputVariant="Variant.Outlined" Label="Last Login" DateFormat="yyyy-MM-dd HH:mm:ss"
+                            Disabled="true" />
                             </div>
                             <div class="col col-6 p-1">
-                                <MudDatePicker Class="w-100" @bind-Date="User.RegistrationDate" Editable="false" InputVariant="Variant.Outlined" Label="Registration Date" DateFormat="yyyy-MM-dd HH:mm:ss" Disabled="true"/>
+                                <MudDatePicker Class="w-100" @bind-Date="User.RegistrationDate" Editable="false"
+                            InputVariant="Variant.Outlined" Label="Registration Date" DateFormat="yyyy-MM-dd HH:mm:ss"
+                            Disabled="true" />
                             </div>
                         </div>
                         <div class="col col-12 p-1">
-                            <MudTextField @bind-Value="Roles" Label="Roles" FullWidth="true" Disabled="true" Variant="Variant.Outlined"/>
+                            <MudTextField @bind-Value="Roles" Label="Roles" FullWidth="true" Disabled="true"
+                        Variant="Variant.Outlined" />
                         </div>
                     </div>
                 </div>
@@ -46,31 +51,36 @@
                     <div class="settings blue-label">
 
                         <EditForm Model="UserUpdate" OnValidSubmit="UpdateUser">
-                            <DataAnnotationsValidator/>
+                            <DataAnnotationsValidator />
                             <div class="em-sub-title">Settings</div>
                             <div class="row col col-12">
                                 <div class="col col-6 p-1">
-                                    <MudTextField @bind-Value="UserUpdate.FullName" Label="Full Name" FullWidth="true" Variant="Variant.Outlined"/>
-                                    <ValidationMessage For="() => UserUpdate.FullName"/>
+                                    <MudTextField @bind-Value="UserUpdate.FullName" Label="Full Name" FullWidth="true"
+                                Variant="Variant.Outlined" />
+                                    <ValidationMessage For="() => UserUpdate.FullName" />
                                 </div>
                                 <div class="col col-6 p-1">
-                                    <MudDatePicker Class="w-100" @bind-Date="UserUpdate.BirthDay" InputVariant="Variant.Outlined" Label="Birthday" DateFormat="yyyy-MM-dd"/>
-                                    <ValidationMessage For="() => UserUpdate.BirthDay"/>
+                                    <MudDatePicker Class="w-100" @bind-Date="UserUpdate.BirthDay"
+                                InputVariant="Variant.Outlined" Label="Birthday" DateFormat="yyyy-MM-dd" />
+                                    <ValidationMessage For="() => UserUpdate.BirthDay" />
                                 </div>
                             </div>
                             <div class="col col-12 p-1">
-                                <MudTextField InputType="InputType.Email" @bind-Value="UserUpdate.Email" Label="E-mail" FullWidth="true" Variant="Variant.Outlined"/>
-                                <ValidationMessage For="() => UserUpdate.Email"/>
+                                <MudTextField InputType="InputType.Email" @bind-Value="UserUpdate.Email" Label="E-mail"
+                            FullWidth="true" Variant="Variant.Outlined" />
+                                <ValidationMessage For="() => UserUpdate.Email" />
                             </div>
                             <div class="row col col-12">
                                 <div class="col col-6 p-1">
-                                    <MudTextField @bind-Value="UserUpdate.PhoneNumber" Label="Phone Number" FullWidth="true" Variant="Variant.Outlined"/>
-                                    <ValidationMessage For="() => UserUpdate.PhoneNumber"/>
+                                    <MudTextField @bind-Value="UserUpdate.PhoneNumber" Label="Phone Number" FullWidth="true"
+                                Variant="Variant.Outlined" />
+                                    <ValidationMessage For="() => UserUpdate.PhoneNumber" />
                                 </div>
                                 @if (Genders != null)
                                 {
                                     <div class="col col-6 p-1">
-                                        <MudSelect T="int?" @bind-Value="UserUpdate.GenderId" Label="Gender" FullWidth="true" Variant="Variant.Outlined">
+                                        <MudSelect T="int?" @bind-Value="UserUpdate.GenderId" Label="Gender" FullWidth="true"
+                                Variant="Variant.Outlined">
                                             <MudSelectItem T="int?" Value="null">-</MudSelectItem>
                                             @foreach (var i in Genders)
                                             {
@@ -81,35 +91,42 @@
                                 }
                             </div>
                             <div class="col col-12 p-1">
-                                <MudTextField InputType="InputType.Email" @bind-Value="UserUpdate.SecondaryEmail" Label="Secondary E-mail" FullWidth="true" Variant="Variant.Outlined"/>
-                                <ValidationMessage For="() => UserUpdate.SecondaryEmail"/>
+                                <MudTextField InputType="InputType.Email" @bind-Value="UserUpdate.SecondaryEmail"
+                            Label="Secondary E-mail" FullWidth="true" Variant="Variant.Outlined" />
+                                <ValidationMessage For="() => UserUpdate.SecondaryEmail" />
                             </div>
                             <div class="row col col-12">
                                 <div class="col col-6 p-1">
-                                    <MudTextField @bind-Value="UserUpdate.TShirtSize" Label="TShirt Size" FullWidth="true" Variant="Variant.Outlined"/>
-                                    <ValidationMessage For="() => UserUpdate.TShirtSize"/>
+                                    <MudTextField @bind-Value="UserUpdate.TShirtSize" Label="TShirt Size" FullWidth="true"
+                                Variant="Variant.Outlined" />
+                                    <ValidationMessage For="() => UserUpdate.TShirtSize" />
                                 </div>
                                 <div class="col col-6 p-1">
-                                    <MudTextField @bind-Value="UserUpdate.Group" Label="Group" FullWidth="true" Variant="Variant.Outlined"/>
-                                    <ValidationMessage For="() => UserUpdate.Group"/>
+                                    <MudTextField @bind-Value="UserUpdate.Group" Label="Group" FullWidth="true"
+                                Variant="Variant.Outlined" />
+                                    <ValidationMessage For="() => UserUpdate.Group" />
                                 </div>
                             </div>
                             <div class="col col-12 p-1">
-                                <MudTextField @bind-Value="UserUpdate.Allergy" Label="Allergy" FullWidth="true" Variant="Variant.Outlined" Lines="3"/>
-                                <ValidationMessage For="() => UserUpdate.Allergy"/>
+                                <MudTextField @bind-Value="UserUpdate.Allergy" Label="Allergy" FullWidth="true"
+                            Variant="Variant.Outlined" Lines="3" />
+                                <ValidationMessage For="() => UserUpdate.Allergy" />
                             </div>
                             <div class="row col col-12">
                                 <div class="col col-6 p-1">
-                                    <MudTextField @bind-Value="UserUpdate.Country" Label="Country" FullWidth="true" Variant="Variant.Outlined"/>
-                                    <ValidationMessage For="() => UserUpdate.Country"/>
+                                    <MudTextField @bind-Value="UserUpdate.Country" Label="Country" FullWidth="true"
+                                Variant="Variant.Outlined" />
+                                    <ValidationMessage For="() => UserUpdate.Country" />
                                 </div>
                                 <div class="col col-6 p-1">
-                                    <MudTextField @bind-Value="UserUpdate.City" Label="City" FullWidth="true" Variant="Variant.Outlined"/>
-                                    <ValidationMessage For="() => UserUpdate.City"/>
+                                    <MudTextField @bind-Value="UserUpdate.City" Label="City" FullWidth="true"
+                                Variant="Variant.Outlined" />
+                                    <ValidationMessage For="() => UserUpdate.City" />
                                 </div>
                             </div>
-                            <div class="text-right">
-                                <MudButton Variant="Variant.Filled" ButtonType="ButtonType.Submit" Color="Color.Primary">Save Settings</MudButton>
+                            <div class="text-right pt-3 pr-3 pb-1">
+                                <MudButton Variant="Variant.Filled" ButtonType="ButtonType.Submit" Color="Color.Primary">Save
+                                    Settings</MudButton>
                             </div>
                         </EditForm>
                     </div>
@@ -119,22 +136,26 @@
                         <div class="row col col-12">
                             <div class="col col-12 col-sm-12 col-md-6">
                                 <div class="text-center">
-                                    <MudButton Variant="Variant.Text" Color="Color.Primary" OnClick="OpenChangePasswordDialog">Change Password</MudButton>
+                                    <MudButton Variant="Variant.Text" Color="Color.Primary" OnClick="OpenChangePasswordDialog">
+                                        Change Password</MudButton>
                                 </div>
                             </div>
                             <div class="col col-12 col-sm-12 col-md-6">
                                 <div class="text-center">
-                                    <MudButton Variant="Variant.Text" Color="Color.Primary" OnClick="OpenUploadProfileImageDialog">Change Profile Image</MudButton>
+                                    <MudButton Variant="Variant.Text" Color="Color.Primary"
+                                OnClick="OpenUploadProfileImageDialog">Change Profile Image</MudButton>
                                 </div>
                             </div>
                             <div class="col col-12 col-sm-12 col-md-6">
                                 <div class="text-center">
-                                    <MudButton Variant="Variant.Text" Color="Color.Primary" OnClick="OpenChangeUsernameDialog">Change Username</MudButton>
+                                    <MudButton Variant="Variant.Text" Color="Color.Primary" OnClick="OpenChangeUsernameDialog">
+                                        Change Username</MudButton>
                                 </div>
                             </div>
                             <div class="col col-12 col-sm-12 col-md-6">
                                 <div class="text-center danger">
-                                    <MudButton Variant="Variant.Text" Color="Color.Primary" OnClick="OpenUserDisableConfirmDialog">Disable User</MudButton>
+                                    <MudButton Variant="Variant.Text" Color="Color.Primary"
+                                OnClick="OpenUserDisableConfirmDialog">Disable User</MudButton>
                                 </div>
                             </div>
                         </div>

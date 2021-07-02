@@ -8,8 +8,8 @@
         <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End" />
     </MudAppBar>
     <MainNavigator IsOpen="_drawerOpen" />
-    <MudMainContent Class="d-flex flex-column flex-grow-1 h-100">
-        <MudPaper Class="m-2 p-3 em-light-box d-flex flex-grow-1">
+    <MudMainContent Class="d-flex flex-column flex-grow-1 h-100 overflow-hidden">
+        <MudPaper Class="m-2 p-3 em-light-box d-flex flex-grow-1 overflow-auto">
             @Body
         </MudPaper>
     </MudMainContent>

@@ -1,13 +1,15 @@
-@import url("../css/open-iconic/font/css/open-iconic-bootstrap.min.css");
+@import url('../css/open-iconic/font/css/open-iconic-bootstrap.min.css');
 /* General body settings */
-html, body {
-  font-family: "Bree Serif", serif;
+html,
+body {
+  font-family: 'Bree Serif', serif;
   height: 100%;
 }
 
 body {
   margin: 0;
-  background: linear-gradient(60deg, #ffb2b6 0%, #e2c2ff 50%, #ad99ff 100%) fixed;
+  background: linear-gradient(60deg, #ffb2b6 0%, #e2c2ff 50%, #ad99ff 100%)
+    fixed;
   display: flex;
 }
 
@@ -16,15 +18,15 @@ app {
 }
 
 * {
-  font-family: "Bree Serif", serif !important;
+  font-family: 'Bree Serif', serif !important;
 }
 
 .material-icon {
-  font-family: "Material Icons", serif !important;
+  font-family: 'Material Icons', serif !important;
 }
 
 .material-icons {
-  font-family: "Material Icons", serif !important;
+  font-family: 'Material Icons', serif !important;
 }
 
 .oi {
@@ -32,7 +34,8 @@ app {
 }
 
 /* General styles */
-.row, .col {
+.row,
+.col {
   padding: 0;
 }
 
@@ -341,6 +344,14 @@ app {
 .blue-label .mud-input-label {
   background-color: rgba(187, 187, 255, 0.4) !important;
   opacity: 1 !important;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.overflow-auto {
+  overflow: auto;
 }
 
 /*# sourceMappingURL=site.css.map */
