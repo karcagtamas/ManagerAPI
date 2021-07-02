@@ -8,15 +8,22 @@ using System.Threading.Tasks;
 
 namespace EventManager.Client.Services
 {
+    /// <inheritdoc />
     public class MovieService : HttpCall<MovieListDto, MovieDto, MovieModel>, IMovieService
     {
         private readonly IHelperService _helperService;
 
+        /// <summary>
+        /// Init Movie Service
+        /// </summary>
+        /// <param name="helperService">Helper Service</param>
+        /// <param name="httpService">HTTP Service</param>
         public MovieService(IHelperService helperService, IHttpService httpService) : base(httpService, $"{ApplicationSettings.BaseApiUrl}/movie", "Movies")
         {
             this._helperService = helperService;
         }
 
+        /// <inheritdoc />
         public async Task<bool> AddMovieToMyMovies(int id)
         {
             var pathParams = new HttpPathParameters();
@@ -28,6 +35,7 @@ namespace EventManager.Client.Services
             return await this.Http.Create<object>(settings, body);
         }
 
+        /// <inheritdoc />
         public async Task<List<MyMovieListDto>> GetMyList()
         {
             var settings = new HttpSettings($"{this.Url}/my");
@@ -35,6 +43,7 @@ namespace EventManager.Client.Services
             return await this.Http.Get<List<MyMovieListDto>>(settings);
         }
 
+        /// <inheritdoc />
         public async Task<MyMovieDto> GetMy(int id)
         {
             var pathParams = new HttpPathParameters();
@@ -45,6 +54,7 @@ namespace EventManager.Client.Services
             return await this.Http.Get<MyMovieDto>(settings);
         }
 
+        /// <inheritdoc />
         public async Task<bool> RemoveMovieFromMyMovies(int id)
         {
             var pathParams = new HttpPathParameters();
@@ -54,6 +64,7 @@ namespace EventManager.Client.Services
             return await this.Http.Delete(settings);
         }
 
+        /// <inheritdoc />
         public async Task<List<MyMovieSelectorListDto>> GetMySelectorList(bool onlyMine)
         {
             var queryParams = new HttpQueryParameters();
@@ -64,6 +75,7 @@ namespace EventManager.Client.Services
             return await this.Http.Get<List<MyMovieSelectorListDto>>(settings);
         }
 
+        /// <inheritdoc />
         public async Task<bool> UpdateImage(int id, MovieImageModel model)
         {
             var pathParams = new HttpPathParameters();
@@ -76,6 +88,7 @@ namespace EventManager.Client.Services
             return await this.Http.Update<MovieImageModel>(settings, body);
         }
 
+        /// <inheritdoc />
         public async Task<bool> UpdateCategories(int id, MovieCategoryUpdateModel model)
         {
             var pathParams = new HttpPathParameters();
@@ -88,6 +101,7 @@ namespace EventManager.Client.Services
             return await this.Http.Update<MovieCategoryUpdateModel>(settings, body);
         }
 
+        /// <inheritdoc />
         public async Task<bool> UpdateRate(int id, MovieRateModel model)
         {
             var pathParams = new HttpPathParameters();
@@ -100,6 +114,7 @@ namespace EventManager.Client.Services
             return await this.Http.Update<MovieRateModel>(settings, body);
         }
 
+        /// <inheritdoc />
         public async Task<bool> UpdateMyMovies(MyMovieModel model)
         {
             var settings = new HttpSettings($"{this.Url}/map", null, null, "My Movies updating");
@@ -109,6 +124,7 @@ namespace EventManager.Client.Services
             return await this.Http.Update<MyMovieModel>(settings, body);
         }
 
+        /// <inheritdoc />
         public async Task<bool> UpdateSeenStatuses(List<MovieSeenUpdateModel> models)
         {
             var settings = new HttpSettings($"{this.Url}/map/status", null, null, "My Movie seen status updating");

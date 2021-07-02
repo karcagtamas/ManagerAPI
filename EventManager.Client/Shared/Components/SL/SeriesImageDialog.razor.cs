@@ -24,7 +24,6 @@ namespace EventManager.Client.Shared.Components.SL
         public int SeriesId { get; set; }
 
         [Inject] private ISeriesService SeriesService { get; set; }
-        [Inject] private IModalService ModalService { get; set; }
         [Inject] private ISnackbar Toaster { get; set; }
 
         private IBrowserFile File { get; set; }

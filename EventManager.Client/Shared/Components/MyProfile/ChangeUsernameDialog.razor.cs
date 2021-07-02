@@ -16,9 +16,6 @@ namespace EventManager.Client.Shared.Components.MyProfile
         [Inject]
         private IUserService UserService { get; set; }
 
-        [Inject]
-        private IModalService ModalService { get; set; }
-
         private UsernameUpdateModel UsernameUpdate { get; set; }
 
         private EditContext Context { get; set; }
@@ -42,7 +39,7 @@ namespace EventManager.Client.Shared.Components.MyProfile
             {
                 Dialog.Close(DialogResult.Ok(true));
             }
-            
+
         }
 
         private void Cancel()

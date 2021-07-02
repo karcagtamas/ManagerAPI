@@ -30,9 +30,6 @@ namespace EventManager.Client.Pages.Profiles
         [Inject]
         private IGenderService GenderService { get; set; }
 
-        [Inject]
-        private IModalService Modal { get; set; }
-        
         [Inject] private IDialogService DialogService { get; set; }
 
         private UserDto User { get; set; }
@@ -108,7 +105,7 @@ namespace EventManager.Client.Pages.Profiles
         private async void OpenChangePasswordDialog()
         {
             var parameters = new DialogParameters();
-            var dialog = DialogService.Show<ChangePasswordDialog>("Change Password", parameters, new DialogOptions {MaxWidth = MaxWidth.ExtraSmall, FullWidth = true});
+            var dialog = DialogService.Show<ChangePasswordDialog>("Change Password", parameters, new DialogOptions { MaxWidth = MaxWidth.ExtraSmall, FullWidth = true });
             var result = await dialog.Result;
 
             if (!result.Cancelled)
@@ -120,7 +117,7 @@ namespace EventManager.Client.Pages.Profiles
         private async void OpenUploadProfileImageDialog()
         {
             var parameters = new DialogParameters();
-            var dialog = DialogService.Show<UploadProfileImageDialog>("Profile Image Upload", parameters, new DialogOptions {MaxWidth = MaxWidth.ExtraSmall, FullWidth = true});
+            var dialog = DialogService.Show<UploadProfileImageDialog>("Profile Image Upload", parameters, new DialogOptions { MaxWidth = MaxWidth.ExtraSmall, FullWidth = true });
             var result = await dialog.Result;
 
             if (!result.Cancelled)
@@ -132,7 +129,7 @@ namespace EventManager.Client.Pages.Profiles
         private async void OpenChangeUsernameDialog()
         {
             var parameters = new DialogParameters();
-            var dialog = DialogService.Show<ChangeUsernameDialog>("Change Username", parameters, new DialogOptions {MaxWidth = MaxWidth.ExtraSmall, FullWidth = true});
+            var dialog = DialogService.Show<ChangeUsernameDialog>("Change Username", parameters, new DialogOptions { MaxWidth = MaxWidth.ExtraSmall, FullWidth = true });
             var result = await dialog.Result;
 
             if (!result.Cancelled)

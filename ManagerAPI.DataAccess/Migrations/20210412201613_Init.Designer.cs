@@ -12,6 +12,7 @@ namespace ManagerAPI.DataAccess.Migrations
     [Migration("20210412201613_Init")]
     partial class Init
     {
+        /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618

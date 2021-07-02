@@ -8,12 +8,19 @@ using System.Threading.Tasks;
 
 namespace EventManager.Client.Services
 {
+    /// <inheritdoc />
     public class SeriesService : HttpCall<SeriesListDto, SeriesDto, SeriesModel>, ISeriesService
     {
+        /// <summary>
+        /// Init Series Service
+        /// </summary>
+        /// <param name="httpService">HTTP Service</param>
+        /// <returns></returns>
         public SeriesService(IHttpService httpService) : base(httpService, $"{ApplicationSettings.BaseApiUrl}/series", "Series")
         {
         }
 
+        /// <inheritdoc />
         public async Task<bool> AddSeriesToMySeries(int id)
         {
             var pathParams = new HttpPathParameters();
@@ -25,6 +32,7 @@ namespace EventManager.Client.Services
             return await this.Http.Create<object>(settings, body);
         }
 
+        /// <inheritdoc />
         public async Task<MySeriesDto> GetMy(int id)
         {
             var pathParams = new HttpPathParameters();
@@ -35,6 +43,7 @@ namespace EventManager.Client.Services
             return await this.Http.Get<MySeriesDto>(settings);
         }
 
+        /// <inheritdoc />
         public async Task<List<MySeriesListDto>> GetMyList()
         {
             var settings = new HttpSettings($"{this.Url}/my");
@@ -42,6 +51,7 @@ namespace EventManager.Client.Services
             return await this.Http.Get<List<MySeriesListDto>>(settings);
         }
 
+        /// <inheritdoc />
         public async Task<List<MySeriesSelectorListDto>> GetMySelectorList(bool onlyMine)
         {
             var queryParams = new HttpQueryParameters();
@@ -52,6 +62,7 @@ namespace EventManager.Client.Services
             return await this.Http.Get<List<MySeriesSelectorListDto>>(settings);
         }
 
+        /// <inheritdoc />
         public async Task<bool> UpdateImage(int id, SeriesImageModel model)
         {
             var pathParams = new HttpPathParameters();
@@ -64,6 +75,7 @@ namespace EventManager.Client.Services
             return await this.Http.Update<SeriesImageModel>(settings, body);
         }
 
+        /// <inheritdoc />
         public async Task<bool> UpdateCategories(int id, SeriesCategoryUpdateModel model)
         {
             var pathParams = new HttpPathParameters();
@@ -76,6 +88,7 @@ namespace EventManager.Client.Services
             return await this.Http.Update<SeriesCategoryUpdateModel>(settings, body);
         }
 
+        /// <inheritdoc />
         public async Task<bool> UpdateRate(int id, SeriesRateModel model)
         {
             var pathParams = new HttpPathParameters();
@@ -88,6 +101,7 @@ namespace EventManager.Client.Services
             return await this.Http.Update<SeriesRateModel>(settings, body);
         }
 
+        /// <inheritdoc />
         public async Task<bool> RemoveSeriesFromMySeries(int id)
         {
             var pathParams = new HttpPathParameters();
@@ -97,6 +111,7 @@ namespace EventManager.Client.Services
             return await this.Http.Delete(settings);
         }
 
+        /// <inheritdoc />
         public async Task<bool> UpdateMySeries(MySeriesModel model)
         {
             var settings = new HttpSettings($"{this.Url}/map", null, null, "My Series updating");
@@ -106,6 +121,7 @@ namespace EventManager.Client.Services
             return await this.Http.Update<MySeriesModel>(settings, body);
         }
 
+        /// <inheritdoc />
         public async Task<bool> UpdateSeenStatus(SeriesSeenStatusModel model)
         {
             var settings = new HttpSettings($"{this.Url}/map/status", null, null, "My Series seen status updating");

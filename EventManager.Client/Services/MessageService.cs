@@ -8,15 +8,23 @@ using System.Threading.Tasks;
 
 namespace EventManager.Client.Services
 {
+    /// <inheritdoc />
     public class MessageService : HttpCall<MessageListDto, MessageDto, MessageModel>, IMessageService
     {
         private readonly IHelperService _helperService;
 
+        /// <summary>
+        /// Init Message Service
+        /// </summary>
+        /// <param name="httpService">HTTP Service</param>
+        /// <param name="helperService">Helper Service</param>
+        /// <returns></returns>
         public MessageService(IHttpService httpService, IHelperService helperService) : base(httpService, $"{ApplicationSettings.BaseApiUrl}/message", "Message")
         {
             this._helperService = helperService;
         }
 
+        /// <inheritdoc />
         public async Task<List<MessageDto>> GetMessages(int friendId)
         {
             var pathParams = new HttpPathParameters();
@@ -27,6 +35,7 @@ namespace EventManager.Client.Services
             return await this.Http.Get<List<MessageDto>>(settings);
         }
 
+        /// <inheritdoc />
         public async Task<bool> SendMessage(MessageModel model)
         {
             var settings = new HttpSettings($"{this.Url}/send", null, null, "Message sending");

@@ -9,12 +9,18 @@ using System.Threading.Tasks;
 
 namespace EventManager.Client.Services
 {
+    /// <inheritdoc />
     public class WorkingDayService : HttpCall<WorkingDayListDto, WorkingDayDto, WorkingDayModel>, IWorkingDayService
     {
+        /// <summary>
+        /// Init Working day Service
+        /// </summary>
+        /// <param name="http">HTTP Service</param>
         public WorkingDayService(IHttpService http) : base(http, $"{ApplicationSettings.BaseApiUrl}/working-day", "Working day")
         {
         }
 
+        /// <inheritdoc />
         public async Task<WorkingDayListDto> Get(DateTime day)
         {
             var pathParams = new HttpPathParameters();
@@ -25,6 +31,7 @@ namespace EventManager.Client.Services
             return await this.Http.Get<WorkingDayListDto>(settings);
         }
 
+        /// <inheritdoc />
         public async Task<WorkingDayStatDto> Stat(int id)
         {
             var pathParams = new HttpPathParameters();

@@ -8,12 +8,19 @@ using System.Threading.Tasks;
 
 namespace EventManager.Client.Services
 {
+    /// <inheritdoc />
     public class EpisodeService : HttpCall<EpisodeListDto, EpisodeDto, EpisodeModel>, IEpisodeService
     {
+
+        /// <summary>
+        /// Init Episode Service
+        /// </summary>
+        /// <param name="httpService">HTTP Service</param>
         public EpisodeService(IHttpService httpService) : base(httpService, $"{ApplicationSettings.BaseApiUrl}/episode", "Episode")
         {
         }
 
+        /// <inheritdoc />
         public async Task<bool> UpdateSeenStatus(List<EpisodeSeenStatusModel> models)
         {
             var settings = new HttpSettings($"{this.Url}/map/status", null, null, "My Episode seen status updating");
@@ -23,6 +30,7 @@ namespace EventManager.Client.Services
             return await this.Http.Update<List<EpisodeSeenStatusModel>>(settings, body);
         }
 
+        /// <inheritdoc />
         public async Task<bool> AddIncremented(int seasonId)
         {
             var pathParams = new HttpPathParameters();
@@ -35,6 +43,7 @@ namespace EventManager.Client.Services
             return await this.Http.Create<object>(settings, body);
         }
 
+        /// <inheritdoc />
         public async Task<bool> DeleteDecremented(int episodeId)
         {
             var pathParams = new HttpPathParameters();
@@ -45,6 +54,7 @@ namespace EventManager.Client.Services
             return await this.Http.Delete(settings);
         }
 
+        /// <inheritdoc />
         public async Task<MyEpisodeDto> GetMy(int id)
         {
             var pathParams = new HttpPathParameters();
@@ -55,6 +65,7 @@ namespace EventManager.Client.Services
             return await this.Http.Get<MyEpisodeDto>(settings);
         }
 
+        /// <inheritdoc />
         public async Task<bool> UpdateShort(int id, EpisodeShortModel model)
         {
             var pathParams = new HttpPathParameters();
@@ -67,6 +78,7 @@ namespace EventManager.Client.Services
             return await this.Http.Update<EpisodeShortModel>(settings, body);
         }
 
+        /// <inheritdoc />
         public async Task<bool> UpdateImage(int id, EpisodeImageModel model)
         {
             var pathParams = new HttpPathParameters();

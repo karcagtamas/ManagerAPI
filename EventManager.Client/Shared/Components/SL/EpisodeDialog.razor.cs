@@ -1,6 +1,4 @@
-﻿using EventManager.Client.Models;
-using EventManager.Client.Services;
-using EventManager.Client.Services.Interfaces;
+﻿using EventManager.Client.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.SL;
 using ManagerAPI.Shared.Models.SL;
 using Microsoft.AspNetCore.Components;
@@ -25,8 +23,6 @@ namespace EventManager.Client.Shared.Components.SL
 
         [Inject] private IEpisodeService EpisodeService { get; set; }
 
-        [Inject] private IModalService ModalService { get; set; }
-
         private EpisodeShortModel Model { get; set; }
         private EditContext Context { get; set; }
         private bool IsEdit { get; set; }
@@ -48,19 +44,6 @@ namespace EventManager.Client.Shared.Components.SL
                 this.Model = new EpisodeShortModel(this.Episode);
                 this.IsEdit = true;
                 this.Context = new EditContext(this.Model);
-            }
-        }
-
-        private async void OnConfirm()
-        {
-            bool isValid = this.Context.Validate();
-            if (this.IsEdit)
-            {
-                if (isValid && await this.EpisodeService.UpdateShort((int)this.EpisodeId, this.Model))
-                {
-                    this.ModalService.Close(ModalResult.Ok(true));
-                    ((ModalService)this.ModalService).OnConfirm -= this.OnConfirm;
-                }
             }
         }
 

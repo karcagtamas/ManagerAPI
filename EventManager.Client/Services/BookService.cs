@@ -8,12 +8,18 @@ using System.Threading.Tasks;
 
 namespace EventManager.Client.Services
 {
+    /// <inheritdoc />
     public class BookService : HttpCall<BookListDto, BookDto, BookModel>, IBookService
     {
+        /// <summary>
+        /// Init Book Service
+        /// </summary>
+        /// <param name="httpService">HTTP Service</param>
         public BookService(IHttpService httpService) : base(httpService, $"{ApplicationSettings.BaseApiUrl}/book", "Book")
         {
         }
 
+        /// <inheritdoc />
         public async Task<bool> AddBookToMyBooks(int id)
         {
             var pathParams = new HttpPathParameters();
@@ -25,6 +31,7 @@ namespace EventManager.Client.Services
             return await this.Http.Create<object>(settings, body);
         }
 
+        /// <inheritdoc />
         public async Task<List<MyBookListDto>> GetMyList()
         {
             var settings = new HttpSettings($"{this.Url}/my");
@@ -32,6 +39,7 @@ namespace EventManager.Client.Services
             return await this.Http.Get<List<MyBookListDto>>(settings);
         }
 
+        /// <inheritdoc />
         public async Task<MyBookDto> GetMy(int id)
         {
             var pathParams = new HttpPathParameters();
@@ -42,6 +50,7 @@ namespace EventManager.Client.Services
             return await this.Http.Get<MyBookDto>(settings);
         }
 
+        /// <inheritdoc />
         public async Task<bool> RemoveBookFromMyBooks(int id)
         {
             var pathParams = new HttpPathParameters();
@@ -51,6 +60,7 @@ namespace EventManager.Client.Services
             return await this.Http.Delete(settings);
         }
 
+        /// <inheritdoc />
         public async Task<List<MyBookSelectorListDto>> GetMySelectorList(bool onlyMine)
         {
             var queryParams = new HttpQueryParameters();
@@ -61,6 +71,7 @@ namespace EventManager.Client.Services
             return await this.Http.Get<List<MyBookSelectorListDto>>(settings);
         }
 
+        /// <inheritdoc />
         public async Task<bool> UpdateMyBooks(MyBookModel model)
         {
             var settings = new HttpSettings($"{this.Url}/map", null, null, "My Books updating");
@@ -70,6 +81,7 @@ namespace EventManager.Client.Services
             return await this.Http.Update<MyBookModel>(settings, body);
         }
 
+        /// <inheritdoc />
         public async Task<bool> UpdateReadStatuses(List<BookReadStatusModel> models)
         {
             var settings = new HttpSettings($"{this.Url}/map/status", null, null, "My Book read status updating");

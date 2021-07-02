@@ -1,5 +1,4 @@
 ﻿using EventManager.Client.Enums;
-using EventManager.Client.Models;
 using EventManager.Client.Services.Interfaces;
 using EventManager.Client.Shared.Common;
 using ManagerAPI.Shared.DTOs.CSM;
@@ -9,6 +8,7 @@ using MatBlazor;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
+using MudBlazor;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -34,7 +34,7 @@ namespace EventManager.Client.Pages.CSM
 
         [Inject]
         private NavigationManager NavigationManager { get; set; }
-        [Inject] private IModalService Modal { get; set; }
+        [Inject] private IDialogService DialogService { get; set; }
 
         [Inject]
         private IJSRuntime JSRuntime { get; set; }
@@ -279,29 +279,35 @@ namespace EventManager.Client.Pages.CSM
             this.Context.OnFieldChanged -= this.OnFieldChanged;
         }
 
-        private void OpenConfirmDialog(bool status)
+        private async void OpenConfirmDialog(bool status)
         {
-            var parameters = new ModalParameters();
-            parameters.Add("FormId", 1);
-            parameters.Add("type", status ? ConfirmType.Publish : ConfirmType.Hide);
-            parameters.Add("name", this.Model.Title);
+            var parameters = new DialogParameters {{"Input", new ConfirmDialogInput {
+                Name = Model.Title,
+                Action = status ? ConfirmType.Publish : ConfirmType.Hide,
+                DeleteFunction = async () => await ConfirmAction()
+            }}};
 
-            var options =
-                new ModalOptions(new ModalButtonOptions(true, true, CancelButton.Cancel, ConfirmButton.Confirm));
+            var dialog = DialogService.Show<ConfirmDialog>(status ? "Confirm Publish" : "Confirm Hide", parameters);
+            var result = await dialog.Result;
 
-            this.Modal.OnClose += this.ConfirmDialogClosed;
-            this.Modal.Show<Confirm>(status ? "Confirm Publish" : "Confirm Hide", parameters, options);
-        }
-
-        private async void ConfirmDialogClosed(ModalResult modalResult)
-        {
-            if (!modalResult.Cancelled && (bool)modalResult.Data && this.Settings != null && this.Settings.IsPublic != null && await this.GeneratorService.ChangePublicStatus((int)this.Id, new GeneratorPublishModel { Status = !(bool)this.Settings.IsPublic }))
+            if (!result.Cancelled)
             {
                 this.Settings.IsPublic = !(bool)this.Settings.IsPublic;
                 this.StateHasChanged();
             }
+        }
 
-            this.Modal.OnClose -= this.ConfirmDialogClosed;
+        private async Task<bool> ConfirmAction()
+        {
+            if (Settings != null && Settings.IsPublic != null)
+            {
+                return await this.GeneratorService.ChangePublicStatus((int)Id, new GeneratorPublishModel
+                {
+                    Status = !(bool)this.Settings.IsPublic
+                });
+            }
+
+            return false;
         }
 
         private bool CheckRole(params CsomorRole[] roles)
