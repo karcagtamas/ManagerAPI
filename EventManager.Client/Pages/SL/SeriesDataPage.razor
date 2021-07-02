@@ -67,9 +67,9 @@
         </div>
         @if (Series != null)
         {
-            <MatTabGroup Class="tab-group">
-                <MatTab Label="Data">
-                    <div class="data">
+             <MudTabs Rounded="true" Centered="true" Class="tab-group">
+                  <MudTabPanel Text="Data">
+                      <div class="data">
                         <div class="data-rows">
                             <div class="data-row">
                                 <strong>Description: </strong> @WriteHelper.WriteEmptyableField(Series.Description)
@@ -132,9 +132,9 @@
                             </div>
                         </div>
                     </div>
-                </MatTab>
-                <MatTab Label="Seasons">
-                    <div class="seasons">
+                  </MudTabPanel>
+                  <MudTabPanel Text="Seasons">
+                      <div class="seasons">
                         @foreach (var season in Series.Seasons)
                         {
                             <div class="season">
@@ -224,8 +224,8 @@
                             }
                         </div>
                     </div>
-                </MatTab>
-                <MatTab Label="Comments">
+                </MudTabPanel>
+                <MudTabPanel Text="Comments">
                     <div class="comments">
                         <div class="comment-list">
                             @foreach (var comment in CommentList)
@@ -244,8 +244,8 @@
                             </div>
                         </div>
                     </div>
-                </MatTab>
-            </MatTabGroup>
+                </MudTabPanel>
+            </MudTabs>
         }
     }
 </div>

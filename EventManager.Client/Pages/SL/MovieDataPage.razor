@@ -66,8 +66,8 @@
         </div>
         @if (Movie != null)
         {
-            <MatTabGroup Class="tab-group">
-                <MatTab Label="Data">
+            <MudTabs Rounded="true" Centered="true" Class="tab-group">
+                <MudTabPanel Text="Data">
                     <div class="data">
                         <div class="data-rows">
                             <div class="data-row">
@@ -146,8 +146,8 @@
                             </div>
                         </div>
                     </div>
-                </MatTab>
-                <MatTab Label="Comments">
+                </MudTabPanel>
+                <MudTabPanel Text="Comments">
                     <div class="comments blue-label">
                         <div class="comment-list">
                             @foreach (var comment in CommentList)
@@ -166,8 +166,8 @@
                             </div>
                         </div>
                     </div>
-                </MatTab>
-            </MatTabGroup>
+                </MudTabPanel>
+            </MudTabs>
         }
     }
 </div>
