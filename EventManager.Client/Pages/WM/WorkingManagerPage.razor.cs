@@ -111,9 +111,12 @@ namespace EventManager.Client.Pages.WM
         {
             if (this.WorkingDayId != null)
             {
-                var parameters = new DialogParameters {{"WorkingDayId", (int)WorkingDayId}};
-
-                var dialog = DialogService.Show<FieldModal>("Create Working field", parameters);
+                var parameters = new DialogParameters { { "WorkingDayId", (int)WorkingDayId } };
+                var dialog = DialogService.Show<FieldModal>("Create Working field", parameters, new DialogOptions
+                {
+                    FullWidth = true,
+                    MaxWidth = MaxWidth.Small
+                });
                 var result = await dialog.Result;
 
                 if (!result.Cancelled)

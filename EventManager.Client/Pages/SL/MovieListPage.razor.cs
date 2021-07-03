@@ -58,7 +58,11 @@ namespace EventManager.Client.Pages.SL
         private async void OpenAddMovieDialog()
         {
             var parameters = new DialogParameters { { "MovieId", null } };
-            var dialog = DialogService.Show<MovieDialog>("Add Movie", parameters);
+            var dialog = DialogService.Show<MovieDialog>("Add Movie", parameters, new DialogOptions
+            {
+                FullWidth = true,
+                MaxWidth = MaxWidth.Medium
+            });
             var result = await dialog.Result;
 
             if (!result.Cancelled)

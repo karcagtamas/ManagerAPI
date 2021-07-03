@@ -52,7 +52,11 @@ namespace EventManager.Client.Pages.SL
         private async void OpenEditBookDialog()
         {
             var parameters = new DialogParameters { { "BookId", this.Id } };
-            var dialog = DialogService.Show<BookDialog>("Edit Book", parameters);
+            var dialog = DialogService.Show<BookDialog>("Edit Book", parameters, new DialogOptions
+            {
+                FullWidth = true,
+                MaxWidth = MaxWidth.Medium
+            });
             var result = await dialog.Result;
 
             if (!result.Cancelled)

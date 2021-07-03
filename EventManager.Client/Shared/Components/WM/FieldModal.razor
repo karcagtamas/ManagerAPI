@@ -4,15 +4,17 @@
             <EditForm EditContext="Context">
                 <DataAnnotationsValidator></DataAnnotationsValidator>
                 <div>
-                    <MudTextField @bind-Value="Model.Title" Label="Title" FullWidth="true" Variant="Variant.Outlined"/>
+                    <MudTextField @bind-Value="Model.Title" Label="Title" FullWidth="true" Variant="Variant.Outlined" />
                     <ValidationMessage For="() => Model.Title"></ValidationMessage>
                 </div>
                 <div>
-                    <MudTextField @bind-Value="Model.Description" Label="Description" FullWidth="true" Variant="Variant.Outlined" Lines="3"/>
+                    <MudTextField @bind-Value="Model.Description" Label="Description" FullWidth="true"
+                        Variant="Variant.Outlined" Lines="3" />
                     <ValidationMessage For="() => Model.Description"></ValidationMessage>
                 </div>
                 <div>
-                    <MudTextField @bind-Value="Model.Length" Label="Length" FullWidth="true" InputType="InputType.Number" Variant="Variant.Outlined"/>
+                    <MudNumericField @bind-Value="Model.Length" Label="Length" FullWidth="true"
+                        Variant="Variant.Outlined" Step="0.5M" Min="0.5M" />
                     <ValidationMessage For="() => Model.Length"></ValidationMessage>
                 </div>
             </EditForm>
@@ -20,10 +22,10 @@
     </DialogContent>
     <DialogActions>
         @if (Id != 0)
-        {
-            <div>
-                <MudButton OnClick="OpenDeleteDialog">Delete</MudButton>
-            </div>
+                {
+        <div>
+            <MudButton OnClick="OpenDeleteDialog" Color="Color.Error">Delete</MudButton>
+        </div>
         }
         <MudButton OnClick="Cancel">Cancel</MudButton>
         <MudButton Color="Color.Primary" OnClick="Save">Save</MudButton>

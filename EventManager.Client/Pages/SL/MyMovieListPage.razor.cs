@@ -54,7 +54,11 @@ namespace EventManager.Client.Pages.SL
         private async void OpenEditMyMoviesDialog()
         {
             var parameters = new DialogParameters();
-            var dialog = DialogService.Show<MovieSelectorDialog>("Edit My Movies", parameters);
+            var dialog = DialogService.Show<MovieSelectorDialog>("Edit My Movies", parameters, new DialogOptions
+            {
+                FullWidth = true,
+                MaxWidth = MaxWidth.Small
+            });
             var result = await dialog.Result;
 
             if (!result.Cancelled)
@@ -66,7 +70,11 @@ namespace EventManager.Client.Pages.SL
         private async void OpenEditSeenMoviesDialog()
         {
             var parameters = new DialogParameters();
-            var dialog = DialogService.Show<MovieSeenSelectorDialog>("Edit Seen Books", parameters);
+            var dialog = DialogService.Show<MovieSeenSelectorDialog>("Edit Seen Books", parameters, new DialogOptions
+            {
+                FullWidth = true,
+                MaxWidth = MaxWidth.Small
+            });
             var result = await dialog.Result;
 
             if (!result.Cancelled)

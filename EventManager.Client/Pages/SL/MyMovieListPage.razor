@@ -13,11 +13,11 @@
     {
         <div class="action-bar">
             <div>
-                <MudIconButton Icon="@Icons.Filled.Edit" OnClick="OpenEditMyMoviesDialog" />
+                <MudIconButton Icon="@Icons.Filled.Edit" OnClick="OpenEditMyMoviesDialog" Color="Color.Primary" />
             </div>
             <span class="spacer"></span>
             <div>
-                <MudButton OnClick="OpenEditSeenMoviesDialog">Edit Seen Movies</MudButton>
+                <MudButton OnClick="OpenEditSeenMoviesDialog" Color="Color.Primary">Edit Seen Movies</MudButton>
             </div>
         </div>
         @if (MovieList != null && MovieList.Count > 0)

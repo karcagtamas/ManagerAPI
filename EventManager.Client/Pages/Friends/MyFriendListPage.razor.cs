@@ -67,7 +67,11 @@ namespace EventManager.Client.Pages.Friends
         {
             var parameters = new DialogParameters();
 
-            var dialog = this.DialogService.Show<FriendRequestDialog>("Friend request", parameters);
+            var dialog = this.DialogService.Show<FriendRequestDialog>("Friend request", parameters, new DialogOptions
+            {
+                FullWidth = true,
+                MaxWidth = MaxWidth.Small
+            });
             var result = await dialog.Result;
 
             if (!result.Cancelled)
@@ -78,9 +82,13 @@ namespace EventManager.Client.Pages.Friends
 
         private async void OpenFriendDataModal(string friendId)
         {
-            var parameters = new DialogParameters {{"FriendId", friendId}};
+            var parameters = new DialogParameters { { "FriendId", friendId } };
 
-            var dialog = this.DialogService.Show<FriendData>("Friend data", parameters);
+            var dialog = this.DialogService.Show<FriendData>("Friend data", parameters, new DialogOptions
+            {
+                FullWidth = true,
+                MaxWidth = MaxWidth.Small
+            });
             var result = await dialog.Result;
 
             if (!result.Cancelled)

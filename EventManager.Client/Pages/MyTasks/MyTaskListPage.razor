@@ -7,15 +7,17 @@
     <h1 class="em-page-title">My Tasks</h1>
     <div class="action-bar">
         <div>
-            <MudIconButton Icon="@Icons.Filled.Add" OnClick="OpenAddTaskModal" />
+            <MudIconButton Icon="@Icons.Filled.Add" OnClick="OpenAddTaskModal" Color="Color.Primary" />
         </div>
         <span class="spacer"></span>
-        <MudSelect T="bool?" Value="IsSolvedSelectorValue" Label="Is solved" Variant="Variant.Outlined"
-            ValueChanged="IsSolvedSelectorValueChanged">
-            <MudSelectItem T="bool?" Value="null">-</MudSelectItem>
-            <MudSelectItem T="bool?" Value="true">Only solved</MudSelectItem>
-            <MudSelectItem T="bool?" Value="false">Not only solved</MudSelectItem>
-        </MudSelect>
+        <div>
+            <MudSelect T="bool?" Value="IsSolvedSelectorValue" Label="Is solved" Variant="Variant.Outlined"
+                ValueChanged="IsSolvedSelectorValueChanged">
+                <MudSelectItem T="bool?" Value="null">-</MudSelectItem>
+                <MudSelectItem T="bool?" Value="true">Only solved</MudSelectItem>
+                <MudSelectItem T="bool?" Value="false">Not only solved</MudSelectItem>
+            </MudSelect>
+        </div>
     </div>
 
     @if (IsLoading)
@@ -36,16 +38,16 @@
                             <div class="title">
                                 <span class="text">@task.Title</span>
                                 <span class="spacer"></span>
-                                <MudSwitch T="bool" Checked="@task.IsSolved"
-                    CheckedChanged="@(e => IsSolvedChanged(e, task.Id, group))" />
+                                <MudSwitch T="bool" Checked="@task.IsSolved" CheckedChanged="@(e => IsSolvedChanged(e, task.Id, group))"
+                    Color="Color.Primary" />
                             </div>
                             <div class="description">
                                 <div class="description-text">@task.Description</div>
                                 <div class="description-button">
                                     <div class="wrapper">
                                         <span class="spacer"></span>
-                                        <MudIconButton Icon="@Icons.Filled.Edit" OnClick="@(() => OpenUpdateTaskModal(task.Id))" />
-                                        <MudIconButton Icon="@Icons.Filled.Delete" OnClick="@(() => OpenDeleteModal(task))" />
+                                        <MudIconButton Icon="@Icons.Filled.Edit" OnClick="@(() => OpenUpdateTaskModal(task.Id))" Color="Color.Warning" />
+                                        <MudIconButton Icon="@Icons.Filled.Delete" OnClick="@(() => OpenDeleteModal(task))" Color="Color.Error" />
                                     </div>
                                 </div>
                             </div>

@@ -3,139 +3,139 @@
 <MudDialog>
     <TitleContent>
         @if (Friend != null)
-        {
-            @Friend.FullName
+                {
+        @Friend.FullName
         }
     </TitleContent>
     <DialogContent>
         @if (IsLoading)
+                {
+        <Loader></Loader>
+        }
+                else
+                {
+        @if (Friend != null)
         {
-            <Loader></Loader>
+            <div class="friend-data w-100">
+                <div class="row col col-12">
+                    <div class="col col-12 col-md-6">
+                        <div class="data-row">
+                            <div>
+                                <strong>User Name:</strong>
+                            </div>
+                            <div>
+                                @Friend.UserName
+                            </div>
+                        </div>
+                        <div class="data-row">
+                            <div>
+                                <strong>Email:</strong>
+                            </div>
+                            <div>
+                                @Friend.Email
+                            </div>
+                        </div>
+                        <div class="data-row">
+                            <div>
+                                <strong>Full Name:</strong>
+                            </div>
+                            <div>
+                                @WriteHelper.WriteEmptyableField(Friend.FullName)
+                            </div>
+                        </div>
+                        <div class="data-row">
+                            <div>
+                                <strong>Registration:</strong>
+                            </div>
+                            <div>
+                                @DateHelper.DateToString(Friend.RegistrationDate)
+                            </div>
+                        </div>
+                        <div class="data-row">
+                            <div>
+                                <strong>Phone Number:</strong>
+                            </div>
+                            <div>
+                                @WriteHelper.WriteEmptyableField(Friend.PhoneNumber)
+                            </div>
+                        </div>
+                        <div class="data-row">
+                            <div>
+                                <strong>Birthday:</strong>
+                            </div>
+                            <div>
+                                @DateHelper.DateToString(Friend.BirthDay)
+                            </div>
+                        </div>
+                        <div class="data-row">
+                            <div>
+                                <strong>Roles:</strong>
+                            </div>
+                            <div>
+                                @WriteHelper.WriteList(Friend.Roles, ",")
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col col-12 col-md-6">
+                        <div class="data-row">
+                            <div>
+                                <strong>TShirt Size:</strong>
+                            </div>
+                            <div>
+                                @WriteHelper.WriteEmptyableField(Friend.TShirtSize)
+                            </div>
+                        </div>
+                        <div class="data-row">
+                            <div>
+                                <strong>Allergy:</strong>
+                            </div>
+                            <div>
+                                @WriteHelper.WriteEmptyableField(Friend.Allergy)
+                            </div>
+                        </div>
+                        <div class="data-row">
+                            <div>
+                                <strong>Group:</strong>
+                            </div>
+                            <div>
+                                @WriteHelper.WriteEmptyableField(Friend.Group)
+                            </div>
+                        </div>
+                        <div class="data-row">
+                            <div>
+                                <strong>Gender:</strong>
+                            </div>
+                            <div>
+                                @WriteHelper.WriteEmptyableField(Friend.Gender)
+                            </div>
+                        </div>
+                        <div class="data-row">
+                            <div>
+                                <strong>Country:</strong>
+                            </div>
+                            <div>
+                                @WriteHelper.WriteEmptyableField(Friend.Country)
+                            </div>
+                        </div>
+                        <div class="data-row">
+                            <div>
+                                <strong>City:</strong>
+                            </div>
+                            <div>
+                                @WriteHelper.WriteEmptyableField(Friend.City)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <MudButton OnClick="RemoveFriend" Color="Color.Error">Remove friend</MudButton>
+                </div>
+            </div>
         }
         else
         {
-            @if (Friend != null)
-            {
-                <div class="friend-data w-100">
-                    <div class="row col col-12">
-                        <div class="col col-12 col-md-6">
-                            <div class="data-row">
-                                <div>
-                                    <strong>User Name:</strong>
-                                </div>
-                                <div>
-                                    @Friend.UserName
-                                </div>
-                            </div>
-                            <div class="data-row">
-                                <div>
-                                    <strong>Email:</strong>
-                                </div>
-                                <div>
-                                    @Friend.Email
-                                </div>
-                            </div>
-                            <div class="data-row">
-                                <div>
-                                    <strong>Full Name:</strong>
-                                </div>
-                                <div>
-                                    @WriteHelper.WriteEmptyableField(Friend.FullName)
-                                </div>
-                            </div>
-                            <div class="data-row">
-                                <div>
-                                    <strong>Registration:</strong>
-                                </div>
-                                <div>
-                                    @DateHelper.DateToString(Friend.RegistrationDate)
-                                </div>
-                            </div>
-                            <div class="data-row">
-                                <div>
-                                    <strong>Phone Number:</strong>
-                                </div>
-                                <div>
-                                    @WriteHelper.WriteEmptyableField(Friend.PhoneNumber)
-                                </div>
-                            </div>
-                            <div class="data-row">
-                                <div>
-                                    <strong>Birthday:</strong>
-                                </div>
-                                <div>
-                                    @DateHelper.DateToString(Friend.BirthDay)
-                                </div>
-                            </div>
-                            <div class="data-row">
-                                <div>
-                                    <strong>Roles:</strong>
-                                </div>
-                                <div>
-                                    @WriteHelper.WriteList(Friend.Roles, ",")
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col col-12 col-md-6">
-                            <div class="data-row">
-                                <div>
-                                    <strong>TShirt Size:</strong>
-                                </div>
-                                <div>
-                                    @WriteHelper.WriteEmptyableField(Friend.TShirtSize)
-                                </div>
-                            </div>
-                            <div class="data-row">
-                                <div>
-                                    <strong>Allergy:</strong>
-                                </div>
-                                <div>
-                                    @WriteHelper.WriteEmptyableField(Friend.Allergy)
-                                </div>
-                            </div>
-                            <div class="data-row">
-                                <div>
-                                    <strong>Group:</strong>
-                                </div>
-                                <div>
-                                    @WriteHelper.WriteEmptyableField(Friend.Group)
-                                </div>
-                            </div>
-                            <div class="data-row">
-                                <div>
-                                    <strong>Gender:</strong>
-                                </div>
-                                <div>
-                                    @WriteHelper.WriteEmptyableField(Friend.Gender)
-                                </div>
-                            </div>
-                            <div class="data-row">
-                                <div>
-                                    <strong>Country:</strong>
-                                </div>
-                                <div>
-                                    @WriteHelper.WriteEmptyableField(Friend.Country)
-                                </div>
-                            </div>
-                            <div class="data-row">
-                                <div>
-                                    <strong>City:</strong>
-                                </div>
-                                <div>
-                                    @WriteHelper.WriteEmptyableField(Friend.City)
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <MudButton OnClick="RemoveFriend" Color="Color.Primary">Remove friend</MudButton>
-                    </div>
-                </div>
-            }
-            else
-            {
-                <div class="text-center">Friend cannot found</div>
-            }
+            <div class="text-center">Friend cannot found</div>
+        }
         }
     </DialogContent>
     <DialogActions>

@@ -27,12 +27,12 @@ namespace EventManager.Client.Pages.SL
         private List<TableHeaderData<MyBookListDto>> Header { get; set; } = new()
         {
             new TableHeaderData<MyBookListDto>("Name", true, Alignment.Left)
-                {FooterRunnableData = (list) => list.Count.ToString()},
-            new TableHeaderData<MyBookListDto>("Publish", "Publish", true, (e) => DateHelper.DateToString((DateTime?) e),
+            { FooterRunnableData = (list) => list.Count.ToString() },
+            new TableHeaderData<MyBookListDto>("Publish", "Publish", true, (e) => DateHelper.DateToString((DateTime?)e),
                 Alignment.Right),
             new TableHeaderData<MyBookListDto>("Author", true, Alignment.Left),
             new TableHeaderData<MyBookListDto>("Creator", true, Alignment.Left),
-            new TableHeaderData<MyBookListDto>("Read", "Read", true, (e) => (bool) e ? "Read" : "Not read", Alignment.Center)
+            new TableHeaderData<MyBookListDto>("Read", "Read", true, (e) => (bool)e ? "Read" : "Not read", Alignment.Center)
         };
 
         /// <inheritdoc />
@@ -58,9 +58,13 @@ namespace EventManager.Client.Pages.SL
         private async void OpenEditMyBooksDialog()
         {
             var parameters = new DialogParameters();
-            var dialog = DialogService.Show<BookSelectorDialog>("Edit My Books", parameters);
+            var dialog = DialogService.Show<BookSelectorDialog>("Edit My Books", parameters, new DialogOptions
+            {
+                FullWidth = true,
+                MaxWidth = MaxWidth.Small
+            });
             var result = await dialog.Result;
-            
+
             if (!result.Cancelled)
             {
                 await this.GetBooks();
@@ -70,7 +74,11 @@ namespace EventManager.Client.Pages.SL
         private async void OpenEditReadBooksDialog()
         {
             var parameters = new DialogParameters();
-            var dialog = DialogService.Show<BookReadSelectorDialog>("Edit Read Books", parameters);
+            var dialog = DialogService.Show<BookReadSelectorDialog>("Edit Read Books", parameters, new DialogOptions
+            {
+                FullWidth = true,
+                MaxWidth = MaxWidth.Small
+            });
             var result = await dialog.Result;
 
             if (!result.Cancelled)

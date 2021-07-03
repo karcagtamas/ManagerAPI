@@ -18,20 +18,20 @@
             @if (CanEdit)
             {
                 <div>
-                    <MudIconButton Icon="@Icons.Filled.Edit" OnClick="OpenEditMovieDialog" />
+                    <MudIconButton Icon="@Icons.Filled.Edit" OnClick="OpenEditMovieDialog" Color="Color.Primary" />
                 </div>
             }
             @if (CanDelete)
             {
                 <div>
-                    <MudIconButton Icon="@Icons.Filled.Delete" OnClick="OpenDeleteDialog" />
+                    <MudIconButton Icon="@Icons.Filled.Delete" OnClick="OpenDeleteDialog" Color="Color.Error" />
                 </div>
             }
             @if (CanEdit)
             {
                 <div>
-                    <MudIconButton Icon="@Icons.Filled.Image" OnClick="OpenEditMovieImageDialog" />
-                    <MudIconButton Icon="@Icons.Filled.Category" OnClick="OpenEditMovieCategoriesDialog" />
+                    <MudIconButton Icon="@Icons.Filled.Image" OnClick="OpenEditMovieImageDialog" Color="Color.Secondary" />
+                    <MudIconButton Icon="@Icons.Filled.Category" OnClick="OpenEditMovieCategoriesDialog" Color="Color.Secondary" />
                 </div>
             }
 
@@ -40,33 +40,33 @@
                 @if (Movie.IsMine)
                 {
                     <div>
-                        <MudIconButton Icon="@Icons.Filled.Remove" OnClick="RemoveFromMyMovies" />
+                        <MudIconButton Icon="@Icons.Filled.Remove" OnClick="RemoveFromMyMovies" Color="Color.Secondary" />
                         @if (Movie.IsSeen)
                         {
-                            <MudIconButton Icon="@Icons.Filled.VisibilityOff" OnClick="@(() => SetSeenStatus(false))" />
+                            <MudIconButton Icon="@Icons.Filled.VisibilityOff" OnClick="@(() => SetSeenStatus(false))" Color="Color.Secondary" />
                         }
                         else
                         {
-                            <MudIconButton Icon="@Icons.Filled.Visibility" OnClick="@(() => SetSeenStatus(true))" />
+                            <MudIconButton Icon="@Icons.Filled.Visibility" OnClick="@(() => SetSeenStatus(true))" Color="Color.Secondary" />
                         }
                     </div>
                 }
                 else
                 {
                     <div>
-                        <MudIconButton Icon="@Icons.Filled.Add" OnClick="AddToMyMovies" />
+                        <MudIconButton Icon="@Icons.Filled.Add" OnClick="AddToMyMovies" Color="Color.Secondary" />
                     </div>
                 }
             }
             <span class="spacer"></span>
             <div>
-                <MudButton OnClick="@(() => Navigation.NavigateTo("/movies"))">Movie List</MudButton>
-                <MudButton OnClick="@(() => Navigation.NavigateTo("/my-movies"))">My Movie List</MudButton>
+                <MudButton OnClick="@(() => Navigation.NavigateTo("/movies"))" Color="Color.Primary">Movie List</MudButton>
+                <MudButton OnClick="@(() => Navigation.NavigateTo("/my-movies"))" Color="Color.Primary">My Movie List</MudButton>
             </div>
         </div>
         @if (Movie != null)
         {
-            <MudTabs Rounded="true" Centered="true" Class="tab-group">
+            <MudTabs Rounded="true" Centered="true" Class="tab-group" Color="Color.Primary">
                 <MudTabPanel Text="Data">
                     <div class="data">
                         <div class="data-rows">
@@ -160,9 +160,9 @@
                             <div class="col col-12 p-1">
                                 <MudTextField @bind-Value="Comment" Label="Comment" FullWidth="true" Variant="Variant.Outlined" Lines="3" />
                             </div>
-                            <div class="down-row">
+                            <div class="down-row p-2">
                                 <span class="spacer"></span>
-                                <MudButton OnClick="SaveComment">Comment</MudButton>
+                                <MudButton OnClick="SaveComment" Variant="Variant.Filled" Color="Color.Primary">Comment</MudButton>
                             </div>
                         </div>
                     </div>

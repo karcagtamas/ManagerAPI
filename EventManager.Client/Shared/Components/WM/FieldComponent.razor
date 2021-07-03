@@ -1,6 +1,6 @@
 @if (WorkingField != null)
 {
-    <div @onclick="@OpenUpdateFieldModal" class="wm-field">
+    <div @onclick="@OpenUpdateFieldModal" class="wm-field @(IsModifiable ? "modifiable" : "")">
     <div class="title-row">
         <span class="title">@WorkingField.Title</span>
         <span class="spacer"></span>

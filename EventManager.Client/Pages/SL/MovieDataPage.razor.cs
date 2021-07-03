@@ -73,7 +73,11 @@ namespace EventManager.Client.Pages.SL
         private async void OpenEditMovieDialog()
         {
             var parameters = new DialogParameters { { "MovieId", Id } };
-            var dialog = DialogService.Show<MovieDialog>("Edit Movie", parameters);
+            var dialog = DialogService.Show<MovieDialog>("Edit Movie", parameters, new DialogOptions
+            {
+                FullWidth = true,
+                MaxWidth = MaxWidth.Medium
+            });
             var result = await dialog.Result;
 
             if (!result.Cancelled)
@@ -85,7 +89,7 @@ namespace EventManager.Client.Pages.SL
         private async void OpenEditMovieImageDialog()
         {
             var parameters = new DialogParameters { { "MovieId", Id } };
-            var dialog = DialogService.Show<MovieImageDialog>("Edit Image", parameters);
+            var dialog = DialogService.Show<MovieImageDialog>("Edit Image");
             var result = await dialog.Result;
 
             if (!result.Cancelled)
@@ -122,7 +126,11 @@ namespace EventManager.Client.Pages.SL
         private async void OpenEditMovieCategoriesDialog()
         {
             var parameters = new DialogParameters { { "MovieId", Id } };
-            var dialog = DialogService.Show<MovieCategoryDialog>("Edit Categories", parameters);
+            var dialog = DialogService.Show<MovieCategoryDialog>("Edit Categories", parameters, new DialogOptions
+            {
+                FullWidth = true,
+                MaxWidth = MaxWidth.Small
+            });
             var result = await dialog.Result;
 
             if (!result.Cancelled)

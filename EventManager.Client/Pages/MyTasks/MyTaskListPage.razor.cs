@@ -66,8 +66,12 @@ namespace EventManager.Client.Pages.MyTasks
 
         private async void OpenAddTaskModal()
         {
-            var parameters = new DialogParameters {{"TaskId", null}};
-            var dialog = DialogService.Show<TaskDialog>("Create Task", parameters);
+            var parameters = new DialogParameters { { "TaskId", null } };
+            var dialog = DialogService.Show<TaskDialog>("Create Task", parameters, new DialogOptions
+            {
+                MaxWidth = MaxWidth.Medium,
+                FullWidth = true
+            });
             var result = await dialog.Result;
 
             if (!result.Cancelled)
@@ -78,8 +82,12 @@ namespace EventManager.Client.Pages.MyTasks
 
         private async void OpenUpdateTaskModal(int taskId)
         {
-            var parameters = new DialogParameters {{"TaskId", taskId}};
-            var dialog = DialogService.Show<TaskDialog>("Update Task", parameters);
+            var parameters = new DialogParameters { { "TaskId", taskId } };
+            var dialog = DialogService.Show<TaskDialog>("Update Task", parameters, new DialogOptions
+            {
+                MaxWidth = MaxWidth.Medium,
+                FullWidth = true
+            });
             var result = await dialog.Result;
 
             if (!result.Cancelled)

@@ -76,7 +76,11 @@ namespace EventManager.Client.Pages.SL
         private async void OpenEditSeriesDialog()
         {
             var parameters = new DialogParameters { { "SeriesId", Id } };
-            var dialog = DialogService.Show<SeriesDialog>("Edit Series", parameters);
+            var dialog = DialogService.Show<SeriesDialog>("Edit Series", parameters, new DialogOptions
+            {
+                FullWidth = true,
+                MaxWidth = MaxWidth.Medium
+            });
             var result = await dialog.Result;
 
             if (!result.Cancelled)
@@ -152,7 +156,11 @@ namespace EventManager.Client.Pages.SL
         private async void OpenEditSeriesCategoriesDialog()
         {
             var parameters = new DialogParameters { { "SeriesId", Id } };
-            var dialog = DialogService.Show<SeriesCategoryDialog>("Edit Categories", parameters);
+            var dialog = DialogService.Show<SeriesCategoryDialog>("Edit Categories", parameters, new DialogOptions
+            {
+                FullWidth = true,
+                MaxWidth = MaxWidth.Small
+            });
             var result = await dialog.Result;
 
             if (!result.Cancelled)

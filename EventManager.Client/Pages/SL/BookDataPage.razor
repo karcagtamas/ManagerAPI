@@ -18,14 +18,14 @@
             @if (CanEdit)
             {
                 <div>
-                    <MudIconButton Icon="@Icons.Filled.Edit" OnClick="OpenEditBookDialog" />
+                    <MudIconButton Icon="@Icons.Filled.Edit" OnClick="OpenEditBookDialog" Color="Color.Primary" />
                 </div>
             }
 
             @if (CanDelete)
             {
                 <div>
-                    <MudIconButton Icon="@Icons.Filled.Delete" OnClick="OpenDeleteDialog" />
+                    <MudIconButton Icon="@Icons.Filled.Delete" OnClick="OpenDeleteDialog" Color="Color.Error" />
                 </div>
             }
             @if (Book != null)
@@ -33,28 +33,28 @@
                 @if (Book.IsMine)
                 {
                     <div>
-                        <MudIconButton Icon="@Icons.Filled.Remove" OnClick="RemoveFromMyBooks" />
+                        <MudIconButton Icon="@Icons.Filled.Remove" OnClick="RemoveFromMyBooks" Color="Color.Secondary" />
                         @if (Book.IsRead)
                         {
-                            <MudIconButton Icon="@Icons.Filled.VisibilityOff" OnClick="@(() => SetReadStatus(false))" />
+                            <MudIconButton Icon="@Icons.Filled.VisibilityOff" OnClick="@(() => SetReadStatus(false))" Color="Color.Secondary" />
                         }
                         else
                         {
-                            <MudIconButton Icon="@Icons.Filled.Visibility" OnClick="@(() => SetReadStatus(true))" />
+                            <MudIconButton Icon="@Icons.Filled.Visibility" OnClick="@(() => SetReadStatus(true))" Color="Color.Secondary" />
                         }
                     </div>
                 }
                 else
                 {
                     <div>
-                        <MudIconButton Icon="@Icons.Filled.Add" OnClick="AddToMyBooks" />
+                        <MudIconButton Icon="@Icons.Filled.Add" OnClick="AddToMyBooks" Color="Color.Secondary" />
                     </div>
                 }
             }
             <span class="spacer"></span>
             <div>
-                <MudButton OnClick="@(() => Navigation.NavigateTo("/books"))">Book List</MudButton>
-                <MudButton OnClick="@(() => Navigation.NavigateTo("/my-books"))">My Book List</MudButton>
+                <MudButton OnClick="@(() => Navigation.NavigateTo("/books"))" Color="Color.Primary">Book List</MudButton>
+                <MudButton OnClick="@(() => Navigation.NavigateTo("/my-books"))" Color="Color.Primary">My Book List</MudButton>
             </div>
         </div>
         @if (Book != null)

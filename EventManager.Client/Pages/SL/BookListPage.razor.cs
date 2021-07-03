@@ -29,8 +29,8 @@ namespace EventManager.Client.Pages.SL
         private List<TableHeaderData<BookListDto>> Header { get; set; } = new()
         {
             new("Name", true, Alignment.Left)
-                {FooterRunnableData = (list) => list.Count.ToString()},
-            new("Publish", "Publish", true, (e) => DateHelper.DateToString((DateTime?) e),
+            { FooterRunnableData = (list) => list.Count.ToString() },
+            new("Publish", "Publish", true, (e) => DateHelper.DateToString((DateTime?)e),
                 Alignment.Right),
             new("Author", true, Alignment.Left),
             new("Creator", true, Alignment.Left)
@@ -60,10 +60,14 @@ namespace EventManager.Client.Pages.SL
 
         private async void OpenAddBookDialog()
         {
-            var parameters = new DialogParameters {{"BookId", null}};
-            var dialog = DialogService.Show<BookDialog>("Add Book", parameters);
+            var parameters = new DialogParameters { { "BookId", null } };
+            var dialog = DialogService.Show<BookDialog>("Add Book", parameters, new DialogOptions
+            {
+                FullWidth = true,
+                MaxWidth = MaxWidth.Medium
+            });
             var result = await dialog.Result;
-            
+
             if (!result.Cancelled)
             {
                 await this.GetBooks();

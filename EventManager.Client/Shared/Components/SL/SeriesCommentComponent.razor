@@ -22,13 +22,13 @@
             <span class="spacer"></span>
             @if (IsEdit)
             {
-                <MudButton OnClick="SaveEdit">Save</MudButton>
+                <MudButton OnClick="SaveEdit" Color="Color.Primary">Save</MudButton>
                 <MudButton OnClick="CancelEdit">Cancel</MudButton>
             }
             else
             {
-                <MudButton OnClick="EditComment">Edit</MudButton>
-                <MudButton OnClick="DeleteComment">Delete</MudButton>
+                <MudButton OnClick="EditComment" Color="Color.Secondary">Edit</MudButton>
+                <MudButton OnClick="DeleteComment" Color="Color.Error">Delete</MudButton>
             }
         </div>
     }

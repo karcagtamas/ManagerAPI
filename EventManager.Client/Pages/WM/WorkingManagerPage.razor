@@ -47,15 +47,16 @@
                         <div class="row col col-12">
                             @if (WorkingDayTypes != null)
                             {
-                                <div class="col col-12 col-sm-6 p1">
-                                    <MudSelect FullWidth="true" @bind-Value="WorkingDay.Type" Label="Type"
-                            Variant="Variant.Outlined">
-                                        @foreach (var type in WorkingDayTypes)
-                                        {
-                                            <MudSelectItem T="int" Value="type.Id">@type.Title</MudSelectItem>
-                                        }
-                                    </MudSelect>
-                                </div>
+                                <div class="col col-12 col-sm-6 p-1">
+                                    <div class="select-div">
+                                        <MudSelect @bind-Value="WorkingDay.Type" Label="Type" Variant="Variant.Outlined">
+                                            @foreach (var type in WorkingDayTypes)
+                                            {
+                                    <MudSelectItem T="int" Value="type.Id">@type.Title</MudSelectItem>
+                                            }
+                            </MudSelect>
+                        </div>
+                    </div>
                             }
                         </div>
                         <div class="text-right">

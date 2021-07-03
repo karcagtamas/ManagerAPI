@@ -55,7 +55,11 @@ namespace EventManager.Client.Pages.SL
         private async void OpenEditMySeriesDialog()
         {
             var parameters = new DialogParameters();
-            var dialog = DialogService.Show<SeriesSelectorDialog>("Edit My Series List", parameters);
+            var dialog = DialogService.Show<SeriesSelectorDialog>("Edit My Series List", parameters, new DialogOptions
+            {
+                FullWidth = true,
+                MaxWidth = MaxWidth.Small
+            });
             var result = await dialog.Result;
 
             if (!result.Cancelled)

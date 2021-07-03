@@ -4,11 +4,13 @@
             <EditForm EditContext="Context">
                 <DataAnnotationsValidator></DataAnnotationsValidator>
                 <div>
-                    <MudTextField @bind-Value="Model.DestinationUserName" Label="User" FullWidth="true" Variant="Variant.Outlined"/>
+                    <MudTextField @bind-Value="Model.DestinationUserName" Label="User" FullWidth="true"
+                        Variant="Variant.Outlined" />
                     <ValidationMessage For="() => Model.DestinationUserName"></ValidationMessage>
                 </div>
                 <div>
-                    <MudTextField @bind-Value="Model.Message" Label="Message" FullWidth="true" Variant="Variant.Outlined" />
+                    <MudTextField @bind-Value="Model.Message" Label="Message" FullWidth="true"
+                        Variant="Variant.Outlined" Lines="2" />
                     <ValidationMessage For="() => Model.Message"></ValidationMessage>
                 </div>
             </EditForm>

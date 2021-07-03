@@ -59,7 +59,11 @@ namespace EventManager.Client.Pages.SL
         private async void OpenAddSeriesDialog()
         {
             var parameters = new DialogParameters { { "SeriesId", null } };
-            var dialog = DialogService.Show<SeriesDialog>("Add Series", parameters);
+            var dialog = DialogService.Show<SeriesDialog>("Add Series", parameters, new DialogOptions
+            {
+                FullWidth = true,
+                MaxWidth = MaxWidth.Medium
+            });
             var result = await dialog.Result;
 
             if (!result.Cancelled)

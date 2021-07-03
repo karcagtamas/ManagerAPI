@@ -23,7 +23,7 @@ namespace EventManager.Client.Shared.Components.WM
         [Inject] private IWorkingFieldService WorkingFieldService { get; set; }
 
         [Inject] private IDialogService DialogService { get; set; }
-        
+
         private WorkingFieldModel Model { get; set; }
         private EditContext Context { get; set; }
         private bool IsEdit { get; set; }
@@ -33,7 +33,7 @@ namespace EventManager.Client.Shared.Components.WM
         /// </summary>
         [Parameter]
         public int Id { get; set; }
-        
+
         /// <summary>
         /// Working day Id
         /// </summary>
@@ -95,7 +95,7 @@ namespace EventManager.Client.Shared.Components.WM
         {
             if (!Context.Validate()) return;
             this.Model.WorkingDayId = this.WorkingDayId;
-            
+
             if (this.IsEdit)
             {
                 if (await this.WorkingFieldService.Update(this.Id, this.Model))
