@@ -1,26 +1,26 @@
 @using ManagerAPI.Shared.Helpers
 
-<div class="p-1 em-current-user">
+<div class="p-2 em-current-user">
     @if (User != null)
     {
         <div class="p-1 data">
             <strong>User Name: </strong> @User.Username
         </div>
         <div class="p-1 data">
-            <strong>E-mail: </strong> @User.Email
-        </div>
+        <strong>E-mail: </strong> @User.Email
+    </div>
         <div class="p-1 data">
-            <strong>Last Login: </strong> @DateHelper.DateToString(User.LastLogin)
-        </div>
+        <strong>Last Login: </strong> @DateHelper.DateToString(User.LastLogin)
+    </div>
         @if (UnReadNotificationCount > 0)
         {
-            <div class="p-1 data em-warn-color">
+            <div class="p-1 data em-warn-color text-center mt-2">
                 You have <strong>@UnReadNotificationCount</strong> unread notification(s).
             </div>
         }
         <div>
-            <MudIconButton Icon="@Icons.Filled.PowerSettingsNew" OnClick="Logout"/>
-            <MudIconButton Icon="@Icons.Filled.Favorite"/>
+            <MudIconButton Icon="@Icons.Filled.PowerSettingsNew" OnClick="Logout" Color="Color.Primary" />
+            <MudIconButton Icon="@Icons.Filled.Favorite" Color="Color.Error" />
         </div>
     }
 </div>

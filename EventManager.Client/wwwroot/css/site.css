@@ -354,4 +354,8 @@ app {
   overflow: auto;
 }
 
+.small-icon {
+  font-size: 1rem !important;
+}
+
 /*# sourceMappingURL=site.css.map */
