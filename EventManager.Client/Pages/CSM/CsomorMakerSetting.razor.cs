@@ -40,7 +40,7 @@ namespace EventManager.Client.Pages.CSM
         private IJSRuntime JSRuntime { get; set; }
 
         [Inject]
-        private IMatToaster Toaster { get; set; }
+        private ISnackbar Toaster { get; set; }
 
         private GeneratorSettings Settings { get; set; }
         private EditContext Context { get; set; }
@@ -156,12 +156,12 @@ namespace EventManager.Client.Pages.CSM
         {
             if (string.IsNullOrEmpty(person.Name))
             {
-                this.Toaster.Add($"Person name is incorrect ({person.Name})", MatToastType.Info, "Person adding");
+                this.Toaster.Add($"Person name is incorrect ({person.Name})", Severity.Info);
                 return false;
             }
             if (this.Model.Persons.Exists(x => x.Name == person.Name))
             {
-                this.Toaster.Add($"Person already exists ({person.Name})", MatToastType.Info, "Person adding");
+                this.Toaster.Add($"Person already exists ({person.Name})", Severity.Info);
                 return false;
             }
 
@@ -169,7 +169,7 @@ namespace EventManager.Client.Pages.CSM
             this.Model.Persons.Add(person);
             this.IsModifiedState = true;
             this.StateHasChanged();
-            this.Toaster.Add($"Person added ({person.Name})", MatToastType.Success, "Person adding");
+            this.Toaster.Add($"Person added ({person.Name})", Severity.Success);
             return true;
         }
 
@@ -186,12 +186,12 @@ namespace EventManager.Client.Pages.CSM
         {
             if (string.IsNullOrEmpty(work.Name))
             {
-                this.Toaster.Add($"Work name is incorrect ({work.Name})", MatToastType.Info, "Work adding");
+                this.Toaster.Add($"Work name is incorrect ({work.Name})", Severity.Info);
                 return false;
             }
             if (this.Model.Works.Exists(x => x.Name == work.Name))
             {
-                this.Toaster.Add($"Work already exists ({work.Name})", MatToastType.Info, "Work adding");
+                this.Toaster.Add($"Work already exists ({work.Name})", Severity.Info);
                 return false;
             }
 
@@ -199,7 +199,7 @@ namespace EventManager.Client.Pages.CSM
             this.Model.Works.Add(work);
             this.IsModifiedState = true;
             this.StateHasChanged();
-            this.Toaster.Add($"Work added ({work.Name})", MatToastType.Success, "Work adding");
+            this.Toaster.Add($"Work added ({work.Name})", Severity.Success);
             return true;
         }
 
@@ -209,17 +209,50 @@ namespace EventManager.Client.Pages.CSM
             this.StateHasChanged();
         }
 
-        private void ReSetup(DateTime date, string type)
+        private void DateChanged(DateTime? date, string type)
         {
-            Console.WriteLine(date);
+            if (date == null)
+            {
+                return;
+            }
+
             if (type == "start")
             {
-                this.Model.Start = date.AddMinutes(-date.Minute);
+                this.Model.Start = ((DateTime)date).AddMinutes(-((DateTime)date).Minute);
             }
             if (type == "finish")
             {
-                this.Model.Finish = date.AddMinutes(-date.Minute);
+                this.Model.Finish = ((DateTime)date).AddMinutes(-((DateTime)date).Minute);
             }
+
+            ReSetup();
+        }
+
+        private void TimeChanged(TimeSpan? time, string type)
+        {
+            if (time == null)
+            {
+                return;
+            }
+
+            if (type == "start")
+            {
+                this.Model.StartTime = (TimeSpan)time;
+                this.Model.Start.AddHours(-this.Model.Start.Hour);
+                this.Model.Start.AddHours(((TimeSpan)time).Hours);
+            }
+            if (type == "finish")
+            {
+                this.Model.FinishTime = (TimeSpan)time;
+                this.Model.Finish.AddHours(-this.Model.Finish.Hour);
+                this.Model.Finish.AddHours(((TimeSpan)time).Hours);
+            }
+
+            ReSetup();
+        }
+
+        private void ReSetup()
+        {
             this.Model.Persons.ForEach(x => x.UpdateTable(this.Model.Start, this.Model.Finish));
             this.Model.Works.ForEach(x => x.UpdateTable(this.Model.Start, this.Model.Finish));
             this.IsModifiedState = true;
@@ -324,25 +357,26 @@ namespace EventManager.Client.Pages.CSM
         }
 
 
-        private async Task<string> GetContent(IMatFileUploadEntry[] files)
+        private async Task<string> GetContent(IReadOnlyList<IBrowserFile> files)
         {
             try
             {
                 var file = files.FirstOrDefault();
                 if (file == null)
                 {
-                    this.Toaster.Add("Cannot find any file", MatToastType.Info, "File Importing");
+                    this.Toaster.Add("Cannot find any file", Severity.Info);
                     return "";
                 }
 
                 using (var stream = new MemoryStream())
                 {
                     var sw = Stopwatch.StartNew();
-                    await file.WriteToStreamAsync(stream);
+                    await file.OpenReadStream().CopyToAsync(stream);
                     sw.Stop();
-                    if (stream.Length > 1024 * 1024 && !(file.Type == "txt" || file.Type == "csv"))
+                    Console.WriteLine(file.ContentType);
+                    if (stream.Length > 1024 * 1024 || !(file.ContentType == "text/plain" || file.ContentType == "text/csv"))
                     {
-                        this.Toaster.Add("File is too big or type is not acceptable", MatToastType.Danger, "File Importing");
+                        this.Toaster.Add("File is too big or type is not acceptable", Severity.Error);
                         return "";
                     }
                     else
@@ -364,23 +398,23 @@ namespace EventManager.Client.Pages.CSM
                 await this.InvokeAsync(this.StateHasChanged);
             }
 
-            this.Toaster.Add("Error during import", MatToastType.Danger, "File Importing");
+            this.Toaster.Add("Error during import", Severity.Error);
             return "";
         }
 
-        private async void ImportPersons(IMatFileUploadEntry[] files)
+        private async void ImportPersons(InputFileChangeEventArgs e)
         {
-            foreach (string e in (await this.GetContent(files)).Split("\n"))
+            foreach (string c in (await this.GetContent(e.GetMultipleFiles())).Split("\n"))
             {
-                this.AddPerson(new PersonModel(e));
+                this.AddPerson(new PersonModel(c));
             }
         }
 
-        private async void ImportWorks(IMatFileUploadEntry[] files)
+        private async void ImportWorks(InputFileChangeEventArgs e)
         {
-            foreach (string e in (await this.GetContent(files)).Split("\n"))
+            foreach (string c in (await this.GetContent(e.GetMultipleFiles())).Split("\n"))
             {
-                this.AddWork(new WorkModel(e));
+                this.AddWork(new WorkModel(c));
             }
         }
     }
