@@ -24,10 +24,8 @@
                 <span class="spacer"></span>
                 @if (IsEditable && !IsEdit)
                 {
-                    <MatTooltip Tooltip="Edit">
-                        <MatIconButton RefBack="@context" Icon="edit" @onclick="@(() => IsEdit = true)" Disabled="CheckRole(CsomorRole.Read)"></MatIconButton>
-                    </MatTooltip>
-                    <MudIconButton Icon="@Icons.Filled.Edit" OnClick="@(() => IsEdit = true)" Color="Color.Primary" Disabled="CheckRole(CsomorRole.Read)" />
+                    <MudIconButton Icon="@Icons.Filled.Edit" OnClick="@(() => IsEdit = true)" Color="Color.Primary"
+                Disabled="CheckRole(CsomorRole.Read)" />
                 }
                 @if (IsEditable && IsEdit)
                 {
@@ -41,7 +39,9 @@
                         @foreach (var table in Work.Tables)
                         {
                             <span class="box">
-                                <MudCheckBox T="bool" Color="Color.Primary" Checked="table.IsActive" CheckedChanged="@((val) => ChangeIsActiveStatus(table, val))" Label="@ManagerAPI.Shared.Helpers.WriteHelper.HourInterval(table.Date, 1)" />
+                                <MudCheckBox T="bool" Color="Color.Primary" Checked="table.IsActive"
+                        CheckedChanged="@((val) => ChangeIsActiveStatus(table, val))"
+                        Label="@ManagerAPI.Shared.Helpers.WriteHelper.HourInterval(table.Date, 1)" />
                             </span>
                         }
                     </div>

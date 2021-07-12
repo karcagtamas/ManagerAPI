@@ -53,6 +53,8 @@ namespace CsomorGenerator.Services
         /// <inheritdoc />
         public GeneratorSettings Generate(GeneratorSettings settings)
         {
+            // Settings pre checking
+            // If it is invalid, return null
             if (!this.PreCheckSimple(settings))
             {
                 return null;
@@ -187,7 +189,11 @@ namespace CsomorGenerator.Services
         /// <returns>Is startable or not</returns>
         private bool PreCheckSimple(GeneratorSettings settings)
         {
-            return this.CheckPersons(settings.Persons, settings.Works) && this.CheckWorks(settings.Works) && this.CheckHours(settings) && this.CheckSum(settings);
+            return
+                CheckPersons(settings.Persons, settings.Works) // Check persons
+                && this.CheckWorks(settings.Works)  // Check works
+                && this.CheckHours(settings)  // Check hours
+                && this.CheckSum(settings); // Check sums
         }
 
         /// <summary>
@@ -219,7 +225,7 @@ namespace CsomorGenerator.Services
             // All works is ignored
             if (person.IgnoredWorks.Count == works)
             {
-                throw new MessageException($"Person ({person.Name}) must has least one not ignored Work");
+                throw new MessageException($"Person ({person.Name}) must has at least one not ignored Work");
             }
         }
 

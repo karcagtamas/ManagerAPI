@@ -57,5 +57,15 @@ namespace EventManager.Client.Pages.CSM
         {
             this.OwnedList = await this.GeneratorService.GetOwnedList();
         }
+
+        private bool HasAnyCsomor()
+        {
+            return ListHasAnyValue(PublicList) || ListHasAnyValue(SharedList) || ListHasAnyValue(OwnedList);
+        }
+
+        private bool ListHasAnyValue<T>(List<T> list)
+        {
+            return list is {Count: > 0};
+        }
     }
 }

@@ -33,7 +33,6 @@ namespace ManagerAPI.Shared.Models
         /// <summary>
         /// Is Solved
         /// </summary>
-
         [Required] public bool IsSolved { get; set; }
 
         /// <summary>

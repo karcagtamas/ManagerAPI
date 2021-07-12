@@ -1,5 +1,4 @@
 using EventManager.Client.Services.Interfaces;
-using MatBlazor;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using MudBlazor;

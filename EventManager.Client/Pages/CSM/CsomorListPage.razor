@@ -6,47 +6,50 @@
         <MudIconButton Color="Color.Primary" Icon="@Icons.Filled.Add" OnClick="@(() => Navigation.NavigateTo("/csomor"))" Disabled="!IsLoggedIn"/>
     </div>
     <div class="lists">
-        <MudTabs Class="tabs tab-group" Rounded="true" Color="Color.Primary" Centered="true">
-            @if (OwnedList != null && OwnedList.Count != 0)
-            {
-                <MudTabPanel Text="Owned">
-                    <div class="list owned-list">
-                        <div class="elements">
-                            @foreach (var csomor in OwnedList)
-                            {
-                                <CsomorListElementComponent Csomor="csomor" ShowOwner="false" />
-                            }
+        @if (HasAnyCsomor())
+        {
+            <MudTabs Class="tabs tab-group" Rounded="true" Color="Color.Primary" Centered="true">
+                @if (OwnedList != null && OwnedList.Count != 0)
+                {
+                    <MudTabPanel Text="Owned">
+                        <div class="list owned-list">
+                            <div class="elements">
+                                @foreach (var csomor in OwnedList)
+                                {
+                                    <CsomorListElementComponent Csomor="csomor" ShowOwner="false"/>
+                                }
+                            </div>
                         </div>
-                    </div>
-                </MudTabPanel>
-            }
-            @if (SharedList != null && SharedList.Count != 0)
-            {
-                <MudTabPanel Text="Shared">
-                    <div class="list shared-list">
-                        <div class="elements">
-                            @foreach (var csomor in SharedList)
-                            {
-                                <CsomorListElementComponent Csomor="csomor" ShowIsShared="false" />
-                            }
+                    </MudTabPanel>
+                }
+                @if (SharedList != null && SharedList.Count != 0)
+                {
+                    <MudTabPanel Text="Shared">
+                        <div class="list shared-list">
+                            <div class="elements">
+                                @foreach (var csomor in SharedList)
+                                {
+                                    <CsomorListElementComponent Csomor="csomor" ShowIsShared="false"/>
+                                }
+                            </div>
                         </div>
-                    </div>
-                </MudTabPanel>
-            }
-            @if (PublicList != null && PublicList.Count != 0)
-            {
-                <MudTabPanel Text="Public">
-                    <div class="list public-list">
-                        <div class="em-sub-title">Public</div>
-                        <div class="elements">
-                            @foreach (var csomor in PublicList)
-                            {
-                                <CsomorListElementComponent Csomor="csomor" ShowIsPublished="false" />
-                            }
+                    </MudTabPanel>
+                }
+                @if (PublicList != null && PublicList.Count != 0)
+                {
+                    <MudTabPanel Text="Public">
+                        <div class="list public-list">
+                            <div class="em-sub-title">Public</div>
+                            <div class="elements">
+                                @foreach (var csomor in PublicList)
+                                {
+                                    <CsomorListElementComponent Csomor="csomor" ShowIsPublished="false"/>
+                                }
+                            </div>
                         </div>
-                    </div>
-                </MudTabPanel>
-            }
-        </MudTabs>
+                    </MudTabPanel>
+                }
+            </MudTabs>
+        }
     </div>
 </div>

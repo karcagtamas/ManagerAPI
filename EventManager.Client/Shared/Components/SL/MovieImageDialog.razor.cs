@@ -1,8 +1,5 @@
-﻿using EventManager.Client.Models;
-using EventManager.Client.Services;
-using EventManager.Client.Services.Interfaces;
+﻿using EventManager.Client.Services.Interfaces;
 using ManagerAPI.Shared.Models.SL;
-using MatBlazor;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using MudBlazor;
