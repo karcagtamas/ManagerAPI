@@ -50,7 +50,7 @@
             Color="Color.Primary" />
     </div>
     <div class="csomor blue-label">
-        <MudTabs Class="tabs tab-group" Rounded="true" Color="Color.Primary" Centered="true">
+        <MudTabs Class="tabs tab-group flex-tab" Rounded="true" Color="Color.Primary" Centered="true">
             @if (CheckRole(CsomorRole.Owner, CsomorRole.Write, CsomorRole.Read))
             {
                 <MudTabPanel Text="Settings">

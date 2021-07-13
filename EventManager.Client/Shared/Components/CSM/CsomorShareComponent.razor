@@ -1,7 +1,9 @@
 ﻿<div class="shared-list">
     <div>
         <div class="em-section-title">Sharing</div>
-        <MudTextField Value="Name" TextChanged="RefreshCorrectPersons" FullWidth="true" Label="Search" Variant="Variant.Outlined" />
+        <div>
+            <MudTextField Value="Name" TextChanged="RefreshCorrectPersons" Label="Search" Variant="Variant.Outlined" />
+        </div>
         @foreach (var person in CorrectList)
         {
             <div class="correct-person" @onclick="@(() => AddPerson(person.Id))">
