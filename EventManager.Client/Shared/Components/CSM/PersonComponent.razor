@@ -3,15 +3,15 @@
 <div class="entity">
     <div class="data-row">
         <div class="row-header">
-            <strong>Name:</strong> @Person.Name
+            <strong>Name:</strong>&nbsp;@Person.Name
             <span class="spacer"></span>
             @if (IsOpened)
             {
-                <MudIconButton Icon="@Icons.Filled.ExpandLess" OnClick="@(() => IsOpened = false)" Color="Color.Primary" />
+                <MudIconButton Icon="@Icons.Filled.ExpandLess" OnClick="@(() => IsOpened = false)" Color="Color.Primary"/>
             }
             else
             {
-                <MudIconButton Icon="@Icons.Filled.ExpandMore" OnClick="@(() => IsOpened = true)" Color="Color.Primary" />
+                <MudIconButton Icon="@Icons.Filled.ExpandMore" OnClick="@(() => IsOpened = true)" Color="Color.Primary"/>
             }
         </div>
     </div>
@@ -23,24 +23,24 @@
                 <span class="spacer"></span>
                 @if (IsEditable && !IsEdit)
                 {
-                    <MudIconButton Icon="@Icons.Filled.Edit" OnClick="@(() => IsEdit = true)" Color="Color.Primary" Disabled="CheckRole(CsomorRole.Read)" />
+                    <MudIconButton Icon="@Icons.Filled.Edit" OnClick="@(() => IsEdit = true)" Color="Color.Primary" Disabled="CheckRole(CsomorRole.Read)"/>
                 }
                 @if (IsEditable && IsEdit)
                 {
-                    <MudIconButton Icon="@Icons.Filled.ArrowLeft" OnClick="@(() => IsEdit = false)" Color="Color.Primary" />
+                    <MudIconButton Icon="@Icons.Filled.ArrowLeft" OnClick="@(() => IsEdit = false)" Color="Color.Primary"/>
                 }
             </div>
             @if (IsEdit)
             {
                 <div class="row-body">
                     <div class="w-100">
-                        <MudCheckBox T="bool" Color="Color.Primary" Checked="Person.IsIgnored" CheckedChanged="@((val) => ChangeIsIgnoredStatus(Person, val))" Label="Is ignored" /> <br/>
+                        <MudCheckBox T="bool" Color="Color.Primary" Checked="Person.IsIgnored" CheckedChanged="@((val) => ChangeIsIgnoredStatus(Person, val))" Label="Is ignored"/> <br/>
                         @if (!Person.IsIgnored)
                         {
                             @foreach (var table in Person.Tables)
                             {
                                 <span class="box">
-                                    <MudCheckBox T="bool" Color="Color.Primary" Checked="table.IsAvailable" CheckedChanged="@((val) => ChangeIsAvailableStatus(table, val))" Label="@ManagerAPI.Shared.Helpers.WriteHelper.HourInterval(table.Date, 1)" />
+                                    <MudCheckBox T="bool" Color="Color.Primary" Checked="table.IsAvailable" CheckedChanged="@((val) => ChangeIsAvailableStatus(table, val))" Label="@ManagerAPI.Shared.Helpers.WriteHelper.HourInterval(table.Date, 1)"/>
                                 </span>
                             }
                             <br/>
@@ -48,30 +48,26 @@
                             @foreach (var ignoredWork in Works)
                             {
                                 <span class="box">
-                                    <MudCheckBox T="bool" Color="Color.Primary" Checked="WorkIsIgnored(Person, ignoredWork)" CheckedChanged="@(val => IgnoredWorkChange(Person, ignoredWork, val))" Label="@ignoredWork.Name" />
+                                    <MudCheckBox T="bool" Color="Color.Primary" Checked="WorkIsIgnored(Person, ignoredWork)" CheckedChanged="@(val => IgnoredWorkChange(Person, ignoredWork, val))" Label="@ignoredWork.Name"/>
                                 </span>
                             }
                         }
                     </div>
                 </div>
-
             }
             else
             {
                 <div class="row-body">
                     <div class="data-row">
-                        <strong>Status: </strong>
-                        @(Person.IsIgnored ? "Ignored" : "Not Ignored")
+                        <strong>Status: </strong> @(Person.IsIgnored ? "Ignored" : "Not Ignored")
                     </div>
-
                     <div class="data-row">
                         <strong>Hour statuses: </strong>
                         <div class="row-body">
-                            @foreach (var table in Person.Tables)
+                            @foreach (var status in _statusList)
                             {
                                 <div class="data-row">
-                                    <strong>@ManagerAPI.Shared.Helpers.WriteHelper.HourInterval(table.Date, 1): </strong>
-                                    @(table.IsAvailable ? "Available" : "Not Available")
+                                    <strong>@status.Interval: </strong> @status.Value (@status.Length h)
                                 </div>
                             }
                         </div>
@@ -93,4 +89,3 @@
         </div>
     }
 </div>
-
