@@ -195,7 +195,7 @@ namespace ManagerAPI.Backend
 
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                // app.UseDeveloperExceptionPage();
             }
 
             app.UseAuthentication();
