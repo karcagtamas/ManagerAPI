@@ -191,24 +191,22 @@ namespace ManagerAPI.Backend
         /// <param name="env">Environment</param>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseAuthentication();
+            app.UseMyExceptionHandler();
 
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {
-                app.UseHttpsRedirection();
-            }
 
-            app.UseMyExceptionHandler();
+            app.UseAuthentication();
+
+            app.UseHttpsRedirection();
 
             app.UseRouting();
 
-            app.UseAuthorization();
-
             app.UseCors("CorsPolicy");
+
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
