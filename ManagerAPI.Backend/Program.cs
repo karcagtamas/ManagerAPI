@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
+using System.Reflection;
 
 namespace ManagerAPI.Backend
 {
@@ -22,7 +23,7 @@ namespace ManagerAPI.Backend
         {
             return WebHost.CreateDefaultBuilder(args)
                 .UseKestrel()
-                .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseContentRoot(Path.GetDirectoryName(Assembly.GetEntryAssembly()?.Location) ?? string.Empty)
                 .UseIISIntegration()
                 .UseStartup<Startup>()
                 .Build();

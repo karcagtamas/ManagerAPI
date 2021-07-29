@@ -33,7 +33,6 @@ using PlanManager.Services.Profiles;
 using PlanManager.Services.Services;
 using PlanManager.Services.Services.Interfaces;
 using System;
-using System.IO;
 using System.Text;
 
 namespace ManagerAPI.Backend
@@ -56,7 +55,7 @@ namespace ManagerAPI.Backend
         /// App Configuration
         /// </summary>
         public IConfiguration Configuration { get; }
-        
+
         /// <summary>
         /// This method gets called by the runtime. Use this method to add services to the container.
         /// </summary>
@@ -68,23 +67,14 @@ namespace ManagerAPI.Backend
 
             services.AddCors(options =>
             {
-                options.AddPolicy("ReleasePolicy",
+                options.AddPolicy("CorsPolicy",
                     builder =>
                     {
                         builder
                             .AllowAnyHeader()
                             .AllowAnyMethod()
                             .AllowCredentials()
-                            .WithOrigins(Configuration.GetSection("ApplicationSettings").GetSection("SecureClientUrl").Value, Configuration.GetSection("ApplicationSettings").GetSection("ClientUrl").Value);
-                    });
-                options.AddPolicy("TestPolicy",
-                    builder =>
-                    {
-                        builder
-                            .AllowAnyHeader()
-                            .AllowAnyMethod()
-                            .AllowCredentials()
-                            .WithOrigins(Configuration.GetSection("ApplicationSettings").GetSection("SecureClientUrl").Value, Configuration.GetSection("ApplicationSettings").GetSection("ClientUrl").Value);
+                            .WithOrigins(Configuration.GetSection("ApplicationSettings").GetValue("SecureClientUrl", "https://localhost:5001"), Configuration.GetSection("ApplicationSettings").GetValue("ClientUrl", "http://localhost:5000"));
                     });
             });
 
@@ -193,7 +183,7 @@ namespace ManagerAPI.Backend
 
             services.AddControllers().AddJsonOptions(opt => opt.JsonSerializerOptions.Converters.Add(new TimeSpanConverter()));
         }
-        
+
         /// <summary>
         /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         /// </summary>
@@ -218,7 +208,7 @@ namespace ManagerAPI.Backend
 
             app.UseAuthorization();
 
-            app.UseCors(env.IsDevelopment() ? "TestPolicy" : "ReleasePolicy");
+            app.UseCors("CorsPolicy");
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
