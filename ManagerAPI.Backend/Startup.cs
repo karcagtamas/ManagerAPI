@@ -74,7 +74,7 @@ namespace ManagerAPI.Backend
                             .AllowAnyHeader()
                             .AllowAnyMethod()
                             .AllowCredentials()
-                            .WithOrigins(Configuration.GetSection("ApplicationSettings").GetValue("SecureClientUrl", "https://localhost:5001"), Configuration.GetSection("ApplicationSettings").GetValue("ClientUrl", "http://localhost:5000"));
+                            .WithOrigins(Configuration.GetValue("SecureClientUrl", "https://localhost:5001"), Configuration.GetValue("ClientUrl", "http://localhost:5000"));
                     });
             });
 

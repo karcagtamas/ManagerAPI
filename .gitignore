@@ -3,10 +3,6 @@ obj/
 /packages/
 .idea/.idea.PlanManager/.idea/contentModel.xml
 
-PlanManager.Backend/appsettings.json
-
-PlanManager.Backend/appsettings.Development.json
-
 .vs/
 
 node_modules/
