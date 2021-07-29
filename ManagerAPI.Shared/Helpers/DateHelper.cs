@@ -84,12 +84,23 @@ namespace ManagerAPI.Shared.Helpers
             return new DateTime(date.Year, date.Month, date.Day);
         }
 
+        /// <summary>
+        /// Compare two date
+        /// </summary>
+        /// <param name="date1">Date 1</param>
+        /// <param name="date2">Date 2</param>
+        /// <returns>True if two dates are equal</returns>
         public static bool CompareDates(DateTime date1, DateTime date2)
         {
             return date1.Year == date2.Year && date1.Month == date2.Month && date1.Day == date2.Day &&
                    date1.Hour == date2.Hour;
         }
 
+        /// <summary>
+        /// Convert date to file name
+        /// </summary>
+        /// <param name="date">Date</param>
+        /// <returns>File name</returns>
         public static string ToFileName(DateTime date)
         {
             return $"{date:yyyy-MM-dd-HH-mm-ss}";

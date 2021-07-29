@@ -8,16 +8,33 @@ namespace EventManager.Client.Models
     /// </summary>
     public class ErrorResponse
     {
+        /// <summary>
+        /// Message
+        /// </summary>
         public string Message { get; set; }
+
+        /// <summary>
+        /// Inner error
+        /// </summary>
         public ErrorResponse Inner { get; set; }
+
+        /// <summary>
+        /// Stack trace
+        /// </summary>
         public string StackTrace { get; set; }
 
-        // For deserialization
+        /// <summary>
+        /// Init Error response fordeserialization
+        /// </summary>
         public ErrorResponse()
         {
 
         }
 
+        /// <summary>
+        /// Init Error response from Exception
+        /// </summary>
+        /// <param name="e">Exception</param>
         public ErrorResponse(Exception e)
         {
             this.Message = e.Message;

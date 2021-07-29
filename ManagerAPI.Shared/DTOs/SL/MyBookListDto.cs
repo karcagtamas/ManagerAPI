@@ -5,6 +5,9 @@ namespace ManagerAPI.Shared.DTOs.SL
     /// </summary>
     public class MyBookListDto : BookListDto
     {
+        /// <summary>
+        /// Read
+        /// </summary>
         public bool Read { get; set; }
     }
 }

@@ -7,6 +7,9 @@ namespace ManagerAPI.Shared.Models.SL
     /// </summary>
     public class SeriesCategoryModel
     {
+        /// <summary>
+        /// Category Name
+        /// </summary>
         [MaxLength(120)] public string Name { get; set; }
     }
 }

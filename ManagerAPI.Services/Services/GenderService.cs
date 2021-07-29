@@ -8,9 +8,7 @@ using System.Collections.Generic;
 
 namespace ManagerAPI.Services.Services
 {
-    /// <summary>
-    /// Gender Service
-    /// </summary>
+    /// <inheritdoc />
     public class GenderService : Repository<Gender, SystemNotificationType>, IGenderService
     {
         /// <summary>

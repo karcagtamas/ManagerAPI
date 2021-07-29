@@ -10,6 +10,9 @@ namespace ManagerAPI.Services.Profiles
     /// </summary>
     public class NewsProfile : Profile
     {
+        /// <summary>
+        /// Init mapper
+        /// </summary>
         public NewsProfile()
         {
             this.CreateMap<News, NewsDto>()

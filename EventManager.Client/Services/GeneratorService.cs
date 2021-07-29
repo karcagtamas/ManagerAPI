@@ -10,16 +10,22 @@ using System.Threading.Tasks;
 
 namespace EventManager.Client.Services
 {
+    /// <inheritdoc />
     public class GeneratorService : IGeneratorService
     {
         private readonly IHttpService _http;
         private readonly string _url = $"{ApplicationSettings.BaseApiUrl}/csomor";
 
+        /// <summary>
+        /// Init Generator Service
+        /// </summary>
+        /// <param name="httpService">HTTP Service</param>
         public GeneratorService(IHttpService httpService)
         {
             this._http = httpService;
         }
 
+        /// <inheritdoc />
         public Task<bool> ChangePublicStatus(int id, GeneratorPublishModel model)
         {
             var pathParams = new HttpPathParameters();
@@ -33,6 +39,7 @@ namespace EventManager.Client.Services
             return this._http.Update<GeneratorPublishModel>(settings, body);
         }
 
+        /// <inheritdoc />
         public Task<int> Create(GeneratorSettingsModel model)
         {
             var settings = new HttpSettings($"{this._url}", null, null, "Generator setting creating");
@@ -42,6 +49,7 @@ namespace EventManager.Client.Services
             return this._http.CreateInt<GeneratorSettingsModel>(settings, body);
         }
 
+        /// <inheritdoc />
         public Task<bool> Delete(int id)
         {
             var pathParams = new HttpPathParameters();
@@ -52,6 +60,7 @@ namespace EventManager.Client.Services
             return this._http.Delete(settings);
         }
 
+        /// <inheritdoc />
         public Task<bool> ExportPdf(int id, ExportSettingsModel model)
         {
             var pathParams = new HttpPathParameters();
@@ -64,6 +73,7 @@ namespace EventManager.Client.Services
             return this._http.Download(settings, model);
         }
 
+        /// <inheritdoc />
         public Task<bool> ExportXls(int id, ExportSettingsModel model)
         {
             var pathParams = new HttpPathParameters();
@@ -76,6 +86,7 @@ namespace EventManager.Client.Services
             return this._http.Download(settings, model);
         }
 
+        /// <inheritdoc />
         public Task<GeneratorSettings> GenerateSimple(GeneratorSettings settings)
         {
             var httpSettings = new HttpSettings($"{this._url}/generate", null, null, "Csomor generating");
@@ -85,6 +96,7 @@ namespace EventManager.Client.Services
             return this._http.UpdateWithResult<GeneratorSettings, GeneratorSettings>(httpSettings, body);
         }
 
+        /// <inheritdoc />
         public Task<GeneratorSettings> Get(int id)
         {
             var pathParams = new HttpPathParameters();
@@ -95,6 +107,7 @@ namespace EventManager.Client.Services
             return this._http.Get<GeneratorSettings>(settings);
         }
 
+        /// <inheritdoc />
         public Task<List<UserShortDto>> GetCorrectPersonsForSharing(int id, string name)
         {
             var queryParams = new HttpQueryParameters();
@@ -105,6 +118,7 @@ namespace EventManager.Client.Services
             return this._http.Get<List<UserShortDto>>(settings);
         }
 
+        /// <inheritdoc />
         public Task<List<CsomorListDTO>> GetOwnedList()
         {
             var settings = new HttpSettings($"{this._url}/my");
@@ -112,6 +126,7 @@ namespace EventManager.Client.Services
             return this._http.Get<List<CsomorListDTO>>(settings);
         }
 
+        /// <inheritdoc />
         public Task<List<CsomorListDTO>> GetPublicList()
         {
             var settings = new HttpSettings($"{this._url}/public");
@@ -119,6 +134,7 @@ namespace EventManager.Client.Services
             return this._http.Get<List<CsomorListDTO>>(settings);
         }
 
+        /// <inheritdoc />
         public Task<CsomorRole> GetRole(int id)
         {
             var pathParams = new HttpPathParameters();
@@ -130,6 +146,7 @@ namespace EventManager.Client.Services
             return this._http.Get<CsomorRole>(settings);
         }
 
+        /// <inheritdoc />
         public Task<List<CsomorListDTO>> GetSharedList()
         {
             var settings = new HttpSettings($"{this._url}/shared");
@@ -137,6 +154,7 @@ namespace EventManager.Client.Services
             return this._http.Get<List<CsomorListDTO>>(settings);
         }
 
+        /// <inheritdoc />
         public Task<List<CsomorAccessDTO>> GetSharedPersonList(int id)
         {
             var settings = new HttpSettings($"{this._url}/{id}/shared");
@@ -144,6 +162,7 @@ namespace EventManager.Client.Services
             return this._http.Get<List<CsomorAccessDTO>>(settings);
         }
 
+        /// <inheritdoc />
         public Task<bool> Share(int id, List<CsomorAccessModel> models)
         {
             var pathParams = new HttpPathParameters();
@@ -157,6 +176,7 @@ namespace EventManager.Client.Services
             return this._http.Update<List<CsomorAccessModel>>(settings, body);
         }
 
+        /// <inheritdoc />
         public Task<bool> Update(int id, GeneratorSettingsModel model)
         {
             var pathParams = new HttpPathParameters();

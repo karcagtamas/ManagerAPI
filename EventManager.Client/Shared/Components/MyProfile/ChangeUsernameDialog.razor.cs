@@ -1,37 +1,28 @@
-using EventManager.Client.Models;
-using EventManager.Client.Services;
 using EventManager.Client.Services.Interfaces;
 using ManagerAPI.Shared.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using MudBlazor;
 
 namespace EventManager.Client.Shared.Components.MyProfile
 {
+    /// <summary>
+    /// Change Username Dialog
+    /// </summary>
     public partial class ChangeUsernameDialog
     {
-        [CascadingParameter]
-        public ModalParameters Parameters { get; set; }
-
-        [CascadingParameter]
-        public BlazoredModal BlazoredModal { get; set; }
+        [CascadingParameter] private MudDialogInstance Dialog { get; set; }
 
         [Inject]
         private IUserService UserService { get; set; }
 
-        [Inject]
-        private IModalService ModalService { get; set; }
-        public int FormId { get; set; }
+        private UsernameUpdateModel UsernameUpdate { get; set; }
 
-        protected UsernameUpdateModel UsernameUpdate { get; set; }
+        private EditContext Context { get; set; }
 
-        public EditContext Context { get; set; }
-
+        /// <inheritdoc />
         protected override void OnInitialized()
         {
-            this.FormId = this.Parameters.Get<int>("FormId");
-
-            ((ModalService)this.ModalService).OnConfirm += this.OnConfirm;
-
             this.UsernameUpdate = new UsernameUpdateModel
             {
                 UserName = ""
@@ -40,14 +31,20 @@ namespace EventManager.Client.Shared.Components.MyProfile
             this.Context = new EditContext(this.UsernameUpdate);
         }
 
-        protected async void OnConfirm()
+        private async void Save()
         {
-            bool isValid = this.Context.Validate();
-            if (isValid && await this.UserService.UpdateUsername(this.UsernameUpdate))
+            if (!Context.Validate()) return;
+
+            if (await this.UserService.UpdateUsername(this.UsernameUpdate))
             {
-                this.ModalService.Close(ModalResult.Ok<bool>(true));
-                ((ModalService)this.ModalService).OnConfirm -= this.OnConfirm;
+                Dialog.Close(DialogResult.Ok(true));
             }
+
+        }
+
+        private void Cancel()
+        {
+            Dialog.Cancel();
         }
     }
 }

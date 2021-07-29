@@ -5,10 +5,24 @@ using Microsoft.AspNetCore.Components;
 
 namespace EventManager.Client.Shared.Components.SL
 {
+    /// <summary>
+    /// Series Comment Component
+    /// </summary>
     public partial class SeriesCommentComponent
     {
+        /// <summary>
+        /// Comment
+        /// </summary>
         [Parameter] public SeriesCommentListDto Comment { get; set; }
+
+        /// <summary>
+        /// Refresh
+        /// </summary>
         [Parameter] public EventCallback Refresh { get; set; }
+
+        /// <summary>
+        /// Series Id
+        /// </summary>
         [Parameter] public int SeriesId { get; set; }
         [Inject] private ISeriesCommentService SeriesCommentService { get; set; }
         private bool IsEdit { get; set; }

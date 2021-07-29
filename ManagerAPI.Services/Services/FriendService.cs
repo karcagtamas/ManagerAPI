@@ -13,9 +13,7 @@ using System.Threading.Tasks;
 
 namespace ManagerAPI.Services.Services
 {
-    /// <summary>
-    /// Friend Service
-    /// </summary>
+    /// <inheritdoc />
     public class FriendService : IFriendService
     {
         // Actions
@@ -68,10 +66,7 @@ namespace ManagerAPI.Services.Services
             this._userManager = userManager;
         }
 
-        /// <summary>
-        /// Get current user's got friend requests
-        /// </summary>
-        /// <returns>List of friend requests</returns>
+        /// <inheritdoc />
         public List<FriendRequestListDto> GetMyFriendRequests()
         {
             var user = this._utilsService.GetCurrentUser();
@@ -85,11 +80,7 @@ namespace ManagerAPI.Services.Services
             return list;
         }
 
-        /// <summary>
-        /// Get current user's friends
-        /// Add notification rows
-        /// </summary>
-        /// <returns>List of friends</returns>
+        /// <inheritdoc />
         public List<FriendListDto> GetMyFriends()
         {
             var user = this._utilsService.GetCurrentUser();
@@ -102,11 +93,7 @@ namespace ManagerAPI.Services.Services
             return list;
         }
 
-        /// <summary>
-        /// Remove current user's friend by Id
-        /// Add notification rows
-        /// </summary>
-        /// <param name="friendId">Friend Id</param>
+        /// <inheritdoc />
         public void RemoveFriend(string friendId)
         {
             var user = this._utilsService.GetCurrentUser();
@@ -133,11 +120,7 @@ namespace ManagerAPI.Services.Services
                 user.UserName);
         }
 
-        /// <summary>
-        /// Send friend request
-        /// Add notification rows
-        /// </summary>
-        /// <param name="model">Model of the request</param>
+        /// <inheritdoc />
         public void SendFriendRequest(FriendRequestModel model)
         {
             var user = this._utilsService.GetCurrentUser();
@@ -187,11 +170,7 @@ namespace ManagerAPI.Services.Services
                 user.UserName);
         }
 
-        /// <summary>
-        /// Send friend request response
-        /// Add notification rows
-        /// </summary>
-        /// <param name="model">Model of response</param>
+        /// <inheritdoc />
         public void SendFriendRequestResponse(FriendRequestResponseModel model)
         {
             var user = this._utilsService.GetCurrentUser();
@@ -256,11 +235,7 @@ namespace ManagerAPI.Services.Services
                        .FirstOrDefault(x => x.SenderId == friendId && x.Response == null) != null;
         }
 
-        /// <summary>
-        /// Get friend data
-        /// </summary>
-        /// <param name="friendId">Friend's Id</param>
-        /// <returns>Friend data</returns>
+        /// <inheritdoc />
         public async Task<FriendDataDto> GetFriendData(string friendId)
         {
             var user = this._utilsService.GetCurrentUser();

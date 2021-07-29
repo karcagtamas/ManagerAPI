@@ -8,6 +8,10 @@ namespace ManagerAPI.Services.Common
     public class Header
     {
         private string PropertyName { get; set; }
+
+        /// <summary>
+        /// Display name
+        /// </summary>
         public string DisplayName { get; set; }
         private Func<object, string> Displaying { get; set; }
 

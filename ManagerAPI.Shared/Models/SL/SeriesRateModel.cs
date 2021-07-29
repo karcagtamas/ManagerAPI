@@ -5,6 +5,9 @@
     /// </summary>
     public class SeriesRateModel
     {
+        /// <summary>
+        /// Rate
+        /// </summary>
         public int Rate { get; set; }
     }
 }

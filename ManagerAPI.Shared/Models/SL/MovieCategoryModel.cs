@@ -7,6 +7,9 @@ namespace ManagerAPI.Shared.Models.SL
     /// </summary>
     public class MovieCategoryModel
     {
+        /// <summary>
+        /// Category name
+        /// </summary>
         [MaxLength(120)] public string Name { get; set; }
     }
 }

@@ -9,6 +9,9 @@ using System.Collections.Generic;
 
 namespace ManagerAPI.Backend.Controllers
 {
+    /// <summary>
+    /// Episode controller
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     [Authorize(Roles = "Administrator,Status Library User,Status Library Moderator,Status Library Administrator,Root")]
@@ -16,11 +19,19 @@ namespace ManagerAPI.Backend.Controllers
     {
         private readonly IEpisodeService _episodeService;
 
+        /// <summary>
+        /// Init episode controller
+        /// </summary>
+        /// <param name="episodeService">Episode service</param>
         public EpisodeController(IEpisodeService episodeService) : base(episodeService)
         {
             this._episodeService = episodeService;
         }
 
+        /// <summary>
+        /// Update seen status endpoint
+        /// </summary>
+        /// <param name="models">Model</param>
         [HttpPut("map/status")]
         public IActionResult UpdateSeenStatus([FromBody] List<EpisodeSeenStatusModel> models)
         {
@@ -32,6 +43,10 @@ namespace ManagerAPI.Backend.Controllers
             return this.Ok();
         }
 
+        /// <summary>
+        /// Add incremented episode to season endpoint
+        /// </summary>
+        /// <param name="seasonId">Path param id</param>
         [HttpPost("{seasonId}")]
         [Authorize(Roles = "Administrator,Root,Moderator,Status Library Moderator,Status Library Administrator")]
         public IActionResult AddIncremented(int seasonId)
@@ -40,6 +55,10 @@ namespace ManagerAPI.Backend.Controllers
             return this.Ok();
         }
 
+        /// <summary>
+        /// Remove last episode id endpoint
+        /// </summary>
+        /// <param name="episodeId">Path param id</param>
         [HttpDelete("decremented/{episodeId}")]
         [Authorize(Roles = "Administrator,Root,Status Library Administrator")]
         public IActionResult DeleteDecremented(int episodeId)
@@ -48,12 +67,21 @@ namespace ManagerAPI.Backend.Controllers
             return this.Ok();
         }
 
+        /// <summary>
+        /// Get my endpoint
+        /// </summary>
+        /// <param name="id">Path param id</param>
         [HttpGet("my/{id}")]
         public IActionResult GetMy(int id)
         {
             return this.Ok(this._episodeService.GetMy(id));
         }
 
+        /// <summary>
+        /// Update short endpoint
+        /// </summary>
+        /// <param name="id">Path param id</param>
+        /// <param name="model">Model</param>
         [HttpPut("short/{id}")]
         [Authorize(Roles = "Administrator,Root,Moderator,Status Library Moderator,Status Library Administrator")]
         public IActionResult UpdateShort(int id, [FromBody] EpisodeShortModel model)
@@ -62,6 +90,11 @@ namespace ManagerAPI.Backend.Controllers
             return this.Ok();
         }
 
+        /// <summary>
+        /// Update image endpoint
+        /// </summary>
+        /// <param name="id">Path param id</param>
+        /// <param name="model">Model</param>
         [HttpPut("image/{id}")]
         [Authorize(Roles = "Administrator,Root,Moderator,Status Library Moderator,Status Library Administrator")]
         public IActionResult UpdateImage(int id, [FromBody] EpisodeImageModel model)

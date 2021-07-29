@@ -8,8 +8,15 @@ namespace ManagerAPI.Shared.Models.WM
     /// </summary>
     public class WorkingDayModel
     {
+        /// <summary>
+        /// Date
+        /// </summary>
         [Required]
         public DateTime Date { get; set; }
+
+        /// <summary>
+        /// Type
+        /// </summary>
 
         [Required(ErrorMessage = "Field is required")]
         public int Type { get; set; }

@@ -13,6 +13,9 @@ namespace ManagerAPI.Services.Profiles
     /// </summary>
     public class WorkingFieldProfile : Profile
     {
+        /// <summary>
+        /// Init mapper
+        /// </summary>
         public WorkingFieldProfile()
         {
             this.CreateMap<WorkingField, WorkingFieldListDto>();

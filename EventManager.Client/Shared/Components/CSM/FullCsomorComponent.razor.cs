@@ -7,27 +7,46 @@ using System.Linq;
 
 namespace EventManager.Client.Shared.Components.CSM
 {
+    /// <summary>
+    /// Full Csomor Component
+    /// </summary>
     public partial class FullCsomorComponent
     {
+        /// <summary>
+        /// Settings
+        /// </summary>
         [Parameter]
         public GeneratorSettings Settings { get; set; }
 
+        /// <summary>
+        /// Table type
+        /// </summary>
         [Parameter]
         public CsomorType TableType { get; set; }
 
+        /// <summary>
+        /// Filter List
+        /// </summary>
         [Parameter]
         public List<string> FilterList { get; set; }
 
+        /// <summary>
+        /// Table type changed event
+        /// </summary>
         [Parameter]
         public EventCallback<CsomorType> TableTypeChanged { get; set; }
 
+        /// <summary>
+        /// Filter list changed event
+        /// </summary>
         [Parameter]
         public EventCallback<List<string>> FilterListChanged { get; set; }
-        public Dictionary<DateTime, List<DisplayMember>> Rows { get; set; }
-        public string HoveredMemberId { get; set; } = "-";
-        public string Selected { get; set; }
-        public bool SelectedIsPerson { get; set; } = false;
+        private Dictionary<DateTime, List<DisplayMember>> Rows { get; set; }
+        private string HoveredMemberId { get; set; } = "-";
+        private string Selected { get; set; }
+        private bool SelectedIsPerson { get; set; } = false;
 
+        /// <inheritdoc />
         protected override void OnParametersSet()
         {
             this.CreateTable();
@@ -156,14 +175,35 @@ namespace EventManager.Client.Shared.Components.CSM
         }
     }
 
+    /// <summary>
+    /// Display Member
+    /// </summary>
     public class DisplayMember
     {
+        /// <summary>
+        /// Id
+        /// </summary>
         public string Id { get; set; }
+        
+        /// <summary>
+        /// Name
+        /// </summary>
         public string Name { get; set; }
+        
+        /// <summary>
+        /// Tooltip
+        /// </summary>
         public string Tooltip { get; set; }
 
+        /// <summary>
+        /// Init
+        /// </summary>
         public DisplayMember() { }
 
+        /// <summary>
+        /// Init by Person
+        /// </summary>
+        /// <param name="person">Person</param>
         public DisplayMember(Person person)
         {
             if (person == null)
@@ -181,6 +221,11 @@ namespace EventManager.Client.Shared.Components.CSM
             }
         }
 
+        /// <summary>
+        /// Init by work
+        /// </summary>
+        /// <param name="work">Work</param>
+        /// <param name="outside">Outside status</param>
         public DisplayMember(Work work, bool outside)
         {
             if (work == null)

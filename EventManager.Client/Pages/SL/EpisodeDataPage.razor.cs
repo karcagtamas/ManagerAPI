@@ -4,27 +4,33 @@ using EventManager.Client.Shared.Components.SL;
 using ManagerAPI.Shared.DTOs.SL;
 using ManagerAPI.Shared.Models.SL;
 using Microsoft.AspNetCore.Components;
+using MudBlazor;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace EventManager.Client.Pages.SL
 {
+    /// <summary>
+    /// Episode data Page
+    /// </summary>
     public partial class EpisodeDataPage
     {
+        /// <summary>
+        /// Episode Id
+        /// </summary>
         [Parameter] public int Id { get; set; }
-
         private MyEpisodeDto Episode { get; set; }
         [Inject] private IEpisodeService EpisodeService { get; set; }
         [Inject] private NavigationManager Navigation { get; set; }
-        [Inject] private IModalService Modal { get; set; }
+        [Inject] private IDialogService DialogService { get; set; }
         [Inject] private IAuthService Auth { get; set; }
-
         private bool IsLoading { get; set; }
         private string EpisodeImage { get; set; }
         private bool CanEdit { get; set; }
         private bool CanDelete { get; set; }
 
+        /// <inheritdoc />
         protected override async Task OnInitializedAsync()
         {
             await this.GetEpisode();
@@ -57,30 +63,16 @@ namespace EventManager.Client.Pages.SL
             }
         }
 
-        private void OpenEditEpisodeDialog()
+        private async void OpenEditEpisodeDialog()
         {
-            var parameters = new ModalParameters();
-            parameters.Add("FormId", 1);
-            parameters.Add("episode", this.Id);
+            var parameters = new DialogParameters { { "EpisodeId", Id } };
+            var dialog = DialogService.Show<EpisodeDialog>("Edit Episode", parameters);
+            var result = await dialog.Result;
 
-            var options = new ModalOptions
-            {
-                ButtonOptions = { ConfirmButtonType = ConfirmButton.Save, ShowConfirmButton = true }
-            };
-
-            this.Modal.OnClose += this.EpisodeDialogClosed;
-
-            this.Modal.Show<EpisodeDialog>("Edit Episode", parameters, options);
-        }
-
-        private async void EpisodeDialogClosed(ModalResult modalResult)
-        {
-            if (!modalResult.Cancelled && (bool)modalResult.Data)
+            if (!result.Cancelled)
             {
                 await this.GetEpisode();
             }
-
-            this.Modal.OnClose -= this.EpisodeDialogClosed;
         }
 
         private async void SetSeenStatus(bool status)
@@ -92,30 +84,16 @@ namespace EventManager.Client.Pages.SL
             }
         }
 
-        private void OpenEditEpisodeImageDialog()
+        private async void OpenEditEpisodeImageDialog()
         {
-            var parameters = new ModalParameters();
-            parameters.Add("FormId", 1);
-            parameters.Add("episode", this.Id);
+            var parameters = new DialogParameters { { "EpisodeId", Id } };
+            var dialog = DialogService.Show<EpisodeImageDialog>("Edit Image", parameters);
+            var result = await dialog.Result;
 
-            var options = new ModalOptions
-            {
-                ButtonOptions = { ConfirmButtonType = ConfirmButton.Save, ShowConfirmButton = true }
-            };
-
-            this.Modal.OnClose += this.EditEpisodeImageDialogClosed;
-
-            this.Modal.Show<EpisodeImageDialog>("Edit Episode Image", parameters, options);
-        }
-
-        private async void EditEpisodeImageDialogClosed(ModalResult modalResult)
-        {
-            if (!modalResult.Cancelled && (bool)modalResult.Data)
+            if (!result.Cancelled)
             {
                 await this.GetEpisode();
             }
-
-            this.Modal.OnClose -= this.EditEpisodeImageDialogClosed;
         }
     }
 }

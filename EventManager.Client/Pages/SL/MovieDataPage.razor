@@ -17,61 +17,57 @@
         <div class="action-bar">
             @if (CanEdit)
             {
-                <MatTooltip Tooltip="Edit Movie">
-                    <MatIconButton RefBack="@context" Icon="edit" @onclick="OpenEditMovieDialog"></MatIconButton>
-                </MatTooltip>
+                <div>
+                    <MudIconButton Icon="@Icons.Filled.Edit" OnClick="OpenEditMovieDialog" Color="Color.Primary" />
+                </div>
             }
             @if (CanDelete)
             {
-                <MatTooltip Tooltip="Delete Movie">
-                    <MatIconButton RefBack="@context" Icon="delete" @onclick="OpenDeleteDialog"></MatIconButton>
-                </MatTooltip>
+                <div>
+                    <MudIconButton Icon="@Icons.Filled.Delete" OnClick="OpenDeleteDialog" Color="Color.Error" />
+                </div>
             }
             @if (CanEdit)
             {
-                <MatTooltip Tooltip="Edit Image">
-                    <MatIconButton RefBack="@context" Icon="image" @onclick="OpenEditMovieImageDialog"></MatIconButton>
-                </MatTooltip>
-                <MatTooltip Tooltip="Edit Categories">
-                    <MatIconButton RefBack="@context" Icon="category" @onclick="OpenEditMovieCategoriesDialog"></MatIconButton>
-                </MatTooltip>
+                <div>
+                    <MudIconButton Icon="@Icons.Filled.Image" OnClick="OpenEditMovieImageDialog" Color="Color.Secondary" />
+                    <MudIconButton Icon="@Icons.Filled.Category" OnClick="OpenEditMovieCategoriesDialog" Color="Color.Secondary" />
+                </div>
             }
 
             @if (Movie != null)
             {
                 @if (Movie.IsMine)
                 {
-                    <MatTooltip Tooltip="Remove from My list">
-                        <MatIconButton RefBack="@context" Icon="remove" @onclick="RemoveFromMyMovies"></MatIconButton>
-                    </MatTooltip>
-                    @if (Movie.IsSeen)
-                    {
-                        <MatTooltip Tooltip="Set to not seen">
-                            <MatIconButton RefBack="@context" Icon="visibility_off" @onclick="@(() => SetSeenStatus(false))"></MatIconButton>
-                        </MatTooltip>
-                    }
-                    else
-                    {
-                        <MatTooltip Tooltip="Set to seen">
-                            <MatIconButton RefBack="@context" Icon="visibility" @onclick="@(() => SetSeenStatus(true))"></MatIconButton>
-                        </MatTooltip>
-                    }
+                    <div>
+                        <MudIconButton Icon="@Icons.Filled.Remove" OnClick="RemoveFromMyMovies" Color="Color.Secondary" />
+                        @if (Movie.IsSeen)
+                        {
+                            <MudIconButton Icon="@Icons.Filled.VisibilityOff" OnClick="@(() => SetSeenStatus(false))" Color="Color.Secondary" />
+                        }
+                        else
+                        {
+                            <MudIconButton Icon="@Icons.Filled.Visibility" OnClick="@(() => SetSeenStatus(true))" Color="Color.Secondary" />
+                        }
+                    </div>
                 }
                 else
                 {
-                    <MatTooltip Tooltip="Add to My list">
-                        <MatIconButton RefBack="@context" Icon="add" @onclick="AddToMyMovies"></MatIconButton>
-                    </MatTooltip>
+                    <div>
+                        <MudIconButton Icon="@Icons.Filled.Add" OnClick="AddToMyMovies" Color="Color.Secondary" />
+                    </div>
                 }
             }
             <span class="spacer"></span>
-            <MatButton @onclick="@(() => Navigation.NavigateTo("/movies"))">Movie List</MatButton>
-            <MatButton @onclick="@(() => Navigation.NavigateTo("/my-movies"))">My Movie List</MatButton>
+            <div>
+                <MudButton OnClick="@(() => Navigation.NavigateTo("/movies"))" Color="Color.Primary">Movie List</MudButton>
+                <MudButton OnClick="@(() => Navigation.NavigateTo("/my-movies"))" Color="Color.Primary">My Movie List</MudButton>
+            </div>
         </div>
         @if (Movie != null)
         {
-            <MatTabGroup Class="tab-group">
-                <MatTab Label="Data">
+            <MudTabs Rounded="true" Centered="true" Class="tab-group" Color="Color.Primary">
+                <MudTabPanel Text="Data">
                     <div class="data">
                         <div class="data-rows">
                             <div class="data-row">
@@ -133,7 +129,7 @@
                             <div class="rates">
                                 @foreach (var rate in RateList)
                                 {
-                                    <MatIcon Class="rate-icon" Icon="@(rate <= Movie.Rate ? "star" : "star_border")" @onclick="@(() => UpdateRate(rate))" title="@rate"></MatIcon>
+                                    <MudIcon Class="rate-icon" Icon="@(rate <= Movie.Rate ? Icons.Filled.Star : Icons.Filled.StarBorder)" @onclick="@(() => UpdateRate(rate))" Tag="@rate"></MudIcon>
                                 }
                             </div>
                         </div>
@@ -150,9 +146,9 @@
                             </div>
                         </div>
                     </div>
-                </MatTab>
-                <MatTab Label="Comments">
-                    <div class="comments">
+                </MudTabPanel>
+                <MudTabPanel Text="Comments">
+                    <div class="comments blue-label">
                         <div class="comment-list">
                             @foreach (var comment in CommentList)
                             {
@@ -162,16 +158,16 @@
 
                         <div class="input-panel">
                             <div class="col col-12 p-1">
-                                <MatTextField class="w-100" @bind-Value="Comment" Label="Comment" Dense="true" Outlined="true" TextArea="true"></MatTextField>
+                                <MudTextField @bind-Value="Comment" Label="Comment" FullWidth="true" Variant="Variant.Outlined" Lines="3" />
                             </div>
-                            <div class="down-row">
+                            <div class="down-row p-2">
                                 <span class="spacer"></span>
-                                <MatButton @onclick="SaveComment">Comment</MatButton>
+                                <MudButton OnClick="SaveComment" Variant="Variant.Filled" Color="Color.Primary">Comment</MudButton>
                             </div>
                         </div>
                     </div>
-                </MatTab>
-            </MatTabGroup>
+                </MudTabPanel>
+            </MudTabs>
         }
     }
 </div>

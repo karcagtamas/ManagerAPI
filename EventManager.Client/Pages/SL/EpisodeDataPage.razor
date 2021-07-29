@@ -3,7 +3,7 @@
 @using ManagerAPI.Shared.Helpers
 @attribute [Authorize(Roles = "Administrator,Status Library User,Status Library Moderator,Status Library Administrator,Root")]
 
-<div class="sl-episode-data">
+<div class="sl-episode-data w-100">
     @if (Episode != null)
     {
         <h1 class="em-page-title">@Episode.Title</h1>
@@ -17,37 +17,38 @@
         <div class="action-bar">
             @if (CanEdit)
             {
-                <MatTooltip Tooltip="Edit Episode">
-                    <MatIconButton RefBack="@context" Icon="edit" @onclick="OpenEditEpisodeDialog"></MatIconButton>
-                </MatTooltip>
+                <div>
+                    <MudIconButton Icon="@Icons.Filled.Edit" OnClick="OpenEditEpisodeDialog" />
+                </div>
             }
             @if (CanDelete)
             {
-                <MatTooltip Tooltip="Delete Episode">
-                    <MatIconButton RefBack="@context" Icon="delete" @onclick="DeleteDecremented"></MatIconButton>
-                </MatTooltip>
+                <div>
+                    <MudIconButton Icon="@Icons.Filled.Delete" OnClick="DeleteDecremented" />
+                </div>
             }
             @if (CanEdit)
             {
-                <MatTooltip Tooltip="Edit Image">
-                    <MatIconButton RefBack="@context" Icon="image" @onclick="OpenEditEpisodeImageDialog"></MatIconButton>
-                </MatTooltip>
+                <div>
+                    <MudIconButton Icon="@Icons.Filled.Image" OnClick="OpenEditEpisodeImageDialog" />
+                </div>
             }
 
             @if (Episode != null && Episode.IsMine)
             {
                 @if (Episode.IsSeen)
                 {
-                    <MatButton @onclick="@(() => SetSeenStatus(false))">Set as Unseen</MatButton>
+                    <MudIconButton Icon="@Icons.Filled.VisibilityOff" OnClick="@(() => SetSeenStatus(false))" />
                 }
                 else
                 {
-                    <MatButton @onclick="@(() => SetSeenStatus(true))">Set as Seen</MatButton>
+                    <MudIconButton Icon="@Icons.Filled.Visibility" OnClick="@(() => SetSeenStatus(true))" />
                 }
             }
             <span class="spacer"></span>
-            <MatButton @onclick="@(() => Navigation.NavigateTo("/series"))">Series List</MatButton>
-            <MatButton @onclick="@(() => Navigation.NavigateTo("/my-series"))">My Series List</MatButton>
+
+            <MudButton OnClick="@(() => Navigation.NavigateTo("/series"))">Series List</MudButton>
+                <MudButton OnClick="@(() => Navigation.NavigateTo("/my-series"))">My Series List</MudButton>
         </div>
         @if (Episode != null)
         {

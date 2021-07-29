@@ -9,6 +9,9 @@ using System.Collections.Generic;
 
 namespace ManagerAPI.Backend.Controllers
 {
+    /// <summary>
+    /// Season controller
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     [Authorize(Roles = "Administrator,Status Library User,Status Library Moderator,Status Library Administrator,Root")]
@@ -16,11 +19,19 @@ namespace ManagerAPI.Backend.Controllers
     {
         private readonly ISeasonService _seasonService;
 
+        /// <summary>
+        /// Init season controller
+        /// </summary>
+        /// <param name="seasonService">Season service</param>
         public SeasonController(ISeasonService seasonService) : base(seasonService)
         {
             this._seasonService = seasonService;
         }
 
+        /// <summary>
+        /// Update seen status endpoint
+        /// </summary>
+        /// <param name="models">Models</param>
         [HttpPut("map/status")]
         public IActionResult UpdateSeenStatus([FromBody] List<SeasonSeenStatusModel> models)
         {
@@ -32,6 +43,10 @@ namespace ManagerAPI.Backend.Controllers
             return this.Ok();
         }
 
+        /// <summary>
+        /// Add incremented endpoint
+        /// </summary>
+        /// <param name="seriesId">Path param id</param>
         [HttpPost("{seriesId}")]
         [Authorize(Roles = "Administrator,Root,Moderator,Status Library Moderator,Status Library Administrator")]
         public IActionResult AddIncremented(int seriesId)
@@ -40,6 +55,10 @@ namespace ManagerAPI.Backend.Controllers
             return this.Ok();
         }
 
+        /// <summary>
+        /// Delete last endpoint
+        /// </summary>
+        /// <param name="seasonId">Path param id</param>
         [HttpDelete("decremented/{seasonId}")]
         [Authorize(Roles = "Administrator,Root,Status Library Administrator")]
         public IActionResult DeleteDecremented(int seasonId)

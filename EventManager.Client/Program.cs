@@ -3,30 +3,36 @@ using EventManager.Client.Http;
 using EventManager.Client.Models;
 using EventManager.Client.Services;
 using EventManager.Client.Services.Interfaces;
-using MatBlazor;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
+using MudBlazor;
+using MudBlazor.Services;
 using System;
-using System.IO;
 using System.Net.Http;
-using System.Reflection;
 using System.Threading.Tasks;
 
 namespace EventManager.Client
 {
+
+    /// <summary>
+    /// Program
+    /// </summary>
     public class Program
     {
+
+        /// <summary>
+        /// Main
+        /// </summary>
         public static async Task Main(string[] args)
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
+            builder.RootComponents.Add<App>("app");
+
             builder.Services.AddBlazoredLocalStorage();
             builder.Services.AddOptions();
             builder.Services.AddAuthorizationCore();
-            // builder.Services.AddSingleton<HttpClient>();
             builder.Services.AddScoped(
                 sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
             builder.Services.AddScoped<AuthenticationStateProvider, ApiAuthenticationStateProvider>();
@@ -35,7 +41,6 @@ namespace EventManager.Client
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<INotificationService, NotificationService>();
             builder.Services.AddScoped<IFriendService, FriendService>();
-            builder.Services.AddScoped<IModalService, ModalService>();
             builder.Services.AddScoped<IHttpService, HttpService>();
             builder.Services.AddScoped<ITaskService, TaskService>();
             builder.Services.AddScoped<IWorkingDayService, WorkingDayService>();
@@ -53,34 +58,25 @@ namespace EventManager.Client
             builder.Services.AddScoped<ISeriesCommentService, SeriesCommentService>();
             builder.Services.AddScoped<IGeneratorService, GeneratorService>();
 
-            if (builder.HostEnvironment.IsDevelopment())
-            {
-                ApplicationSettings.BaseUrl = "https://localhost:8000";
-                ApplicationSettings.BaseApiUrl = ApplicationSettings.BaseUrl + "/api";
-            }
+            ApplicationSettings.BaseUrl = builder.Configuration.GetSection("Api").Value;
+            ApplicationSettings.BaseApiUrl = ApplicationSettings.BaseUrl + "/api";
 
-            builder.Services.AddMatToaster(config =>
+            // TODO: Add my lib
+
+            builder.Services.AddMudServices(config =>
             {
-                config.Position = MatToastPosition.BottomRight;
-                config.PreventDuplicates = true;
-                config.NewestOnTop = true;
-                config.ShowCloseButton = true;
-                config.MaximumOpacity = 95;
-                config.VisibleStateDuration = 3000;
+                config.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.BottomRight;
+
+                config.SnackbarConfiguration.PreventDuplicates = false;
+                config.SnackbarConfiguration.NewestOnTop = false;
+                config.SnackbarConfiguration.ShowCloseIcon = true;
+                config.SnackbarConfiguration.VisibleStateDuration = 10000;
+                config.SnackbarConfiguration.HideTransitionDuration = 500;
+                config.SnackbarConfiguration.ShowTransitionDuration = 500;
+                config.SnackbarConfiguration.SnackbarVariant = Variant.Filled;
             });
 
-            builder.RootComponents.Add<App>("app");
-
             await builder.Build().RunAsync();
-        }
-
-        private static IConfiguration GetConfiguration()
-        {
-            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("appsettings.json"))
-            using (var reader = new StreamReader(stream))
-            {
-                return JsonConvert.DeserializeObject<IConfiguration>(reader.ReadToEnd());
-            }
         }
     }
 }

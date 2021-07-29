@@ -7,6 +7,9 @@ namespace ManagerAPI.Shared.Models
     /// </summary>
     public class GenderModel
     {
+        /// <summary>
+        /// Gender
+        /// </summary>
         [Required(ErrorMessage = "Field is required")]
         public string Name { get; set; }
     }

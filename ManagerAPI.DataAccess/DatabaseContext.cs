@@ -14,65 +14,249 @@ namespace ManagerAPI.DataAccess
     /// </summary>
     public class DatabaseContext : IdentityDbContext
     {
+        /// <summary>
+        /// Genders
+        /// </summary>
         public DbSet<Gender> Genders { get; set; }
+
+        /// <summary>
+        /// AppUsers
+        /// </summary>
         public DbSet<User> AppUsers { get; set; }
+
+        /// <summary>
+        /// AppRoles
+        /// </summary>
         public DbSet<WebsiteRole> AppRoles { get; set; }
+
+        /// <summary>
+        /// NotificationSystems
+        /// </summary>
         public DbSet<NotificationSystem> NotificationSystems { get; set; }
+
+        /// <summary>
+        /// NotificationTypes
+        /// </summary>
         public DbSet<NotificationType> NotificationTypes { get; set; }
+
+        /// <summary>
+        /// Notifications
+        /// </summary>
         public DbSet<Notification> Notifications { get; set; }
+
+        /// <summary>
+        /// FriendRequests
+        /// </summary>
         public DbSet<FriendRequest> FriendRequests { get; set; }
+
+        /// <summary>
+        /// Friends
+        /// </summary>
         public DbSet<Friends> Friends { get; set; }
+
+        /// <summary>
+        /// Messages
+        /// </summary>
         public DbSet<Message> Messages { get; set; }
+
+        /// <summary>
+        /// News
+        /// </summary>
         public DbSet<News> News { get; set; }
+
+        /// <summary>
+        /// Tasks
+        /// </summary>
         public DbSet<Task> Tasks { get; set; }
 
         // PM
+        /// <summary>
+        /// PlanTypes
+        /// </summary>
         public DbSet<PlanType> PlanTypes { get; set; }
+
+        /// <summary>
+        /// Plans
+        /// </summary>
         public DbSet<Plan> Plans { get; set; }
+
+        /// <summary>
+        /// PlanGroups
+        /// </summary>
         public DbSet<PlanGroup> PlanGroups { get; set; }
+
+        /// <summary>
+        /// PlanGroupIdeas
+        /// </summary>
         public DbSet<PlanGroupIdea> PlanGroupIdeas { get; set; }
+
+        /// <summary>
+        /// PlanGroupChatMessages
+        /// </summary>
         public DbSet<PlanGroupChatMessage> PlanGroupChatMessages { get; set; }
+
+        /// <summary>
+        /// MarkTypes
+        /// </summary>
         public DbSet<MarkType> MarkTypes { get; set; }
+
+        /// <summary>
+        /// PlanGroupPlans
+        /// </summary>
         public DbSet<PlanGroupPlan> PlanGroupPlans { get; set; }
+
+        /// <summary>
+        /// PlanGroupPlanComments
+        /// </summary>
         public DbSet<PlanGroupPlanComment> PlanGroupPlanComments { get; set; }
+
+        /// <summary>
+        /// GroupRoles
+        /// </summary>
         public DbSet<GroupRole> GroupRoles { get; set; }
+
+        /// <summary>
+        /// UserPlanGroupsSwitch
+        /// </summary>
         public DbSet<UserPlanGroup> UserPlanGroupsSwitch { get; set; }
 
         // WM
+        /// <summary>
+        /// WorkingDayTypes
+        /// </summary>
         public DbSet<WorkingDayType> WorkingDayTypes { get; set; }
+
+        /// <summary>
+        /// WorkingDays
+        /// </summary>
         public DbSet<WorkingDay> WorkingDays { get; set; }
+
+        /// <summary>
+        /// WorkingFields
+        /// </summary>
         public DbSet<WorkingField> WorkingFields { get; set; }
 
         // SL
+        /// <summary>
+        /// MovieCategories
+        /// </summary>
         public DbSet<MovieCategory> MovieCategories { get; set; }
+
+        /// <summary>
+        /// Movies
+        /// </summary>
         public DbSet<Movie> Movies { get; set; }
+
+        /// <summary>
+        /// MovieComments
+        /// </summary>
         public DbSet<MovieComment> MovieComments { get; set; }
+
+        /// <summary>
+        /// MovieMovieCategorySwitch
+        /// </summary>
         public DbSet<MovieMovieCategory> MovieMovieCategorySwitch { get; set; }
+
+        /// <summary>
+        /// UserMovieSwitch
+        /// </summary>
         public DbSet<UserMovie> UserMovieSwitch { get; set; }
+
+        /// <summary>
+        /// SeriesCategories
+        /// </summary>
         public DbSet<SeriesCategory> SeriesCategories { get; set; }
+
+        /// <summary>
+        /// Series
+        /// </summary>
         public DbSet<Series> Series { get; set; }
+
+        /// <summary>
+        /// SeriesComments
+        /// </summary>
         public DbSet<SeriesComment> SeriesComments { get; set; }
+
+        /// <summary>
+        /// SeriesSeriesCategoriesSwitch
+        /// </summary>
         public DbSet<SeriesSeriesCategory> SeriesSeriesCategoriesSwitch { get; set; }
+
+        /// <summary>
+        /// UserSeriesSwitch
+        /// </summary>
         public DbSet<UserSeries> UserSeriesSwitch { get; set; }
+
+        /// <summary>
+        /// Seasons
+        /// </summary>
         public DbSet<Season> Seasons { get; set; }
+
+        /// <summary>
+        /// Episodes
+        /// </summary>
         public DbSet<Episode> Episodes { get; set; }
+
+        /// <summary>
+        /// UserEpisodeSwitch
+        /// </summary>
         public DbSet<UserEpisode> UserEpisodeSwitch { get; set; }
+
+        /// <summary>
+        /// Books
+        /// </summary>
         public DbSet<Book> Books { get; set; }
+
+        /// <summary>
+        /// UserBookSwitch
+        /// </summary>
         public DbSet<UserBook> UserBookSwitch { get; set; }
 
         // CSM
+        /// <summary>
+        /// Csomors
+        /// </summary>
         public DbSet<Csomor> Csomors { get; set; }
+
+        /// <summary>
+        /// CsomorPersons
+        /// </summary>
         public DbSet<CsomorPerson> CsomorPersons { get; set; }
+
+        /// <summary>
+        /// CsomorWorks
+        /// </summary>
         public DbSet<CsomorWork> CsomorWorks { get; set; }
+
+        /// <summary>
+        /// CsomorPersonTables
+        /// </summary>
         public DbSet<CsomorPersonTable> CsomorPersonTables { get; set; }
+
+        /// <summary>
+        /// CsomorWorkTables
+        /// </summary>
         public DbSet<CsomorWorkTable> CsomorWorkTables { get; set; }
+
+        /// <summary>
+        /// SharedCsomors
+        /// </summary>
         public DbSet<UserCsomor> SharedCsomors { get; set; }
+
+        /// <summary>
+        /// IgnoredWorks
+        /// </summary>
         public DbSet<IgnoredWork> IgnoredWorks { get; set; }
 
+        /// <summary>
+        /// Init DbContext
+        /// </summary>
+        /// <param name="options">Database context options</param>
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
         {
         }
 
+        /// <inheritdoc />
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -88,10 +272,10 @@ namespace ManagerAPI.DataAccess
             // User table settings
             builder.Entity<User>()
                 .Property(x => x.LastLogin)
-                .HasDefaultValueSql("getdate()");
+                .HasDefaultValueSql("NOW()");
             builder.Entity<User>()
                 .Property(x => x.RegistrationDate)
-                .HasDefaultValueSql("getdate()");
+                .HasDefaultValueSql("NOW()");
             builder.Entity<User>()
                 .Property(x => x.IsActive)
                 .HasDefaultValue(true);
@@ -558,15 +742,15 @@ namespace ManagerAPI.DataAccess
                 .HasDefaultValue(false);
             builder.Entity<Notification>()
                 .Property(x => x.SentDate)
-                .HasDefaultValueSql("getdate()");
+                .HasDefaultValueSql("NOW()");
 
             // Friend request table settings
             builder.Entity<FriendRequest>()
                 .Property(x => x.ResponseDate)
-                .HasDefaultValueSql("getdate()");
+                .HasDefaultValueSql("NOW()");
             builder.Entity<FriendRequest>()
                 .Property(x => x.SentDate)
-                .HasDefaultValueSql("getdate()");
+                .HasDefaultValueSql("NOW()");
 
             builder.Entity<FriendRequest>()
                 .HasOne(x => x.Destination)
@@ -584,7 +768,7 @@ namespace ManagerAPI.DataAccess
                 .HasKey(x => new { x.UserId, x.FriendId });
             builder.Entity<Friends>()
                 .Property(x => x.ConnectionDate)
-                .HasDefaultValueSql("getdate()");
+                .HasDefaultValueSql("NOW()");
             builder.Entity<Friends>()
                 .HasOne(x => x.User)
                 .WithMany(x => x.FriendListLeft)
@@ -604,7 +788,7 @@ namespace ManagerAPI.DataAccess
             // Message table settings
             builder.Entity<Message>()
                 .Property(x => x.Date)
-                .HasDefaultValueSql("getdate()");
+                .HasDefaultValueSql("NOW()");
             builder.Entity<Message>()
                 .HasOne(x => x.Sender)
                 .WithMany(x => x.SentMessages)
@@ -619,10 +803,10 @@ namespace ManagerAPI.DataAccess
             // News table settings
             builder.Entity<News>()
                 .Property(x => x.Creation)
-                .HasDefaultValueSql("getdate()");
+                .HasDefaultValueSql("NOW()");
             builder.Entity<News>()
                 .Property(x => x.LastUpdate)
-                .HasDefaultValueSql("getdate()");
+                .HasDefaultValueSql("NOW()");
             builder.Entity<News>()
                 .HasOne(x => x.Creator)
                 .WithMany(x => x.CreatedNews)
@@ -637,10 +821,10 @@ namespace ManagerAPI.DataAccess
             // Task table settings
             builder.Entity<Task>()
                 .Property(x => x.Creation)
-                .HasDefaultValueSql("getdate()");
+                .HasDefaultValueSql("NOW()");
             builder.Entity<Task>()
                 .Property(x => x.LastUpdate)
-                .HasDefaultValueSql("getdate()");
+                .HasDefaultValueSql("NOW()");
             builder.Entity<Task>()
                 .Property(x => x.IsSolved)
                 .HasDefaultValue(false);
@@ -667,16 +851,16 @@ namespace ManagerAPI.DataAccess
             // Plan table settings
             builder.Entity<Plan>()
                 .Property(x => x.Creation)
-                .HasDefaultValueSql("getdate()");
+                .HasDefaultValueSql("NOW()");
             builder.Entity<Plan>()
                 .Property(x => x.EndTime)
-                .HasDefaultValueSql("getdate()");
+                .HasDefaultValueSql("NOW()");
             builder.Entity<Plan>()
                 .Property(x => x.LastUpdate)
-                .HasDefaultValueSql("getdate()");
+                .HasDefaultValueSql("NOW()");
             builder.Entity<Plan>()
                 .Property(x => x.StartTime)
-                .HasDefaultValueSql("getdate()");
+                .HasDefaultValueSql("NOW()");
             builder.Entity<Plan>()
                 .Property(x => x.IsPublic)
                 .HasDefaultValue(false);
@@ -684,58 +868,58 @@ namespace ManagerAPI.DataAccess
                 .HasOne(x => x.Owner)
                 .WithMany(x => x.Plans)
                 .IsRequired()
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.ClientCascade);
             builder.Entity<Plan>()
                 .HasOne(x => x.PlanType)
                 .WithMany(x => x.Plans)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.ClientCascade);
 
             // Plan group table settings
             builder.Entity<PlanGroup>()
                 .Property(x => x.LastUpdate)
-                .HasDefaultValueSql("getdate()");
+                .HasDefaultValueSql("NOW()");
             builder.Entity<PlanGroup>()
                 .Property(x => x.Creation)
-                .HasDefaultValueSql("getdate()");
+                .HasDefaultValueSql("NOW()");
             builder.Entity<PlanGroup>()
                 .HasOne(x => x.Creator)
                 .WithMany(x => x.CreatedPlanGroups)
                 .IsRequired()
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.ClientCascade);
             builder.Entity<PlanGroup>()
                 .HasOne(x => x.LastUpdater)
                 .WithMany(x => x.LastUpdatedPlanGroups)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.ClientNoAction);
 
             // Plan group idea table settings
             builder.Entity<PlanGroupIdea>()
                 .Property(x => x.Creation)
-                .HasDefaultValueSql("getdate()");
+                .HasDefaultValueSql("NOW()");
             builder.Entity<PlanGroupIdea>()
                 .HasOne(x => x.Creator)
                 .WithMany(x => x.CreatedPlanGroupIdeas)
                 .IsRequired()
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.ClientCascade);
             builder.Entity<PlanGroupIdea>()
                 .HasOne(x => x.Group)
                 .WithMany(x => x.Ideas)
                 .IsRequired()
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.ClientCascade);
 
             // Plan group message table settings
             builder.Entity<PlanGroupChatMessage>()
                 .Property(x => x.Sent)
-                .HasDefaultValueSql("getdate()");
+                .HasDefaultValueSql("NOW()");
             builder.Entity<PlanGroupChatMessage>()
                 .HasOne(x => x.Sender)
                 .WithMany(x => x.SentPlanGroupChatMessages)
                 .IsRequired()
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.ClientCascade);
             builder.Entity<PlanGroupChatMessage>()
                 .HasOne(x => x.Group)
                 .WithMany(x => x.Messages)
                 .IsRequired()
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.ClientCascade);
 
             // Mark type table settings
             builder.Entity<MarkType>()
@@ -750,10 +934,10 @@ namespace ManagerAPI.DataAccess
             // Plan group plan table settings
             builder.Entity<PlanGroupPlan>()
                 .Property(x => x.Creation)
-                .HasDefaultValueSql("getdate()");
+                .HasDefaultValueSql("NOW()");
             builder.Entity<PlanGroupPlan>()
                 .Property(x => x.LastUpdate)
-                .HasDefaultValueSql("getdate()");
+                .HasDefaultValueSql("NOW()");
             builder.Entity<PlanGroupPlan>()
                 .Property(x => x.IsPublic)
                 .HasDefaultValue(false);
@@ -761,45 +945,45 @@ namespace ManagerAPI.DataAccess
                 .HasOne(x => x.Owner)
                 .WithMany(x => x.CreatedPlanGroupPlans)
                 .IsRequired()
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.ClientCascade);
             builder.Entity<PlanGroupPlan>()
                 .HasOne(x => x.LastUpdater)
                 .WithMany(x => x.LastUpdatedPlanGroupPlans)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.ClientNoAction);
             builder.Entity<PlanGroupPlan>()
                 .HasOne(x => x.PlanType)
                 .WithMany(x => x.GroupPlans)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.ClientCascade);
             builder.Entity<PlanGroupPlan>()
                 .HasOne(x => x.MarkedUser)
                 .WithMany(x => x.MarkedOnGroupPlans)
                 .IsRequired()
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.ClientCascade);
             builder.Entity<PlanGroupPlan>()
                 .HasOne(x => x.MarkType)
                 .WithMany(x => x.MarkedPlans)
                 .IsRequired()
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.ClientCascade);
             builder.Entity<PlanGroupPlan>()
                 .HasOne(x => x.Group)
                 .WithMany(x => x.Plans)
                 .IsRequired()
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.ClientCascade);
 
             // Plan group plan comment table settings
             builder.Entity<PlanGroupPlanComment>()
                 .Property(x => x.Creation)
-                .HasDefaultValueSql("getdate()");
+                .HasDefaultValueSql("NOW()");
             builder.Entity<PlanGroupPlanComment>()
                 .HasOne(x => x.Sender)
                 .WithMany(x => x.CreatedPlanGroupPlanComment)
                 .IsRequired()
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.ClientCascade);
             builder.Entity<PlanGroupPlanComment>()
                 .HasOne(x => x.Plan)
                 .WithMany(x => x.Comments)
                 .IsRequired()
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.ClientCascade);
 
             // Group role table settings
             builder.Entity<GroupRole>()
@@ -820,27 +1004,27 @@ namespace ManagerAPI.DataAccess
                 .HasKey(x => new { x.UserId, x.GroupId });
             builder.Entity<UserPlanGroup>()
                 .Property(x => x.Connection)
-                .HasDefaultValueSql("getdate()");
+                .HasDefaultValueSql("NOW()");
             builder.Entity<UserPlanGroup>()
                 .HasOne(x => x.User)
                 .WithMany(x => x.Groups)
                 .IsRequired()
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.ClientCascade);
             builder.Entity<UserPlanGroup>()
                 .HasOne(x => x.Group)
                 .WithMany(x => x.Users)
                 .IsRequired()
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.ClientCascade);
             builder.Entity<UserPlanGroup>()
                 .HasOne(x => x.Role)
                 .WithMany(x => x.GroupMembers)
                 .IsRequired()
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.ClientCascade);
             builder.Entity<UserPlanGroup>()
                 .HasOne(x => x.AddedBy)
                 .WithMany(x => x.AddedUsersToGroups)
                 .IsRequired()
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.ClientCascade);
 
             // Working Day types table settings
             builder.Entity<WorkingDayType>()
@@ -906,10 +1090,10 @@ namespace ManagerAPI.DataAccess
             // Movies table settings
             builder.Entity<Movie>()
                 .Property(x => x.Creation)
-                .HasDefaultValueSql("getdate()");
+                .HasDefaultValueSql("NOW()");
             builder.Entity<Movie>()
                 .Property(x => x.LastUpdate)
-                .HasDefaultValueSql("getdate()");
+                .HasDefaultValueSql("NOW()");
 
             builder.Entity<Movie>()
                 .HasOne(x => x.Creator)
@@ -925,10 +1109,10 @@ namespace ManagerAPI.DataAccess
             // Movie comment table settings
             builder.Entity<MovieComment>()
                 .Property(x => x.Creation)
-                .HasDefaultValueSql("getdate()");
+                .HasDefaultValueSql("NOW()");
             builder.Entity<MovieComment>()
                 .Property(x => x.LastUpdate)
-                .HasDefaultValueSql("getdate()");
+                .HasDefaultValueSql("NOW()");
 
             builder.Entity<MovieComment>()
                 .HasOne(x => x.Movie)
@@ -965,7 +1149,7 @@ namespace ManagerAPI.DataAccess
                 .HasDefaultValue(false);
             builder.Entity<UserMovie>()
                 .Property(x => x.AddedOn)
-                .HasDefaultValueSql("getdate()");
+                .HasDefaultValueSql("NOW()");
 
             builder.Entity<UserMovie>()
                 .HasOne(x => x.Movie)
@@ -1007,10 +1191,10 @@ namespace ManagerAPI.DataAccess
             // Series table settings
             builder.Entity<Series>()
                 .Property(x => x.Creation)
-                .HasDefaultValueSql("getdate()");
+                .HasDefaultValueSql("NOW()");
             builder.Entity<Series>()
                 .Property(x => x.LastUpdate)
-                .HasDefaultValueSql("getdate()");
+                .HasDefaultValueSql("NOW()");
 
             builder.Entity<Series>()
                 .HasOne(x => x.Creator)
@@ -1026,10 +1210,10 @@ namespace ManagerAPI.DataAccess
             // Series comment table settings
             builder.Entity<SeriesComment>()
                 .Property(x => x.Creation)
-                .HasDefaultValueSql("getdate()");
+                .HasDefaultValueSql("NOW()");
             builder.Entity<SeriesComment>()
                 .Property(x => x.LastUpdate)
-                .HasDefaultValueSql("getdate()");
+                .HasDefaultValueSql("NOW()");
 
             builder.Entity<SeriesComment>()
                 .HasOne(x => x.Series)
@@ -1063,7 +1247,7 @@ namespace ManagerAPI.DataAccess
 
             builder.Entity<UserSeries>()
                 .Property(x => x.AddedOn)
-                .HasDefaultValueSql("getdate()");
+                .HasDefaultValueSql("NOW()");
 
             builder.Entity<UserSeries>()
                 .HasOne(x => x.Series)
@@ -1118,10 +1302,10 @@ namespace ManagerAPI.DataAccess
             // Book table settings
             builder.Entity<Book>()
                 .Property(x => x.Creation)
-                .HasDefaultValueSql("getdate()");
+                .HasDefaultValueSql("NOW()");
             builder.Entity<Book>()
                 .Property(x => x.LastUpdate)
-                .HasDefaultValueSql("getdate()");
+                .HasDefaultValueSql("NOW()");
 
             builder.Entity<Book>()
                 .HasOne(x => x.Creator)
@@ -1143,7 +1327,7 @@ namespace ManagerAPI.DataAccess
                 .HasDefaultValue(false);
             builder.Entity<UserBook>()
                 .Property(x => x.AddOn)
-                .HasDefaultValueSql("getdate()");
+                .HasDefaultValueSql("NOW()");
 
             builder.Entity<UserBook>()
                 .HasOne(x => x.Book)
@@ -1159,10 +1343,10 @@ namespace ManagerAPI.DataAccess
             // Csomor table settings
             builder.Entity<Csomor>()
                 .Property(x => x.Creation)
-                .HasDefaultValueSql("getdate()");
+                .HasDefaultValueSql("NOW()");
             builder.Entity<Csomor>()
                 .Property(x => x.LastUpdate)
-                .HasDefaultValueSql("getdate()");
+                .HasDefaultValueSql("NOW()");
             builder.Entity<Csomor>()
                 .Property(x => x.IsShared)
                 .HasDefaultValue(false);
@@ -1244,7 +1428,7 @@ namespace ManagerAPI.DataAccess
                 .HasDefaultValue(false);
             builder.Entity<UserCsomor>()
                 .Property(x => x.SharedOn)
-                .HasDefaultValueSql("getdate()");
+                .HasDefaultValueSql("NOW()");
 
             builder.Entity<UserCsomor>()
                 .HasOne(x => x.User)

@@ -1,18 +1,21 @@
 ﻿@page "/my-notifications"
 @attribute [Microsoft.AspNetCore.Authorization.Authorize]
 
-<div class="em-my-notifications">
+<div class="em-my-notifications w-100">
     <h1 class="em-page-title">My Notifications</h1>
 
-    <div class="action-bar">
-        <MatSelect TValue="int?" Label="Importance" Outlined="true" Dense="true" ValueChanged="@(val => ImportanceValueChangedEvent(val))">
-            <MatOption TValue="int?" Value="null"></MatOption>
-            <MatOption TValue="int?" Value="1">Level 1</MatOption>
-            <MatOption TValue="int?" Value="2">Level 2</MatOption>
-            <MatOption TValue="int?" Value="3">Level 3</MatOption>
-        </MatSelect>
+    <div class="action-bar blue-label">
+        <div>
+            <MudSelect T="int?" Label="Importance" Variant="Variant.Outlined" ValueChanged="ImportanceValueChangedEvent"
+                FullWidth="false" Color="Color.Primary">
+                <MudSelectItem T="int?" Value="null">-</MudSelectItem>
+                <MudSelectItem T="int?" Value="1">Level 1</MudSelectItem>
+                <MudSelectItem T="int?" Value="2">Level 2</MudSelectItem>
+                <MudSelectItem T="int?" Value="3">Level 3</MudSelectItem>
+            </MudSelect>
+        </div>
         <span class="spacer"></span>
-        <MatCheckbox TValue="bool" Label="Show unread notifications" ValueChanged="@(val => ShowReadValueChangedEvent(val))"></MatCheckbox>
+        <MudCheckBox T="bool" Color="Color.Primary" Label="Show all" CheckedChanged="ShowReadValueChangedEvent" />
     </div>
     @if (IsLoading)
     {
@@ -22,10 +25,10 @@
     {
         @if (FilteredNotifications != null && FilteredNotifications.Count > 0)
         {
-            <div class="notification-list p-2">
+            <div class="notification-list p-1">
                 @foreach (var notification in FilteredNotifications)
                 {
-                    <MyNotificationComponent Notification="notification"></MyNotificationComponent>
+                    <MyNotificationComponent Notification="notification" />
                 }
             </div>
         }

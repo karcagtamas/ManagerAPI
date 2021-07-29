@@ -1,28 +1,127 @@
-<MatThemeProvider Theme="@Theme">
-    <MatToastContainer />
-    <CascadingAuthenticationState>
-        <Router AppAssembly="typeof(Program).Assembly">
-            <Found Context="routeData">
-                <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
-                    <NotAuthorized>
-                        <RedirectToLogin></RedirectToLogin>
-                    </NotAuthorized>
-                </AuthorizeRouteView>
-            </Found>
-            <NotFound>
-                <LayoutView Layout="@typeof(MainLayout)">
-                    <p>Sorry, there's nothing at this address.</p>
-                </LayoutView>
-            </NotFound>
-        </Router>
-    </CascadingAuthenticationState>
-</MatThemeProvider>
+<MudThemeProvider Theme="_myTheme" />
+<MudDialogProvider CloseButton="true" DisableBackdropClick="true" Position="DialogPosition.Center" />
+<MudSnackbarProvider />
+
+
+<CascadingAuthenticationState>
+    <Router AppAssembly="typeof(Program).Assembly">
+        <Found Context="routeData">
+            <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
+                <NotAuthorized>
+                    <RedirectToLogin></RedirectToLogin>
+                </NotAuthorized>
+            </AuthorizeRouteView>
+        </Found>
+        <NotFound>
+            <LayoutView Layout="@typeof(MainLayout)">
+                <p>Sorry, there's nothing at this address.</p>
+            </LayoutView>
+        </NotFound>
+    </Router>
+</CascadingAuthenticationState>
 
 @code
 {
-    MatTheme Theme = new MatTheme
+    private static readonly string[] FontFamily = { "Bree Serif", "serif" };
+
+    readonly MudTheme _myTheme = new()
     {
-        Primary = "#5120a5",
-        Secondary = "#5c0000"
+        Palette = new Palette
+        {
+            Primary = Colors.DeepPurple.Darken4,
+            Secondary = Colors.Cyan.Darken4,
+            AppbarBackground = Colors.DeepPurple.Darken4
+        },
+        LayoutProperties = new LayoutProperties
+        {
+            DrawerWidth = "280px"
+        },
+        Typography = new Typography
+        {
+            Default = new Default
+            {
+                FontFamily = FontFamily,
+                FontSize = "13px",
+                LineHeight = 1.3
+            },
+            Body1 = new Body1
+            {
+                FontFamily = FontFamily,
+                FontSize = "13px",
+                LineHeight = 1.3
+            },
+            Body2 = new Body2
+            {
+                FontFamily = FontFamily,
+                FontSize = "13px",
+                LineHeight = 1.3
+            },
+            Button = new Button
+            {
+                FontFamily = FontFamily,
+                FontSize = "13px",
+                LineHeight = 1.3
+            },
+            Caption = new Caption
+            {
+                FontFamily = FontFamily,
+                FontSize = "13px",
+                LineHeight = 1.3
+            },
+            H1 = new H1
+            {
+                FontFamily = FontFamily,
+                FontSize = "24px",
+                LineHeight = 1.3
+            },
+            H2 = new H2
+            {
+                FontFamily = FontFamily,
+                FontSize = "22px",
+                LineHeight = 1.3
+            },
+            H3 = new H3
+            {
+                FontFamily = FontFamily,
+                FontSize = "20px",
+                LineHeight = 1.3
+            },
+            H4 = new H4
+            {
+                FontFamily = FontFamily,
+                FontSize = "18px",
+                LineHeight = 1.3
+            },
+            H5 = new H5
+            {
+                FontFamily = FontFamily,
+                FontSize = "18px",
+                LineHeight = 1.3
+            },
+            H6 = new H6
+            {
+                FontFamily = FontFamily,
+                FontSize = "18px",
+                LineHeight = 1.3,
+            },
+            Subtitle1 = new Subtitle1
+            {
+                FontFamily = FontFamily,
+                FontSize = "10px",
+                LineHeight = 1.3
+            },
+            Subtitle2 = new Subtitle2
+            {
+                FontFamily = FontFamily,
+                FontSize = "10px",
+                LineHeight = 1.3
+            },
+            Overline = new Overline
+            {
+                FontFamily = FontFamily,
+                FontSize = "13px",
+                LineHeight = 1.3
+            }
+        }
     };
 }

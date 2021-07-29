@@ -9,6 +9,9 @@ namespace ManagerAPI.Services.Profiles
     /// </summary>
     public class FriendProfile : Profile
     {
+        /// <summary>
+        /// Init mapper
+        /// </summary>
         public FriendProfile()
         {
             this.CreateMap<Friends, FriendListDto>()

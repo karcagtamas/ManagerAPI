@@ -5,6 +5,9 @@ namespace ManagerAPI.Shared.DTOs.SL
     /// </summary>
     public class MySeriesSelectorListDto : SeriesListDto
     {
+        /// <summary>
+        /// Is mine
+        /// </summary>
         public bool IsMine { get; set; }
     }
 }

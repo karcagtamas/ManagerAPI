@@ -3,7 +3,7 @@
 @using ManagerAPI.Shared.Helpers
 @attribute [Authorize(Roles = "Administrator,Status Library User,Status Library Moderator,Status Library Administrator,Root")]
 
-<div class="sl-book-data">
+<div class="sl-book-data w-100">
     @if (Book != null)
     {
         <h1 class="em-page-title">@Book.Name</h1>
@@ -17,47 +17,45 @@
         <div class="action-bar">
             @if (CanEdit)
             {
-                <MatTooltip Tooltip="Edit Book">
-                    <MatIconButton RefBack="@context" Icon="edit" @onclick="OpenEditBookDialog"></MatIconButton>
-                </MatTooltip>
+                <div>
+                    <MudIconButton Icon="@Icons.Filled.Edit" OnClick="OpenEditBookDialog" Color="Color.Primary" />
+                </div>
             }
 
             @if (CanDelete)
             {
-                <MatTooltip Tooltip="Delete Book">
-                    <MatIconButton RefBack="@context" Icon="delete" @onclick="OpenDeleteDialog"></MatIconButton>
-                </MatTooltip>
+                <div>
+                    <MudIconButton Icon="@Icons.Filled.Delete" OnClick="OpenDeleteDialog" Color="Color.Error" />
+                </div>
             }
             @if (Book != null)
             {
                 @if (Book.IsMine)
                 {
-                    <MatTooltip Tooltip="Remove from My list">
-                        <MatIconButton RefBack="@context" Icon="remove" @onclick="RemoveFromMyBooks"></MatIconButton>
-                    </MatTooltip>
-                    @if (Book.IsRead)
-                    {
-                        <MatTooltip Tooltip="Set to not read">
-                            <MatIconButton RefBack="@context" Icon="visibility_off" @onclick="@(() => SetReadStatus(false))"></MatIconButton>
-                        </MatTooltip>
-                    }
-                    else
-                    {
-                        <MatTooltip Tooltip="Set to read">
-                            <MatIconButton RefBack="@context" Icon="visibility" @onclick="@(() => SetReadStatus(true))"></MatIconButton>
-                        </MatTooltip>
-                    }
+                    <div>
+                        <MudIconButton Icon="@Icons.Filled.Remove" OnClick="RemoveFromMyBooks" Color="Color.Secondary" />
+                        @if (Book.IsRead)
+                        {
+                            <MudIconButton Icon="@Icons.Filled.VisibilityOff" OnClick="@(() => SetReadStatus(false))" Color="Color.Secondary" />
+                        }
+                        else
+                        {
+                            <MudIconButton Icon="@Icons.Filled.Visibility" OnClick="@(() => SetReadStatus(true))" Color="Color.Secondary" />
+                        }
+                    </div>
                 }
                 else
                 {
-                    <MatTooltip Tooltip="Add to My list">
-                        <MatIconButton RefBack="@context" Icon="add" @onclick="AddToMyBooks"></MatIconButton>
-                    </MatTooltip>
+                    <div>
+                        <MudIconButton Icon="@Icons.Filled.Add" OnClick="AddToMyBooks" Color="Color.Secondary" />
+                    </div>
                 }
             }
             <span class="spacer"></span>
-            <MatButton @onclick="@(() => Navigation.NavigateTo("/books"))">Book List</MatButton>
-            <MatButton @onclick="@(() => Navigation.NavigateTo("/my-books"))">My Book List</MatButton>
+            <div>
+                <MudButton OnClick="@(() => Navigation.NavigateTo("/books"))" Color="Color.Primary">Book List</MudButton>
+                <MudButton OnClick="@(() => Navigation.NavigateTo("/my-books"))" Color="Color.Primary">My Book List</MudButton>
+            </div>
         </div>
         @if (Book != null)
         {

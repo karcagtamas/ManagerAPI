@@ -17,6 +17,9 @@ namespace ManagerAPI.Services.Profiles
         private const int EnoughHour = 4;
         private const int HourToMin = 60;
 
+        /// <summary>
+        /// Init mapper
+        /// </summary>
         public WorkingDayProfile()
         {
             this.CreateMap<WorkingDay, WorkingDayListDto>()

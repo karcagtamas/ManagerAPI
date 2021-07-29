@@ -10,6 +10,9 @@ namespace ManagerAPI.Services.Profiles
     /// </summary>
     public class GenderProfile : Profile
     {
+        /// <summary>
+        /// Init mapper
+        /// </summary>
         public GenderProfile()
         {
             this.CreateMap<Gender, GenderDto>();

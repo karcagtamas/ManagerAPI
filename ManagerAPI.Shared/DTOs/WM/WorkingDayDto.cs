@@ -5,6 +5,9 @@
     /// </summary>
     public class WorkingDayDto
     {
+        /// <summary>
+        /// Id
+        /// </summary>
         public int Id { get; set; }
     }
 }

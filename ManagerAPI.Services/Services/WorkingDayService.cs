@@ -11,9 +11,7 @@ using System.Linq;
 
 namespace ManagerAPI.Services.Services
 {
-    /// <summary>
-    /// Working Day Service
-    /// </summary>
+    /// <inheritdoc />
     public class WorkingDayService : Repository<WorkingDay, WorkingManagerNotificationType>, IWorkingDayService
     {
         // Injects
@@ -40,11 +38,7 @@ namespace ManagerAPI.Services.Services
             this._databaseContext = context;
         }
 
-        /// <summary>
-        /// Get working day by date
-        /// </summary>
-        /// <param name="day">Date of the day</param>
-        /// <returns>Working day</returns>
+        /// <inheritdoc />
         public WorkingDayListDto Get(DateTime day)
         {
             var user = this.Utils.GetCurrentUser();
@@ -60,11 +54,7 @@ namespace ManagerAPI.Services.Services
             return dto;
         }
 
-        /// <summary>
-        /// Working day statistic
-        /// </summary>
-        /// <param name="id">Id of the working day</param>
-        /// <returns>Statistic</returns>
+        /// <inheritdoc />
         public WorkingDayStatDto Stat(int id)
         {
             var user = this.Utils.GetCurrentUser();

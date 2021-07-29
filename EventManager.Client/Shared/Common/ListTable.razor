@@ -7,8 +7,8 @@
     <div class="list">
         @if (ShowFilter)
         {
-            <div class="filter">
-                <MatTextField TValue="string" class="w-100" Label="Filter" Dense="true" Outlined="true" ValueChanged="@(val => Filter(val))"></MatTextField>
+            <div class="filter blue-label mb-3">
+                <MudTextField T="string" FullWidth="true" Label="Filter" Variant="Variant.Outlined" ValueChanged="@(val => Filter(val))" />
             </div>
         }
         <table>
@@ -22,7 +22,8 @@
                             {
                                 @if (Direction != OrderDirection.None)
                                 {
-                                    <MatIcon class="arrow-icon" Icon="@(OrderDirectionService.GetValue(Direction) == "asc" ? "arrow_downward" : "arrow_upward")"></MatIcon>
+                                    <span>&nbsp;</span>
+                                    <MudIcon Class="arrow-icon small-icon" Icon="@(OrderDirectionService.GetValue(Direction) == "asc" ? Icons.Filled.ArrowDownward : Icons.Filled.ArrowUpward)"/>
                                 }
                             }
                         </th>

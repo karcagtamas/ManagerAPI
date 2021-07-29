@@ -7,8 +7,14 @@ namespace ManagerAPI.Shared.Models
     /// </summary>
     public class FriendRequestResponseModel
     {
+        /// <summary>
+        /// Request
+        /// </summary>
         [Required] public int RequestId { get; set; }
 
+        /// <summary>
+        /// Response
+        /// </summary>
         [Required] public bool Response { get; set; }
     }
 }

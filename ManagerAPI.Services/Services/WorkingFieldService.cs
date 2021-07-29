@@ -35,11 +35,7 @@ namespace ManagerAPI.Services.Services
         {
         }
 
-        /// <summary>
-        /// Get statistic summary for the given week
-        /// </summary>
-        /// <param name="week">First day of the week (M)</param>
-        /// <returns>Statistic</returns>
+        /// <inheritdoc />
         public WorkingWeekStatDto GetWeekStat(DateTime week)
         {
             var user = this.Utils.GetCurrentUser();
@@ -53,12 +49,7 @@ namespace ManagerAPI.Services.Services
             return list;
         }
 
-        /// <summary>
-        /// Get statistic summary for the given month
-        /// </summary>
-        /// <param name="year">Year</param>
-        /// <param name="month">Month</param>
-        /// <returns>Statistic</returns>
+        /// <inheritdoc />
         public WorkingMonthStatDto GetMonthStat(int year, int month)
         {
             var user = this.Utils.GetCurrentUser();

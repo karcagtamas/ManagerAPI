@@ -3,12 +3,28 @@ using System.Threading.Tasks;
 
 namespace EventManager.Client.Http
 {
+    /// <summary>
+    /// HTTP Call
+    /// </summary>
     public class HttpCall<TList, TSimple, TModel> : IHttpCall<TList, TSimple, TModel>
     {
+        /// <summary>
+        /// HTTP Service
+        /// </summary>
         protected readonly IHttpService Http;
+
+        /// <summary>
+        /// Uri
+        /// </summary>
         protected readonly string Url;
         private readonly string _caption;
 
+        /// <summary>
+        /// Init Generator Service
+        /// </summary>
+        /// <params name="http">HTTP Service</params>
+        /// <params name="url">Uri</params>
+        /// <params name="caption">Caption</params>
         protected HttpCall(IHttpService http, string url, string caption)
         {
             this.Http = http;
@@ -16,6 +32,7 @@ namespace EventManager.Client.Http
             this._caption = caption;
         }
 
+        /// <inheritdoc />
         public async Task<List<TList>> GetAll(string orderBy, string direction = "asc")
         {
             var queryParams = new HttpQueryParameters();
@@ -34,6 +51,7 @@ namespace EventManager.Client.Http
             return await this.Http.Get<List<TList>>(settings);
         }
 
+        /// <inheritdoc />
         public async Task<TSimple> Get(int id)
         {
             var pathParams = new HttpPathParameters();
@@ -44,6 +62,7 @@ namespace EventManager.Client.Http
             return await this.Http.Get<TSimple>(settings);
         }
 
+        /// <inheritdoc />
         public async Task<bool> Create(TModel model)
         {
             var settings = new HttpSettings($"{this.Url}", null, null, $"{this._caption} adding");
@@ -53,6 +72,7 @@ namespace EventManager.Client.Http
             return await this.Http.Create<TModel>(settings, body);
         }
 
+        /// <inheritdoc />
         public async Task<bool> Update(int id, TModel model)
         {
             var pathParams = new HttpPathParameters();
@@ -65,6 +85,7 @@ namespace EventManager.Client.Http
             return await this.Http.Update<TModel>(settings, body);
         }
 
+        /// <inheritdoc />
         public async Task<bool> Delete(int id)
         {
             var pathParams = new HttpPathParameters();

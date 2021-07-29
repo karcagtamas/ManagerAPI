@@ -5,17 +5,32 @@ using System;
 
 namespace EventManager.Client.Shared.Components.CSM
 {
+    /// <summary>
+    /// Work Component
+    /// </summary>
     public partial class WorkComponent
     {
+        /// <summary>
+        /// Work
+        /// </summary>
         [Parameter]
         public WorkModel Work { get; set; }
 
+        /// <summary>
+        /// State changed event
+        /// </summary>
         [Parameter]
         public EventCallback StateChanged { get; set; }
 
+        /// <summary>
+        /// Role checker
+        /// </summary>
         [Parameter]
         public Func<CsomorRole[], bool> RoleChecker { get; set; }
 
+        /// <summary>
+        /// Is editable
+        /// </summary>
         [Parameter]
         public bool IsEditable { get; set; } = false;
 

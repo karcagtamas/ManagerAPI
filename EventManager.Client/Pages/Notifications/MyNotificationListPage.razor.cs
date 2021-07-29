@@ -1,6 +1,5 @@
 ﻿using EventManager.Client.Services.Interfaces;
 using ManagerAPI.Shared.DTOs;
-using MatBlazor;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
@@ -9,20 +8,21 @@ using System.Threading.Tasks;
 
 namespace EventManager.Client.Pages.Notifications
 {
+    /// <summary>
+    /// My Notification List Page
+    /// </summary>
     public partial class MyNotificationListPage
     {
         [Inject]
         private INotificationService NotificationService { get; set; }
 
-        [Inject]
-        public IMatToaster Toaster { get; set; }
-
         private List<NotificationDto> Notifications { get; set; }
-        protected List<NotificationDto> FilteredNotifications { get; set; }
-        private bool ShowRead { get; set; } = false;
-        private int? Importance { get; set; } = null;
-        protected bool IsLoading { get; set; } = true;
+        private List<NotificationDto> FilteredNotifications { get; set; }
+        private bool ShowRead { get; set; }
+        private int? Importance { get; set; }
+        private bool IsLoading { get; set; } = true;
 
+        /// <inheritdoc />
         protected override async Task OnInitializedAsync()
         {
             await this.GetNotifications();
@@ -44,7 +44,7 @@ namespace EventManager.Client.Pages.Notifications
         {
             try
             {
-                bool result = await this.NotificationService.SetUnReadsToRead((from i in this.Notifications where !i.IsRead select i.Id).ToArray());
+                await this.NotificationService.SetUnReadsToRead((from i in this.Notifications where !i.IsRead select i.Id).ToArray());
             }
             catch (Exception e)
             {
@@ -52,7 +52,7 @@ namespace EventManager.Client.Pages.Notifications
             }
         }
 
-        protected void ShowReadValueChangedEvent(bool value)
+        private void ShowReadValueChangedEvent(bool value)
         {
             this.IsLoading = true;
             this.ShowRead = value;
@@ -61,7 +61,7 @@ namespace EventManager.Client.Pages.Notifications
             this.StateHasChanged();
         }
 
-        protected void ImportanceValueChangedEvent(int? value)
+        private void ImportanceValueChangedEvent(int? value)
         {
             this.IsLoading = true;
             this.Importance = value;

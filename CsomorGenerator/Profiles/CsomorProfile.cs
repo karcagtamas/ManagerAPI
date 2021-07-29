@@ -7,8 +7,14 @@ using System.Linq;
 
 namespace CsomorGenerator.Profiles
 {
+    /// <summary>
+    /// Csomor Mapper
+    /// </summary>
     public class CsomorProfile : Profile
     {
+        /// <summary>
+        /// Init
+        /// </summary>
         public CsomorProfile()
         {
             this.CreateMap<GeneratorSettingsModel, Csomor>()

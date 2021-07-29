@@ -3,10 +3,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ManagerAPI.Shared.Annotations
 {
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
     /// <summary>
     /// Maximum number checked annotation
     /// </summary>
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
     public class MaxNumberAttribute : ValidationAttribute
     {
         private int Max { get; set; }

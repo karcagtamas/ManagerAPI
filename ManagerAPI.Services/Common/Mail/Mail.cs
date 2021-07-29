@@ -9,11 +9,34 @@ namespace ManagerAPI.Services.Common.Mail
     /// </summary>
     public class Mail
     {
+        /// <summary>
+        /// To List
+        /// </summary>
         public List<MailRecipient> ToList { get; set; }
+
+        /// <summary>
+        /// CC List
+        /// </summary>
         public List<MailRecipient> CcList { get; set; }
+
+        /// <summary>
+        /// BCC List
+        /// </summary>
         public List<MailRecipient> BccList { get; set; }
+
+        /// <summary>
+        /// Subject
+        /// </summary>
         public string Subject { get; set; }
+
+        /// <summary>
+        /// Body
+        /// </summary>
         public string Body { get; set; }
+
+        /// <summary>
+        /// Attachments
+        /// </summary>
         public List<IFormFile> Attachments { get; set; }
 
         /// <summary>

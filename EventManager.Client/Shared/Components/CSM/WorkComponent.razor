@@ -3,19 +3,15 @@
 <div class="entity">
     <div class="data-row">
         <div class="row-header">
-            <strong>Name: </strong> &nbsp; @Work.Name
+            <strong>Name:</strong>&nbsp;@Work.Name
             <span class="spacer"></span>
             @if (IsOpened)
             {
-                <MatTooltip Tooltip="Close">
-                    <MatIconButton RefBack="@context" Icon="expand_less" @onclick="@(() => IsOpened = false)"></MatIconButton>
-                </MatTooltip>
+                <MudIconButton Icon="@Icons.Filled.ExpandLess" OnClick="@(() => IsOpened = false)" Color="Color.Primary" />
             }
             else
             {
-                <MatTooltip Tooltip="Open">
-                    <MatIconButton RefBack="@context" Icon="expand_more" @onclick="@(() => IsOpened = true)"></MatIconButton>
-                </MatTooltip>
+                <MudIconButton Icon="@Icons.Filled.ExpandMore" OnClick="@(() => IsOpened = true)" Color="Color.Primary" />
             }
         </div>
     </div>
@@ -23,20 +19,16 @@
     {
         <div class="data-row open-animation">
             <div class="row-header">
-
-                <strong>Settings:</strong> <br />
+                <strong>Settings:</strong>
                 <span class="spacer"></span>
                 @if (IsEditable && !IsEdit)
                 {
-                    <MatTooltip Tooltip="Edit">
-                        <MatIconButton RefBack="@context" Icon="edit" @onclick="@(() => IsEdit = true)" Disabled="CheckRole(CsomorRole.Read)"></MatIconButton>
-                    </MatTooltip>
+                    <MudIconButton Icon="@Icons.Filled.Edit" OnClick="@(() => IsEdit = true)" Color="Color.Primary"
+                Disabled="CheckRole(CsomorRole.Read)" />
                 }
                 @if (IsEditable && IsEdit)
                 {
-                    <MatTooltip Tooltip="Back">
-                        <MatIconButton RefBack="@context" Icon="arrow_left" @onclick="@(() => IsEdit = false)"></MatIconButton>
-                    </MatTooltip>
+                    <MudIconButton Icon="@Icons.Filled.ArrowLeft" OnClick="@(() => IsEdit = false)" Color="Color.Primary" />
                 }
             </div>
             @if (IsEdit)
@@ -46,7 +38,9 @@
                         @foreach (var table in Work.Tables)
                         {
                             <span class="box">
-                                <MatCheckbox TValue="bool" Value="table.IsActive" ValueChanged="@((val) => ChangeIsActiveStatus(table, val))" Label="@ManagerAPI.Shared.Helpers.WriteHelper.HourInterval(table.Date, 1)"></MatCheckbox>
+                                <MudCheckBox T="bool" Color="Color.Primary" Checked="table.IsActive"
+                        CheckedChanged="@((val) => ChangeIsActiveStatus(table, val))"
+                        Label="@ManagerAPI.Shared.Helpers.WriteHelper.HourInterval(table.Date, 1)" />
                             </span>
                         }
                     </div>

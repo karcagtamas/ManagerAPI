@@ -11,9 +11,7 @@ using System.Linq;
 
 namespace MovieCorner.Services.Services
 {
-    /// <summary>
-    /// Season Service
-    /// </summary>
+    /// <inheritdoc />
     public class SeasonService : Repository<Season, StatusLibraryNotificationType>, ISeasonService
     {
         // Injects
@@ -40,11 +38,7 @@ namespace MovieCorner.Services.Services
             this._databaseContext = context;
         }
 
-        /// <summary>
-        /// Update seen status for season's episodes
-        /// </summary>
-        /// <param name="id">Season Id</param>
-        /// <param name="seen">Seen status</param>
+        /// <inheritdoc />
         public void UpdateSeenStatus(int id, bool seen)
         {
             var user = this.Utils.GetCurrentUser();
@@ -83,11 +77,7 @@ namespace MovieCorner.Services.Services
                 user, season?.Series.Title ?? "", season?.Number.ToString() ?? "", seen ? "Seen" : "Unseen");
         }
 
-        /// <summary>
-        /// Add season to the given series.
-        /// The season number will be next number after the last season.
-        /// </summary>
-        /// <param name="seriesId">Series Id</param>
+        /// <inheritdoc />
         public void AddIncremented(int seriesId)
         {
             var last = this.GetList(x => x.Series.Id == seriesId).OrderBy(x => x.Number).LastOrDefault();
@@ -103,11 +93,7 @@ namespace MovieCorner.Services.Services
             this.Add(season);
         }
 
-        /// <summary>
-        /// Delete season by the given Id.
-        /// Every continuous season's number will be decremented by one.
-        /// </summary>
-        /// <param name="seasonId">Season Id</param>
+        /// <inheritdoc />
         public void DeleteDecremented(int seasonId)
         {
             var season = this.Get(seasonId);

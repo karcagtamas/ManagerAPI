@@ -5,21 +5,28 @@ using EventManager.Client.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.SL;
 using ManagerAPI.Shared.Models.SL;
 using Microsoft.AspNetCore.Components;
+using MudBlazor;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace EventManager.Client.Shared.Components.SL
 {
+    /// <summary>
+    /// Movie category Dialog
+    /// </summary>
     public partial class MovieCategoryDialog
     {
-        [CascadingParameter] public ModalParameters Parameters { get; set; }
-        [CascadingParameter] public BlazoredModal BlazoredModal { get; set; }
+        [CascadingParameter] private MudDialogInstance Dialog { get; set; }
+
+        /// <summary>
+        /// Movie Id
+        /// </summary>
+        [Parameter]
+        public int MovieId { get; set; }
+
         [Inject] private IMovieService MovieService { get; set; }
         [Inject] private IMovieCategoryService MovieCategoryService { get; set; }
-        [Inject] private IModalService ModalService { get; set; }
-        private int FormId { get; set; }
-        private int MovieId { get; set; }
         private List<MovieCategorySelectorListDto> List { get; set; }
         private List<int> SelectedIndexList { get; set; } = new List<int>();
         private bool IsLoading { get; set; } = false;
@@ -29,15 +36,11 @@ namespace EventManager.Client.Shared.Components.SL
             new TableHeaderData<MovieCategorySelectorListDto>("Name", "Category", Alignment.Left)
         };
 
+        /// <inheritdoc />
         protected override async Task OnInitializedAsync()
         {
-            this.FormId = this.Parameters.Get<int>("FormId");
-            this.MovieId = this.Parameters.Get<int>("movie");
-
             await this.GetSelectorList();
             this.SelectedIndexList = this.List.Where(x => x.IsSelected).Select(x => x.Id).ToList();
-
-            ((ModalService)this.ModalService).OnConfirm += this.OnConfirm;
         }
 
         private async Task GetSelectorList()
@@ -49,14 +52,13 @@ namespace EventManager.Client.Shared.Components.SL
             this.StateHasChanged();
         }
 
-        private async void OnConfirm()
+        private async void Save()
         {
             var indexList = this.List.Where(x => x.IsSelected).Select(x => x.Id).ToList();
 
             if (await this.MovieService.UpdateCategories(this.MovieId, new MovieCategoryUpdateModel { Ids = indexList }))
             {
-                this.ModalService.Close(ModalResult.Ok(true));
-                ((ModalService)this.ModalService).OnConfirm -= this.OnConfirm;
+                Dialog.Close(DialogResult.Ok(true));
             }
         }
 
@@ -71,6 +73,11 @@ namespace EventManager.Client.Shared.Components.SL
             {
                 this.SelectedIndexList.Remove(category.Id);
             }
+        }
+
+        private void Cancel()
+        {
+            Dialog.Cancel();
         }
     }
 }

@@ -3,18 +3,21 @@
 @using ManagerAPI.Shared.Helpers
 
 
-<div class="em-my-tasks">
+<div class="em-my-tasks w-100 blue-label">
     <h1 class="em-page-title">My Tasks</h1>
     <div class="action-bar">
-        <MatTooltip Tooltip="Add Task">
-            <MatIconButton RefBack="@context" Icon="add" @onclick="OpenAddTaskModal"></MatIconButton>
-        </MatTooltip>
+        <div>
+            <MudIconButton Icon="@Icons.Filled.Add" OnClick="OpenAddTaskModal" Color="Color.Primary" />
+        </div>
         <span class="spacer"></span>
-        <MatSelect TValue="bool?" Value="IsSolvedSelectorValue" Label="Is Solved" Outlined="true" Dense="true" ValueChanged="@(val => IsSolvedSelectorValueChanged(val))">
-            <MatOption TValue="bool?" Value="null"></MatOption>
-            <MatOption TValue="bool?" Value="true">Only Solved</MatOption>
-            <MatOption TValue="bool?" Value="false">Only Not Solved</MatOption>
-        </MatSelect>
+        <div>
+            <MudSelect T="bool?" Value="IsSolvedSelectorValue" Label="Is solved" Variant="Variant.Outlined"
+                ValueChanged="IsSolvedSelectorValueChanged">
+                <MudSelectItem T="bool?" Value="null">-</MudSelectItem>
+                <MudSelectItem T="bool?" Value="true">Only solved</MudSelectItem>
+                <MudSelectItem T="bool?" Value="false">Not only solved</MudSelectItem>
+            </MudSelect>
+        </div>
     </div>
 
     @if (IsLoading)
@@ -35,19 +38,16 @@
                             <div class="title">
                                 <span class="text">@task.Title</span>
                                 <span class="spacer"></span>
-                                <MatSlideToggle TValue="bool" Value="@task.IsSolved" ValueChanged="@(e => IsSolvedChanged(e, task.Id, group))"></MatSlideToggle>
+                                <MudSwitch T="bool" Checked="@task.IsSolved" CheckedChanged="@(e => IsSolvedChanged(e, task.Id, group))"
+                    Color="Color.Primary" />
                             </div>
                             <div class="description">
                                 <div class="description-text">@task.Description</div>
                                 <div class="description-button">
                                     <div class="wrapper">
                                         <span class="spacer"></span>
-                                        <MatTooltip Tooltip="Edit Task">
-                                            <MatIconButton RefBack="@context" Icon="edit" @onclick="@(() => OpenUpdateTaskModal(task.Id))"></MatIconButton>
-                                        </MatTooltip>
-                                        <MatTooltip Tooltip="Delete Task">
-                                            <MatIconButton RefBack="@context" Icon="delete" @onclick="@(() => OpenDeleteModal(task))"></MatIconButton>
-                                        </MatTooltip>
+                                        <MudIconButton Icon="@Icons.Filled.Edit" OnClick="@(() => OpenUpdateTaskModal(task.Id))" Color="Color.Warning" />
+                                        <MudIconButton Icon="@Icons.Filled.Delete" OnClick="@(() => OpenDeleteModal(task))" Color="Color.Error" />
                                     </div>
                                 </div>
                             </div>

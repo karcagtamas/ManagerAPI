@@ -1,0 +1,15 @@
+@using EventManager.Client.Enums
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            Confirm @ConfirmTypeConverter.GetStringValue(Input.Action)
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        Are you sure want to @ConfirmTypeConverter.GetStringValue(Input.Action) @Input.Name?
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Confirm">Confirm</MudButton>
+    </DialogActions>
+</MudDialog>

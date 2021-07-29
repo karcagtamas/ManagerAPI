@@ -1,23 +1,24 @@
 ﻿using EventManager.Client.Enums;
 using EventManager.Client.Models;
-using EventManager.Client.Services;
 using EventManager.Client.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.SL;
 using ManagerAPI.Shared.Models.SL;
 using Microsoft.AspNetCore.Components;
+using MudBlazor;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace EventManager.Client.Shared.Components.SL
 {
+
+    /// <summary>
+    /// Movie Seen selector Dialog
+    /// </summary>
     public partial class MovieSeenSelectorDialog
     {
-        [CascadingParameter] public ModalParameters Parameters { get; set; }
-        [CascadingParameter] public BlazoredModal BlazoredModal { get; set; }
+        [CascadingParameter] private MudDialogInstance Dialog { get; set; }
         [Inject] private IMovieService MovieService { get; set; }
-        [Inject] private IModalService ModalService { get; set; }
-        private int FormId { get; set; }
         private List<MyMovieSelectorListDto> List { get; set; }
         private List<int> SelectedIndexList { get; set; } = new List<int>();
         private bool IsLoading { get; set; } = false;
@@ -30,14 +31,11 @@ namespace EventManager.Client.Shared.Components.SL
             new TableHeaderData<MyMovieSelectorListDto>("Creator", Alignment.Left)
         };
 
+        /// <inheritdoc />
         protected override async Task OnInitializedAsync()
         {
-            this.FormId = this.Parameters.Get<int>("FormId");
-
             await this.GetSelectorList();
             this.SelectedIndexList = this.List.Where(x => x.IsSeen).Select(x => x.Id).ToList();
-
-            ((ModalService)this.ModalService).OnConfirm += this.OnConfirm;
         }
 
         private async Task GetSelectorList()
@@ -49,13 +47,19 @@ namespace EventManager.Client.Shared.Components.SL
             this.StateHasChanged();
         }
 
-        private async void OnConfirm()
+        private async void Save()
         {
             if (await this.MovieService.UpdateSeenStatuses(this.SaveList))
             {
-                this.ModalService.Close(ModalResult.Ok(true));
-                ((ModalService)this.ModalService).OnConfirm -= this.OnConfirm;
+                Dialog.Close(DialogResult.Ok(true));
             }
+
+            Dialog.Close(DialogResult.Ok(false));
+        }
+
+        private void Cancel()
+        {
+            Dialog.Cancel();
         }
 
         private void SwitchSeenFlag(MyMovieSelectorListDto movie)

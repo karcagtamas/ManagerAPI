@@ -5,6 +5,9 @@ namespace ManagerAPI.Shared.DTOs.PM
     /// </summary>
     public class PlanListDto
     {
+        /// <summary>
+        /// Id
+        /// </summary>
         public int Id { get; set; }
     }
 }

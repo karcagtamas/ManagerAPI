@@ -5,18 +5,20 @@ using EventManager.Client.Shared.Components.SL;
 using ManagerAPI.Shared.DTOs.SL;
 using ManagerAPI.Shared.Helpers;
 using Microsoft.AspNetCore.Components;
+using MudBlazor;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace EventManager.Client.Pages.SL
 {
+    /// <summary>
+    /// Series List Page
+    /// </summary>
     public partial class SeriesListPage
     {
         [Inject] private ISeriesService SeriesService { get; set; }
-
         [Inject] private NavigationManager Navigation { get; set; }
-
-        [Inject] private IModalService Modal { get; set; }
+        [Inject] private IDialogService DialogService { get; set; }
         [Inject] private IAuthService Auth { get; set; }
 
         private List<SeriesListDto> SeriesList { get; set; }
@@ -32,6 +34,7 @@ namespace EventManager.Client.Pages.SL
             new TableHeaderData<SeriesListDto>("Creator", true, Alignment.Left)
         };
 
+        /// <inheritdoc />
         protected override async Task OnInitializedAsync()
         {
             await this.GetSeries();
@@ -53,29 +56,20 @@ namespace EventManager.Client.Pages.SL
             this.Navigation.NavigateTo($"/series/{series.Id}");
         }
 
-        private void OpenAddSeriesDialog()
+        private async void OpenAddSeriesDialog()
         {
-            var parameters = new ModalParameters();
-            parameters.Add("FormId", 1);
-
-            var options = new ModalOptions
+            var parameters = new DialogParameters { { "SeriesId", null } };
+            var dialog = DialogService.Show<SeriesDialog>("Add Series", parameters, new DialogOptions
             {
-                ButtonOptions = { ConfirmButtonType = ConfirmButton.Save, ShowConfirmButton = true }
-            };
+                FullWidth = true,
+                MaxWidth = MaxWidth.Medium
+            });
+            var result = await dialog.Result;
 
-            this.Modal.OnClose += this.AddSeriesDialogClosed;
-
-            this.Modal.Show<SeriesDialog>("Create Series", parameters, options);
-        }
-
-        private async void AddSeriesDialogClosed(ModalResult modalResult)
-        {
-            if (!modalResult.Cancelled && (bool)modalResult.Data)
+            if (!result.Cancelled)
             {
                 await this.GetSeries();
             }
-
-            this.Modal.OnClose -= this.AddSeriesDialogClosed;
         }
     }
 }

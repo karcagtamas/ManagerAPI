@@ -5,23 +5,27 @@ using System.Threading.Tasks;
 
 namespace EventManager.Client.Shared.Common
 {
+    /// <summary>
+    /// Current User display Component
+    /// </summary>
     public partial class CurrentUser
     {
         [Inject]
-        protected IUserService UserService { get; set; }
+        private IUserService UserService { get; set; }
 
         [Inject]
-        protected IHelperService HelperService { get; set; }
+        private IHelperService HelperService { get; set; }
 
         [Inject]
-        protected IAuthService AuthService { get; set; }
+        private IAuthService AuthService { get; set; }
 
         [Inject]
-        protected INotificationService NotificationService { get; set; }
+        private INotificationService NotificationService { get; set; }
 
-        protected UserShortDto User { get; set; }
-        protected int UnReadNotificationCount { get; set; }
+        private UserShortDto User { get; set; }
+        private int UnReadNotificationCount { get; set; }
 
+        /// <inheritdoc />
         protected override async Task OnInitializedAsync()
         {
             this.User = null;
@@ -29,18 +33,18 @@ namespace EventManager.Client.Shared.Common
             await this.GetCountOfUnreadNotifications();
         }
 
-        protected async Task GetUser()
+        private async Task GetUser()
         {
             this.User = await this.UserService.GetShortUser();
         }
 
-        protected async Task GetCountOfUnreadNotifications()
+        private async Task GetCountOfUnreadNotifications()
         {
             int? val = await this.NotificationService.GetCountOfUnReadNotifications();
             this.UnReadNotificationCount = val == null ? 0 : (int)val;
         }
 
-        protected async Task Logout()
+        private async Task Logout()
         {
             await this.AuthService.Logout();
         }

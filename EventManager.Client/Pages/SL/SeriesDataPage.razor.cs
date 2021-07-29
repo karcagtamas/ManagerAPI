@@ -6,33 +6,39 @@ using EventManager.Client.Shared.Components.SL;
 using ManagerAPI.Shared.DTOs.SL;
 using ManagerAPI.Shared.Models.SL;
 using Microsoft.AspNetCore.Components;
+using MudBlazor;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace EventManager.Client.Pages.SL
 {
+    /// <summary>
+    /// Series Data Page
+    /// </summary>
     public partial class SeriesDataPage
     {
+        /// <summary>
+        /// Series Id
+        /// </summary>
         [Parameter] public int Id { get; set; }
-
         private MySeriesDto Series { get; set; }
         [Inject] private ISeriesService SeriesService { get; set; }
         [Inject] private ISeriesCommentService SeriesCommentService { get; set; }
         [Inject] private ISeasonService SeasonService { get; set; }
         [Inject] private IEpisodeService EpisodeService { get; set; }
         [Inject] private NavigationManager Navigation { get; set; }
-        [Inject] private IModalService Modal { get; set; }
+        [Inject] private IDialogService DialogService { get; set; }
         [Inject] private IAuthService Auth { get; set; }
         private bool IsLoading { get; set; }
         private string SeriesImage { get; set; }
         private List<SeriesCommentListDto> CommentList { get; set; }
         private string Comment { get; set; }
         private List<int> RateList { get; set; } = new List<int> { 1, 2, 3, 4, 5 };
-        private int SelectedId { get; set; }
         private bool CanAddOrEdit { get; set; }
         private bool CanDelete { get; set; }
 
+        /// <inheritdoc />
         protected override async Task OnInitializedAsync()
         {
             await this.GetSeries();
@@ -67,30 +73,20 @@ namespace EventManager.Client.Pages.SL
             this.StateHasChanged();
         }
 
-        private void OpenEditSeriesDialog()
+        private async void OpenEditSeriesDialog()
         {
-            var parameters = new ModalParameters();
-            parameters.Add("FormId", 1);
-            parameters.Add("series", this.Id);
-
-            var options = new ModalOptions
+            var parameters = new DialogParameters { { "SeriesId", Id } };
+            var dialog = DialogService.Show<SeriesDialog>("Edit Series", parameters, new DialogOptions
             {
-                ButtonOptions = { ConfirmButtonType = ConfirmButton.Save, ShowConfirmButton = true }
-            };
+                FullWidth = true,
+                MaxWidth = MaxWidth.Medium
+            });
+            var result = await dialog.Result;
 
-            this.Modal.OnClose += this.EditSeriesDialogClosed;
-
-            this.Modal.Show<SeriesDialog>("Edit Series", parameters, options);
-        }
-
-        private async void EditSeriesDialogClosed(ModalResult modalResult)
-        {
-            if (!modalResult.Cancelled && (bool)modalResult.Data)
+            if (!result.Cancelled)
             {
                 await this.GetSeries();
             }
-
-            this.Modal.OnClose -= this.EditSeriesDialogClosed;
         }
 
         private async void AddToMySeriesList()
@@ -157,30 +153,20 @@ namespace EventManager.Client.Pages.SL
             }
         }
 
-        private void OpenEditSeriesCategoriesDialog()
+        private async void OpenEditSeriesCategoriesDialog()
         {
-            var parameters = new ModalParameters();
-            parameters.Add("FormId", 1);
-            parameters.Add("series", this.Id);
-
-            var options = new ModalOptions
+            var parameters = new DialogParameters { { "SeriesId", Id } };
+            var dialog = DialogService.Show<SeriesCategoryDialog>("Edit Categories", parameters, new DialogOptions
             {
-                ButtonOptions = { ConfirmButtonType = ConfirmButton.Save, ShowConfirmButton = true }
-            };
+                FullWidth = true,
+                MaxWidth = MaxWidth.Small
+            });
+            var result = await dialog.Result;
 
-            this.Modal.OnClose += this.EditSeriesCategoriesDialogClosed;
-
-            this.Modal.Show<SeriesCategoryDialog>("Edit Categories", parameters, options);
-        }
-
-        private async void EditSeriesCategoriesDialogClosed(ModalResult modalResult)
-        {
-            if (!modalResult.Cancelled && (bool)modalResult.Data)
+            if (!result.Cancelled)
             {
                 await this.GetSeries();
             }
-
-            this.Modal.OnClose -= this.EditSeriesCategoriesDialogClosed;
         }
 
         private async void SaveComment()
@@ -208,104 +194,64 @@ namespace EventManager.Client.Pages.SL
             }
         }
 
-        private void OpenEditSeriesImageDialog()
+        private async void OpenEditSeriesImageDialog()
         {
-            var parameters = new ModalParameters();
-            parameters.Add("FormId", 1);
-            parameters.Add("series", this.Id);
+            var parameters = new DialogParameters { { "SeriesId", Id } };
+            var dialog = DialogService.Show<SeriesImageDialog>("Edit Image", parameters);
+            var result = await dialog.Result;
 
-            var options = new ModalOptions
-            {
-                ButtonOptions = { ConfirmButtonType = ConfirmButton.Save, ShowConfirmButton = true }
-            };
-
-            this.Modal.OnClose += this.EditSeriesImageDialogClosed;
-
-            this.Modal.Show<SeriesImageDialog>("Edit Series Image", parameters, options);
-        }
-
-        private async void EditSeriesImageDialogClosed(ModalResult modalResult)
-        {
-            if (!modalResult.Cancelled && (bool)modalResult.Data)
+            if (!result.Cancelled)
             {
                 await this.GetSeries();
             }
-
-            this.Modal.OnClose -= this.EditSeriesImageDialogClosed;
         }
 
-        private void OpenDeleteDialog()
+        private async void OpenDeleteDialog()
         {
-            var parameters = new ModalParameters();
-            parameters.Add("FormId", 1);
-            parameters.Add("type", ConfirmType.Delete);
-            parameters.Add("name", this.Series.Title);
+            var parameters = new DialogParameters {{"Input", new ConfirmDialogInput {
+                Name = Series.Title,
+                Action = ConfirmType.Delete,
+                DeleteFunction = async () => await SeriesService.Delete(Series.Id)
+            }}};
+            var dialog = DialogService.Show<ConfirmDialog>("Series Delete", parameters);
+            var result = await dialog.Result;
 
-            var options =
-                new ModalOptions(new ModalButtonOptions(true, true, CancelButton.Cancel, ConfirmButton.Confirm));
-
-            this.Modal.OnClose += this.DeleteDialogClosed;
-            this.Modal.Show<Confirm>("Series Delete", parameters, options);
-        }
-
-        private async void DeleteDialogClosed(ModalResult modalResult)
-        {
-            if (!modalResult.Cancelled && (bool)modalResult.Data && await this.SeriesService.Delete(this.Id))
+            if (!result.Cancelled)
             {
                 this.Navigation.NavigateTo("series");
             }
-
-            this.Modal.OnClose -= this.DeleteDialogClosed;
         }
 
-        private void OpenDeleteSeasonDialog(MySeasonDto season)
+        private async void OpenDeleteSeasonDialog(MySeasonDto season)
         {
-            var parameters = new ModalParameters();
-            parameters.Add("FormId", 1);
-            parameters.Add("type", ConfirmType.Delete);
-            parameters.Add("name", season.Number.ToString());
-            this.SelectedId = season.Id;
+            var parameters = new DialogParameters {{"Input", new ConfirmDialogInput {
+                Name = season.Number.ToString(),
+                Action = ConfirmType.Delete,
+                DeleteFunction = async () => await SeasonService.DeleteDecremented(season.Id)
+            }}};
+            var dialog = DialogService.Show<ConfirmDialog>("Season Delete", parameters);
+            var result = await dialog.Result;
 
-            var options =
-                new ModalOptions(new ModalButtonOptions(true, true, CancelButton.Cancel, ConfirmButton.Confirm));
-
-            this.Modal.OnClose += this.DeleteSeasonDialogClosed;
-            this.Modal.Show<Confirm>("Season Delete", parameters, options);
-        }
-
-        private async void DeleteSeasonDialogClosed(ModalResult modalResult)
-        {
-            if (!modalResult.Cancelled && (bool)modalResult.Data && await this.SeasonService.DeleteDecremented(this.SelectedId))
+            if (!result.Cancelled)
             {
                 await this.GetSeries();
             }
-
-            this.Modal.OnClose -= this.DeleteSeasonDialogClosed;
         }
 
-        private void OpenDeleteEpisodeDialog(MyEpisodeListDto episode)
+        private async void OpenDeleteEpisodeDialog(MyEpisodeListDto episode)
         {
-            var parameters = new ModalParameters();
-            parameters.Add("FormId", 1);
-            parameters.Add("type", ConfirmType.Delete);
-            parameters.Add("name", episode.Title);
-            this.SelectedId = episode.Id;
+            var parameters = new DialogParameters {{"Input", new ConfirmDialogInput {
+                Name = episode.Title,
+                Action = ConfirmType.Delete,
+                DeleteFunction = async () => await EpisodeService.DeleteDecremented(episode.Id)
+            }}};
+            var dialog = DialogService.Show<ConfirmDialog>("Episode Delete", parameters);
+            var result = await dialog.Result;
 
-            var options =
-                new ModalOptions(new ModalButtonOptions(true, true, CancelButton.Cancel, ConfirmButton.Confirm));
-
-            this.Modal.OnClose += this.DeleteEpisodeDialogClosed;
-            this.Modal.Show<Confirm>("Episode Delete", parameters, options);
-        }
-
-        private async void DeleteEpisodeDialogClosed(ModalResult modalResult)
-        {
-            if (!modalResult.Cancelled && (bool)modalResult.Data && await this.EpisodeService.DeleteDecremented(this.SelectedId))
+            if (!result.Cancelled)
             {
                 await this.GetSeries();
             }
-
-            this.Modal.OnClose -= this.DeleteEpisodeDialogClosed;
         }
     }
 }

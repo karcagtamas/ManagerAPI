@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace EventManager.Client.Services
 {
+    /// <inheritdoc />
     public class AuthService : IAuthService
     {
         private readonly IHttpService _httpService;
@@ -21,6 +22,14 @@ namespace EventManager.Client.Services
         private readonly IHelperService _helperService;
         private readonly string _url = ApplicationSettings.BaseApiUrl + "/auth";
 
+        /// <summary>
+        /// Init Auth Service
+        /// </summary>
+        /// <params name="httpService">HTTP Service</params>
+        /// <params name="httpService">HTTP Client</params>
+        /// <params name="httpService">Auth state manager</params>
+        /// <params name="httpService">Localstorage Service</params>
+        /// <params name="httpService">Helper Service</params>
         public AuthService(IHttpService httpService, HttpClient httpClient, AuthenticationStateProvider authenticationStateProvider, ILocalStorageService localStorageService, IHelperService helperService)
         {
             this._httpService = httpService;
@@ -30,6 +39,7 @@ namespace EventManager.Client.Services
             this._httpClient = httpClient;
         }
 
+        /// <inheritdoc />
         public async Task<bool> Register(RegistrationModel model)
         {
             var settings = new HttpSettings($"{this._url}/registration", null, null, "Registration");
@@ -39,6 +49,7 @@ namespace EventManager.Client.Services
             return await this._httpService.Create<RegistrationModel>(settings, body);
         }
 
+        /// <inheritdoc />
         public async Task<string> Login(LoginModel model)
         {
             var settings = new HttpSettings($"{this._url}/login", null, null, "Login");
@@ -57,11 +68,13 @@ namespace EventManager.Client.Services
             return result;
         }
 
+        /// <inheritdoc />
         public async Task Logout()
         {
             await ((ApiAuthenticationStateProvider)this._authenticationStateProvider).ClearStorage();
         }
 
+        /// <inheritdoc />
         public async Task<bool> HasRole(params string[] roles)
         {
             var state = await this._authenticationStateProvider.GetAuthenticationStateAsync();
@@ -71,6 +84,7 @@ namespace EventManager.Client.Services
             return claims.Any(roles.Contains);
         }
 
+        /// <inheritdoc />
         public async Task<bool> IsLoggedIn()
         {
             return !string.IsNullOrEmpty(await this._localStorageService.GetItemAsync<string>("authToken"));

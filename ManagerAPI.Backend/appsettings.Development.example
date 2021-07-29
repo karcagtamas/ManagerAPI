@@ -1,4 +1,11 @@
 {
+  "Kestrel": {
+    "Endpoints": {
+      "Http": {
+        "Url": "http://<address>:<port>"
+      }
+    }
+  },
   "Logging": {
     "LogLevel": {
       "Default": "Information",
@@ -8,18 +15,25 @@
   },
   "AllowedHosts": "*",
   "ConnectionStrings": {
+    "DefaultConnection": "server=localhost;port=3306;database=UniHelper;user=unihelper;password=<Password>;Persist Security Info=False; Connect Timeout=300",
     "ManagerDb": "Server=(local)\\sqlexpress;Database=ManagerDb;Trusted_Connection=True;MultipleActiveResultSets=True",
     "ManagerDb": "Server=localhost;Database=PlanManagerDb;User Id=SA;password=<Jelszó>;Trusted_Connection=False;MultipleActiveResultSets=true;"
   },
   "ApplicationSettings": {
     "JwtSecret": "0123456789012345678901Manager",
-    "ClientURL": "http://localhost:4200"
+    "ClientUrl": "http://<address>:<port>",
+    "SecureClientUrl": "https://<address>:<port>",
   },
-     "MailSettings": {
-       "Mail" : "noreply@karcags.eu",
-       "DisplayName": "Manager",
-       "Password": "",
-       "Host": "localhost",
-       "Port" : 587
-     }
+  "MailSettings": {
+    "Mail" : "noreply@karcags.eu",
+    "DisplayName": "Manager",
+    "Password": "",
+    "Host": "localhost",
+    "Port" : 587
+  },
+  "Urls": "https://localhost:8001;http://localhost:8000",
+  "Jwt": {
+    "Issuer": "karcags.hu",
+    "Key": "UniHelperSecretKey"
+  }
 }

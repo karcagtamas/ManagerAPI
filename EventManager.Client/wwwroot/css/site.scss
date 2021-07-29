@@ -1,16 +1,23 @@
 @import url('../css/open-iconic/font/css/open-iconic-bootstrap.min.css');
-@import "variables.scss";
+@import 'variables.scss';
 
 /* General body settings */
 
-html, body {
+html,
+body {
   font-family: 'Bree Serif', serif;
   height: 100%;
 }
 
 body {
   margin: 0;
-  background: linear-gradient(60deg, rgba(255, 178, 182, 1) 0%, rgba(226, 194, 255, 1) 50%, rgba(173, 153, 255, 1) 100%) fixed;
+  background: linear-gradient(
+      60deg,
+      rgba(255, 178, 182, 1) 0%,
+      rgba(226, 194, 255, 1) 50%,
+      rgba(173, 153, 255, 1) 100%
+    )
+    fixed;
   display: flex;
 }
 
@@ -36,7 +43,8 @@ app {
 
 /* General styles */
 
-.row, .col {
+.row,
+.col {
   padding: 0;
 }
 
@@ -201,7 +209,6 @@ app {
   }
 }
 
-
 /* MatBlazor settings */
 
 .mat-checkbox {
@@ -269,7 +276,6 @@ app {
   }
 }
 
-
 /* Input settings */
 .input-element {
   margin-bottom: 1rem;
@@ -299,7 +305,6 @@ app {
   }
 }
 
-
 /* App */
 
 app {
@@ -318,7 +323,6 @@ app {
 .validation-message {
   color: $red;
 }
-
 
 /* Error ui */
 #blazor-error-ui {
@@ -359,34 +363,66 @@ app {
   background: $primary;
 }
 
-
 /* Input */
 
 .input-row {
-    padding: 0.6rem;
+  padding: 0.6rem;
 }
 
 .tab-group {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  overflow: hidden;
+
+  .mat-tab-group-content {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
     overflow: hidden;
-
-    .mat-tab-group-content {
-        display: flex;
-        flex-direction: column;
-        flex-grow: 1;
-        overflow: hidden;
-    }
+  }
 }
-
 
 /* Main */
 
 .main {
-    .main-content {
-        overflow: auto;
-        height: 100%;
-        background-color: $white-trans;
-    }
+  .main-content {
+    overflow: auto;
+    height: 100%;
+    background-color: $white-trans;
+  }
+}
+
+.em-navbar {
+  background-color: $white-trans !important;
+}
+
+.em-light-box {
+  background-color: $white-trans !important;
+}
+
+.blue-label {
+  .mud-input-label {
+    background-color: $blue-light-trans !important;
+    opacity: 1 !important;
+  }
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.overflow-auto {
+  overflow: auto;
+}
+
+.small-icon {
+  font-size: 1rem !important;
+}
+
+.flex-tab .mud-tabs-panels {
+  overflow: hidden;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 }

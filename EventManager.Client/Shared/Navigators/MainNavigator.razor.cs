@@ -1,21 +1,23 @@
-﻿using EventManager.Client.Services;
-using EventManager.Client.Services.Interfaces;
+﻿using EventManager.Client.Services.Interfaces;
 using ManagerAPI.Shared.Helpers;
 using Microsoft.AspNetCore.Components;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace EventManager.Client.Shared.Navigators
 {
+    /// <summary>
+    /// Main Navigator
+    /// </summary>
     public partial class MainNavigator
     {
+        /// <summary>
+        /// Child
+        /// </summary>
         [Parameter]
         public RenderFragment ChildContent { get; set; }
 
         [Inject]
-        public IHelperService HelperService { get; set; }
+        private IHelperService HelperService { get; set; }
 
         private string GetWorkingManagerUri()
         {

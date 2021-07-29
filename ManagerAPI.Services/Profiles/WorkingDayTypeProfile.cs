@@ -10,6 +10,9 @@ namespace ManagerAPI.Services.Profiles
     /// </summary>
     public class WorkingDayTypeProfile : Profile
     {
+        /// <summary>
+        /// Init mapper
+        /// </summary>
         public WorkingDayTypeProfile()
         {
             this.CreateMap<WorkingDayType, WorkingDayTypeDto>();

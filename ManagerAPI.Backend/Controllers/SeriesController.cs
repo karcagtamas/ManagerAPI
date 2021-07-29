@@ -8,6 +8,9 @@ using MovieCorner.Services.Services.Interfaces;
 
 namespace ManagerAPI.Backend.Controllers
 {
+    /// <summary>
+    /// Series controller
+    /// </summary>
     [Route("api/[controller]")]
     [Authorize(Roles = "Administrator,Status Library User,Status Library Moderator,Status Library Administrator,Root")]
     [ApiController]
@@ -15,29 +18,48 @@ namespace ManagerAPI.Backend.Controllers
     {
         private readonly ISeriesService _seriesService;
 
+        /// <summary>
+        /// Init series controller
+        /// </summary>
+        /// <param name="seriesService">Series service</param>
         public SeriesController(ISeriesService seriesService) : base(seriesService)
         {
             this._seriesService = seriesService;
         }
 
+        /// <summary>
+        /// Get my list endpoint
+        /// </summary>
         [HttpGet("my")]
         public IActionResult GetMyList()
         {
             return this.Ok(this._seriesService.GetMyList());
         }
 
+        /// <summary>
+        /// Get my endpoint
+        /// </summary>
+        /// <param name="id">Path param id</param>
         [HttpGet("my/{id}")]
         public IActionResult GetMy(int id)
         {
             return this.Ok(this._seriesService.GetMy(id));
         }
 
+        /// <summary>
+        /// Get my selector list endpoint
+        /// </summary>
+        /// <param name="onlyMine">Query param</param>
         [HttpGet("selector")]
         public IActionResult GetMySelectorList([FromQuery] bool onlyMine)
         {
             return this.Ok(this._seriesService.GetMySelectorList(onlyMine));
         }
 
+        /// <summary>
+        /// Update my list endpoint
+        /// </summary>
+        /// <param name="model">Model</param>
         [HttpPut("map")]
         public IActionResult UpdateMySeries([FromBody] MySeriesModel model)
         {
@@ -45,6 +67,10 @@ namespace ManagerAPI.Backend.Controllers
             return this.Ok();
         }
 
+        /// <summary>
+        /// Update seen status endpoint
+        /// </summary>
+        /// <param name="model">Model</param>
         [HttpPut("map/status")]
         public IActionResult UpdateSeenStatus([FromBody] SeriesSeenStatusModel model)
         {
@@ -52,6 +78,10 @@ namespace ManagerAPI.Backend.Controllers
             return this.Ok();
         }
 
+        /// <summary>
+        /// Add to my list endpoint
+        /// </summary>
+        /// <param name="id">Path param id</param>
         [HttpPost("map/{id}")]
         public IActionResult AddSeriesToMySeries(int id)
         {
@@ -59,6 +89,10 @@ namespace ManagerAPI.Backend.Controllers
             return this.Ok();
         }
 
+        /// <summary>
+        /// Remove from my list endpoint
+        /// </summary>
+        /// <param name="id">Path param id</param>
         [HttpDelete("map/{id}")]
         public IActionResult RemoveBookFromMyBooks(int id)
         {
@@ -66,6 +100,11 @@ namespace ManagerAPI.Backend.Controllers
             return this.Ok();
         }
 
+        /// <summary>
+        /// Update image endpoint
+        /// </summary>
+        /// <param name="id">Path param id</param>
+        /// <param name="model">Model</param>
         [HttpPut("image/{id}")]
         [Authorize(Roles = "Administrator,Root,Moderator,Status Library Moderator,Status Library Administrator")]
         public IActionResult UpdateImage(int id, [FromBody] SeriesImageModel model)
@@ -74,6 +113,11 @@ namespace ManagerAPI.Backend.Controllers
             return this.Ok();
         }
 
+        /// <summary>
+        /// Update categories endpoint
+        /// </summary>
+        /// <param name="id">Path param id</param>
+        /// <param name="model">Model</param>
         [HttpPut("categories/{id}")]
         [Authorize(Roles = "Administrator,Root,Moderator,Status Library Moderator,Status Library Administrator")]
         public IActionResult UpdateCategories(int id, [FromBody] SeriesCategoryUpdateModel model)
@@ -82,6 +126,11 @@ namespace ManagerAPI.Backend.Controllers
             return this.Ok();
         }
 
+        /// <summary>
+        /// Updat rate endpoint
+        /// </summary>
+        /// <param name="id">Path param id</param>
+        /// <param name="model">Model</param>
         [HttpPut("rate/{id}")]
         public IActionResult UpdateRate(int id, [FromBody] SeriesRateModel model)
         {
@@ -89,6 +138,10 @@ namespace ManagerAPI.Backend.Controllers
             return this.Ok();
         }
 
+        /// <summary>
+        /// Create endpoint
+        /// </summary>
+        /// <param name="model">Model</param>
         [HttpPost]
         [Authorize(Roles = "Administrator,Root,Moderator,Status Library Moderator,Status Library Administrator")]
         public override IActionResult Create([FromBody] SeriesModel model)
@@ -97,6 +150,10 @@ namespace ManagerAPI.Backend.Controllers
             return this.Ok();
         }
 
+        /// <summary>
+        /// Delete endpoint
+        /// </summary>
+        /// <param name="id">Path param id</param>
         [HttpDelete("{id}")]
         [Authorize(Roles = "Administrator,Root,Status Library Administrator")]
         public override IActionResult Delete(int id)
@@ -105,6 +162,12 @@ namespace ManagerAPI.Backend.Controllers
             return this.Ok();
         }
 
+        /// <summary>
+        /// Update endpoint
+        /// </summary>
+        /// <param name="id">Path param id</param>
+        /// <param name="model">Model</param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         [Authorize(Roles = "Administrator,Root,Moderator,Status Library Moderator,Status Library Administrator")]
         public override IActionResult Update(int id, SeriesModel model)

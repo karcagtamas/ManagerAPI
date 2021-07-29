@@ -2,26 +2,26 @@
     <div class="filter">
         @if (!SelectedIsPerson)
         {
-            <MatSelect TValue="string" Value="Selected" ValueChanged="@((val) => SelectedWorkChanged(val))" Outlined="true" Label="Work Filter">
-                <MatOption TValue="string" Value="null"></MatOption>
+            <MudSelect T="string?" Value="Selected" ValueChanged="SelectedWorkChanged" Variant="Variant.Outlined" Label="Work filter">
+                <MudSelectItem T="string" Value="null">All</MudSelectItem>
                 @foreach (var work in Settings.Works)
                 {
-                    <MatOption TValue="string" Value="work.Id">@work.Name</MatOption>
+                    <MudSelectItem T="string" Value="work.Id">@work.Name</MudSelectItem>
                 }
-            </MatSelect>
+            </MudSelect>
         }
         else
         {
-            <MatSelect TValue="string" Value="Selected" ValueChanged="@((val) => SelectedPersonChanged(val))" Outlined="true" Label="Person Filter">
-                <MatOption TValue="string" Value="null"></MatOption>
+            <MudSelect T="string?" Value="Selected" ValueChanged="SelectedPersonChanged" Variant="Variant.Outlined" Label="Person filter">
+                <MudSelectItem T="string" Value="null">All</MudSelectItem>
                 @foreach (var person in Settings.Persons)
                 {
-                    <MatOption TValue="string" Value="person.Id">@person.Name</MatOption>
+                    <MudSelectItem T="string" Value="person.Id">@person.Name</MudSelectItem>
                 }
-            </MatSelect>
+            </MudSelect>
         }
         <span class="spacer"></span>
-        <span>Is Personal table: <MatSlideToggle TValue="bool" Value="SelectedIsPerson" ValueChanged="@((val) => TableStyleTypeChanged(val))"></MatSlideToggle></span>
+        <span><MudSwitch T="bool" Color="Color.Primary" Checked="SelectedIsPerson" Label="Is Personal table" CheckedChanged="TableStyleTypeChanged" /> </span>
     </div>
     <div class="table-row">
         <div class="element header interval">Full</div>
@@ -57,9 +57,11 @@
             {
                 @if (element != null)
                 {
-                    <MatTooltip Tooltip="@element.Tooltip">
-                        <div @ref="context.Current" class="element @(HoveredMemberId == element.Id ? "hovered" : "") @(ManagerAPI.Shared.Helpers.DateHelper.CompareDates(DateTime.UtcNow, row.Key) ? "current" : "") @(ManagerAPI.Shared.Helpers.DateHelper.CompareDates(DateTime.UtcNow.AddHours(1), row.Key) ? "next" : "")" @onmouseover="@(() => Hover(element.Id))" @onmouseout="@(() => Hover(null))">@element.Name</div>
-                    </MatTooltip>
+                    <MudTooltip Text="@element.Tooltip">
+                        <MudText Typo="Typo.body1">
+                            <div class="element @(HoveredMemberId == element.Id ? "hovered" : "") @(ManagerAPI.Shared.Helpers.DateHelper.CompareDates(DateTime.UtcNow, row.Key) ? "current" : "") @(ManagerAPI.Shared.Helpers.DateHelper.CompareDates(DateTime.UtcNow.AddHours(1), row.Key) ? "next" : "")" @onmouseover="@(() => Hover(element.Id))" @onmouseout="@(() => Hover(null))">@element.Name</div>
+                        </MudText>
+                    </MudTooltip>
                 }
                 else
                 {

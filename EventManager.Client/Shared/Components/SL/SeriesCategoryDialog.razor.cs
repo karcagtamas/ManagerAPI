@@ -5,21 +5,27 @@ using EventManager.Client.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.SL;
 using ManagerAPI.Shared.Models.SL;
 using Microsoft.AspNetCore.Components;
+using MudBlazor;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace EventManager.Client.Shared.Components.SL
 {
+    /// <summary>
+    /// Movie category Dialog
+    /// </summary>
     public partial class SeriesCategoryDialog
     {
-        [CascadingParameter] public ModalParameters Parameters { get; set; }
-        [CascadingParameter] public BlazoredModal BlazoredModal { get; set; }
+        [CascadingParameter] private MudDialogInstance Dialog { get; set; }
+
+        /// <summary>
+        /// Series Id
+        /// </summary>
+        [Parameter]
+        public int SeriesId { get; set; }
         [Inject] private ISeriesService SeriesService { get; set; }
         [Inject] private ISeriesCategoryService SeriesCategoryService { get; set; }
-        [Inject] private IModalService ModalService { get; set; }
-        private int FormId { get; set; }
-        private int SeriesId { get; set; }
         private List<SeriesCategorySelectorListDto> List { get; set; }
         private List<int> SelectedIndexList { get; set; } = new List<int>();
         private bool IsLoading { get; set; } = false;
@@ -29,15 +35,11 @@ namespace EventManager.Client.Shared.Components.SL
             new TableHeaderData<SeriesCategorySelectorListDto>("Name", "Category", Alignment.Left)
         };
 
+        /// <inheritdoc />
         protected override async Task OnInitializedAsync()
         {
-            this.FormId = this.Parameters.Get<int>("FormId");
-            this.SeriesId = this.Parameters.Get<int>("series");
-
             await this.GetSelectorList();
             this.SelectedIndexList = this.List.Where(x => x.IsSelected).Select(x => x.Id).ToList();
-
-            ((ModalService)this.ModalService).OnConfirm += this.OnConfirm;
         }
 
         private async Task GetSelectorList()
@@ -49,14 +51,13 @@ namespace EventManager.Client.Shared.Components.SL
             this.StateHasChanged();
         }
 
-        private async void OnConfirm()
+        private async void Save()
         {
             var indexList = this.List.Where(x => x.IsSelected).Select(x => x.Id).ToList();
 
             if (await this.SeriesService.UpdateCategories(this.SeriesId, new SeriesCategoryUpdateModel { Ids = indexList }))
             {
-                this.ModalService.Close(ModalResult.Ok(true));
-                ((ModalService)this.ModalService).OnConfirm -= this.OnConfirm;
+                Dialog.Close(DialogResult.Ok(true));
             }
         }
 
@@ -71,6 +72,11 @@ namespace EventManager.Client.Shared.Components.SL
             {
                 this.SelectedIndexList.Remove(category.Id);
             }
+        }
+
+        private void Cancel()
+        {
+            Dialog.Cancel();
         }
     }
 }

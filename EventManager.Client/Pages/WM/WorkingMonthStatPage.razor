@@ -1,7 +1,7 @@
 ﻿@page "/wm/month/{year:int}/{month:int}"
 @using ManagerAPI.Shared.Helpers
 
-<div class="wm-month">
+<div class="wm-month w-100">
     <div class="title-bar">
         <div class="em-page-title">Working Month Statistics</div>
         <span class="spacer"></span>
@@ -15,26 +15,28 @@
     {
         <div class="action-bar">
             <span class="spacer"></span>
-            <MatIconButton Icon="chevron_left" @onclick="@(() => Redirect(false))"></MatIconButton>
-            <MatIconButton Icon="chevron_right" @onclick="@(() => Redirect(true))"></MatIconButton>
+            <div>
+                <MudIconButton Icon="@Icons.Filled.ChevronLeft" OnClick="@(() => Redirect(false))" Color="Color.Primary" />
+                <MudIconButton Icon="@Icons.Filled.ChevronRight" OnClick="@(() => Redirect(true))" Color="Color.Primary" />
+            </div>
         </div>
         @if (MonthStat != null)
         {
             <div class="stat-box">
                 <div class="em-sub-title">Statistics</div>
                 <div class="data-row">
-                    <strong>Summary hours: </strong> @MonthStat.HourSum h
+                    <strong>Summary hours: </strong> @($"{MonthStat.HourSum:0.00} h")
                 </div>
                 <div class="data-row">
-                    <strong>Avgerate hours: </strong> @Math.Round(MonthStat.HourAvg, 2) h
+                    <strong>Avgerate hours: </strong> @($"{MonthStat.HourAvg:0.00} h")
                 </div>
                 <div class="data-row">
                     <strong>Active / Work days: </strong> @MonthStat.ActiveDays / @MonthStat.WorkDays
                 </div>
             </div>
             <div class="type-stat">
-                <div class="em-sub-title">Type statistics</div>
-                @foreach (var type in @MonthStat.Counts)
+        <div class="em-sub-title">Type statistics</div>
+        @foreach (var type in MonthStat.Counts)
                 {
                     <div class="data-row">
                         <strong>@type.Type:</strong> @type.Count
@@ -42,8 +44,8 @@
                 }
             </div>
             <div class="field-list">
-                <div class="em-sub-title">Working Fields</div>
-                @foreach (var field in @MonthStat.Fields)
+        <div class="em-sub-title">Working Fields</div>
+        @foreach (var field in MonthStat.Fields)
                 {
                     <FieldComponent WorkingField="field" IsModifiable="false"></FieldComponent>
                 }

@@ -6,12 +6,16 @@ using EventManager.Client.Shared.Components.MyProfile;
 using ManagerAPI.Shared.DTOs;
 using ManagerAPI.Shared.Models;
 using Microsoft.AspNetCore.Components;
+using MudBlazor;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace EventManager.Client.Pages.Profiles
 {
+    /// <summary>
+    /// My Profile Page
+    /// </summary>
     public partial class MyProfilePage
     {
         [Inject]
@@ -21,26 +25,26 @@ namespace EventManager.Client.Pages.Profiles
         private IAuthService AuthService { get; set; }
 
         [Inject]
-        public IHelperService HelperService { get; set; }
+        private IHelperService HelperService { get; set; }
 
         [Inject]
-        public IGenderService GenderService { get; set; }
+        private IGenderService GenderService { get; set; }
 
-        [Inject]
-        public IModalService Modal { get; set; }
+        [Inject] private IDialogService DialogService { get; set; }
 
-        public UserDto User { get; set; }
-        public UserModel UserUpdate { get; set; }
-        protected List<GenderListDto> Genders { get; set; }
+        private UserDto User { get; set; }
+        private UserModel UserUpdate { get; set; }
+        private List<GenderListDto> Genders { get; set; }
 
-        protected bool ShowConfirmDialog { get; set; } = false;
-        protected bool ShowChangePasswordDialog { get; set; } = false;
-        protected bool ShowUploadProfileImageDialog { get; set; } = false;
-        protected bool ShowChangeUsernameDialog { get; set; } = false;
-        protected string Image { get; set; }
-        public string Roles { get; set; }
-        protected bool ProfileIsLoading { get; set; } = true;
+        private bool ShowConfirmDialog { get; set; } = false;
+        private bool ShowChangePasswordDialog { get; set; } = false;
+        private bool ShowUploadProfileImageDialog { get; set; } = false;
+        private bool ShowChangeUsernameDialog { get; set; } = false;
+        private string Image { get; set; }
+        private string Roles { get; set; }
+        private bool ProfileIsLoading { get; set; } = true;
 
+        /// <inheritdoc />
         protected override async Task OnInitializedAsync()
         {
             await this.GetUser();
@@ -67,7 +71,7 @@ namespace EventManager.Client.Pages.Profiles
             this.Genders = await this.GenderService.GetAll("Name");
         }
 
-        protected async Task UpdateUser()
+        private async Task UpdateUser()
         {
             if (await this.UserService.UpdateUser(this.UserUpdate))
             {
@@ -75,87 +79,63 @@ namespace EventManager.Client.Pages.Profiles
             }
         }
 
-        protected void OpenUserDisableConfirmDialog()
+        private async void OpenUserDisableConfirmDialog()
         {
-            var parameters = new ModalParameters();
-            parameters.Add("FormId", 1);
-            parameters.Add("type", ConfirmType.Disable);
-            parameters.Add("name", "yourself");
+            var parameters = new DialogParameters
+            {
+                {
+                    "Input",
+                    new ConfirmDialogInput
+                    {
+                        Name = "yourself",
+                        Action = ConfirmType.Disable,
+                        DeleteFunction = async () => await UserService.DisableUser()
+                    }
+                }
+            };
+            var dialog = DialogService.Show<ConfirmDialog>("Confirm Delete", parameters);
+            var result = await dialog.Result;
 
-            var options = new ModalOptions(new ModalButtonOptions(true, true, CancelButton.Cancel, ConfirmButton.Confirm));
-
-            this.Modal.OnClose += this.DisableConfirmDialogClosed;
-            this.Modal.Show<Confirm>("User disable", parameters, options);
+            if (!result.Cancelled)
+            {
+                await AuthService.Logout();
+            }
         }
 
-        protected async void DisableConfirmDialogClosed(ModalResult modalResult)
+        private async void OpenChangePasswordDialog()
         {
-            if (!modalResult.Cancelled && (bool)modalResult.Data && await this.UserService.DisableUser())
+            var parameters = new DialogParameters();
+            var dialog = DialogService.Show<ChangePasswordDialog>("Change Password", parameters, new DialogOptions { MaxWidth = MaxWidth.ExtraSmall, FullWidth = true });
+            var result = await dialog.Result;
+
+            if (!result.Cancelled)
             {
                 await this.AuthService.Logout();
             }
-            this.Modal.OnClose -= this.DisableConfirmDialogClosed;
         }
 
-        protected void OpenChangePasswordDialog()
+        private async void OpenUploadProfileImageDialog()
         {
-            var parameters = new ModalParameters();
-            parameters.Add("FormId", 2);
+            var parameters = new DialogParameters();
+            var dialog = DialogService.Show<UploadProfileImageDialog>("Profile Image Upload", parameters, new DialogOptions { MaxWidth = MaxWidth.ExtraSmall, FullWidth = true });
+            var result = await dialog.Result;
 
-            var options = new ModalOptions(new ModalButtonOptions(true, true, CancelButton.Cancel, ConfirmButton.Save));
-
-            this.Modal.OnClose += this.ChangePasswordDialogClosed;
-            this.Modal.Show<ChangePasswordDialog>("Change password", parameters, options);
-        }
-
-        protected async void ChangePasswordDialogClosed(ModalResult modalResult)
-        {
-            if (!modalResult.Cancelled && (bool)modalResult.Data)
+            if (!result.Cancelled)
             {
-                await this.AuthService.Logout();
-            }
-            this.Modal.OnClose -= this.ChangePasswordDialogClosed;
-        }
-
-        protected void OpenUploadProfileImageDialog()
-        {
-            var parameters = new ModalParameters();
-            parameters.Add("FormId", 3);
-
-            var options = new ModalOptions(new ModalButtonOptions(true, false, CancelButton.Cancel, ConfirmButton.Save));
-
-            this.Modal.OnClose += this.UploadProfileImageDialogClosed;
-            this.Modal.Show<UploadProfileImageDialog>("Profile image upload", parameters, options);
-        }
-
-        protected async void UploadProfileImageDialogClosed(ModalResult modalResult)
-        {
-            if (!modalResult.Cancelled && (bool)modalResult.Data)
-            {
-                Console.WriteLine(modalResult.Data);
                 await this.GetUser();
             }
-            this.Modal.OnClose -= this.UploadProfileImageDialogClosed;
         }
 
-        protected void OpenChangeUsernameDialog()
+        private async void OpenChangeUsernameDialog()
         {
-            var parameters = new ModalParameters();
-            parameters.Add("FormId", 4);
+            var parameters = new DialogParameters();
+            var dialog = DialogService.Show<ChangeUsernameDialog>("Change Username", parameters, new DialogOptions { MaxWidth = MaxWidth.ExtraSmall, FullWidth = true });
+            var result = await dialog.Result;
 
-            var options = new ModalOptions(new ModalButtonOptions(true, true, CancelButton.Cancel, ConfirmButton.Save));
-
-            this.Modal.OnClose += this.ChangeUsernameDialogClosed;
-            this.Modal.Show<ChangeUsernameDialog>("Change user name", parameters, options);
-        }
-
-        protected async void ChangeUsernameDialogClosed(ModalResult modalResult)
-        {
-            if (!modalResult.Cancelled && (bool)modalResult.Data)
+            if (!result.Cancelled)
             {
                 await this.AuthService.Logout();
             }
-            this.Modal.OnClose -= this.ChangeUsernameDialogClosed;
         }
     }
 }

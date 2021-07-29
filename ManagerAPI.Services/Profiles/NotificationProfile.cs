@@ -9,6 +9,9 @@ namespace ManagerAPI.Services.Profiles
     /// </summary>
     public class NotificationProfile : Profile
     {
+        /// <summary>
+        /// Init mapper
+        /// </summary>
         public NotificationProfile()
         {
             this.CreateMap<Notification, NotificationDto>()

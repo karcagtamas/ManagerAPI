@@ -1,26 +1,31 @@
 ﻿using EventManager.Client.Enums;
-using EventManager.Client.Models;
 using EventManager.Client.Services.Interfaces;
 using EventManager.Client.Shared.Common;
 using EventManager.Client.Shared.Components.SL;
 using ManagerAPI.Shared.DTOs.SL;
 using ManagerAPI.Shared.Models.SL;
 using Microsoft.AspNetCore.Components;
+using MudBlazor;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace EventManager.Client.Pages.SL
 {
+    /// <summary>
+    /// Movie Data Page
+    /// </summary>
     public partial class MovieDataPage
     {
+        /// <summary>
+        /// Movie Id
+        /// </summary>
         [Parameter] public int Id { get; set; }
-
         private MyMovieDto Movie { get; set; }
         [Inject] private IMovieService MovieService { get; set; }
         [Inject] private IMovieCommentService MovieCommentService { get; set; }
         [Inject] private NavigationManager Navigation { get; set; }
-        [Inject] private IModalService Modal { get; set; }
+        [Inject] private IDialogService DialogService { get; set; }
         [Inject] private IAuthService Auth { get; set; }
         private bool IsLoading { get; set; }
         private string MovieImage { get; set; }
@@ -30,6 +35,7 @@ namespace EventManager.Client.Pages.SL
         private bool CanEdit { get; set; }
         private bool CanDelete { get; set; }
 
+        /// <inheritdoc />
         protected override async Task OnInitializedAsync()
         {
             await this.GetMovie();
@@ -64,56 +70,32 @@ namespace EventManager.Client.Pages.SL
             this.StateHasChanged();
         }
 
-        private void OpenEditMovieDialog()
+        private async void OpenEditMovieDialog()
         {
-            var parameters = new ModalParameters();
-            parameters.Add("FormId", 1);
-            parameters.Add("movie", this.Id);
-
-            var options = new ModalOptions
+            var parameters = new DialogParameters { { "MovieId", Id } };
+            var dialog = DialogService.Show<MovieDialog>("Edit Movie", parameters, new DialogOptions
             {
-                ButtonOptions = { ConfirmButtonType = ConfirmButton.Save, ShowConfirmButton = true }
-            };
+                FullWidth = true,
+                MaxWidth = MaxWidth.Medium
+            });
+            var result = await dialog.Result;
 
-            this.Modal.OnClose += this.MovieDialogClosed;
-
-            this.Modal.Show<MovieDialog>("Edit Movie", parameters, options);
-        }
-
-        private async void MovieDialogClosed(ModalResult modalResult)
-        {
-            if (!modalResult.Cancelled && (bool)modalResult.Data)
+            if (!result.Cancelled)
             {
                 await this.GetMovie();
             }
-
-            this.Modal.OnClose -= this.MovieDialogClosed;
         }
 
-        private void OpenEditMovieImageDialog()
+        private async void OpenEditMovieImageDialog()
         {
-            var parameters = new ModalParameters();
-            parameters.Add("FormId", 1);
-            parameters.Add("movie", this.Id);
+            var parameters = new DialogParameters { { "MovieId", Id } };
+            var dialog = DialogService.Show<MovieImageDialog>("Edit Image");
+            var result = await dialog.Result;
 
-            var options = new ModalOptions
-            {
-                ButtonOptions = { ConfirmButtonType = ConfirmButton.Save, ShowConfirmButton = true }
-            };
-
-            this.Modal.OnClose += this.EditMovieImageDialogClosed;
-
-            this.Modal.Show<MovieImageDialog>("Edit Movie Image", parameters, options);
-        }
-
-        private async void EditMovieImageDialogClosed(ModalResult modalResult)
-        {
-            if (!modalResult.Cancelled && (bool)modalResult.Data)
+            if (!result.Cancelled)
             {
                 await this.GetMovie();
             }
-
-            this.Modal.OnClose -= this.EditMovieImageDialogClosed;
         }
 
         private async void AddToMyMovies()
@@ -141,30 +123,20 @@ namespace EventManager.Client.Pages.SL
             }
         }
 
-        private void OpenEditMovieCategoriesDialog()
+        private async void OpenEditMovieCategoriesDialog()
         {
-            var parameters = new ModalParameters();
-            parameters.Add("FormId", 1);
-            parameters.Add("movie", this.Id);
-
-            var options = new ModalOptions
+            var parameters = new DialogParameters { { "MovieId", Id } };
+            var dialog = DialogService.Show<MovieCategoryDialog>("Edit Categories", parameters, new DialogOptions
             {
-                ButtonOptions = { ConfirmButtonType = ConfirmButton.Save, ShowConfirmButton = true }
-            };
+                FullWidth = true,
+                MaxWidth = MaxWidth.Small
+            });
+            var result = await dialog.Result;
 
-            this.Modal.OnClose += this.EditMovieCategoriesDialogClosed;
-
-            this.Modal.Show<MovieCategoryDialog>("Edit Categories", parameters, options);
-        }
-
-        private async void EditMovieCategoriesDialogClosed(ModalResult modalResult)
-        {
-            if (!modalResult.Cancelled && (bool)modalResult.Data)
+            if (!result.Cancelled)
             {
                 await this.GetMovie();
             }
-
-            this.Modal.OnClose -= this.EditMovieCategoriesDialogClosed;
         }
 
         private async void SaveComment()
@@ -192,28 +164,20 @@ namespace EventManager.Client.Pages.SL
             }
         }
 
-        private void OpenDeleteDialog()
+        private async void OpenDeleteDialog()
         {
-            var parameters = new ModalParameters();
-            parameters.Add("FormId", 1);
-            parameters.Add("type", ConfirmType.Delete);
-            parameters.Add("name", this.Movie.Title);
+            var parameters = new DialogParameters {{"Input", new ConfirmDialogInput {
+                Name = Movie.Title,
+                Action = ConfirmType.Delete,
+                DeleteFunction = async () => await MovieService.Delete(Movie.Id)
+            }}};
+            var dialog = DialogService.Show<ConfirmDialog>("Movie Delete", parameters);
+            var result = await dialog.Result;
 
-            var options =
-                new ModalOptions(new ModalButtonOptions(true, true, CancelButton.Cancel, ConfirmButton.Confirm));
-
-            this.Modal.OnClose += this.DeleteDialogClosed;
-            this.Modal.Show<Confirm>("Movie Delete", parameters, options);
-        }
-
-        private async void DeleteDialogClosed(ModalResult modalResult)
-        {
-            if (!modalResult.Cancelled && (bool)modalResult.Data && await this.MovieService.Delete(this.Id))
+            if (!result.Cancelled)
             {
                 this.Navigation.NavigateTo("movies");
             }
-
-            this.Modal.OnClose -= this.DeleteDialogClosed;
         }
     }
 }

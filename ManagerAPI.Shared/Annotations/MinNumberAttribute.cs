@@ -3,10 +3,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ManagerAPI.Shared.Annotations
 {
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
     /// <summary>
     /// Minimum number checked annotation
     /// </summary>
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
     public class MinNumberAttribute : ValidationAttribute
     {
         private int Min { get; set; }

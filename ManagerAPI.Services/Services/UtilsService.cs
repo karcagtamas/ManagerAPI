@@ -9,9 +9,7 @@ using System.Linq;
 
 namespace ManagerAPI.Services.Services
 {
-    /// <summary>
-    /// Utils Service
-    /// </summary>
+    /// <inheritdoc />
     public class UtilsService : IUtilsService
     {
         private readonly IHttpContextAccessor _contextAccessor;
@@ -28,10 +26,7 @@ namespace ManagerAPI.Services.Services
             this._context = context;
         }
 
-        /// <summary>
-        /// Get current user from the HTTP Context
-        /// </summary>
-        /// <returns>Current user</returns>
+        /// <inheritdoc />
         public User GetCurrentUser()
         {
             string userId = this.GetCurrentUserId();
@@ -44,22 +39,14 @@ namespace ManagerAPI.Services.Services
             return user;
         }
 
-        /// <summary>
-        /// Get current user's Id from the HTTP Context
-        /// </summary>
-        /// <returns>Current user's Id</returns>
+        /// <inheritdoc />
         public string GetCurrentUserId()
         {
             string userId = this._contextAccessor.HttpContext.User.Claims.First(c => c.Type == "UserId").Value;
             return userId;
         }
 
-        /// <summary>
-        /// Inject params into string.
-        /// </summary>
-        /// <param name="baseText">Base text with number placeholders.</param>
-        /// <param name="args">Injectable params.</param>
-        /// <returns>Base text with injected params.</returns>
+        /// <inheritdoc />
         public string InjectString(string baseText, params string[] args)
         {
             string res = baseText;
@@ -82,22 +69,13 @@ namespace ManagerAPI.Services.Services
             return res;
         }
 
-        /// <summary>
-        /// User display text.
-        /// Format: [User Name] ([User Id])
-        /// </summary>
-        /// <param name="user">User</param>
-        /// <returns>Display text</returns>
+        /// <inheritdoc />
         public string UserDisplay(User user)
         {
             return $"{user.UserName} ({user.Id})";
         }
 
-        /// <summary>
-        /// Identity errors to string.
-        /// </summary>
-        /// <param name="errors">Error list</param>
-        /// <returns>First error's description</returns>
+        /// <inheritdoc />
         public string ErrorsToString(IEnumerable<IdentityError> errors)
         {
             var list = errors.ToList();

@@ -7,9 +7,24 @@ namespace EventManager.Client.Http
     /// </summary>
     public class HttpSettings
     {
+        /// <summary>
+        /// Url
+        /// </summary>
         public string Url { get; set; }
+
+        /// <summary>
+        /// Query params
+        /// </summary>
         public HttpQueryParameters QueryParameters { get; set; }
+
+        /// <summary>
+        /// Path params
+        /// </summary>
         public HttpPathParameters PathParameters { get; set; }
+
+        /// <summary>
+        /// Toaster settings
+        /// </summary>
         public ToasterSettings ToasterSettings { get; set; }
 
         /// <summary>
@@ -42,9 +57,9 @@ namespace EventManager.Client.Http
         /// Setting with url, query and path params and toaster settings
         /// </summary>
         /// <param name="url"></param>
-        /// <param name="queryParameters"></param>
-        /// <param name="pathParameters"></param>
-        /// <param name="toasterSettings"></param>
+        /// <param name="queryParameters">Query parameters</param>
+        /// <param name="pathParameters">Path parameters</param>
+        /// <param name="toasterSettings">Toaster settings</param>
         public HttpSettings(string url, HttpQueryParameters queryParameters, HttpPathParameters pathParameters, ToasterSettings toasterSettings)
         {
             this.SetUrl(url);
@@ -57,9 +72,9 @@ namespace EventManager.Client.Http
         /// Setting with url, query and path params and toaster caption
         /// </summary>
         /// <param name="url"></param>
-        /// <param name="queryParameters"></param>
-        /// <param name="pathParameters"></param>
-        /// <param name="toasterCaption"></param>
+        /// <param name="queryParameters">Query parameters</param>
+        /// <param name="pathParameters">Path parameters</param>
+        /// <param name="toasterCaption">Caption</param>
         public HttpSettings(string url, HttpQueryParameters queryParameters, HttpPathParameters pathParameters, string toasterCaption)
         {
             this.SetUrl(url);

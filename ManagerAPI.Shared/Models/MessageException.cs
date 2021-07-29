@@ -22,6 +22,11 @@ namespace ManagerAPI.Shared.Models
         {
         }
 
+        /// <summary>
+        /// Exception with message and inner Exception
+        /// </summary>
+        /// <param name="message">Message</param>
+        /// <param name="innerException">Exception</param>
         public MessageException(string message, Exception innerException) : base(message, innerException)
         {
         }

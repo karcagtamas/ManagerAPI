@@ -6,8 +6,14 @@ using System.Collections.Generic;
 
 namespace PlanManager.Services.Profiles
 {
+    /// <summary>
+    /// Plan Mapper
+    /// </summary>
     public class PlanProfile : Profile
     {
+        /// <summary>
+        /// Init Plan Profile
+        /// </summary>
         public PlanProfile()
         {
             this.CreateMap<Plan, PlanListDto>();

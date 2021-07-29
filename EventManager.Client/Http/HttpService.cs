@@ -5,11 +5,11 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-/// <summary>
-/// HTTP Service
-/// </summary>
 namespace EventManager.Client.Http
 {
+    /// <summary>
+    /// HTTP Service
+    /// </summary>
     public class HttpService : IHttpService
     {
         private readonly HttpClient _httpClient;
@@ -21,6 +21,7 @@ namespace EventManager.Client.Http
         /// </summary>
         /// <param name="httpClient">HTTP Client</param>
         /// <param name="helperService">Helper Service</param>
+        /// <param name="jsRuntime">JS Runtime</param>
         public HttpService(HttpClient httpClient, IHelperService helperService, IJSRuntime jsRuntime)
         {
             this._httpClient = httpClient;
@@ -28,13 +29,7 @@ namespace EventManager.Client.Http
             this._jsRuntime = jsRuntime;
         }
 
-        /// <summary>
-        /// POST request
-        /// </summary>
-        /// <param name="settings">HTTP settings</param>
-        /// <param name="body">Body of post request</param>
-        /// <typeparam name="T">Type of the body</typeparam>
-        /// <returns>The request was success or not</returns>
+        /// <inheritdoc />
         public async Task<bool> Create<T>(HttpSettings settings, HttpBody<T> body)
         {
             this.CheckSettings(settings);
@@ -63,13 +58,7 @@ namespace EventManager.Client.Http
             return response.IsSuccessStatusCode;
         }
 
-        /// <summary>
-        /// POST request where we want string response
-        /// </summary>
-        /// <param name="settings">HTTP settings</param>
-        /// <param name="body">Body of post request</param>
-        /// <typeparam name="T">Type of the body</typeparam>
-        /// <returns>Response string value</returns>
+        /// <inheritdoc />
         public async Task<string> CreateString<T>(HttpSettings settings, HttpBody<T> body)
         {
             this.CheckSettings(settings);
@@ -112,11 +101,7 @@ namespace EventManager.Client.Http
             return default;
         }
 
-        /// <summary>
-        /// DELETE request
-        /// </summary>
-        /// <param name="settings">HTTP settings</param>
-        /// <returns>The request was success or not</returns>
+        /// <inheritdoc />
         public async Task<bool> Delete(HttpSettings settings)
         {
             this.CheckSettings(settings);
@@ -144,12 +129,7 @@ namespace EventManager.Client.Http
             return response.IsSuccessStatusCode;
         }
 
-        /// <summary>
-        /// GET request
-        /// </summary>
-        /// <param name="settings">HTTP settings</param>
-        /// <typeparam name="T">Type of the result</typeparam>
-        /// <returns>Response as T type</returns>
+        /// <inheritdoc />
         public async Task<T> Get<T>(HttpSettings settings)
         {
             this.CheckSettings(settings);
@@ -190,11 +170,7 @@ namespace EventManager.Client.Http
             }
         }
 
-        /// <summary>
-        /// Get number
-        /// </summary>
-        /// <param name="settings">HTTP settings</param>
-        /// <returns>Number response</returns>
+        /// <inheritdoc />
         public async Task<int?> GetInt(HttpSettings settings)
         {
             this.CheckSettings(settings);
@@ -233,11 +209,7 @@ namespace EventManager.Client.Http
             }
         }
 
-        /// <summary>
-        /// Get string
-        /// </summary>
-        /// <param name="settings">HTTP settings</param>
-        /// <returns>String response</returns>
+        /// <inheritdoc />
         public async Task<string> GetString(HttpSettings settings)
         {
             this.CheckSettings(settings);
@@ -276,13 +248,7 @@ namespace EventManager.Client.Http
             }
         }
 
-        /// <summary>
-        /// PUT request
-        /// </summary>
-        /// <param name="settings">HTTP settings</param>
-        /// <param name="body">Body of put request</param>
-        /// <typeparam name="T">Type of the body</typeparam>
-        /// <returns>The request was success or not</returns>
+        /// <inheritdoc />
         public async Task<bool> Update<T>(HttpSettings settings, HttpBody<T> body)
         {
             this.CheckSettings(settings);
@@ -353,6 +319,7 @@ namespace EventManager.Client.Http
             Console.WriteLine(e);
         }
 
+        /// <inheritdoc />
         public async Task<T> UpdateWithResult<T, V>(HttpSettings settings, HttpBody<V> body)
         {
             this.CheckSettings(settings);
@@ -399,16 +366,19 @@ namespace EventManager.Client.Http
             }
         }
 
+        /// <inheritdoc />
         public async Task<int> CreateInt<T>(HttpSettings settings, HttpBody<T> body)
         {
             return int.Parse(await this.CreateString(settings, body));
         }
 
+        /// <inheritdoc />
         public async Task<bool> Download(HttpSettings settings)
         {
             return this.Download(await this.Get<ExportResult>(settings));
         }
 
+        /// <inheritdoc />
         public async Task<bool> Download<T>(HttpSettings settings, T model)
         {
             var body = new HttpBody<T>(model);

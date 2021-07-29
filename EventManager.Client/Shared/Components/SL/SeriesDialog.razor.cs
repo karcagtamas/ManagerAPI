@@ -5,35 +5,34 @@ using ManagerAPI.Shared.DTOs.SL;
 using ManagerAPI.Shared.Models.SL;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using MudBlazor;
 using System.Threading.Tasks;
 
 namespace EventManager.Client.Shared.Components.SL
 {
+    /// <summary>
+    /// Series Dialog
+    /// </summary>
     public partial class SeriesDialog
     {
-        [CascadingParameter] public ModalParameters Parameters { get; set; }
+        [CascadingParameter] private MudDialogInstance Dialog { get; set; }
 
-        [CascadingParameter] public BlazoredModal BlazoredModal { get; set; }
+        /// <summary>
+        /// Series Id
+        /// </summary>
+        [Parameter]
+        public int? SeriesId { get; set; }
 
         [Inject] private ISeriesService SeriesService { get; set; }
 
-        [Inject] private IModalService ModalService { get; set; }
+        private SeriesModel Model { get; set; }
+        private EditContext Context { get; set; }
+        private bool IsEdit { get; set; }
+        private SeriesDto Series { get; set; }
 
-        public int FormId { get; set; }
-
-        public SeriesModel Model { get; set; }
-        public EditContext Context { get; set; }
-        public bool IsEdit { get; set; }
-        public int Id { get; set; }
-        public SeriesDto Series { get; set; }
-
+        /// <inheritdoc />        
         protected override async Task OnInitializedAsync()
         {
-            this.FormId = this.Parameters.Get<int>("FormId");
-            this.Id = this.Parameters.TryGet<int>("series");
-
-            ((ModalService)this.ModalService).OnConfirm += this.OnConfirm;
-
             this.Model = new SeriesModel
             {
                 Title = "",
@@ -44,34 +43,45 @@ namespace EventManager.Client.Shared.Components.SL
 
             this.Context = new EditContext(this.Model);
 
-            if (this.Id != 0)
+            if (this.SeriesId != null)
             {
-                this.Series = await this.SeriesService.Get(this.Id);
+                this.Series = await this.SeriesService.Get((int)this.SeriesId);
                 this.Model = new SeriesModel(this.Series);
                 this.IsEdit = true;
                 this.Context = new EditContext(this.Model);
             }
         }
 
-        private async void OnConfirm()
+        private async void Save()
         {
-            bool isValid = this.Context.Validate();
+            if (!Context.Validate()) return;
+
             if (this.IsEdit)
             {
-                if (isValid && await this.SeriesService.Update(this.Id, this.Model))
+                if (SeriesId == null)
                 {
-                    this.ModalService.Close(ModalResult.Ok(true));
-                    ((ModalService)this.ModalService).OnConfirm -= this.OnConfirm;
+                    return;
+                }
+
+                if (await this.SeriesService.Update((int)SeriesId, this.Model))
+                {
+                    Dialog.Close(DialogResult.Ok(true));
                 }
             }
             else
             {
-                if (isValid && await this.SeriesService.Create(this.Model))
+                if (await this.SeriesService.Create(this.Model))
                 {
-                    this.ModalService.Close(ModalResult.Ok(true));
-                    ((ModalService)this.ModalService).OnConfirm -= this.OnConfirm;
+                    Dialog.Close(DialogResult.Ok(true));
                 }
             }
+
+            Dialog.Close(DialogResult.Ok(false));
+        }
+
+        private void Cancel()
+        {
+            Dialog.Cancel();
         }
     }
 }

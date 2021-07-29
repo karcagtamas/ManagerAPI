@@ -7,9 +7,15 @@ namespace ManagerAPI.Shared.Models
     /// </summary>
     public class MessageModel
     {
+        /// <summary>
+        /// Message
+        /// </summary>
         [Required(ErrorMessage = "Field is required")]
         public string Message { get; set; }
 
+        /// <summary>
+        /// Partner
+        /// </summary>
         [Required] public string PartnerId { get; set; }
     }
 }

@@ -1,7 +1,19 @@
-﻿@import "../../Styles/_common.scss";
+﻿@import '../../Styles/_common.scss';
 
 .em-my-notifications {
-    .action-bar {
-        @include action-panel;
-    }
+  overflow: hidden;
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+
+  .action-bar {
+    @include action-panel;
+  }
+
+  .notification-list {
+    display: flex;
+    flex-grow: 1;
+    overflow: auto;
+    flex-direction: column;
+  }
 }

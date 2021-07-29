@@ -3,7 +3,7 @@
 @using ManagerAPI.Shared.Helpers
 @attribute [Authorize]
 
-<div class="wm-week">
+<div class="wm-week w-100">
     <div class="title-bar">
         <div class="em-page-title">Working Week Statistics</div>
         <span class="spacer"></span>
@@ -17,26 +17,28 @@
     {
         <div class="action-bar">
             <span class="spacer"></span>
-            <MatIconButton Icon="chevron_left" @onclick="@(() => Redirect(false))"></MatIconButton>
-            <MatIconButton Icon="chevron_right" @onclick="@(() => Redirect(true))"></MatIconButton>
+            <div>
+                <MudIconButton Icon="@Icons.Filled.ChevronLeft" OnClick="@(() => Redirect(false))" Color="Color.Primary" />
+                <MudIconButton Icon="@Icons.Filled.ChevronRight" OnClick="@(() => Redirect(true))" Color="Color.Primary" />
+            </div>
         </div>
         @if (WeekStat != null)
         {
             <div class="stat-box">
                 <div class="em-sub-title">Statistics</div>
                 <div class="data-row">
-                    <strong>Summary hours: </strong> @WeekStat.HourSum
+                    <strong>Summary hours: </strong> @($"{WeekStat.HourSum:0.00} h")
                 </div>
                 <div class="data-row">
-                    <strong>Average hours: </strong> @Math.Round(WeekStat.HourAvg, 2)
+                    <strong>Average hours: </strong> @($"{WeekStat.HourAvg:0.00} h")
                 </div>
                 <div class="data-row">
                     <strong>Active / Work days: </strong> @WeekStat.ActiveDays / @WeekStat.WorkDays
                 </div>
             </div>
             <div class="type-stat">
-                <div class="em-sub-title">Type statistics</div>
-                @foreach (var type in @WeekStat.Counts)
+        <div class="em-sub-title">Type statistics</div>
+        @foreach (var type in @WeekStat.Counts)
                 {
                     <div class="data-row">
                         <strong>@type.Type:</strong> @type.Count
@@ -44,8 +46,8 @@
                 }
             </div>
             <div class="field-list">
-                <div class="em-sub-title">Working Fields</div>
-                @foreach (var field in @WeekStat.Fields)
+        <div class="em-sub-title">Working Fields</div>
+        @foreach (var field in @WeekStat.Fields)
                 {
                     <FieldComponent WorkingField="field" IsModifiable="false"></FieldComponent>
                 }

@@ -8,9 +8,7 @@ using System.Collections.Generic;
 
 namespace ManagerAPI.Services.Services
 {
-    /// <summary>
-    /// News Service
-    /// </summary>
+    /// <inheritdoc />
     public class NewsService : Repository<News, SystemNotificationType>, INewsService
     {
         /// <summary>

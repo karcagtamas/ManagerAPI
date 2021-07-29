@@ -14,9 +14,7 @@
         <div class="action-bar">
             @if (CanAdd)
             {
-                <MatTooltip Tooltip="Add Movie">
-                    <MatIconButton RefBack="@context" Icon="add" @onclick="OpenAddMovieDialog"></MatIconButton>
-                </MatTooltip>
+                <MudIconButton Icon="@Icons.Filled.Add" OnClick="OpenAddMovieDialog" Color="Color.Primary" />
             }
         </div>
         @if (MovieList != null && MovieList.Count > 0)

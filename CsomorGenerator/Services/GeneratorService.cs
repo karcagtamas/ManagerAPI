@@ -17,9 +17,7 @@ using System.Linq;
 
 namespace CsomorGenerator.Services
 {
-    /// <summary>
-    /// Csomor Generator
-    /// </summary>
+    /// <inheritdoc />
     public class GeneratorService : IGeneratorService
     {
         private const string CsomorDoesNotExistMessage = "Csomor does not exist";
@@ -33,6 +31,15 @@ namespace CsomorGenerator.Services
         private readonly IPDFService _pdfService;
         private readonly int GenerateLimit = 500;
 
+        /// <summary>
+        /// Init Generator Service
+        /// </summary>
+        /// <param name="context">Database Context</param>
+        /// <param name="mapper">Mapper</param>
+        /// <param name="utils">Utils Service</param>
+        /// <param name="logger">Logger Service</param>
+        /// <param name="excelService">Excel Service</param>
+        /// <param name="pdfService">PDF Service</param>
         public GeneratorService(DatabaseContext context, IMapper mapper, IUtilsService utils, ILoggerService logger, IExcelService excelService, IPDFService pdfService)
         {
             this._context = context;
@@ -43,9 +50,11 @@ namespace CsomorGenerator.Services
             this._pdfService = pdfService;
         }
 
-
+        /// <inheritdoc />
         public GeneratorSettings Generate(GeneratorSettings settings)
         {
+            // Settings pre checking
+            // If it is invalid, return null
             if (!this.PreCheckSimple(settings))
             {
                 return null;
@@ -70,11 +79,7 @@ namespace CsomorGenerator.Services
             return settings;
         }
 
-        /// <summary>
-        /// Simple generator
-        /// </summary>
-        /// <param name="settings"></param>
-        /// <returns></returns>
+        /// <inheritdoc />
         public GeneratorSettings GenerateSimple(GeneratorSettings settings)
         {
             // Pre check
@@ -184,7 +189,11 @@ namespace CsomorGenerator.Services
         /// <returns>Is startable or not</returns>
         private bool PreCheckSimple(GeneratorSettings settings)
         {
-            return this.CheckPersons(settings.Persons, settings.Works) && this.CheckWorks(settings.Works) && this.CheckHours(settings) && this.CheckSum(settings);
+            return
+                CheckPersons(settings.Persons, settings.Works) // Check persons
+                && this.CheckWorks(settings.Works)  // Check works
+                && this.CheckHours(settings)  // Check hours
+                && this.CheckSum(settings); // Check sums
         }
 
         /// <summary>
@@ -216,7 +225,7 @@ namespace CsomorGenerator.Services
             // All works is ignored
             if (person.IgnoredWorks.Count == works)
             {
-                throw new MessageException($"Person ({person.Name}) must has least one not ignored Work");
+                throw new MessageException($"Person ({person.Name}) must has at least one not ignored Work");
             }
         }
 
@@ -424,34 +433,13 @@ namespace CsomorGenerator.Services
             }
         }
 
-        /// <summary>
-        /// Create Csomor from settings model
-        /// </summary>
-        /// <param name="model">Settings model</param>
+        /// <inheritdoc />
         public int Create(GeneratorSettingsModel model)
         {
             var user = this._utils.GetCurrentUser();
 
             var csomor = this._mapper.Map<Csomor>(model);
             csomor.OwnerId = user.Id;
-
-            model.Persons.ForEach(x =>
-            {
-                var person = csomor.Persons.FirstOrDefault(y => y.Id == x.Id);
-
-                person.IgnoredWorks = new List<IgnoredWork>();
-
-                x.IgnoredWorks.ForEach(y =>
-                {
-                    var ignored = new IgnoredWork
-                    {
-                        PersonId = x.Id,
-                        WorkId = y
-                    };
-
-                    person.IgnoredWorks.Add(ignored);
-                });
-            });
 
             csomor.Persons = this._mapper.Map<List<CsomorPerson>>(model.Persons);
             csomor.Works = this._mapper.Map<List<CsomorWork>>(model.Works);
@@ -464,11 +452,7 @@ namespace CsomorGenerator.Services
             return csomor.Id;
         }
 
-        /// <summary>
-        /// Update csomor with the given Id
-        /// </summary>
-        /// <param name="id">Csomor Id</param>
-        /// <param name="model">Settings model</param>
+        /// <inheritdoc />
         public void Update(int id, GeneratorSettingsModel model)
         {
             var user = this._utils.GetCurrentUser();
@@ -527,10 +511,7 @@ namespace CsomorGenerator.Services
             this._logger.LogInformation(user, GeneratorServiceSource, "update csomor", csomor.Id);
         }
 
-        /// <summary>
-        /// Remove Csomor with the given Id
-        /// </summary>
-        /// <param name="id">Csomor Id</param>
+        /// <inheritdoc />
         public void Delete(int id)
         {
             var user = this._utils.GetCurrentUser();
@@ -548,11 +529,7 @@ namespace CsomorGenerator.Services
             this._logger.LogInformation(user, GeneratorServiceSource, "delete csomor", id);
         }
 
-        /// <summary>
-        /// Get csomor settings
-        /// </summary>
-        /// <param name="id">Csomor Id</param>
-        /// <returns>Generator settings</returns>
+        /// <inheritdoc />
         public GeneratorSettings Get(int id)
         {
             User user;
@@ -593,10 +570,7 @@ namespace CsomorGenerator.Services
             return this._mapper.Map<GeneratorSettings>(csomor);
         }
 
-        /// <summary>
-        /// Get public csomors
-        /// </summary>
-        /// <returns></returns>
+        /// <inheritdoc />
         public List<CsomorListDTO> GetPublicList()
         {
             var list = this._mapper.Map<List<CsomorListDTO>>(this._context.Csomors.Where(x => x.IsPublic && x.HasGeneratedCsomor).OrderBy(x => x.Id));
@@ -615,6 +589,7 @@ namespace CsomorGenerator.Services
             return list;
         }
 
+        /// <inheritdoc />
         public List<CsomorListDTO> GetOwnedList()
         {
             var user = this._utils.GetCurrentUser();
@@ -626,6 +601,7 @@ namespace CsomorGenerator.Services
             return list;
         }
 
+        /// <inheritdoc />
         public List<CsomorListDTO> GetSharedList()
         {
             var user = this._utils.GetCurrentUser();
@@ -637,11 +613,7 @@ namespace CsomorGenerator.Services
             return list;
         }
 
-        /// <summary>
-        /// Update share list
-        /// </summary>
-        /// <param name="id">Csomor Id</param>
-        /// <param name="models">Access models</param>
+        /// <inheritdoc />
         public void Share(int id, List<CsomorAccessModel> models)
         {
             var user = this._utils.GetCurrentUser();
@@ -688,11 +660,7 @@ namespace CsomorGenerator.Services
             this._logger.LogInformation(user, GeneratorServiceSource, "update shared", models.Select(x => x.Id).ToList());
         }
 
-        /// <summary>
-        /// Change public status
-        /// </summary>
-        /// <param name="id">Csomor Id</param>
-        /// <param name="model">New status</param>
+        /// <inheritdoc />
         public void ChangePublicStatus(int id, GeneratorPublishModel model)
         {
             var user = this._utils.GetCurrentUser();
@@ -710,6 +678,7 @@ namespace CsomorGenerator.Services
             this._logger.LogInformation(user, GeneratorServiceSource, model.Status ? "publish" : "unpublish" + " csomor", id);
         }
 
+        /// <inheritdoc />
         public CsomorRole GetRoleForCsomor(int id)
         {
             User user;
@@ -760,6 +729,7 @@ namespace CsomorGenerator.Services
             return CsomorRole.Denied;
         }
 
+        /// <inheritdoc />
         public ExportResult ExportPdf(int id, CsomorType type, List<string> filterList)
         {
             var user = this._utils.GetCurrentUser();
@@ -787,6 +757,7 @@ namespace CsomorGenerator.Services
             }
         }
 
+        /// <inheritdoc />
         public ExportResult ExportXls(int id, CsomorType type, List<string> filterList)
         {
             var user = this._utils.GetCurrentUser();
@@ -814,6 +785,7 @@ namespace CsomorGenerator.Services
             }
         }
 
+        /// <inheritdoc />
         public List<CsomorAccessDTO> GetSharedPersonList(int id)
         {
             var user = this._utils.GetCurrentUser();
@@ -829,6 +801,7 @@ namespace CsomorGenerator.Services
             return this._mapper.Map<List<CsomorAccessDTO>>(csomor.SharedWith);
         }
 
+        /// <inheritdoc />
         public List<UserShortDto> GetCorrectPersonsForSharing(int id, string name)
         {
             var user = this._utils.GetCurrentUser();

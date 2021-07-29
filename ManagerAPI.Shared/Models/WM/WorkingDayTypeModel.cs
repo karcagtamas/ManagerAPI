@@ -5,7 +5,14 @@
     /// </summary>
     public class WorkingDayTypeModel
     {
+        /// <summary>
+        /// Title
+        /// </summary>
         public string Title { get; set; }
+
+        /// <summary>
+        /// Day Is Active
+        /// </summary>
         public bool DayIsActive { get; set; }
     }
 }

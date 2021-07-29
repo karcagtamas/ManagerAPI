@@ -14,9 +14,7 @@
         <div class="action-bar">
             @if (CanAdd)
             {
-                <MatTooltip Tooltip="Add Series">
-                    <MatIconButton RefBack="@context" Icon="add" @onclick="OpenAddSeriesDialog"></MatIconButton>
-                </MatTooltip>
+                <MudIconButton Icon="@Icons.Filled.Add" OnClick="OpenAddSeriesDialog" Color="Color.Primary" />
             }
         </div>
         @if (SeriesList != null && SeriesList.Count > 0)

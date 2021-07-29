@@ -6,8 +6,16 @@ using System.Threading.Tasks;
 
 namespace EventManager.Client.Services.Interfaces
 {
+    /// <summary>
+    /// Movie Comment Service
+    /// </summary>
     public interface IMovieCommentService : IHttpCall<MovieCommentListDto, MovieCommentDto, MovieCommentModel>
     {
-        Task<List<MovieCommentListDto>> GetList(int movieÍd);
+        /// <summary>
+        /// Get list of comments by movie
+        /// </summary>
+        /// <param name="movieId">Movie Id</param>
+        /// <returns></returns>
+        Task<List<MovieCommentListDto>> GetList(int movieId);
     }
 }

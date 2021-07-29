@@ -1,48 +1,50 @@
-﻿@import "../../../Styles/_common.scss";
+﻿@import '../../../Styles/_common.scss';
 
 .notification {
-    @include panel;
-    flex-direction: column;
+  @include panel;
+  flex-direction: column;
+  margin-top: 0.3rem;
+  margin-bottom: 0.3rem;
 
-    .content {
-        display: flex;
-        flex-direction: row;
+  .content {
+    display: flex;
+    flex-direction: row;
 
-        .text {
-            flex-grow: 1;
-            text-align: justify;
-        }
-
-        .status {
-            text-align: right;
-        }
+    .text {
+      flex-grow: 1;
+      text-align: justify;
     }
 
-    .footer {
-        display: flex;
-        flex-direction: row;
-        font-size: 0.8rem;
-        font-style: italic;
+    .status {
+      text-align: right;
+    }
+  }
 
-        .source {
-            flex-grow: 1;
-            text-align: left;
-        }
+  .footer {
+    display: flex;
+    flex-direction: row;
+    font-size: 0.8rem;
+    font-style: italic;
 
-        .date {
-            text-align: right;
-        }
+    .source {
+      flex-grow: 1;
+      text-align: left;
     }
 
-    &.importance-1 {
-        background-color: $important-1;
+    .date {
+      text-align: right;
     }
+  }
 
-    &.importance-2 {
-        background-color: $important-2;
-    }
+  &.importance-1 {
+    background-color: $important-1;
+  }
 
-    &.importance-3 {
-        background-color: $important-3;
-    }
+  &.importance-2 {
+    background-color: $important-2;
+  }
+
+  &.importance-3 {
+    background-color: $important-3;
+  }
 }

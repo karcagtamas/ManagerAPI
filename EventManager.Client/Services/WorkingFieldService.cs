@@ -9,12 +9,18 @@ using System.Threading.Tasks;
 
 namespace EventManager.Client.Services
 {
+    /// <inheritdoc />
     public class WorkingFieldService : HttpCall<WorkingFieldListDto, WorkingFieldDto, WorkingFieldModel>, IWorkingFieldService
     {
+        /// <summary>
+        /// Init Working field Service
+        /// </summary>
+        /// <param name="httpService">HTTP Service</param>
         public WorkingFieldService(IHttpService httpService) : base(httpService, $"{ApplicationSettings.BaseApiUrl}/working-field", "Working field")
         {
         }
 
+        /// <inheritdoc />
         public async Task<WorkingWeekStatDto> GetWeekStat(DateTime week)
         {
             var pathParams = new HttpPathParameters();
@@ -25,6 +31,7 @@ namespace EventManager.Client.Services
             return await this.Http.Get<WorkingWeekStatDto>(settings);
         }
 
+        /// <inheritdoc />
         public async Task<WorkingMonthStatDto> GetMonthStat(int year, int month)
         {
             var pathParams = new HttpPathParameters();

@@ -13,9 +13,7 @@ using System.Linq;
 
 namespace MovieCorner.Services.Services
 {
-    /// <summary>
-    /// Movie Service
-    /// </summary>
+    /// <inheritdoc />
     public class MovieService : Repository<Movie, StatusLibraryNotificationType>, IMovieService
     {
         // Things
@@ -48,10 +46,7 @@ namespace MovieCorner.Services.Services
             this._databaseContext = context;
         }
 
-        /// <summary>
-        /// Gets my list
-        /// </summary>
-        /// <returns>My movie list</returns>
+        /// <inheritdoc />
         public List<MyMovieListDto> GetMyList()
         {
             var user = this.Utils.GetCurrentUser();
@@ -64,11 +59,7 @@ namespace MovieCorner.Services.Services
             return this.Mapper.Map<List<MyMovieListDto>>(list).OrderBy(x => x.Title).ToList();
         }
 
-        /// <summary>
-        /// Gets my object
-        /// </summary>
-        /// <param name="id">Movie Id</param>
-        /// <returns>Get my movie object by Id</returns>
+        /// <inheritdoc />
         public MyMovieDto GetMy(int id)
         {
             var user = this.Utils.GetCurrentUser();
@@ -87,11 +78,7 @@ namespace MovieCorner.Services.Services
             return movie;
         }
 
-        /// <summary>
-        /// Update seen status for mapped movie
-        /// </summary>
-        /// <param name="id">Movie id</param>
-        /// <param name="seen">Seen status</param>
+        /// <inheritdoc />
         public void UpdateSeenStatus(int id, bool seen)
         {
             var user = this.Utils.GetCurrentUser();
@@ -115,10 +102,7 @@ namespace MovieCorner.Services.Services
                 userMovie.Movie.Title, seen ? "Seen" : "Unseen");
         }
 
-        /// <summary>
-        /// Update my list
-        /// </summary>
-        /// <param name="ids">Current my movie list</param>
+        /// <inheritdoc />
         public void UpdateMyMovies(List<int> ids)
         {
             var user = this.Utils.GetCurrentUser();
@@ -156,10 +140,7 @@ namespace MovieCorner.Services.Services
                 user);
         }
 
-        /// <summary>
-        /// Add movie to my list
-        /// </summary>
-        /// <param name="id">Movie Id</param>
+        /// <inheritdoc />
         public void AddMovieToMyMovies(int id)
         {
             var user = this.Utils.GetCurrentUser();
@@ -188,10 +169,7 @@ namespace MovieCorner.Services.Services
             }
         }
 
-        /// <summary>
-        /// Remove movie from my list
-        /// </summary>
-        /// <param name="id">Movie Id</param>
+        /// <inheritdoc />
         public void RemoveMovieFromMyMovies(int id)
         {
             var user = this.Utils.GetCurrentUser();
@@ -211,11 +189,7 @@ namespace MovieCorner.Services.Services
             }
         }
 
-        /// <summary>
-        /// Get my selector list
-        /// </summary>
-        /// <param name="onlyMine">Return only mine elements</param>
-        /// <returns>Get my movie selector list</returns>
+        /// <inheritdoc />
         public List<MyMovieSelectorListDto> GetMySelectorList(bool onlyMine)
         {
             var user = this.Utils.GetCurrentUser();
@@ -239,11 +213,7 @@ namespace MovieCorner.Services.Services
             return list;
         }
 
-        /// <summary>
-        /// Updates movie's image.
-        /// </summary>
-        /// <param name="id">Movie Id</param>
-        /// <param name="model">New image model</param>
+        /// <inheritdoc />
         public void UpdateImage(int id, MovieImageModel model)
         {
             var movie = this._databaseContext.Movies.Find(id);
@@ -258,11 +228,7 @@ namespace MovieCorner.Services.Services
             this.Update(movie);
         }
 
-        /// <summary>
-        /// Updates movie's categories
-        /// </summary>
-        /// <param name="id">Movie Id</param>
-        /// <param name="model">Categories model</param>
+        /// <inheritdoc />
         public void UpdateCategories(int id, MovieCategoryUpdateModel model)
         {
             var user = this.Utils.GetCurrentUser();
@@ -298,11 +264,7 @@ namespace MovieCorner.Services.Services
             this.Notification.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.UpdateMovie, user);
         }
 
-        /// <summary>
-        /// Updates movie's rate status for current user.
-        /// </summary>
-        /// <param name="id">Movie Id</param>
-        /// <param name="model">Rate model</param>
+        /// <inheritdoc />
         public void UpdateRate(int id, MovieRateModel model)
         {
             var user = this.Utils.GetCurrentUser();

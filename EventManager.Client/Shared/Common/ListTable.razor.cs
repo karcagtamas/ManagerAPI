@@ -8,22 +8,53 @@ using System.Linq;
 
 namespace EventManager.Client.Shared.Common
 {
+    /// <summary>
+    /// List Table
+    /// </summary>
+    /// <typeparam name="TList">Type of list rows</typeparam>
     public partial class ListTable<TList> where TList : IIdentified
     {
+        /// <summary>
+        /// Header row settings
+        /// </summary>
         [Parameter]
         public List<TableHeaderData<TList>> Header { get; set; }
 
+        /// <summary>
+        /// Body data
+        /// </summary>
         [Parameter] public List<TList> Body { get; set; }
+
+        /// <summary>
+        /// Body row click event
+        /// </summary>
         [Parameter] public EventCallback<TList> OnRowClick { get; set; }
+
+        /// <summary>
+        /// Preselected elements
+        /// </summary>
         [Parameter] public List<int> SelectedIndexes { get; set; } = new List<int>();
+
+        /// <summary>
+        /// Selection is enabled on the table
+        /// </summary>
         [Parameter] public bool IsSelectionEnabled { get; set; } = false;
+
+        /// <summary>
+        /// Footer is available
+        /// </summary>
         [Parameter] public bool FooterDisplay { get; set; } = true;
+
+        /// <summary>
+        /// Show filters
+        /// </summary>
         [Parameter] public bool ShowFilter { get; set; } = false;
         private TableHeaderData<TList> OrderBy { get; set; }
         private List<TList> DisplayList { get; set; } = new List<TList>();
         private OrderDirection Direction { get; set; } = OrderDirection.None;
         private string FilterValue { get; set; } = "";
 
+        /// <inheritdoc />
         protected override void OnParametersSet()
         {
             this.DoFilteringAndOrdering();

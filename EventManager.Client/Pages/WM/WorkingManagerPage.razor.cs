@@ -1,18 +1,24 @@
-﻿using EventManager.Client.Models;
-using EventManager.Client.Services.Interfaces;
+﻿using EventManager.Client.Services.Interfaces;
 using EventManager.Client.Shared.Components.WM;
 using ManagerAPI.Shared.DTOs.WM;
 using ManagerAPI.Shared.Helpers;
 using ManagerAPI.Shared.Models.WM;
 using Microsoft.AspNetCore.Components;
+using MudBlazor;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace EventManager.Client.Pages.WM
 {
+    /// <summary>
+    /// Working Manager Page
+    /// </summary>
     public partial class WorkingManagerPage
     {
+        /// <summary>
+        /// Date
+        /// </summary>
         [Parameter]
         public DateTime Date { get; set; }
 
@@ -29,7 +35,7 @@ namespace EventManager.Client.Pages.WM
         private NavigationManager NavigationManager { get; set; }
 
         [Inject]
-        private IModalService Modal { get; set; }
+        private IDialogService DialogService { get; set; }
 
         private WorkingDayModel WorkingDay { get; set; }
         private int? WorkingDayId { get; set; }
@@ -38,12 +44,14 @@ namespace EventManager.Client.Pages.WM
         private List<WorkingFieldListDto> WorkingFields { get; set; }
         private WorkingDayStatDto WorkingDayStat { get; set; }
 
+        /// <inheritdoc />
         protected override async Task OnInitializedAsync()
         {
             await this.GetWorkingDay();
             await this.GetWorkingDayTypes();
         }
 
+        /// <inheritdoc />
         protected override async Task OnParametersSetAsync()
         {
             await this.GetWorkingDay();
@@ -99,32 +107,23 @@ namespace EventManager.Client.Pages.WM
             }
         }
 
-        private void OpenAddFieldModal()
+        private async void OpenAddFieldModal()
         {
             if (this.WorkingDayId != null)
             {
-                var parameters = new ModalParameters();
-                parameters.Add("FormId", 1);
-                parameters.Add("working-day", (int)this.WorkingDayId);
+                var parameters = new DialogParameters { { "WorkingDayId", (int)WorkingDayId } };
+                var dialog = DialogService.Show<FieldModal>("Create Working field", parameters, new DialogOptions
+                {
+                    FullWidth = true,
+                    MaxWidth = MaxWidth.Small
+                });
+                var result = await dialog.Result;
 
-                var options = new ModalOptions();
-                options.ButtonOptions.ConfirmButtonType = ConfirmButton.Save;
-                options.ButtonOptions.ShowConfirmButton = true;
-
-                this.Modal.OnClose += this.FieldModalClosed;
-
-                this.Modal.Show<FieldModal>("Create Working Field", parameters, options);
+                if (!result.Cancelled)
+                {
+                    await this.GetWorkingDay();
+                }
             }
-        }
-
-        private async void FieldModalClosed(ModalResult modalResult)
-        {
-            if (!modalResult.Cancelled && (bool)modalResult.Data)
-            {
-                await this.GetWorkingDay();
-            }
-
-            this.Modal.OnClose -= this.FieldModalClosed;
         }
     }
 }

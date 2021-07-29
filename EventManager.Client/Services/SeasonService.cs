@@ -8,12 +8,18 @@ using System.Threading.Tasks;
 
 namespace EventManager.Client.Services
 {
+    /// <inheritdoc />
     public class SeasonService : HttpCall<SeasonListDto, SeasonDto, SeasonModel>, ISeasonService
     {
+        /// <summary>
+        /// Init Season Service
+        /// </summary>
+        /// <param name="httpService">HTTP Service</param>
         public SeasonService(IHttpService httpService) : base(httpService, $"{ApplicationSettings.BaseApiUrl}/season", "Season")
         {
         }
 
+        /// <inheritdoc />
         public async Task<bool> UpdateSeenStatus(List<SeasonSeenStatusModel> models)
         {
             var settings = new HttpSettings($"{this.Url}/map/status", null, null, "My Season seen status updating");
@@ -23,6 +29,7 @@ namespace EventManager.Client.Services
             return await this.Http.Update<List<SeasonSeenStatusModel>>(settings, body);
         }
 
+        /// <inheritdoc />
         public async Task<bool> AddIncremented(int seriesId)
         {
             var pathParams = new HttpPathParameters();
@@ -35,6 +42,7 @@ namespace EventManager.Client.Services
             return await this.Http.Create<object>(settings, body);
         }
 
+        /// <inheritdoc />
         public async Task<bool> DeleteDecremented(int seasonId)
         {
             var pathParams = new HttpPathParameters();

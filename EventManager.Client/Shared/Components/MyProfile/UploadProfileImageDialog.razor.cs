@@ -1,8 +1,7 @@
-using EventManager.Client.Models;
-using EventManager.Client.Services;
 using EventManager.Client.Services.Interfaces;
-using MatBlazor;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
+using MudBlazor;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,22 +9,19 @@ using System.Linq;
 
 namespace EventManager.Client.Shared.Components.MyProfile
 {
+    /// <summary>
+    /// Upload Profile Image Dialog
+    /// </summary>
     public partial class UploadProfileImageDialog
     {
-        [CascadingParameter] public ModalParameters Parameters { get; set; }
-
-        [CascadingParameter] public BlazoredModal BlazoredModal { get; set; }
+        [CascadingParameter] private MudDialogInstance Dialog { get; set; }
 
         [Inject] private IUserService UserService { get; set; }
 
-        [Inject] private IMatToaster Toaster { get; set; }
+        [Inject] private ISnackbar Snackbar { get; set; }
+        private IBrowserFile File { get; set; }
 
-        [Inject] private IModalService ModalService { get; set; }
-
-        private int FormId { get; set; }
-        private IMatFileUploadEntry File { get; set; }
-
-        private List<string> ImageExtensions { get; set; } = new List<string>
+        private List<string> ImageExtensions { get; set; } = new()
         {
             "image/jpg",
             "image/jpeg",
@@ -33,49 +29,44 @@ namespace EventManager.Client.Shared.Components.MyProfile
             "image/bmp"
         };
 
-        protected override void OnInitialized()
-        {
-            this.FormId = this.Parameters.Get<int>("FormId");
-
-            ((ModalService)this.ModalService).OnConfirm += this.OnConfirm;
-        }
-
-        private async void OnConfirm()
+        private async void Save()
         {
             if (this.File == null)
             {
                 return;
             }
 
-            if (this.ImageExtensions.Contains(this.File.Type))
+            if (this.ImageExtensions.Contains(this.File.ContentType))
             {
                 try
                 {
-                    await using var stream = new MemoryStream();
-                    await this.File.WriteToStreamAsync(stream);
-                    if (await this.UserService.UpdateProfileImage(stream.ToArray()))
+                    await using var memoryStream = new MemoryStream();
+                    await this.File.OpenReadStream().CopyToAsync(memoryStream);
+                    if (await this.UserService.UpdateProfileImage(memoryStream.ToArray()))
                     {
-                        this.ModalService.Close(ModalResult.Ok<bool>(true));
-                        ((ModalService)this.ModalService).OnConfirm -= this.OnConfirm;
+                        Dialog.Close(DialogResult.Ok(true));
                     }
                 }
                 catch (Exception e)
                 {
-                    this.Toaster.Add("Problem during the image uploading. Please try again later.", MatToastType.Danger,
-                        "My Profile Error");
+                    Snackbar.Add("Problem during the image uploading. Please try again later.", Severity.Error);
                     Console.WriteLine(e);
                 }
             }
             else
             {
-                this.Toaster.Add("Invalid file extension. Please try again with a correct type.", MatToastType.Danger,
-                    "My Profile Error");
+                Snackbar.Add("Invalid file extension. Please try again with a correct type.", Severity.Error);
             }
         }
 
-        protected void FilesReady(IMatFileUploadEntry[] files)
+        private void Cancel()
         {
-            this.File = files.FirstOrDefault();
+            Dialog.Cancel();
+        }
+
+        private void FilesReady(InputFileChangeEventArgs e)
+        {
+            this.File = e.GetMultipleFiles().FirstOrDefault();
         }
     }
 }

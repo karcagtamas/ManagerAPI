@@ -7,11 +7,34 @@ namespace ManagerAPI.Shared.DTOs
     /// </summary>
     public class FriendListDto
     {
+        /// <summary>
+        /// Friend Id
+        /// </summary>
         public string FriendId { get; set; }
+
+        /// <summary>
+        /// Friend's name
+        /// </summary>
         public string Friend { get; set; }
+
+        /// <summary>
+        /// Friend's Full Name
+        /// </summary>
         public string FriendFullName { get; set; }
+
+        /// <summary>
+        /// Friend Image title
+        /// </summary>
         public string FriendImageTitle { get; set; }
+
+        /// <summary>
+        /// Friend Image
+        /// </summary>
         public byte[] FriendImageData { get; set; }
+
+        /// <summary>
+        /// Connection date
+        /// </summary>
         public DateTime ConnectionDate { get; set; }
 
         /// <summary>

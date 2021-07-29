@@ -10,6 +10,9 @@ namespace ManagerAPI.Services.Profiles
     /// </summary>
     public class MessageProfile : Profile
     {
+        /// <summary>
+        /// Init mapper
+        /// </summary>
         public MessageProfile()
         {
             this.CreateMap<Message, MessageDto>()

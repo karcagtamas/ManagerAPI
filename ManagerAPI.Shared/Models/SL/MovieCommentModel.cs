@@ -7,8 +7,14 @@ namespace ManagerAPI.Shared.Models.SL
     /// </summary>
     public class MovieCommentModel
     {
+        /// <summary>
+        /// Movie
+        /// </summary>
         [Required] public int MovieId { get; set; }
 
+        /// <summary>
+        /// Comment
+        /// </summary>        
         [Required] [MaxLength(500)] public string Comment { get; set; }
     }
 }

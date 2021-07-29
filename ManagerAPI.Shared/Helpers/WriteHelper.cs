@@ -66,6 +66,12 @@ namespace ManagerAPI.Shared.Helpers
             return string.Join($"{separator} ", list);
         }
 
+        /// <summary>
+        /// Hour interval
+        /// </summary>
+        /// <param name="date">Date</param>
+        /// <param name="count">Count</param>
+        /// <returns>Hour interval by the given count</returns>
         public static string HourInterval(DateTime date, int count)
         {
             return $"{date.ToLocalTime().Hour}h - {date.ToLocalTime().Hour + count}h";

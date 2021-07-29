@@ -9,18 +9,25 @@ using System.Threading.Tasks;
 
 namespace EventManager.Client.Shared.Components.CSM
 {
+    /// <summary>
+    /// Csomor Share component
+    /// </summary>
     public partial class CsomorShareComponent
     {
+        /// <summary>
+        /// Id
+        /// </summary>
         [Parameter]
         public int Id { get; set; }
 
         [Inject]
         private IGeneratorService GeneratorService { get; set; }
 
-        private List<CsomorAccessDTO> SharedList { get; set; } = new List<CsomorAccessDTO>();
-        private List<UserShortDto> CorrectList { get; set; } = new List<UserShortDto>();
+        private List<CsomorAccessDTO> SharedList { get; set; } = new();
+        private List<UserShortDto> CorrectList { get; set; } = new();
         private string Name { get; set; }
 
+        /// <inheritdoc />
         protected override async Task OnInitializedAsync()
         {
             await this.GetSharedList();
@@ -31,12 +38,9 @@ namespace EventManager.Client.Shared.Components.CSM
             this.SharedList = await this.GeneratorService.GetSharedPersonList(this.Id);
         }
 
-        private async Task RefreshCorrectPersons(ChangeEventArgs args)
+        private async Task RefreshCorrectPersons(string arg)
         {
-            if (args != null)
-            {
-                this.Name = (string)args.Value;
-            }
+            this.Name = arg;
             this.CorrectList = await this.GeneratorService.GetCorrectPersonsForSharing(this.Id, this.Name);
         }
 

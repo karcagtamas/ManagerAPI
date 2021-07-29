@@ -3,7 +3,6 @@ using System;
 using ManagerAPI.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ManagerAPI.DataAccess.Migrations
@@ -15,50 +14,48 @@ namespace ManagerAPI.DataAccess.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.5")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("Relational:MaxIdentifierLength", 64)
+                .HasAnnotation("ProductVersion", "5.0.5");
 
             modelBuilder.Entity("ManagerAPI.Domain.Entities.CSM.Csomor", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("Creation")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("NOW()");
 
                     b.Property<DateTime>("Finish")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<bool>("HasGeneratedCsomor")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
+                        .HasColumnType("tinyint(1)")
                         .HasDefaultValue(false);
 
                     b.Property<bool>("IsPublic")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
+                        .HasColumnType("tinyint(1)")
                         .HasDefaultValue(false);
 
                     b.Property<bool>("IsShared")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
+                        .HasColumnType("tinyint(1)")
                         .HasDefaultValue(false);
 
                     b.Property<DateTime?>("LastGeneration")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<DateTime?>("LastUpdate")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("NOW()");
 
                     b.Property<string>("LastUpdaterId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<int>("MaxWorkHour")
                         .HasColumnType("int");
@@ -68,15 +65,15 @@ namespace ManagerAPI.DataAccess.Migrations
 
                     b.Property<string>("OwnerId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<DateTime>("Start")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(120)")
-                        .HasMaxLength(120);
+                        .HasMaxLength(120)
+                        .HasColumnType("varchar(120) CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
 
@@ -90,20 +87,20 @@ namespace ManagerAPI.DataAccess.Migrations
             modelBuilder.Entity("ManagerAPI.Domain.Entities.CSM.CsomorPerson", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<int>("CsomorId")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsIgnored")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
+                        .HasColumnType("tinyint(1)")
                         .HasDefaultValue(false);
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(120)")
-                        .HasMaxLength(120);
+                        .HasMaxLength(120)
+                        .HasColumnType("varchar(120) CHARACTER SET utf8mb4");
 
                     b.Property<int>("PlusWorkCounter")
                         .ValueGeneratedOnAdd()
@@ -120,22 +117,22 @@ namespace ManagerAPI.DataAccess.Migrations
             modelBuilder.Entity("ManagerAPI.Domain.Entities.CSM.CsomorPersonTable", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<bool>("IsAvailable")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
+                        .HasColumnType("tinyint(1)")
                         .HasDefaultValue(false);
 
                     b.Property<string>("PersonId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<string>("WorkId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
 
@@ -149,15 +146,15 @@ namespace ManagerAPI.DataAccess.Migrations
             modelBuilder.Entity("ManagerAPI.Domain.Entities.CSM.CsomorWork", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<int>("CsomorId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(80)")
-                        .HasMaxLength(80);
+                        .HasMaxLength(80)
+                        .HasColumnType("varchar(80) CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
 
@@ -169,22 +166,22 @@ namespace ManagerAPI.DataAccess.Migrations
             modelBuilder.Entity("ManagerAPI.Domain.Entities.CSM.CsomorWorkTable", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<bool>("IsActive")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
+                        .HasColumnType("tinyint(1)")
                         .HasDefaultValue(false);
 
                     b.Property<string>("PersonId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<string>("WorkId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
 
@@ -198,10 +195,10 @@ namespace ManagerAPI.DataAccess.Migrations
             modelBuilder.Entity("ManagerAPI.Domain.Entities.CSM.IgnoredWork", b =>
                 {
                     b.Property<string>("PersonId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<string>("WorkId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.HasKey("PersonId", "WorkId");
 
@@ -213,20 +210,20 @@ namespace ManagerAPI.DataAccess.Migrations
             modelBuilder.Entity("ManagerAPI.Domain.Entities.CSM.UserCsomor", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<int>("CsomorId")
                         .HasColumnType("int");
 
                     b.Property<bool>("HasWriteAccess")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
+                        .HasColumnType("tinyint(1)")
                         .HasDefaultValue(false);
 
                     b.Property<DateTime>("SharedOn")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("NOW()");
 
                     b.HasKey("UserId", "CsomorId");
 
@@ -239,34 +236,33 @@ namespace ManagerAPI.DataAccess.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<string>("DestinationId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<string>("Message")
                         .IsRequired()
-                        .HasColumnType("nvarchar(120)")
-                        .HasMaxLength(120);
+                        .HasMaxLength(120)
+                        .HasColumnType("varchar(120) CHARACTER SET utf8mb4");
 
                     b.Property<bool?>("Response")
-                        .HasColumnType("bit");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<DateTime?>("ResponseDate")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("NOW()");
 
                     b.Property<string>("SenderId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<DateTime>("SentDate")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("NOW()");
 
                     b.HasKey("Id");
 
@@ -280,15 +276,15 @@ namespace ManagerAPI.DataAccess.Migrations
             modelBuilder.Entity("ManagerAPI.Domain.Entities.Friends", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<string>("FriendId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<DateTime>("ConnectionDate")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("NOW()");
 
                     b.Property<int>("RequestId")
                         .HasColumnType("int");
@@ -306,12 +302,11 @@ namespace ManagerAPI.DataAccess.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
 
@@ -339,21 +334,20 @@ namespace ManagerAPI.DataAccess.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("Date")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("NOW()");
 
                     b.Property<string>("ReceiverId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<string>("SenderId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<string>("Text")
                         .IsRequired()
@@ -372,31 +366,30 @@ namespace ManagerAPI.DataAccess.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<string>("Content")
                         .IsRequired()
-                        .HasColumnType("nvarchar(512)")
-                        .HasMaxLength(512);
+                        .HasMaxLength(512)
+                        .HasColumnType("varchar(512) CHARACTER SET utf8mb4");
 
                     b.Property<DateTime>("Creation")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("NOW()");
 
                     b.Property<string>("CreatorId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<DateTime>("LastUpdate")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("NOW()");
 
                     b.Property<string>("LastUpdaterId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
 
@@ -411,32 +404,31 @@ namespace ManagerAPI.DataAccess.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<bool>("Archived")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
+                        .HasColumnType("tinyint(1)")
                         .HasDefaultValue(false);
 
                     b.Property<string>("Content")
                         .IsRequired()
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4");
 
                     b.Property<bool>("IsRead")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
+                        .HasColumnType("tinyint(1)")
                         .HasDefaultValue(false);
 
                     b.Property<string>("OwnerId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<DateTime>("SentDate")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("NOW()");
 
                     b.Property<int>("TypeId")
                         .HasColumnType("int");
@@ -454,16 +446,15 @@ namespace ManagerAPI.DataAccess.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("ShortName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
 
@@ -506,8 +497,7 @@ namespace ManagerAPI.DataAccess.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<int>("ImportanceLevel")
                         .HasColumnType("int");
@@ -517,7 +507,7 @@ namespace ManagerAPI.DataAccess.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
 
@@ -1239,15 +1229,14 @@ namespace ManagerAPI.DataAccess.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<int>("AccessLevel")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
 
@@ -1296,13 +1285,12 @@ namespace ManagerAPI.DataAccess.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(120)")
-                        .HasMaxLength(120);
+                        .HasMaxLength(120)
+                        .HasColumnType("varchar(120) CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
 
@@ -1335,36 +1323,35 @@ namespace ManagerAPI.DataAccess.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("Creation")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("NOW()");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(512)")
-                        .HasMaxLength(512);
+                        .HasMaxLength(512)
+                        .HasColumnType("varchar(512) CHARACTER SET utf8mb4");
 
                     b.Property<DateTime?>("EndTime")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("NOW()");
 
                     b.Property<bool>("IsPublic")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
+                        .HasColumnType("tinyint(1)")
                         .HasDefaultValue(false);
 
                     b.Property<DateTime>("LastUpdate")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("NOW()");
 
                     b.Property<string>("OwnerId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<int?>("PlanTypeId")
                         .HasColumnType("int");
@@ -1374,13 +1361,13 @@ namespace ManagerAPI.DataAccess.Migrations
 
                     b.Property<DateTime>("StartTime")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("NOW()");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(150)")
-                        .HasMaxLength(150);
+                        .HasMaxLength(150)
+                        .HasColumnType("varchar(150) CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
 
@@ -1395,32 +1382,32 @@ namespace ManagerAPI.DataAccess.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("Creation")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("NOW()");
 
                     b.Property<string>("CreatorId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<bool>("IsArchived")
-                        .HasColumnType("bit");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<DateTime>("LastUpdate")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("NOW()");
 
                     b.Property<string>("LastUpdaterId")
-                        .HasColumnType("nvarchar(450)");
+                        .IsRequired()
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
 
@@ -1435,24 +1422,23 @@ namespace ManagerAPI.DataAccess.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<int>("GroupId")
                         .HasColumnType("int");
 
                     b.Property<string>("Message")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("SenderId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<DateTime>("Sent")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("NOW()");
 
                     b.HasKey("Id");
 
@@ -1467,22 +1453,21 @@ namespace ManagerAPI.DataAccess.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<string>("Content")
                         .IsRequired()
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200) CHARACTER SET utf8mb4");
 
                     b.Property<DateTime>("Creation")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("NOW()");
 
                     b.Property<string>("CreatorId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<int>("GroupId")
                         .HasColumnType("int");
@@ -1500,36 +1485,35 @@ namespace ManagerAPI.DataAccess.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("Creation")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("NOW()");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(512)")
-                        .HasMaxLength(512);
+                        .HasMaxLength(512)
+                        .HasColumnType("varchar(512) CHARACTER SET utf8mb4");
 
                     b.Property<DateTime?>("EndTime")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<int>("GroupId")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsPublic")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
+                        .HasColumnType("tinyint(1)")
                         .HasDefaultValue(false);
 
                     b.Property<DateTime?>("LastUpdate")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("NOW()");
 
                     b.Property<string>("LastUpdaterId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<int?>("MarkTypeId")
                         .IsRequired()
@@ -1537,11 +1521,11 @@ namespace ManagerAPI.DataAccess.Migrations
 
                     b.Property<string>("MarkedUserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<string>("OwnerId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<int?>("PlanTypeId")
                         .HasColumnType("int");
@@ -1550,12 +1534,12 @@ namespace ManagerAPI.DataAccess.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("StartTime")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(150)")
-                        .HasMaxLength(150);
+                        .HasMaxLength(150)
+                        .HasColumnType("varchar(150) CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
 
@@ -1578,25 +1562,24 @@ namespace ManagerAPI.DataAccess.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<string>("Comment")
                         .IsRequired()
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4");
 
                     b.Property<DateTime>("Creation")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("NOW()");
 
                     b.Property<int>("PlanId")
                         .HasColumnType("int");
 
                     b.Property<string>("SenderId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
 
@@ -1611,12 +1594,11 @@ namespace ManagerAPI.DataAccess.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
 
@@ -1659,42 +1641,41 @@ namespace ManagerAPI.DataAccess.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<string>("Author")
                         .IsRequired()
-                        .HasColumnType("nvarchar(150)")
-                        .HasMaxLength(150);
+                        .HasMaxLength(150)
+                        .HasColumnType("varchar(150) CHARACTER SET utf8mb4");
 
                     b.Property<DateTime>("Creation")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("NOW()");
 
                     b.Property<string>("CreatorId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<DateTime>("LastUpdate")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("NOW()");
 
                     b.Property<string>("LastUpdaterId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(150)")
-                        .HasMaxLength(150);
+                        .HasMaxLength(150)
+                        .HasColumnType("varchar(150) CHARACTER SET utf8mb4");
 
                     b.Property<DateTime?>("Publish")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.HasKey("Id");
 
@@ -1709,25 +1690,24 @@ namespace ManagerAPI.DataAccess.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(300)")
-                        .HasMaxLength(300);
+                        .HasMaxLength(300)
+                        .HasColumnType("varchar(300) CHARACTER SET utf8mb4");
 
                     b.Property<byte[]>("ImageData")
-                        .HasColumnType("varbinary(max)");
+                        .HasColumnType("longblob");
 
                     b.Property<string>("ImageTitle")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<DateTime>("LastUpdate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("LastUpdaterId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<int>("Number")
                         .HasColumnType("int");
@@ -1737,8 +1717,8 @@ namespace ManagerAPI.DataAccess.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(150)")
-                        .HasMaxLength(150);
+                        .HasMaxLength(150)
+                        .HasColumnType("varchar(150) CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
 
@@ -1753,41 +1733,40 @@ namespace ManagerAPI.DataAccess.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("Creation")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("NOW()");
 
                     b.Property<string>("CreatorId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(999)")
-                        .HasMaxLength(999);
+                        .HasMaxLength(999)
+                        .HasColumnType("varchar(999) CHARACTER SET utf8mb4");
 
                     b.Property<string>("Director")
-                        .HasColumnType("nvarchar(60)")
-                        .HasMaxLength(60);
+                        .HasMaxLength(60)
+                        .HasColumnType("varchar(60) CHARACTER SET utf8mb4");
 
                     b.Property<byte[]>("ImageData")
-                        .HasColumnType("varbinary(max)");
+                        .HasColumnType("longblob");
 
                     b.Property<string>("ImageTitle")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100) CHARACTER SET utf8mb4");
 
                     b.Property<DateTime>("LastUpdate")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("NOW()");
 
                     b.Property<string>("LastUpdaterId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<int?>("Length")
                         .HasColumnType("int");
@@ -1797,12 +1776,12 @@ namespace ManagerAPI.DataAccess.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(150)")
-                        .HasMaxLength(150);
+                        .HasMaxLength(150)
+                        .HasColumnType("varchar(150) CHARACTER SET utf8mb4");
 
                     b.Property<string>("TrailerUrl")
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200) CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
 
@@ -1817,13 +1796,12 @@ namespace ManagerAPI.DataAccess.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(120)")
-                        .HasMaxLength(120);
+                        .HasMaxLength(120)
+                        .HasColumnType("varchar(120) CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
 
@@ -1856,30 +1834,29 @@ namespace ManagerAPI.DataAccess.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<string>("Comment")
                         .IsRequired()
-                        .HasColumnType("nvarchar(500)")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500) CHARACTER SET utf8mb4");
 
                     b.Property<DateTime>("Creation")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("NOW()");
 
                     b.Property<DateTime>("LastUpdate")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("NOW()");
 
                     b.Property<int>("MovieId")
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
 
@@ -1909,8 +1886,7 @@ namespace ManagerAPI.DataAccess.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<int>("Number")
                         .HasColumnType("int");
@@ -1929,52 +1905,51 @@ namespace ManagerAPI.DataAccess.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("Creation")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("NOW()");
 
                     b.Property<string>("CreatorId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(999)")
-                        .HasMaxLength(999);
+                        .HasMaxLength(999)
+                        .HasColumnType("varchar(999) CHARACTER SET utf8mb4");
 
                     b.Property<int?>("EndYear")
                         .HasColumnType("int");
 
                     b.Property<byte[]>("ImageData")
-                        .HasColumnType("varbinary(max)");
+                        .HasColumnType("longblob");
 
                     b.Property<string>("ImageTitle")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100) CHARACTER SET utf8mb4");
 
                     b.Property<DateTime>("LastUpdate")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("NOW()");
 
                     b.Property<string>("LastUpdaterId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<int?>("StartYear")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(150)")
-                        .HasMaxLength(150);
+                        .HasMaxLength(150)
+                        .HasColumnType("varchar(150) CHARACTER SET utf8mb4");
 
                     b.Property<string>("TrailerUrl")
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200) CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
 
@@ -1989,13 +1964,12 @@ namespace ManagerAPI.DataAccess.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(120)")
-                        .HasMaxLength(120);
+                        .HasMaxLength(120)
+                        .HasColumnType("varchar(120) CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
 
@@ -2028,30 +2002,29 @@ namespace ManagerAPI.DataAccess.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<string>("Comment")
                         .IsRequired()
-                        .HasColumnType("nvarchar(500)")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500) CHARACTER SET utf8mb4");
 
                     b.Property<DateTime>("Creation")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("NOW()");
 
                     b.Property<DateTime>("LastUpdate")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("NOW()");
 
                     b.Property<int>("SeriesId")
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
 
@@ -2080,23 +2053,23 @@ namespace ManagerAPI.DataAccess.Migrations
             modelBuilder.Entity("ManagerAPI.Domain.Entities.SL.UserBook", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<int>("BookId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("AddOn")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("NOW()");
 
                     b.Property<bool>("Read")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
+                        .HasColumnType("tinyint(1)")
                         .HasDefaultValue(false);
 
                     b.Property<DateTime?>("ReadOn")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.HasKey("UserId", "BookId");
 
@@ -2108,18 +2081,18 @@ namespace ManagerAPI.DataAccess.Migrations
             modelBuilder.Entity("ManagerAPI.Domain.Entities.SL.UserEpisode", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<int>("EpisodeId")
                         .HasColumnType("int");
 
                     b.Property<bool>("Seen")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
+                        .HasColumnType("tinyint(1)")
                         .HasDefaultValue(false);
 
                     b.Property<DateTime?>("SeenOn")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.HasKey("UserId", "EpisodeId");
 
@@ -2131,29 +2104,29 @@ namespace ManagerAPI.DataAccess.Migrations
             modelBuilder.Entity("ManagerAPI.Domain.Entities.SL.UserMovie", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<int>("MovieId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("AddedOn")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("NOW()");
 
                     b.Property<bool>("IsAdded")
-                        .HasColumnType("bit");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<bool>("IsSeen")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
+                        .HasColumnType("tinyint(1)")
                         .HasDefaultValue(false);
 
                     b.Property<int?>("Rate")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("SeenOn")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.HasKey("UserId", "MovieId");
 
@@ -2165,18 +2138,18 @@ namespace ManagerAPI.DataAccess.Migrations
             modelBuilder.Entity("ManagerAPI.Domain.Entities.SL.UserSeries", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<int>("SeriesId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("AddedOn")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("NOW()");
 
                     b.Property<bool>("IsAdded")
-                        .HasColumnType("bit");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<int?>("Rate")
                         .HasColumnType("int");
@@ -2192,39 +2165,38 @@ namespace ManagerAPI.DataAccess.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("Creation")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("NOW()");
 
                     b.Property<DateTime>("Deadline")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<bool>("IsSolved")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
+                        .HasColumnType("tinyint(1)")
                         .HasDefaultValue(false);
 
                     b.Property<DateTime>("LastUpdate")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("NOW()");
 
                     b.Property<string>("OwnerId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100) CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
 
@@ -2236,19 +2208,19 @@ namespace ManagerAPI.DataAccess.Migrations
             modelBuilder.Entity("ManagerAPI.Domain.Entities.UserPlanGroup", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<int>("GroupId")
                         .HasColumnType("int");
 
                     b.Property<string>("AddedById")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<DateTime>("Connection")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("NOW()");
 
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
@@ -2268,18 +2240,17 @@ namespace ManagerAPI.DataAccess.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("Day")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<int>("TypeId")
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
 
@@ -2294,18 +2265,17 @@ namespace ManagerAPI.DataAccess.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<bool>("DayIsActive")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
+                        .HasColumnType("tinyint(1)")
                         .HasDefaultValue(false);
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100) CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
 
@@ -2342,19 +2312,18 @@ namespace ManagerAPI.DataAccess.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<decimal>("Length")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(65,30)");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200) CHARACTER SET utf8mb4");
 
                     b.Property<int>("WorkingDayId")
                         .HasColumnType("int");
@@ -2369,30 +2338,29 @@ namespace ManagerAPI.DataAccess.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("Discriminator")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4");
 
                     b.Property<string>("NormalizedName")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
-                        .HasName("RoleNameIndex")
-                        .HasFilter("[NormalizedName] IS NOT NULL");
+                        .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles");
 
@@ -2403,18 +2371,17 @@ namespace ManagerAPI.DataAccess.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<string>("ClaimType")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("RoleId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
 
@@ -2426,68 +2393,67 @@ namespace ManagerAPI.DataAccess.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("Discriminator")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("Email")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4");
 
                     b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("NormalizedEmail")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4");
 
                     b.Property<string>("NormalizedUserName")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4");
 
                     b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
-                        .HasName("EmailIndex");
+                        .HasDatabaseName("EmailIndex");
 
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
-                        .HasName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+                        .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers");
 
@@ -2498,18 +2464,17 @@ namespace ManagerAPI.DataAccess.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<string>("ClaimType")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
 
@@ -2521,17 +2486,17 @@ namespace ManagerAPI.DataAccess.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<string>("ProviderDisplayName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -2543,10 +2508,10 @@ namespace ManagerAPI.DataAccess.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<string>("RoleId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.HasKey("UserId", "RoleId");
 
@@ -2558,16 +2523,16 @@ namespace ManagerAPI.DataAccess.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<string>("Value")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
@@ -2587,7 +2552,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         new
                         {
                             Id = "2f76c2fc-bbca-41ff-86ed-5ef43d41d8f9",
-                            ConcurrencyStamp = "ac92ea20-75bd-40bd-b1b3-2c7721f5f24f",
+                            ConcurrencyStamp = "36f016e1-6d49-4cd1-8869-c465e983aab7",
                             Name = "Visitor",
                             NormalizedName = "VISITOR",
                             AccessLevel = 0
@@ -2595,7 +2560,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         new
                         {
                             Id = "776474d7-8d01-4809-963e-c721f39dbb45",
-                            ConcurrencyStamp = "0d1a3e75-7a9c-4d93-b6ba-d18b74a12117",
+                            ConcurrencyStamp = "6427b27f-a984-493b-8440-d03ff98fdfd3",
                             Name = "Normal",
                             NormalizedName = "NORMAL",
                             AccessLevel = 1
@@ -2603,7 +2568,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         new
                         {
                             Id = "5e0a9192-793f-4c85-a0b1-3198295bf409",
-                            ConcurrencyStamp = "77c7e1fc-b7b6-4cd7-8244-b18eb3a13f60",
+                            ConcurrencyStamp = "e0886ef8-fbd2-4e26-91cb-98e606c24669",
                             Name = "Moderator",
                             NormalizedName = "MODERATOR",
                             AccessLevel = 2
@@ -2611,7 +2576,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         new
                         {
                             Id = "936e42dc-5d3f-4355-bc3a-304a4fe4f518",
-                            ConcurrencyStamp = "491a02c2-9844-4f7a-8cfe-c0e422ee9991",
+                            ConcurrencyStamp = "7e4825cd-fe38-4f6c-b4ba-8a7d16a1eb4e",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR",
                             AccessLevel = 3
@@ -2619,7 +2584,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         new
                         {
                             Id = "936e4ddc-5d3f-4355-af3a-304a4fe4f518",
-                            ConcurrencyStamp = "8c591ae9-c29a-4c3e-91eb-76c3ad3cb35f",
+                            ConcurrencyStamp = "7803eb8b-a947-4a6f-8542-76599a7cf89a",
                             Name = "Status Library User",
                             NormalizedName = "STATUS LIBRARY USER",
                             AccessLevel = 1
@@ -2627,7 +2592,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         new
                         {
                             Id = "936e4ddc-5d3f-5466-af3a-3b4a4424d518",
-                            ConcurrencyStamp = "4209642a-8daf-468b-b400-40cc0f5c1fac",
+                            ConcurrencyStamp = "f3f304a8-a42d-49b7-bf46-5befd5b167f1",
                             Name = "Status Library Moderator",
                             NormalizedName = "STATUS LIBRARY MODERATOR",
                             AccessLevel = 3
@@ -2635,7 +2600,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         new
                         {
                             Id = "936d4dfc-5536-4d5f-af2a-304d4fe4f518",
-                            ConcurrencyStamp = "cabaad41-bdf8-4464-ba7a-dff9cfb4dd13",
+                            ConcurrencyStamp = "4a71b65a-7178-480b-93ff-aad89f800c02",
                             Name = "Status Library Administrator",
                             NormalizedName = "STATUS LIBRARY ADMINISTRATOR",
                             AccessLevel = 3
@@ -2643,7 +2608,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         new
                         {
                             Id = "fa5deb78-59c2-4faa-83dc-6c3369eedf20",
-                            ConcurrencyStamp = "5fa9966b-92bb-498c-a892-6a83d90eb630",
+                            ConcurrencyStamp = "c263e607-a09d-4193-ab44-848d6fff12b5",
                             Name = "Root",
                             NormalizedName = "ROOT",
                             AccessLevel = 4
@@ -2655,57 +2620,57 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
                     b.Property<string>("Allergy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<DateTime?>("BirthDay")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("City")
-                        .HasColumnType("nvarchar(120)")
-                        .HasMaxLength(120);
+                        .HasMaxLength(120)
+                        .HasColumnType("varchar(120) CHARACTER SET utf8mb4");
 
                     b.Property<string>("Country")
-                        .HasColumnType("nvarchar(120)")
-                        .HasMaxLength(120);
+                        .HasMaxLength(120)
+                        .HasColumnType("varchar(120) CHARACTER SET utf8mb4");
 
                     b.Property<string>("FullName")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100) CHARACTER SET utf8mb4");
 
                     b.Property<int?>("GenderId")
                         .HasColumnType("int");
 
                     b.Property<string>("Group")
-                        .HasColumnType("nvarchar(40)")
-                        .HasMaxLength(40);
+                        .HasMaxLength(40)
+                        .HasColumnType("varchar(40) CHARACTER SET utf8mb4");
 
                     b.Property<bool>("IsActive")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
+                        .HasColumnType("tinyint(1)")
                         .HasDefaultValue(true);
 
                     b.Property<DateTime>("LastLogin")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("NOW()");
 
                     b.Property<byte[]>("ProfileImageData")
-                        .HasColumnType("varbinary(max)");
+                        .HasColumnType("longblob");
 
                     b.Property<string>("ProfileImageTitle")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<DateTime>("RegistrationDate")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("NOW()");
 
                     b.Property<string>("SecondaryEmail")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("TShirtSize")
-                        .HasColumnType("nvarchar(6)")
-                        .HasMaxLength(6);
+                        .HasMaxLength(6)
+                        .HasColumnType("varchar(6) CHARACTER SET utf8mb4");
 
                     b.HasIndex("GenderId");
 
@@ -2716,7 +2681,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         {
                             Id = "44045506-66fd-4af8-9d59-133c47d1787c",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8f9d1437-c8d5-42a5-8382-c258556bc740",
+                            ConcurrencyStamp = "aed1cc8b-bb0f-4611-84fb-66adda08a665",
                             Email = "karcagtamas@outlook.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -2724,7 +2689,7 @@ namespace ManagerAPI.DataAccess.Migrations
                             NormalizedUserName = "KARCAGTAMAS",
                             PasswordHash = "AQAAAAEAACcQAAAAEG9SljY4ow/I7990YZ15dSGvCesg0bad3pQSWi4ekt0RT8J5JuL3lQmNJCnxo2lGIA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "76a53ee0-fdc2-499e-8e27-f36ea0246c54",
+                            SecurityStamp = "32ec8e40-c323-4d15-8ab3-37edcf2cbb69",
                             TwoFactorEnabled = false,
                             UserName = "karcagtamas",
                             FullName = "Karcag Tamas",
@@ -2736,7 +2701,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         {
                             Id = "f8237fac-c6dc-47b0-8f71-b72f93368b02",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f1202b71-fd6c-4c2b-89b3-5101c7b5d4e6",
+                            ConcurrencyStamp = "27c15edc-8ee3-4b53-9bc6-5b4fb9303624",
                             Email = "aron.klenovszky@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -2744,7 +2709,7 @@ namespace ManagerAPI.DataAccess.Migrations
                             NormalizedUserName = "AARONKAA",
                             PasswordHash = "AQAAAAEAACcQAAAAEL9QeDNFqEAq8WDl2/fXBSc02Tzxxnek963ILEw1L3aQsFysXXG4L3KvFYIVg/LpLA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "41c3d685-b28b-4de7-a57e-444247fd1658",
+                            SecurityStamp = "a60878fe-c124-4039-b6db-61ef0a73f40c",
                             TwoFactorEnabled = false,
                             UserName = "aaronkaa",
                             FullName = "Klenovszky Áron",
@@ -2756,7 +2721,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         {
                             Id = "cd5e5069-59c8-4163-95c5-776fab95e51a",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "5b3afc34-1754-4c65-8f68-c3920c89350f",
+                            ConcurrencyStamp = "b752e32c-f81e-4679-b3f1-e3b2e047f119",
                             Email = "root@karcags.hu",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -2764,7 +2729,7 @@ namespace ManagerAPI.DataAccess.Migrations
                             NormalizedUserName = "ROOT",
                             PasswordHash = "AQAAAAEAACcQAAAAEHdK+ODabrjejNLGhod4ftL37G5zT97p2g0Ck5dH9MchA2B/JFDiwb9kk9soZBPF5Q==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "586abc6c-4a1e-4567-91f8-3ec6cb818cc3",
+                            SecurityStamp = "6bd9afe8-0d4b-4726-a549-30bf5bef47e8",
                             TwoFactorEnabled = false,
                             UserName = "root",
                             FullName = "Root",
@@ -2776,7 +2741,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         {
                             Id = "fa2edf69-5fc8-a163-9fc5-726f3b94e51b",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6eca96cd-81f1-44e3-bb16-41ce06b14792",
+                            ConcurrencyStamp = "12294760-47a6-46cd-aa27-24e3e9663b9a",
                             Email = "barni.pbs@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -2784,7 +2749,7 @@ namespace ManagerAPI.DataAccess.Migrations
                             NormalizedUserName = "BARNI363HUN",
                             PasswordHash = "AQAAAAEAACcQAAAAEL9QeDNFqEAq8WDl2/fXBSc02Tzxxnek963ILEw1L3aQsFysXXG4L3KvFYIVg/LpLA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "d7d39c56-cff0-4f78-88fb-50906ffde5de",
+                            SecurityStamp = "08423e1b-54ac-4385-85a0-e42ffdecfc54",
                             TwoFactorEnabled = false,
                             UserName = "barni363hun",
                             FullName = "Root",
@@ -2805,6 +2770,10 @@ namespace ManagerAPI.DataAccess.Migrations
                         .HasForeignKey("OwnerId")
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
+
+                    b.Navigation("LastUpdater");
+
+                    b.Navigation("Owner");
                 });
 
             modelBuilder.Entity("ManagerAPI.Domain.Entities.CSM.CsomorPerson", b =>
@@ -2814,6 +2783,8 @@ namespace ManagerAPI.DataAccess.Migrations
                         .HasForeignKey("CsomorId")
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
+
+                    b.Navigation("Csomor");
                 });
 
             modelBuilder.Entity("ManagerAPI.Domain.Entities.CSM.CsomorPersonTable", b =>
@@ -2827,6 +2798,10 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.HasOne("ManagerAPI.Domain.Entities.CSM.CsomorWork", "Work")
                         .WithMany("Persons")
                         .HasForeignKey("WorkId");
+
+                    b.Navigation("Person");
+
+                    b.Navigation("Work");
                 });
 
             modelBuilder.Entity("ManagerAPI.Domain.Entities.CSM.CsomorWork", b =>
@@ -2836,6 +2811,8 @@ namespace ManagerAPI.DataAccess.Migrations
                         .HasForeignKey("CsomorId")
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
+
+                    b.Navigation("Csomor");
                 });
 
             modelBuilder.Entity("ManagerAPI.Domain.Entities.CSM.CsomorWorkTable", b =>
@@ -2849,6 +2826,10 @@ namespace ManagerAPI.DataAccess.Migrations
                         .HasForeignKey("WorkId")
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
+
+                    b.Navigation("Person");
+
+                    b.Navigation("Work");
                 });
 
             modelBuilder.Entity("ManagerAPI.Domain.Entities.CSM.IgnoredWork", b =>
@@ -2864,6 +2845,10 @@ namespace ManagerAPI.DataAccess.Migrations
                         .HasForeignKey("WorkId")
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
+
+                    b.Navigation("Person");
+
+                    b.Navigation("Work");
                 });
 
             modelBuilder.Entity("ManagerAPI.Domain.Entities.CSM.UserCsomor", b =>
@@ -2879,6 +2864,10 @@ namespace ManagerAPI.DataAccess.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
+
+                    b.Navigation("Csomor");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ManagerAPI.Domain.Entities.FriendRequest", b =>
@@ -2894,6 +2883,10 @@ namespace ManagerAPI.DataAccess.Migrations
                         .HasForeignKey("SenderId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Destination");
+
+                    b.Navigation("Sender");
                 });
 
             modelBuilder.Entity("ManagerAPI.Domain.Entities.Friends", b =>
@@ -2915,6 +2908,12 @@ namespace ManagerAPI.DataAccess.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Friend");
+
+                    b.Navigation("Request");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ManagerAPI.Domain.Entities.Message", b =>
@@ -2930,6 +2929,10 @@ namespace ManagerAPI.DataAccess.Migrations
                         .HasForeignKey("SenderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Receiver");
+
+                    b.Navigation("Sender");
                 });
 
             modelBuilder.Entity("ManagerAPI.Domain.Entities.News", b =>
@@ -2945,6 +2948,10 @@ namespace ManagerAPI.DataAccess.Migrations
                         .HasForeignKey("LastUpdaterId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Creator");
+
+                    b.Navigation("LastUpdater");
                 });
 
             modelBuilder.Entity("ManagerAPI.Domain.Entities.Notification", b =>
@@ -2960,6 +2967,10 @@ namespace ManagerAPI.DataAccess.Migrations
                         .HasForeignKey("TypeId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Owner");
+
+                    b.Navigation("Type");
                 });
 
             modelBuilder.Entity("ManagerAPI.Domain.Entities.NotificationType", b =>
@@ -2969,6 +2980,8 @@ namespace ManagerAPI.DataAccess.Migrations
                         .HasForeignKey("SystemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("System");
                 });
 
             modelBuilder.Entity("ManagerAPI.Domain.Entities.PM.Plan", b =>
@@ -2976,13 +2989,17 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.HasOne("ManagerAPI.Domain.Entities.User", "Owner")
                         .WithMany("Plans")
                         .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
                     b.HasOne("ManagerAPI.Domain.Entities.PM.PlanType", "PlanType")
                         .WithMany("Plans")
                         .HasForeignKey("PlanTypeId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.ClientCascade);
+
+                    b.Navigation("Owner");
+
+                    b.Navigation("PlanType");
                 });
 
             modelBuilder.Entity("ManagerAPI.Domain.Entities.PM.PlanGroup", b =>
@@ -2990,13 +3007,18 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.HasOne("ManagerAPI.Domain.Entities.User", "Creator")
                         .WithMany("CreatedPlanGroups")
                         .HasForeignKey("CreatorId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
                     b.HasOne("ManagerAPI.Domain.Entities.User", "LastUpdater")
                         .WithMany("LastUpdatedPlanGroups")
                         .HasForeignKey("LastUpdaterId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.ClientNoAction)
+                        .IsRequired();
+
+                    b.Navigation("Creator");
+
+                    b.Navigation("LastUpdater");
                 });
 
             modelBuilder.Entity("ManagerAPI.Domain.Entities.PM.PlanGroupChatMessage", b =>
@@ -3004,14 +3026,18 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.HasOne("ManagerAPI.Domain.Entities.PM.PlanGroup", "Group")
                         .WithMany("Messages")
                         .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
                     b.HasOne("ManagerAPI.Domain.Entities.User", "Sender")
                         .WithMany("SentPlanGroupChatMessages")
                         .HasForeignKey("SenderId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
+
+                    b.Navigation("Group");
+
+                    b.Navigation("Sender");
                 });
 
             modelBuilder.Entity("ManagerAPI.Domain.Entities.PM.PlanGroupIdea", b =>
@@ -3019,14 +3045,18 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.HasOne("ManagerAPI.Domain.Entities.User", "Creator")
                         .WithMany("CreatedPlanGroupIdeas")
                         .HasForeignKey("CreatorId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
                     b.HasOne("ManagerAPI.Domain.Entities.PM.PlanGroup", "Group")
                         .WithMany("Ideas")
                         .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
+
+                    b.Navigation("Creator");
+
+                    b.Navigation("Group");
                 });
 
             modelBuilder.Entity("ManagerAPI.Domain.Entities.PM.PlanGroupPlan", b =>
@@ -3034,36 +3064,48 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.HasOne("ManagerAPI.Domain.Entities.PM.PlanGroup", "Group")
                         .WithMany("Plans")
                         .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
                     b.HasOne("ManagerAPI.Domain.Entities.User", "LastUpdater")
                         .WithMany("LastUpdatedPlanGroupPlans")
                         .HasForeignKey("LastUpdaterId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.ClientNoAction);
 
                     b.HasOne("ManagerAPI.Domain.Entities.PM.MarkType", "MarkType")
                         .WithMany("MarkedPlans")
                         .HasForeignKey("MarkTypeId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
                     b.HasOne("ManagerAPI.Domain.Entities.User", "MarkedUser")
                         .WithMany("MarkedOnGroupPlans")
                         .HasForeignKey("MarkedUserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
                     b.HasOne("ManagerAPI.Domain.Entities.User", "Owner")
                         .WithMany("CreatedPlanGroupPlans")
                         .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
                     b.HasOne("ManagerAPI.Domain.Entities.PM.PlanType", "PlanType")
                         .WithMany("GroupPlans")
                         .HasForeignKey("PlanTypeId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.ClientCascade);
+
+                    b.Navigation("Group");
+
+                    b.Navigation("LastUpdater");
+
+                    b.Navigation("MarkedUser");
+
+                    b.Navigation("MarkType");
+
+                    b.Navigation("Owner");
+
+                    b.Navigation("PlanType");
                 });
 
             modelBuilder.Entity("ManagerAPI.Domain.Entities.PM.PlanGroupPlanComment", b =>
@@ -3071,14 +3113,18 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.HasOne("ManagerAPI.Domain.Entities.PM.PlanGroupPlan", "Plan")
                         .WithMany("Comments")
                         .HasForeignKey("PlanId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
                     b.HasOne("ManagerAPI.Domain.Entities.User", "Sender")
                         .WithMany("CreatedPlanGroupPlanComment")
                         .HasForeignKey("SenderId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
+
+                    b.Navigation("Plan");
+
+                    b.Navigation("Sender");
                 });
 
             modelBuilder.Entity("ManagerAPI.Domain.Entities.SL.Book", b =>
@@ -3094,6 +3140,10 @@ namespace ManagerAPI.DataAccess.Migrations
                         .HasForeignKey("LastUpdaterId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Creator");
+
+                    b.Navigation("LastUpdater");
                 });
 
             modelBuilder.Entity("ManagerAPI.Domain.Entities.SL.Episode", b =>
@@ -3109,6 +3159,10 @@ namespace ManagerAPI.DataAccess.Migrations
                         .HasForeignKey("SeasonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("LastUpdater");
+
+                    b.Navigation("Season");
                 });
 
             modelBuilder.Entity("ManagerAPI.Domain.Entities.SL.Movie", b =>
@@ -3124,6 +3178,10 @@ namespace ManagerAPI.DataAccess.Migrations
                         .HasForeignKey("LastUpdaterId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Creator");
+
+                    b.Navigation("LastUpdater");
                 });
 
             modelBuilder.Entity("ManagerAPI.Domain.Entities.SL.MovieComment", b =>
@@ -3139,6 +3197,10 @@ namespace ManagerAPI.DataAccess.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Movie");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ManagerAPI.Domain.Entities.SL.MovieMovieCategory", b =>
@@ -3154,6 +3216,10 @@ namespace ManagerAPI.DataAccess.Migrations
                         .HasForeignKey("MovieId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Movie");
                 });
 
             modelBuilder.Entity("ManagerAPI.Domain.Entities.SL.Season", b =>
@@ -3163,6 +3229,8 @@ namespace ManagerAPI.DataAccess.Migrations
                         .HasForeignKey("SeriesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Series");
                 });
 
             modelBuilder.Entity("ManagerAPI.Domain.Entities.SL.Series", b =>
@@ -3178,6 +3246,10 @@ namespace ManagerAPI.DataAccess.Migrations
                         .HasForeignKey("LastUpdaterId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Creator");
+
+                    b.Navigation("LastUpdater");
                 });
 
             modelBuilder.Entity("ManagerAPI.Domain.Entities.SL.SeriesComment", b =>
@@ -3193,6 +3265,10 @@ namespace ManagerAPI.DataAccess.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Series");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ManagerAPI.Domain.Entities.SL.SeriesSeriesCategory", b =>
@@ -3208,6 +3284,10 @@ namespace ManagerAPI.DataAccess.Migrations
                         .HasForeignKey("SeriesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Series");
                 });
 
             modelBuilder.Entity("ManagerAPI.Domain.Entities.SL.UserBook", b =>
@@ -3223,6 +3303,10 @@ namespace ManagerAPI.DataAccess.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Book");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ManagerAPI.Domain.Entities.SL.UserEpisode", b =>
@@ -3238,6 +3322,10 @@ namespace ManagerAPI.DataAccess.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Episode");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ManagerAPI.Domain.Entities.SL.UserMovie", b =>
@@ -3253,6 +3341,10 @@ namespace ManagerAPI.DataAccess.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Movie");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ManagerAPI.Domain.Entities.SL.UserSeries", b =>
@@ -3268,6 +3360,10 @@ namespace ManagerAPI.DataAccess.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Series");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ManagerAPI.Domain.Entities.Task", b =>
@@ -3277,6 +3373,8 @@ namespace ManagerAPI.DataAccess.Migrations
                         .HasForeignKey("OwnerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Owner");
                 });
 
             modelBuilder.Entity("ManagerAPI.Domain.Entities.UserPlanGroup", b =>
@@ -3284,26 +3382,34 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.HasOne("ManagerAPI.Domain.Entities.User", "AddedBy")
                         .WithMany("AddedUsersToGroups")
                         .HasForeignKey("AddedById")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
                     b.HasOne("ManagerAPI.Domain.Entities.PM.PlanGroup", "Group")
                         .WithMany("Users")
                         .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
                     b.HasOne("ManagerAPI.Domain.Entities.PM.GroupRole", "Role")
                         .WithMany("GroupMembers")
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
                     b.HasOne("ManagerAPI.Domain.Entities.User", "User")
                         .WithMany("Groups")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
+
+                    b.Navigation("AddedBy");
+
+                    b.Navigation("Group");
+
+                    b.Navigation("Role");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ManagerAPI.Domain.Entities.WM.WorkingDay", b =>
@@ -3319,6 +3425,10 @@ namespace ManagerAPI.DataAccess.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Type");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ManagerAPI.Domain.Entities.WM.WorkingField", b =>
@@ -3328,6 +3438,8 @@ namespace ManagerAPI.DataAccess.Migrations
                         .HasForeignKey("WorkingDayId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("WorkingDay");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -3387,6 +3499,222 @@ namespace ManagerAPI.DataAccess.Migrations
                         .WithMany("Users")
                         .HasForeignKey("GenderId")
                         .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Gender");
+                });
+
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.CSM.Csomor", b =>
+                {
+                    b.Navigation("Persons");
+
+                    b.Navigation("SharedWith");
+
+                    b.Navigation("Works");
+                });
+
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.CSM.CsomorPerson", b =>
+                {
+                    b.Navigation("IgnoredWorks");
+
+                    b.Navigation("Tables");
+
+                    b.Navigation("Works");
+                });
+
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.CSM.CsomorWork", b =>
+                {
+                    b.Navigation("IgnoringPersons");
+
+                    b.Navigation("Persons");
+
+                    b.Navigation("Tables");
+                });
+
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.FriendRequest", b =>
+                {
+                    b.Navigation("FriendCollection");
+                });
+
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.Gender", b =>
+                {
+                    b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.NotificationSystem", b =>
+                {
+                    b.Navigation("Types");
+                });
+
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.NotificationType", b =>
+                {
+                    b.Navigation("Notifications");
+                });
+
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.PM.GroupRole", b =>
+                {
+                    b.Navigation("GroupMembers");
+                });
+
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.PM.MarkType", b =>
+                {
+                    b.Navigation("MarkedPlans");
+                });
+
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.PM.PlanGroup", b =>
+                {
+                    b.Navigation("Ideas");
+
+                    b.Navigation("Messages");
+
+                    b.Navigation("Plans");
+
+                    b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.PM.PlanGroupPlan", b =>
+                {
+                    b.Navigation("Comments");
+                });
+
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.PM.PlanType", b =>
+                {
+                    b.Navigation("GroupPlans");
+
+                    b.Navigation("Plans");
+                });
+
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.SL.Book", b =>
+                {
+                    b.Navigation("ConnectedUsers");
+                });
+
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.SL.Episode", b =>
+                {
+                    b.Navigation("ConnectedUsers");
+                });
+
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.SL.Movie", b =>
+                {
+                    b.Navigation("Categories");
+
+                    b.Navigation("Comments");
+
+                    b.Navigation("ConnectedUsers");
+                });
+
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.SL.MovieCategory", b =>
+                {
+                    b.Navigation("ConnectedMovies");
+                });
+
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.SL.Season", b =>
+                {
+                    b.Navigation("Episodes");
+                });
+
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.SL.Series", b =>
+                {
+                    b.Navigation("Categories");
+
+                    b.Navigation("Comments");
+
+                    b.Navigation("ConnectedUsers");
+
+                    b.Navigation("Seasons");
+                });
+
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.SL.SeriesCategory", b =>
+                {
+                    b.Navigation("ConnectedSeriesList");
+                });
+
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.WM.WorkingDay", b =>
+                {
+                    b.Navigation("WorkingFields");
+                });
+
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.WM.WorkingDayType", b =>
+                {
+                    b.Navigation("WorkingDays");
+                });
+
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.User", b =>
+                {
+                    b.Navigation("AddedUsersToGroups");
+
+                    b.Navigation("CreatedBooks");
+
+                    b.Navigation("CreatedMovies");
+
+                    b.Navigation("CreatedNews");
+
+                    b.Navigation("CreatedPlanGroupIdeas");
+
+                    b.Navigation("CreatedPlanGroupPlanComment");
+
+                    b.Navigation("CreatedPlanGroupPlans");
+
+                    b.Navigation("CreatedPlanGroups");
+
+                    b.Navigation("CreatedSeries");
+
+                    b.Navigation("FriendListLeft");
+
+                    b.Navigation("FriendListRight");
+
+                    b.Navigation("Groups");
+
+                    b.Navigation("LastUpdatedBooks");
+
+                    b.Navigation("LastUpdatedCsomors");
+
+                    b.Navigation("LastUpdatedEpisodes");
+
+                    b.Navigation("LastUpdatedMovies");
+
+                    b.Navigation("LastUpdatedPlanGroupPlans");
+
+                    b.Navigation("LastUpdatedPlanGroups");
+
+                    b.Navigation("LastUpdatedSeries");
+
+                    b.Navigation("MarkedOnGroupPlans");
+
+                    b.Navigation("MovieComments");
+
+                    b.Navigation("MyBooks");
+
+                    b.Navigation("MyEpisodes");
+
+                    b.Navigation("MyMovies");
+
+                    b.Navigation("MySeries");
+
+                    b.Navigation("Notifications");
+
+                    b.Navigation("OwnedCsomors");
+
+                    b.Navigation("Plans");
+
+                    b.Navigation("ReceivedFriendRequest");
+
+                    b.Navigation("ReceivedMessages");
+
+                    b.Navigation("SentFriendRequest");
+
+                    b.Navigation("SentMessages");
+
+                    b.Navigation("SentPlanGroupChatMessages");
+
+                    b.Navigation("SeriesComments");
+
+                    b.Navigation("SharedCsomors");
+
+                    b.Navigation("Tasks");
+
+                    b.Navigation("UpdatedNews");
+
+                    b.Navigation("WorkingDays");
                 });
 #pragma warning restore 612, 618
         }

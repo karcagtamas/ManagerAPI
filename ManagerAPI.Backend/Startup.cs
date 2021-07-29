@@ -15,6 +15,7 @@ using ManagerAPI.Services.Profiles;
 using ManagerAPI.Services.Services;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Services.Utils;
+using ManagerAPI.Shared;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -32,47 +33,50 @@ using PlanManager.Services.Profiles;
 using PlanManager.Services.Services;
 using PlanManager.Services.Services.Interfaces;
 using System;
-using System.IO;
 using System.Text;
 
 namespace ManagerAPI.Backend
 {
+    /// <summary>
+    /// Backend StartUp
+    /// </summary>
     public class Startup
     {
+        /// <summary>
+        /// Start Up Application
+        /// </summary>
+        /// <param name="configuration"></param>
         public Startup(IConfiguration configuration)
         {
             this.Configuration = configuration;
         }
 
+        /// <summary>
+        /// App Configuration
+        /// </summary>
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        /// <summary>
+        /// This method gets called by the runtime. Use this method to add services to the container.
+        /// </summary>
+        /// <param name="services">Service Collection</param>
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors(options =>
-            {
-                options.AddPolicy("ReleasePolicy",
-                    builder =>
-                    {
-                        builder
-                            .AllowAnyHeader()
-                            .AllowAnyMethod()
-                            .AllowCredentials()
-                            .WithOrigins("http://localhost:8080", "http://192.168.1.80:8080", "https://localhost:8080", "https://192.168.1.80:8080", "http://100.98.107.134:8080");
-                    });
-                options.AddPolicy("TestPolicy",
-                    builder =>
-                    {
-                        builder
-                            .AllowAnyHeader()
-                            .AllowAnyMethod()
-                            .AllowCredentials()
-                            .WithOrigins("https://localhost:5001", "https://localhost:44328");
-                    });
-            });
-
             services.Configure<ApplicationSettings>(this.Configuration.GetSection("ApplicationSettings"));
             services.Configure<MailSettings>(this.Configuration.GetSection("MailSettings"));
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder =>
+                    {
+                        builder
+                            .AllowAnyHeader()
+                            .AllowAnyMethod()
+                            .AllowCredentials()
+                            .WithOrigins(Configuration.GetSection("ApplicationSettings").GetValue("SecureClientUrl", "https://localhost:5001"), Configuration.GetSection("ApplicationSettings").GetValue("ClientUrl", "http://localhost:5000"));
+                    });
+            });
 
             var mapperConfig = new MapperConfiguration(x =>
             {
@@ -133,14 +137,15 @@ namespace ManagerAPI.Backend
             services.AddScoped<IGeneratorService, GeneratorService>();
             services.AddScoped<IPDFService, PDFService>();
 
-            new CustomAssemblyLoadContext().LoadUnmanagedLibrary($"{Directory.GetCurrentDirectory()}/assets/dll/libwkhtmltox.dll");
+            // TODO: Fix
+            // new CustomAssemblyLoadContext().LoadUnmanagedLibrary($"{Directory.GetCurrentDirectory()}/assets/dll/libwkhtmltox.dll");
             services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddDbContextPool<DatabaseContext>(options =>
             {
-                options.UseLazyLoadingProxies().UseSqlServer(this.Configuration.GetConnectionString("ManagerDb"));
+                options.UseLazyLoadingProxies().UseMySql(this.Configuration.GetConnectionString("DefaultConnection"), ServerVersion.AutoDetect(this.Configuration.GetConnectionString("DefaultConnection")));
             });
 
             services.AddIdentity<User, WebsiteRole>(o => o.Stores.MaxLengthForKeys = 128)
@@ -176,10 +181,14 @@ namespace ManagerAPI.Backend
                 options.Password.RequiredLength = 8;
             });
 
-            services.AddControllers();
+            services.AddControllers().AddJsonOptions(opt => opt.JsonSerializerOptions.Converters.Add(new TimeSpanConverter()));
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// <summary>
+        /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// </summary>
+        /// <param name="app">App builder</param>
+        /// <param name="env">Environment</param>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseAuthentication();
@@ -199,7 +208,7 @@ namespace ManagerAPI.Backend
 
             app.UseAuthorization();
 
-            app.UseCors(env.IsDevelopment() ? "TestPolicy" : "ReleasePolicy");
+            app.UseCors("CorsPolicy");
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }

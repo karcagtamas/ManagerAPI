@@ -2,23 +2,27 @@
 @using ManagerAPI.Shared.Helpers
 @attribute [Microsoft.AspNetCore.Authorization.Authorize]
 
-<div class="page">
+<div class="page w-100">
     <h1 class="em-page-title">My Friends</h1>
 
     <div class="action-bar">
-        <MatButton @onclick="OpenFriendRequestDialog">Invite</MatButton>
+        <MudButton OnClick="OpenFriendRequestDialog" Variant="Variant.Text" Color="Color.Primary">Invite</MudButton>
     </div>
     <div class="row col col-12">
         <!-- Friends -->
         <div class="col col-8">
             <div class="em-section-title">Friends</div>
-            @if (MyFriendsIsLoading) {
+            @if (MyFriendsIsLoading)
+            {
                 <Loader></Loader>
             }
-            else {
-                @if (Friends != null && Friends.Count > 0) {
+            else
+            {
+                @if (Friends != null && Friends.Count > 0)
+                {
                     <div class="friend-list row col col-12">
-                        @foreach (var friend in Friends) {
+                        @foreach (var friend in Friends)
+                        {
                             <div class="col col-12 col-xl-6 p-2">
                                 <div class="friend-card">
                                     <div class="title">
@@ -29,14 +33,16 @@
                                         <img src="@friend.ImageUrl("/images/profile-icon.jpg")" alt="@friend.Friend" />
                                     </div>
                                     <div class="card-action-bar">
-                                        <MatIconButton Icon="remove_red_eye" @onclick="@(() => OpenFriendDataModal(friend.FriendId))"></MatIconButton>
+                                        <MudIconButton Icon="@Icons.Filled.RemoveRedEye"
+                                OnClick="@(() => OpenFriendDataModal(friend.FriendId))" Color="Color.Primary" />
                                     </div>
                                 </div>
                             </div>
                         }
                     </div>
                 }
-                else {
+                else
+                {
                     <div class="text-center">You does not have any friend. Invite somebody.</div>
                 }
             }
@@ -45,34 +51,41 @@
         <!-- Friend requests -->
         <div class="col col-4">
             <div class="em-section-title">Friend requests</div>
-            @if(MyFriendRequestsIsLoading) {
+            @if (MyFriendRequestsIsLoading)
+            {
                 <Loader></Loader>
             }
-            else {
-                @if (FriendRequests != null && FriendRequests.Count > 0) {
+            else
+            {
+                @if (FriendRequests != null && FriendRequests.Count > 0)
+                {
                     <div class="friend-request-list">
-                        @foreach (var request in FriendRequests) {
-                        <div class="friend-request">
-                            <div class="title">
-                                @request.Sender
-                                @if(!String.IsNullOrEmpty(request.SenderFullName))
-                                {
-                                    <i>&lt;@request.SenderFullName&gt;</i>
-                                }
-                                - <small>@DateHelper.DateToString(request.SentDate)</small>
+                        @foreach (var request in FriendRequests)
+                        {
+                            <div class="friend-request">
+                                <div class="title">
+                                    @request.Sender
+                                    @if (!String.IsNullOrEmpty(request.SenderFullName))
+                                    {
+                                        <i>&lt;@request.SenderFullName&gt;</i>
+                                    }
+                                    - <small>@DateHelper.DateToString(request.SentDate)</small>
+                                </div>
+                                <div class="content">
+                                    @request.Message
+                                </div>
+                                <div class="request-action-bar">
+                                    <MudIconButton Icon="@Icons.Filled.Done" Color="Color.Primary"
+                            OnClick="@(() => SendFriendRequestResponse(request.Id, true))" />
+                                    <MudIconButton Icon="@Icons.Filled.Clear" Color="Color.Error"
+                            OnClick="@(() => SendFriendRequestResponse(request.Id, false))" />
+                                </div>
                             </div>
-                            <div class="content">
-                                @request.Message
-                            </div>
-                            <div class="request-action-bar">
-                                <MatIconButton Icon="done" @onclick="@(() => SendFriendRequestResponse(request.Id, true))"></MatIconButton>
-                                <MatIconButton Icon="clear" @onclick="@(() => SendFriendRequestResponse(request.Id, false))"></MatIconButton>
-                            </div>
-                        </div>
                         }
                     </div>
                 }
-                else {
+                else
+                {
                     <div class="text-center">You does not have any friend request. It so sad :/</div>
                 }
             }

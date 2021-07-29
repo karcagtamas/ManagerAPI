@@ -11,6 +11,9 @@ namespace MovieCorner.Services.Profiles
     /// </summary>
     public class SeriesProfile : Profile
     {
+        /// <summary>
+        /// Init Series Profile
+        /// </summary>
         public SeriesProfile()
         {
             this.CreateMap<EpisodeModel, Episode>();

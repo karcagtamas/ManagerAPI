@@ -1,16 +1,25 @@
 ﻿@inherits LayoutComponentBase
 
-<BlazoredModal />
-
-<div class="em-body">
-    <div class="em-navbar-box">
-        <div class="em-navbar-outer">
-            <MainNavigator />
-        </div>
-    </div>
-    <div class="main main-box">
-        <MatCard Class="p-3 main-content">
+<MudLayout>
+    <MudAppBar Elevation="1">
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start"
+            OnClick="@((e) => DrawerToggle())" />
+        <MudAppBarSpacer />
+        <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End" />
+    </MudAppBar>
+    <MainNavigator IsOpen="_drawerOpen" />
+    <MudMainContent Class="d-flex flex-column flex-grow-1 h-100 overflow-hidden">
+        <MudPaper Class="m-2 p-3 em-light-box d-flex flex-grow-1 overflow-auto">
             @Body
-        </MatCard>
-    </div>
-</div>
+        </MudPaper>
+    </MudMainContent>
+</MudLayout>
+
+@code {
+    bool _drawerOpen = true;
+
+    void DrawerToggle()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
+}
