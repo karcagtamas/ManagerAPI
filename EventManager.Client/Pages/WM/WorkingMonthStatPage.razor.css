@@ -7,7 +7,7 @@
     font-style: italic; }
 
 .wm-month .action-bar {
-  margin-bottom: 1rem;
+  margin-bottom: 0.6rem;
   margin-top: 1rem;
   border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
   border-radius: 4px;
@@ -18,16 +18,16 @@
     flex-grow: 1; }
 
 .wm-month .field-list {
-  margin-bottom: 1rem;
-  margin-top: 1rem;
+  margin-bottom: 0.6rem;
+  margin-top: 0.6rem;
   border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
   border-radius: 4px;
   padding: 0.5rem;
   background-color: rgba(249, 249, 249, 0.55); }
 
 .wm-month .stat-box {
-  margin-bottom: 1rem;
-  margin-top: 1rem;
+  margin-bottom: 0.6rem;
+  margin-top: 0.6rem;
   border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
   border-radius: 4px;
   padding: 0.5rem;
@@ -37,8 +37,8 @@
     font-style: italic; }
 
 .wm-month .type-stat {
-  margin-bottom: 1rem;
-  margin-top: 1rem;
+  margin-bottom: 0.6rem;
+  margin-top: 0.6rem;
   border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
   border-radius: 4px;
   padding: 0.5rem;

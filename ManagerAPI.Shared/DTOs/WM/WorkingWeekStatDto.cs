@@ -36,5 +36,15 @@ namespace ManagerAPI.Shared.DTOs.WM
         /// Fields
         /// </summary>
         public List<WorkingFieldListDto> Fields { get; set; }
+        
+        /// <summary>
+        /// Maximum
+        /// </summary>
+        public double MaximumDayHour { get; set; }
+        
+        /// <summary>
+        /// Minimum
+        /// </summary>
+        public double MinimumDayHour { get; set; }
     }
 }
