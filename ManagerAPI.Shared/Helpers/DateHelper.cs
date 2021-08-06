@@ -81,7 +81,7 @@ namespace ManagerAPI.Shared.Helpers
         /// <returns></returns>
         public static DateTime ToDay(DateTime date)
         {
-            return new DateTime(date.Year, date.Month, date.Day);
+            return new(date.Year, date.Month, date.Day);
         }
 
         /// <summary>
@@ -104,6 +104,26 @@ namespace ManagerAPI.Shared.Helpers
         public static string ToFileName(DateTime date)
         {
             return $"{date:yyyy-MM-dd-HH-mm-ss}";
+        }
+        
+        /// <summary>
+        /// Create date string for Working Manager scheme
+        /// </summary>
+        /// <param name="date">Date</param>
+        /// <returns>Formatted date</returns>
+        public static string ToWorkingManagerDate(DateTime date)
+        {
+            return $"{DateToDayString(date)} ({date.DayOfWeek})";
+        }
+
+        /// <summary>
+        /// Convert date to displayable string for working field
+        /// </summary>
+        /// <param name="date">Date</param>
+        /// <returns>Formatted text</returns>
+        public static string ToWorkingFieldDate(DateTime date)
+        {
+            return $"{date:dd}";
         }
     }
 }

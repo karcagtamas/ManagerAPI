@@ -14,7 +14,7 @@
 }
 
 .wm .action-bar {
-  margin-bottom: 1rem;
+  margin-bottom: 0.6rem;
   margin-top: 1rem;
   border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
   border-radius: 4px;
@@ -27,8 +27,8 @@
 }
 
 .wm .working-day-settings {
-  margin-bottom: 1rem;
-  margin-top: 1rem;
+  margin-bottom: 0.6rem;
+  margin-top: 0.6rem;
   border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
   border-radius: 4px;
   padding: 0.5rem;
@@ -36,8 +36,8 @@
 }
 
 .wm .stats {
-  margin-bottom: 1rem;
-  margin-top: 1rem;
+  margin-bottom: 0.6rem;
+  margin-top: 0.6rem;
   border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
   border-radius: 4px;
   padding: 0.5rem;
@@ -65,8 +65,8 @@
 }
 
 .wm .field-list {
-  margin-bottom: 1rem;
-  margin-top: 1rem;
+  margin-bottom: 0.6rem;
+  margin-top: 0.6rem;
   border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
   border-radius: 4px;
   padding: 0.5rem;

@@ -1,4 +1,6 @@
-﻿namespace ManagerAPI.Shared.DTOs.WM
+﻿using System;
+
+namespace ManagerAPI.Shared.DTOs.WM
 {
     /// <summary>
     /// Working field list DTO
@@ -21,8 +23,13 @@
         public string Description { get; set; }
 
         /// <summary>
-        /// Lenth
+        /// Length
         /// </summary>
         public decimal Length { get; set; }
+        
+        /// <summary>
+        /// Date of the field
+        /// </summary>
+        public DateTime Date { get; set; }
     }
 }

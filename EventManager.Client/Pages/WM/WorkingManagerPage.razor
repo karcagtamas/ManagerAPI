@@ -6,7 +6,7 @@
     <div class="title-bar">
         <div class="em-page-title">Working Manager</div>
         <span class="spacer"></span>
-        <div class="date">@DateHelper.DateToDayString(Date)</div>
+        <div class="date">@DateHelper.ToWorkingManagerDate(Date)</div>
     </div>
     @if (IsLoading)
     {
@@ -25,17 +25,17 @@
             else
             {
                 <div>
-                    <MudButton Variant="Variant.Text" OnClick="OpenAddFieldModal" Color="Color.Primary">Add field</MudButton>
+                    <MudIconButton Icon="@Icons.Filled.Add" OnClick="OpenAddFieldModal" Color="Color.Primary"/>
                 </div>
             }
             <span class="spacer"></span>
             <div>
-                <MudIconButton Icon="@Icons.Filled.ChevronLeft" Color="Color.Primary" OnClick="@(() => Redirect(false))" />
-                <MudIconButton Icon="@Icons.Filled.ChevronRight" Color="Color.Primary" OnClick="@(() => Redirect(true))" />
+                <MudIconButton Icon="@Icons.Filled.ChevronLeft" Color="Color.Primary" OnClick="@(() => Redirect(false))"/>
+                <MudIconButton Icon="@Icons.Filled.ChevronRight" Color="Color.Primary" OnClick="@(() => Redirect(true))"/>
             </div>
         </div>
         <div>
-        @if (WorkingDay == null)
+            @if (WorkingDay == null)
             {
                 <div class="text-center">You do not have working day settings on this day. Please create one.</div>
             }
@@ -49,23 +49,25 @@
                             {
                                 <div class="col col-12 col-sm-6 p-1">
                                     <div class="select-div">
-                                        <MudSelect @bind-Value="WorkingDay.Type" Label="Type" Variant="Variant.Outlined">
+                                        <MudSelect @bind-Value="WorkingDay.Type" Label="Type" Variant="Variant.Outlined" Dense="true">
                                             @foreach (var type in WorkingDayTypes)
                                             {
-                                    <MudSelectItem T="int" Value="type.Id">@type.Title</MudSelectItem>
+                                                <MudSelectItem T="int" Value="type.Id">@type.Title</MudSelectItem>
                                             }
-                            </MudSelect>
-                        </div>
-                    </div>
+                                        </MudSelect>
+                                    </div>
+                                </div>
                             }
                         </div>
                         <div class="text-right">
-                            <MudButton Variant="Variant.Filled" ButtonType="ButtonType.Submit" Color="Color.Primary">Save
-                                settings</MudButton>
+                            <MudButton Variant="Variant.Filled" ButtonType="ButtonType.Submit" Color="Color.Primary">
+                                Save
+                                settings
+                            </MudButton>
                         </div>
                     </EditForm>
                 </div>
-                @if (WorkingFields != null && WorkingFields.Count > 0 && WorkingDayStat != null)
+                @if (WorkingFields is {Count: > 0 } && WorkingDayStat != null)
                 {
                     <div class="stats">
                         <div class="em-sub-title">Statistics</div>
@@ -101,13 +103,13 @@
                         </div>
                     </div>
                     <div class="field-list">
-            <div class="em-sub-title">Working Fields</div>
-            @if (WorkingDayId != null)
+                        <div class="em-sub-title">Working Fields</div>
+                        @if (WorkingDayId != null)
                         {
                             @foreach (var field in WorkingFields)
                             {
-                                <FieldComponent WorkingField="field" WorkingDayId="(int)WorkingDayId" IsModifiable="true"
-                Close="GetWorkingDay" />
+                                <FieldComponent WorkingField="field" WorkingDayId="(int) WorkingDayId" IsModifiable="true"
+                                                Close="GetWorkingDay"/>
                             }
                         }
                     </div>

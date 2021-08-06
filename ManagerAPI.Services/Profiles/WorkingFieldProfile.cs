@@ -18,7 +18,8 @@ namespace ManagerAPI.Services.Profiles
         /// </summary>
         public WorkingFieldProfile()
         {
-            this.CreateMap<WorkingField, WorkingFieldListDto>();
+            this.CreateMap<WorkingField, WorkingFieldListDto>()
+                .ForMember(dest => dest.Date, opt => opt.MapFrom(src => src.WorkingDay.Day));
             this.CreateMap<WorkingField, WorkingFieldDto>();
             this.CreateMap<WorkingFieldModel, WorkingField>()
                 .ForMember(dest => dest.WorkingDayId, opt => opt.MapFrom(src => src.WorkingDayId))
@@ -29,14 +30,18 @@ namespace ManagerAPI.Services.Profiles
                 .ForMember(dest => dest.HourAvg, opt => opt.MapFrom(src => this.CalcAvgHour(src)))
                 .ForMember(dest => dest.ActiveDays, opt => opt.MapFrom(src => this.ActiveDays(src)))
                 .ForMember(dest => dest.WorkDays, opt => opt.MapFrom(src => this.WorkDays(src)))
-                .ForMember(dest => dest.Counts, opt => opt.MapFrom(src => this.CalcCounts(src)));
+                .ForMember(dest => dest.Counts, opt => opt.MapFrom(src => this.CalcCounts(src)))
+                .ForMember(dest => dest.MaximumDayHour, opt => opt.MapFrom(src => CalcMaximum(src)))
+                .ForMember(dest => dest.MinimumDayHour, opt => opt.MapFrom(src => this.CalcMinimum(src)));
             this.CreateMap<List<WorkingField>, WorkingWeekStatDto>()
                 .ForMember(dest => dest.Fields, opt => opt.MapFrom(src => src))
                 .ForMember(dest => dest.HourSum, opt => opt.MapFrom(src => this.CalcSumHour(src)))
                 .ForMember(dest => dest.HourAvg, opt => opt.MapFrom(src => this.CalcAvgHour(src)))
                 .ForMember(dest => dest.ActiveDays, opt => opt.MapFrom(src => this.ActiveDays(src)))
                 .ForMember(dest => dest.WorkDays, opt => opt.MapFrom(src => this.WorkDays(src)))
-                .ForMember(dest => dest.Counts, opt => opt.MapFrom(src => this.CalcCounts(src)));
+                .ForMember(dest => dest.Counts, opt => opt.MapFrom(src => this.CalcCounts(src)))
+                .ForMember(dest => dest.MaximumDayHour, opt => opt.MapFrom(src => CalcMaximum(src)))
+                .ForMember(dest => dest.MinimumDayHour, opt => opt.MapFrom(src => this.CalcMinimum(src)));
         }
 
         /// <summary>
@@ -110,7 +115,23 @@ namespace ManagerAPI.Services.Profiles
         private List<WorkingDayTypeCountDto> CalcCounts(List<WorkingField> fields)
         {
             return fields.GroupBy(x => x.WorkingDay.Type).Select(x => new WorkingDayTypeCountDto
-            { Type = x.Key.Title, Count = x.GroupBy(y => y.WorkingDay).Count() }).ToList();
+            {
+                Type = x.Key.Title, Count = x.GroupBy(y => y.WorkingDay).Count()
+            }).ToList();
+        }
+
+        private decimal CalcMaximum(List<WorkingField> fields)
+        {
+            return fields.GroupBy(field => field.WorkingDay)
+                .Select(grp => grp.Sum(field => field.Length))
+                .Max();
+        }
+        
+        private decimal CalcMinimum(List<WorkingField> fields)
+        {
+            return fields.GroupBy(field => field.WorkingDay)
+                .Select(grp => grp.Sum(field => field.Length))
+                .Min();
         }
     }
 }

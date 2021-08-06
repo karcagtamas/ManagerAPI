@@ -1,8 +1,17 @@
+@using ManagerAPI.Shared.Helpers
 @if (WorkingField != null)
 {
     <div @onclick="@OpenUpdateFieldModal" class="wm-field @(IsModifiable ? "modifiable" : "")">
     <div class="title-row">
         <span class="title">@WorkingField.Title</span>
+        @if (DisplayDate)
+        {
+            <small>&nbsp;[@DateHelper.ToWorkingFieldDate(WorkingField.Date)]</small>
+        }
+        @if (DisplayWeekDayName)
+        {
+            <small>&nbsp;[@WorkingField.Date.DayOfWeek]</small>
+        }
         <span class="spacer"></span>
         <span class="hours">@($"{WorkingField.Length:0.00} h")</span>
     </div>

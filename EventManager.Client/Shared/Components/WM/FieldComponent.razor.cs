@@ -35,8 +35,19 @@ namespace EventManager.Client.Shared.Components.WM
         [Parameter]
         public EventCallback Close { get; set; }
 
-        [Inject]
-        private IDialogService DialogService { get; set; }
+        /// <summary>
+        /// Show week day name on the tile
+        /// </summary>
+        [Parameter]
+        public bool DisplayWeekDayName { get; set; }
+        
+        /// <summary>
+        /// Show string of date on the tile
+        /// </summary>
+        [Parameter]
+        public bool DisplayDate { get; set; }
+
+        [Inject] private IDialogService DialogService { get; set; }
 
         private async void OpenUpdateFieldModal()
         {
@@ -45,12 +56,9 @@ namespace EventManager.Client.Shared.Components.WM
                 return;
             }
 
-            var parameters = new DialogParameters { { "WorkingDayId", this.WorkingDayId }, { "Id", this.WorkingField.Id } };
-            var dialog = this.DialogService.Show<FieldModal>("Update Working field", parameters, new DialogOptions
-            {
-                FullWidth = true,
-                MaxWidth = MaxWidth.Small
-            });
+            var parameters = new DialogParameters {{"WorkingDayId", this.WorkingDayId}, {"Id", this.WorkingField.Id}};
+            var dialog = this.DialogService.Show<FieldModal>("Update Working field", parameters,
+                new DialogOptions {FullWidth = true, MaxWidth = MaxWidth.Small});
             var result = await dialog.Result;
 
             if (!result.Cancelled)

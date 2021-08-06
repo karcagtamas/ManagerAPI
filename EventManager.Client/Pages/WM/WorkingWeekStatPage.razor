@@ -18,8 +18,8 @@
         <div class="action-bar">
             <span class="spacer"></span>
             <div>
-                <MudIconButton Icon="@Icons.Filled.ChevronLeft" OnClick="@(() => Redirect(false))" Color="Color.Primary" />
-                <MudIconButton Icon="@Icons.Filled.ChevronRight" OnClick="@(() => Redirect(true))" Color="Color.Primary" />
+                <MudIconButton Icon="@Icons.Filled.ChevronLeft" OnClick="@(() => Redirect(false))" Color="Color.Primary"/>
+                <MudIconButton Icon="@Icons.Filled.ChevronRight" OnClick="@(() => Redirect(true))" Color="Color.Primary"/>
             </div>
         </div>
         @if (WeekStat != null)
@@ -35,10 +35,16 @@
                 <div class="data-row">
                     <strong>Active / Work days: </strong> @WeekStat.ActiveDays / @WeekStat.WorkDays
                 </div>
+                <div class="data-row">
+                    <strong>Maximum day hours: </strong> @WeekStat.MaximumDayHour
+                </div>
+                <div class="data-row">
+                    <strong>Minimum day hours: </strong> @WeekStat.MinimumDayHour
+                </div>
             </div>
             <div class="type-stat">
-        <div class="em-sub-title">Type statistics</div>
-        @foreach (var type in @WeekStat.Counts)
+                <div class="em-sub-title">Type statistics</div>
+                @foreach (var type in WeekStat.Counts)
                 {
                     <div class="data-row">
                         <strong>@type.Type:</strong> @type.Count
@@ -46,10 +52,10 @@
                 }
             </div>
             <div class="field-list">
-        <div class="em-sub-title">Working Fields</div>
-        @foreach (var field in @WeekStat.Fields)
+                <div class="em-sub-title">Working Fields</div>
+                @foreach (var field in WeekStat.Fields)
                 {
-                    <FieldComponent WorkingField="field" IsModifiable="false"></FieldComponent>
+                    <FieldComponent WorkingField="field" IsModifiable="false" DisplayWeekDayName="true"/>
                 }
             </div>
         }

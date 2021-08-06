@@ -16,8 +16,8 @@
         <div class="action-bar">
             <span class="spacer"></span>
             <div>
-                <MudIconButton Icon="@Icons.Filled.ChevronLeft" OnClick="@(() => Redirect(false))" Color="Color.Primary" />
-                <MudIconButton Icon="@Icons.Filled.ChevronRight" OnClick="@(() => Redirect(true))" Color="Color.Primary" />
+                <MudIconButton Icon="@Icons.Filled.ChevronLeft" OnClick="@(() => Redirect(false))" Color="Color.Primary"/>
+                <MudIconButton Icon="@Icons.Filled.ChevronRight" OnClick="@(() => Redirect(true))" Color="Color.Primary"/>
             </div>
         </div>
         @if (MonthStat != null)
@@ -28,15 +28,22 @@
                     <strong>Summary hours: </strong> @($"{MonthStat.HourSum:0.00} h")
                 </div>
                 <div class="data-row">
-                    <strong>Avgerate hours: </strong> @($"{MonthStat.HourAvg:0.00} h")
+                    <strong>Average hours: </strong> @($"{MonthStat.HourAvg:0.00} h")
                 </div>
                 <div class="data-row">
                     <strong>Active / Work days: </strong> @MonthStat.ActiveDays / @MonthStat.WorkDays
                 </div>
+                <div class="data-row">
+                    <strong>Maximum day hours: </strong> @MonthStat.MaximumDayHour
+                </div>
+                <div class="data-row">
+                    <strong>Minimum day hours: </strong> @MonthStat.MinimumDayHour
+                </div>
+                
             </div>
             <div class="type-stat">
-        <div class="em-sub-title">Type statistics</div>
-        @foreach (var type in MonthStat.Counts)
+                <div class="em-sub-title">Type statistics</div>
+                @foreach (var type in MonthStat.Counts)
                 {
                     <div class="data-row">
                         <strong>@type.Type:</strong> @type.Count
@@ -44,10 +51,10 @@
                 }
             </div>
             <div class="field-list">
-        <div class="em-sub-title">Working Fields</div>
-        @foreach (var field in MonthStat.Fields)
+                <div class="em-sub-title">Working Fields</div>
+                @foreach (var field in MonthStat.Fields)
                 {
-                    <FieldComponent WorkingField="field" IsModifiable="false"></FieldComponent>
+                    <FieldComponent WorkingField="field" IsModifiable="false" DisplayDate="true"/>
                 }
             </div>
         }
