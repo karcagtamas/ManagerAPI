@@ -1,0 +1,26 @@
+﻿.season {
+    margin-bottom: .6rem;
+    margin-top: .6rem;
+    border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+    border-radius: 4px;
+    padding: 0.5rem;
+    background-color: rgba(249, 249, 249, 0.55);
+}
+
+.season .head {
+    color: #5120a5;
+    font-weight: bold;
+    display: flex;
+}
+
+.season .head .spacer {
+    flex-grow: 1;
+}
+
+.season .body .episodes .episode-action {
+    display: flex;
+}
+
+.season .body .episodes .episode-action .spacer {
+    flex-grow: 1;
+}

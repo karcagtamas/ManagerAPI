@@ -34,7 +34,7 @@
                 </div>
             }
 
-            @if (Episode != null && Episode.IsMine)
+            @if (Episode is {IsMine: true })
             {
                 @if (Episode.IsSeen)
                 {

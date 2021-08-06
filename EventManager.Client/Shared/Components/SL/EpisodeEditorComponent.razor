@@ -1,0 +1,39 @@
+﻿<div class="episode">
+    <div class="ep-head">
+        <span>@Episode.Number - @Episode.Title</span>
+        <span class="spacer"></span>
+        @if (IsClosed)
+        {
+            <MudIconButton Icon="@Icons.Filled.ExpandMore" OnClick="() => IsClosed = false" Color="Color.Primary"/>
+        }
+        else
+        {
+            <MudIconButton Icon="@Icons.Filled.ExpandLess" OnClick="() => IsClosed = true" Color="Color.Primary"/>
+        }
+        @if (CanDelete)
+        {
+            <MudIconButton Icon="@Icons.Filled.Delete" OnClick="OpenDeleteEpisodeDialog" Color="Color.Error"/>
+        }
+    </div>
+    @if (!IsClosed)
+    {
+        <div class="ep-body">
+            @Episode.Description
+        </div>
+        <div class="ep-foot">
+            <span class="spacer"></span>
+            <MudIconButton Icon="@Icons.Filled.OpenInNew" OnClick="OpenEpisode" Color="Color.Secondary"/>
+            @if (SeriesIsMine)
+            {
+                @if (Episode.Seen)
+                {
+                    <MudIconButton Icon="@Icons.Filled.VisibilityOff" OnClick="@(() => SetEpisodeSeenStatus(false))" Color="Color.Primary"/>
+                }
+                else
+                {
+                    <MudIconButton Icon="@Icons.Filled.Visibility" OnClick="@(() => SetEpisodeSeenStatus(true))" Color="Color.Primary"/>
+                }
+            }
+        </div>
+    }
+</div>

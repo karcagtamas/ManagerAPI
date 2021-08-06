@@ -1,0 +1,30 @@
+﻿.episode {
+    margin-bottom: .6rem;
+    margin-top: .6rem;
+    border-bottom: rgba(80, 0, 255, 0.3) 3px solid;
+    border-radius: 4px;
+    padding: 0.5rem;
+    background-color: rgba(249, 249, 249, 0.55);
+}
+
+.episode .ep-head {
+    color: #5120a5;
+    font-style: italic;
+    display: flex;
+}
+
+.episode .ep-head .spacer {
+    flex-grow: 1;
+}
+
+.episode .ep-body {
+    padding: 0.4rem;
+}
+
+.episode .ep-foot {
+    display: flex;
+}
+
+.sl-series-data .seasons .season .body .episodes .episode .ep-foot .spacer {
+    flex-grow: 1;
+}

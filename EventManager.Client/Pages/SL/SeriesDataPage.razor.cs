@@ -21,7 +21,9 @@ namespace EventManager.Client.Pages.SL
         /// <summary>
         /// Series Id
         /// </summary>
-        [Parameter] public int Id { get; set; }
+        [Parameter]
+        public int Id { get; set; }
+
         private MySeriesDto Series { get; set; }
         [Inject] private ISeriesService SeriesService { get; set; }
         [Inject] private ISeriesCommentService SeriesCommentService { get; set; }
@@ -34,9 +36,20 @@ namespace EventManager.Client.Pages.SL
         private string SeriesImage { get; set; }
         private List<SeriesCommentListDto> CommentList { get; set; }
         private string Comment { get; set; }
-        private List<int> RateList { get; set; } = new List<int> { 1, 2, 3, 4, 5 };
+
+        private List<int> RateList { get; set; } = new()
+        {
+            1,
+            2,
+            3,
+            4,
+            5
+        };
+
         private bool CanAddOrEdit { get; set; }
         private bool CanDelete { get; set; }
+
+        private int ActiveTab { get; set; }
 
         /// <inheritdoc />
         protected override async Task OnInitializedAsync()
@@ -75,12 +88,9 @@ namespace EventManager.Client.Pages.SL
 
         private async void OpenEditSeriesDialog()
         {
-            var parameters = new DialogParameters { { "SeriesId", Id } };
-            var dialog = DialogService.Show<SeriesDialog>("Edit Series", parameters, new DialogOptions
-            {
-                FullWidth = true,
-                MaxWidth = MaxWidth.Medium
-            });
+            var parameters = new DialogParameters {{"SeriesId", Id}};
+            var dialog = DialogService.Show<SeriesDialog>("Edit Series", parameters,
+                new DialogOptions {FullWidth = true, MaxWidth = MaxWidth.Medium});
             var result = await dialog.Result;
 
             if (!result.Cancelled)
@@ -108,7 +118,7 @@ namespace EventManager.Client.Pages.SL
         private async void SetSeenStatus(bool status)
         {
             if (await this.SeriesService.UpdateSeenStatus(
-                new SeriesSeenStatusModel { Id = this.Series.Id, Seen = status }))
+                new SeriesSeenStatusModel {Id = this.Series.Id, Seen = status}))
             {
                 await this.GetSeries();
             }
@@ -122,45 +132,11 @@ namespace EventManager.Client.Pages.SL
             }
         }
 
-        private async void AddIncrementedEpisode(int season)
-        {
-            if (await this.EpisodeService.AddIncremented(season))
-            {
-                await this.GetSeries();
-            }
-        }
-
-        private void OpenEpisode(int id)
-        {
-            this.Navigation.NavigateTo($"/episodes/{id}");
-        }
-
-        private async void SetSeasonSeenStatus(int season, bool status)
-        {
-            if (await this.SeasonService.UpdateSeenStatus(
-                new List<SeasonSeenStatusModel> { new SeasonSeenStatusModel { Id = season, Seen = status } }))
-            {
-                await this.GetSeries();
-            }
-        }
-
-        private async void SetEpisodeSeenStatus(int episode, bool status)
-        {
-            if (await this.EpisodeService.UpdateSeenStatus(
-                new List<EpisodeSeenStatusModel> { new EpisodeSeenStatusModel { Id = episode, Seen = status } }))
-            {
-                await this.GetSeries();
-            }
-        }
-
         private async void OpenEditSeriesCategoriesDialog()
         {
-            var parameters = new DialogParameters { { "SeriesId", Id } };
-            var dialog = DialogService.Show<SeriesCategoryDialog>("Edit Categories", parameters, new DialogOptions
-            {
-                FullWidth = true,
-                MaxWidth = MaxWidth.Small
-            });
+            var parameters = new DialogParameters {{"SeriesId", Id}};
+            var dialog = DialogService.Show<SeriesCategoryDialog>("Edit Categories", parameters,
+                new DialogOptions {FullWidth = true, MaxWidth = MaxWidth.Small});
             var result = await dialog.Result;
 
             if (!result.Cancelled)
@@ -177,7 +153,9 @@ namespace EventManager.Client.Pages.SL
             }
 
             if (!await this.SeriesCommentService.Create(new SeriesCommentModel
-            { Comment = this.Comment, SeriesId = this.Id }))
+            {
+                Comment = this.Comment, SeriesId = this.Id
+            }))
             {
                 return;
             }
@@ -188,7 +166,7 @@ namespace EventManager.Client.Pages.SL
 
         private async void UpdateRate(int rate)
         {
-            if (await this.SeriesService.UpdateRate(this.Id, new SeriesRateModel { Rate = rate }))
+            if (await this.SeriesService.UpdateRate(this.Id, new SeriesRateModel {Rate = rate}))
             {
                 await this.GetSeries();
             }
@@ -196,7 +174,7 @@ namespace EventManager.Client.Pages.SL
 
         private async void OpenEditSeriesImageDialog()
         {
-            var parameters = new DialogParameters { { "SeriesId", Id } };
+            var parameters = new DialogParameters {{"SeriesId", Id}};
             var dialog = DialogService.Show<SeriesImageDialog>("Edit Image", parameters);
             var result = await dialog.Result;
 
@@ -208,11 +186,18 @@ namespace EventManager.Client.Pages.SL
 
         private async void OpenDeleteDialog()
         {
-            var parameters = new DialogParameters {{"Input", new ConfirmDialogInput {
-                Name = Series.Title,
-                Action = ConfirmType.Delete,
-                DeleteFunction = async () => await SeriesService.Delete(Series.Id)
-            }}};
+            var parameters = new DialogParameters
+            {
+                {
+                    "Input",
+                    new ConfirmDialogInput
+                    {
+                        Name = Series.Title,
+                        Action = ConfirmType.Delete,
+                        DeleteFunction = async () => await SeriesService.Delete(Series.Id)
+                    }
+                }
+            };
             var dialog = DialogService.Show<ConfirmDialog>("Series Delete", parameters);
             var result = await dialog.Result;
 
@@ -222,36 +207,9 @@ namespace EventManager.Client.Pages.SL
             }
         }
 
-        private async void OpenDeleteSeasonDialog(MySeasonDto season)
+        private async void Changed()
         {
-            var parameters = new DialogParameters {{"Input", new ConfirmDialogInput {
-                Name = season.Number.ToString(),
-                Action = ConfirmType.Delete,
-                DeleteFunction = async () => await SeasonService.DeleteDecremented(season.Id)
-            }}};
-            var dialog = DialogService.Show<ConfirmDialog>("Season Delete", parameters);
-            var result = await dialog.Result;
-
-            if (!result.Cancelled)
-            {
-                await this.GetSeries();
-            }
-        }
-
-        private async void OpenDeleteEpisodeDialog(MyEpisodeListDto episode)
-        {
-            var parameters = new DialogParameters {{"Input", new ConfirmDialogInput {
-                Name = episode.Title,
-                Action = ConfirmType.Delete,
-                DeleteFunction = async () => await EpisodeService.DeleteDecremented(episode.Id)
-            }}};
-            var dialog = DialogService.Show<ConfirmDialog>("Episode Delete", parameters);
-            var result = await dialog.Result;
-
-            if (!result.Cancelled)
-            {
-                await this.GetSeries();
-            }
+            await this.GetSeries();
         }
     }
 }

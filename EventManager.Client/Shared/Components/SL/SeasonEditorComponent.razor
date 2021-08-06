@@ -1,0 +1,56 @@
+﻿<div class="season">
+    <div class="head">
+        <span>Season @Season.Number</span>
+        <span class="spacer"></span>
+        @if (IsClosed)
+        {
+            <MudIconButton Icon="@Icons.Filled.ExpandMore" OnClick="() => IsClosed = false" Color="Color.Primary" />
+        }
+        else
+        {
+            <MudIconButton Icon="@Icons.Filled.ExpandLess" OnClick="() => IsClosed = true" Color="Color.Primary" />
+        }
+        @if (CanDelete)
+        {
+            <MudIconButton Icon="@Icons.Filled.Delete" OnClick="OpenDeleteSeasonDialog" Color="Color.Error"/>
+        }
+    </div>
+    @if (!IsClosed)
+    {
+        <div class="body">
+            <div class="episodes">
+                @foreach (var episode in Season.Episodes)
+                {
+                    <EpisodeEditorComponent Episode="@episode" CanDelete="@CanDelete" SeriesIsMine="SeriesIsMine" Changed="@Changed"/>
+                }
+
+                @if (Season.Episodes.Count == 0)
+                {
+                    <div class="text-center">Season does not have any episode yet.</div>
+                }
+
+                <div class="episode-action">
+                    <span class="spacer"></span>
+                    @if (CanAddOrEdit)
+                    {
+                        <MudIconButton Icon="@Icons.Filled.Add" OnClick="AddIncrementedEpisode" Color="Color.Primary"/>
+                    }
+                    @if (SeriesIsMine)
+                    {
+                        @if (Season.Episodes is {Count: > 0 })
+                        {
+                            @if (Season.IsSeen)
+                            {
+                                <MudIconButton Icon="@Icons.Filled.VisibilityOff" OnClick="@(() => SetSeasonSeenStatus(false))" Color="Color.Primary"/>
+                            }
+                            else
+                            {
+                                <MudIconButton Icon="@Icons.Filled.Visibility" OnClick="@(() => SetSeasonSeenStatus(true))" Color="Color.Primary"/>
+                            }
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>
