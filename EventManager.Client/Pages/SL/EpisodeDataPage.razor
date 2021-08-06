@@ -18,19 +18,19 @@
             @if (CanEdit)
             {
                 <div>
-                    <MudIconButton Icon="@Icons.Filled.Edit" OnClick="OpenEditEpisodeDialog" />
+                    <MudIconButton Icon="@Icons.Filled.Edit" OnClick="OpenEditEpisodeDialog" Color="Color.Primary"/>
                 </div>
             }
             @if (CanDelete)
             {
                 <div>
-                    <MudIconButton Icon="@Icons.Filled.Delete" OnClick="DeleteDecremented" />
+                    <MudIconButton Icon="@Icons.Filled.Delete" OnClick="OpenDeleteDialog" Color="Color.Error"/>
                 </div>
             }
             @if (CanEdit)
             {
                 <div>
-                    <MudIconButton Icon="@Icons.Filled.Image" OnClick="OpenEditEpisodeImageDialog" />
+                    <MudIconButton Icon="@Icons.Filled.Image" OnClick="OpenEditEpisodeImageDialog" Color="Color.Secondary"/>
                 </div>
             }
 
@@ -38,17 +38,18 @@
             {
                 @if (Episode.IsSeen)
                 {
-                    <MudIconButton Icon="@Icons.Filled.VisibilityOff" OnClick="@(() => SetSeenStatus(false))" />
+                    <MudIconButton Icon="@Icons.Filled.VisibilityOff" OnClick="@(() => SetSeenStatus(false))" Color="Color.Secondary"/>
                 }
                 else
                 {
-                    <MudIconButton Icon="@Icons.Filled.Visibility" OnClick="@(() => SetSeenStatus(true))" />
+                    <MudIconButton Icon="@Icons.Filled.Visibility" OnClick="@(() => SetSeenStatus(true))" Color="Color.Secondary"/>
                 }
             }
             <span class="spacer"></span>
-
-            <MudButton OnClick="@(() => Navigation.NavigateTo("/series"))">Series List</MudButton>
-                <MudButton OnClick="@(() => Navigation.NavigateTo("/my-series"))">My Series List</MudButton>
+            
+            <MudButton OnClick="BackToSeries" Color="Color.Primary">Series</MudButton>
+            <MudButton OnClick="@(() => Navigation.NavigateTo("/series"))" Color="Color.Primary">Series List</MudButton>
+            <MudButton OnClick="@(() => Navigation.NavigateTo("/my-series"))" Color="Color.Primary">My Series List</MudButton>
         </div>
         @if (Episode != null)
         {
@@ -62,11 +63,11 @@
                     <div class="picture">
                         @if (Episode.ImageData.Length == 0)
                         {
-                            <img src="/images/profile-icon.jpg" alt="@Episode.Title" />
+                            <img src="/images/profile-icon.jpg" alt="@Episode.Title"/>
                         }
                         else
                         {
-                            <img src="@EpisodeImage" alt="@Episode.ImageTitle" />
+                            <img src="@EpisodeImage" alt="@Episode.ImageTitle"/>
                         }
                     </div>
                 </div>

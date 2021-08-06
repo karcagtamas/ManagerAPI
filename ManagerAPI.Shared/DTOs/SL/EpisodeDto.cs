@@ -39,5 +39,10 @@
         /// Last Updater
         /// </summary>
         public string LastUpdater { get; set; }
+        
+        /// <summary>
+        /// Series Id
+        /// </summary>
+        public int SeriesId { get; set; }
     }
 }
