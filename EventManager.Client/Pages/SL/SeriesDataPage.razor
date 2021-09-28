@@ -41,7 +41,7 @@
                 {
                     <div>
                         <MudIconButton Icon="@Icons.Filled.Remove" OnClick="RemoveFromMySeriesList" Color="Color.Secondary"/>
-                        @if (Series.Seasons != null && Series.Seasons.Count > 0 && Series.Seasons.Sum(x => x.Episodes.Count) > 0)
+                        @if (Series.Seasons is {Count: > 0 } && Series.Seasons.Sum(x => x.Episodes.Count) > 0)
                         {
                             @if (Series.IsSeen)
                             {
@@ -152,6 +152,7 @@
                             @if (CanAddOrEdit)
                             {
                                 <MudIconButton Icon="@Icons.Filled.Add" OnClick="AddIncrementedSeason" Color="Color.Primary"/>
+                                <MudIconButton Icon="@Icons.Filled.AddBox" OnClick="AddMultipleIncrementedSeason" Color="Color.Secondary" />
                             }
                         </div>
                     </div>

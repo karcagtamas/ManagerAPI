@@ -77,7 +77,20 @@ namespace EventManager.Client.Shared.Components.SL
 
         private async void AddIncrementedEpisode()
         {
-            if (await this.EpisodeService.AddIncremented(Season.Id))
+            if (await this.EpisodeService.AddIncremented(Season.Id, 1))
+            {
+                await Changed.InvokeAsync();
+            }
+        }
+
+        private async void AddMultipleIncrementedEpisode()
+        {
+            var parameters = new DialogParameters {{"Name", "episode creation"}, {"DefaultValue", 2}};
+            var dialog = DialogService.Show<NumberInputDialog>("Number Input", parameters,
+                new DialogOptions {FullWidth = true, MaxWidth = MaxWidth.Small});
+            var result = await dialog.Result;
+
+            if (await this.SeasonService.AddIncremented(Season.Id, (int)result.Data))
             {
                 await Changed.InvokeAsync();
             }

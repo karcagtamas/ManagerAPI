@@ -126,7 +126,20 @@ namespace EventManager.Client.Pages.SL
 
         private async void AddIncrementedSeason()
         {
-            if (await this.SeasonService.AddIncremented(this.Series.Id))
+            if (await this.SeasonService.AddIncremented(this.Series.Id, 1))
+            {
+                await this.GetSeries();
+            }
+        }
+
+        private async void AddMultipleIncrementedSeason()
+        {
+            var parameters = new DialogParameters {{"Name", "season creation"}, {"DefaultValue", 2}};
+            var dialog = DialogService.Show<NumberInputDialog>("Number Input", parameters,
+                new DialogOptions {FullWidth = true, MaxWidth = MaxWidth.Small});
+            var result = await dialog.Result;
+            
+            if (await this.SeasonService.AddIncremented(this.Series.Id, (int)result.Data))
             {
                 await this.GetSeries();
             }

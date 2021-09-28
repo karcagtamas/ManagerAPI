@@ -21,7 +21,8 @@ namespace EventManager.Client.Services.Interfaces
         /// Add incremented episode to season
         /// </summary>
         /// <param name="seasonId">Season Id</param>
-        Task<bool> AddIncremented(int seasonId);
+        /// <param name="count">Number of new episodes</param>
+        Task<bool> AddIncremented(int seasonId, int count);
 
         /// <summary>
         /// Delete last episode by Id

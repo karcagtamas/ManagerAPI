@@ -20,7 +20,8 @@ namespace MovieCorner.Services.Services.Interfaces
         /// The season number will be next number after the last season.
         /// </summary>
         /// <param name="seriesId">Series Id</param>
-        void AddIncremented(int seriesId);
+        /// <param name="count">Number of new seasons</param>
+        void AddIncremented(int seriesId, int count);
 
         /// <summary>
         /// Delete season by the given Id.
