@@ -88,9 +88,9 @@ namespace EventManager.Client.Pages.SL
 
         private async void OpenEditSeriesDialog()
         {
-            var parameters = new DialogParameters {{"SeriesId", Id}};
+            var parameters = new DialogParameters { { "SeriesId", Id } };
             var dialog = DialogService.Show<SeriesDialog>("Edit Series", parameters,
-                new DialogOptions {FullWidth = true, MaxWidth = MaxWidth.Medium});
+                new DialogOptions { FullWidth = true, MaxWidth = MaxWidth.Medium });
             var result = await dialog.Result;
 
             if (!result.Cancelled)
@@ -118,7 +118,7 @@ namespace EventManager.Client.Pages.SL
         private async void SetSeenStatus(bool status)
         {
             if (await this.SeriesService.UpdateSeenStatus(
-                new SeriesSeenStatusModel {Id = this.Series.Id, Seen = status}))
+                new SeriesSeenStatusModel { Id = this.Series.Id, Seen = status }))
             {
                 await this.GetSeries();
             }
@@ -134,11 +134,11 @@ namespace EventManager.Client.Pages.SL
 
         private async void AddMultipleIncrementedSeason()
         {
-            var parameters = new DialogParameters {{"Name", "season creation"}, {"DefaultValue", 2}};
+            var parameters = new DialogParameters { { "Input", new NumberInputDialogInput { Name = "season creation", DefaultValue = 2 } } };
             var dialog = DialogService.Show<NumberInputDialog>("Number Input", parameters,
-                new DialogOptions {FullWidth = true, MaxWidth = MaxWidth.Small});
+                new DialogOptions { FullWidth = true, MaxWidth = MaxWidth.Small });
             var result = await dialog.Result;
-            
+
             if (await this.SeasonService.AddIncremented(this.Series.Id, (int)result.Data))
             {
                 await this.GetSeries();
@@ -147,9 +147,9 @@ namespace EventManager.Client.Pages.SL
 
         private async void OpenEditSeriesCategoriesDialog()
         {
-            var parameters = new DialogParameters {{"SeriesId", Id}};
+            var parameters = new DialogParameters { { "SeriesId", Id } };
             var dialog = DialogService.Show<SeriesCategoryDialog>("Edit Categories", parameters,
-                new DialogOptions {FullWidth = true, MaxWidth = MaxWidth.Small});
+                new DialogOptions { FullWidth = true, MaxWidth = MaxWidth.Small });
             var result = await dialog.Result;
 
             if (!result.Cancelled)
@@ -167,7 +167,8 @@ namespace EventManager.Client.Pages.SL
 
             if (!await this.SeriesCommentService.Create(new SeriesCommentModel
             {
-                Comment = this.Comment, SeriesId = this.Id
+                Comment = this.Comment,
+                SeriesId = this.Id
             }))
             {
                 return;
@@ -179,7 +180,7 @@ namespace EventManager.Client.Pages.SL
 
         private async void UpdateRate(int rate)
         {
-            if (await this.SeriesService.UpdateRate(this.Id, new SeriesRateModel {Rate = rate}))
+            if (await this.SeriesService.UpdateRate(this.Id, new SeriesRateModel { Rate = rate }))
             {
                 await this.GetSeries();
             }
@@ -187,7 +188,7 @@ namespace EventManager.Client.Pages.SL
 
         private async void OpenEditSeriesImageDialog()
         {
-            var parameters = new DialogParameters {{"SeriesId", Id}};
+            var parameters = new DialogParameters { { "SeriesId", Id } };
             var dialog = DialogService.Show<SeriesImageDialog>("Edit Image", parameters);
             var result = await dialog.Result;
 

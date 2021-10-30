@@ -1,0 +1,31 @@
+@page "/movie-categories"
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize(Roles = "Administrator,Status Library User,Status Library Moderator,Status Library Administrator,Root")]
+
+<div class="sl-movie-categories">
+    <h1 class="em-page-title">Movies Categories</h1>
+
+    @if (IsLoading)
+    {
+    <Loader></Loader>
+    }
+    else
+    {
+    <div class="action-bar">
+        @if (CanAdd)
+        {
+        <MudIconButton Icon="@Icons.Filled.Add" OnClick="OpenAddMovieCategoryDialog" Color="Color.Primary" />
+        }
+    </div>
+    @if (MovieCategoryList != null && MovieCategoryList.Count > 0)
+    {
+    <div class="cat-list">
+        <ListTable Header="Header" Body="MovieCategoryList" TList="ManagerAPI.Shared.DTOs.SL.MovieCategoryDto" ShowFilter="true" OnRowClick="@(e => OpenEditMovieCategoryDialog(e))"></ListTable>
+    </div>
+    }
+    else
+    {
+    <div class="text-center">Movie category list is empty</div>
+    }
+    }
+</div>

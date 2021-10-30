@@ -27,7 +27,7 @@ namespace EventManager.Client.Shared.Common
             NumberInputValue = Input.DefaultValue;
         }
 
-        private async void Confirm()
+        private void Confirm()
         {
             Dialog.Close(DialogResult.Ok(NumberInputValue));
         }
@@ -48,6 +48,9 @@ namespace EventManager.Client.Shared.Common
         /// </summary>
         public string Name { get; set; }
         
+        /// <summary>
+        /// Init value
+        /// </summary>
         public int DefaultValue { get; set; }
     }
 }

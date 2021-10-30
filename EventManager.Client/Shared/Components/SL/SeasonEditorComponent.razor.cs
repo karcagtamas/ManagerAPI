@@ -85,12 +85,12 @@ namespace EventManager.Client.Shared.Components.SL
 
         private async void AddMultipleIncrementedEpisode()
         {
-            var parameters = new DialogParameters {{"Name", "episode creation"}, {"DefaultValue", 2}};
+            var parameters = new DialogParameters { { "Input", new NumberInputDialogInput { Name = "episode creation", DefaultValue = 2 } } };
             var dialog = DialogService.Show<NumberInputDialog>("Number Input", parameters,
-                new DialogOptions {FullWidth = true, MaxWidth = MaxWidth.Small});
+                new DialogOptions { FullWidth = true, MaxWidth = MaxWidth.Small });
             var result = await dialog.Result;
 
-            if (await this.SeasonService.AddIncremented(Season.Id, (int)result.Data))
+            if (await this.EpisodeService.AddIncremented(Season.Id, (int)result.Data))
             {
                 await Changed.InvokeAsync();
             }
@@ -99,7 +99,7 @@ namespace EventManager.Client.Shared.Components.SL
         private async void SetSeasonSeenStatus(bool status)
         {
             if (await this.SeasonService.UpdateSeenStatus(
-                new List<SeasonSeenStatusModel> {new SeasonSeenStatusModel {Id = Season.Id, Seen = status}}))
+                new List<SeasonSeenStatusModel> { new SeasonSeenStatusModel { Id = Season.Id, Seen = status } }))
             {
                 await Changed.InvokeAsync();
             }

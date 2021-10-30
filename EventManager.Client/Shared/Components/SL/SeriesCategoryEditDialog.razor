@@ -1,0 +1,22 @@
+﻿<MudDialog>
+    <DialogContent>
+        <div>
+            <EditForm EditContext="@Context">
+                <DataAnnotationsValidator />
+                <div class="col col-12 p-1">
+                    <MudTextField @bind-Value="Model.Name" Label="Title" FullWidth="true" Variant="Variant.Outlined" />
+                    <ValidationMessage For="() => Model.Name" />
+                </div>
+            </EditForm>
+        </div>
+    </DialogContent>
+    <DialogActions>
+        @if (SeriesCategoryId != null)
+         {
+
+            <MudButton OnClick="OpenDeleteDialog" Color="Color.Error">Delete</MudButton>
+         }
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Save">Save</MudButton>
+    </DialogActions>
+</MudDialog>

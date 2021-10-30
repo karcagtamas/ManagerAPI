@@ -23,7 +23,13 @@ namespace EventManager.Client.Shared.Common
 
         private async void Confirm()
         {
-            if (await Input.DeleteFunction())
+            if (Input.DeleteFunction != null)
+            {
+                if (await Input.DeleteFunction())
+                {
+                    Dialog.Close(DialogResult.Ok(true));
+                }
+            } else
             {
                 Dialog.Close(DialogResult.Ok(true));
             }
