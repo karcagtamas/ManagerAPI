@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ManagerAPI.Shared.DTOs.SL;
+using System.ComponentModel.DataAnnotations;
 
 namespace ManagerAPI.Shared.Models.SL
 {
@@ -11,5 +12,22 @@ namespace ManagerAPI.Shared.Models.SL
         /// Category name
         /// </summary>
         [MaxLength(120)] public string Name { get; set; }
+
+        /// <summary>
+        /// Init Movie Category Model
+        /// </summary>
+        public MovieCategoryModel()
+        {
+            Name = "";
+        }
+
+        /// <summary>
+        /// Init Movie Category Model from Source
+        /// </summary>
+        /// <param name="category"></param>
+        public MovieCategoryModel(MovieCategoryDto category)
+        {
+            Name = category.Name;
+        }
     }
 }

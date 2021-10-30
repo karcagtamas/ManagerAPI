@@ -18,20 +18,20 @@
             @if (CanAddOrEdit)
             {
                 <div>
-                    <MudIconButton Icon="@Icons.Filled.Edit" OnClick="OpenEditSeriesDialog" Color="Color.Primary" />
+                    <MudIconButton Icon="@Icons.Filled.Edit" OnClick="OpenEditSeriesDialog" Color="Color.Primary"/>
                 </div>
             }
             @if (CanDelete)
             {
                 <div>
-                    <MudIconButton Icon="@Icons.Filled.Delete" OnClick="OpenDeleteDialog" Color="Color.Error" />
+                    <MudIconButton Icon="@Icons.Filled.Delete" OnClick="OpenDeleteDialog" Color="Color.Error"/>
                 </div>
             }
             @if (CanAddOrEdit)
             {
                 <div>
-                    <MudIconButton Icon="@Icons.Filled.Image" OnClick="OpenEditSeriesImageDialog"  Color="Color.Secondary" />
-                    <MudIconButton Icon="@Icons.Filled.Category" OnClick="OpenEditSeriesCategoriesDialog"  Color="Color.Secondary" />
+                    <MudIconButton Icon="@Icons.Filled.Image" OnClick="OpenEditSeriesImageDialog" Color="Color.Secondary"/>
+                    <MudIconButton Icon="@Icons.Filled.Category" OnClick="OpenEditSeriesCategoriesDialog" Color="Color.Secondary"/>
                 </div>
             }
 
@@ -40,16 +40,16 @@
                 @if (Series.IsMine)
                 {
                     <div>
-                        <MudIconButton Icon="@Icons.Filled.Remove" OnClick="RemoveFromMySeriesList" Color="Color.Secondary" />
-                        @if (Series.Seasons != null && Series.Seasons.Count > 0 && Series.Seasons.Sum(x => x.Episodes.Count) > 0)
+                        <MudIconButton Icon="@Icons.Filled.Remove" OnClick="RemoveFromMySeriesList" Color="Color.Secondary"/>
+                        @if (Series.Seasons is {Count: > 0 } && Series.Seasons.Sum(x => x.Episodes.Count) > 0)
                         {
                             @if (Series.IsSeen)
                             {
-                                <MudIconButton Icon="@Icons.Filled.VisibilityOff" OnClick="@(() => SetSeenStatus(false))" Color="Color.Secondary" />
+                                <MudIconButton Icon="@Icons.Filled.VisibilityOff" OnClick="@(() => SetSeenStatus(false))" Color="Color.Secondary"/>
                             }
                             else
                             {
-                                <MudIconButton Icon="@Icons.Filled.Visibility" OnClick="@(() => SetSeenStatus(true))" Color="Color.Secondary" />
+                                <MudIconButton Icon="@Icons.Filled.Visibility" OnClick="@(() => SetSeenStatus(true))" Color="Color.Secondary"/>
                             }
                         }
                     </div>
@@ -57,7 +57,7 @@
                 else
                 {
                     <div>
-                        <MudIconButton Icon="@Icons.Filled.Add" OnClick="AddToMySeriesList" Color="Color.Secondary" />
+                        <MudIconButton Icon="@Icons.Filled.Add" OnClick="AddToMySeriesList" Color="Color.Secondary"/>
                     </div>
                 }
             }
@@ -69,9 +69,9 @@
         </div>
         @if (Series != null)
         {
-             <MudTabs Rounded="true" Centered="true" Class="tab-group" Color="Color.Primary">
-                  <MudTabPanel Text="Data">
-                      <div class="data">
+            <MudTabs Rounded="true" Centered="true" Class="tab-group flex-tab" Color="Color.Primary" ActivePanelIndex="ActiveTab" ActivePanelIndexChanged="i => ActiveTab = i">
+                <MudTabPanel Text="Data">
+                    <div class="data">
                         <div class="data-rows">
                             <div class="data-row">
                                 <strong>Description: </strong> @WriteHelper.WriteEmptyableField(Series.Description)
@@ -125,92 +125,21 @@
                             <div class="picture">
                                 @if (Series.ImageData.Length == 0)
                                 {
-                                    <img src="/images/profile-icon.jpg" alt="@Series.Title" />
+                                    <img src="/images/profile-icon.jpg" alt="@Series.Title"/>
                                 }
                                 else
                                 {
-                                    <img src="@SeriesImage" alt="@Series.ImageTitle" />
+                                    <img src="@SeriesImage" alt="@Series.ImageTitle"/>
                                 }
                             </div>
                         </div>
                     </div>
-                  </MudTabPanel>
-                  <MudTabPanel Text="Seasons">
-                      <div class="seasons">
+                </MudTabPanel>
+                <MudTabPanel Text="Seasons">
+                    <div class="seasons">
                         @foreach (var season in Series.Seasons)
                         {
-                            <div class="season">
-                                <div class="head">
-                                    <span>Season @season.Number</span>
-                                    <span class="spacer"></span>
-                                    @if (CanDelete)
-                                    {
-                                        <MudIconButton Icon="@Icons.Filled.Delete" OnClick="@(() => OpenDeleteSeasonDialog(season))" Color="Color.Error" />
-                                    }
-                                </div>
-                                <div class="body">
-                                    <div class="episodes">
-                                        @foreach (var episode in season.Episodes)
-                                        {
-                                            <div class="episode">
-                                                <div class="ep-head">
-                                                    <span>@episode.Number - @episode.Title</span>
-                                                    <span class="spacer"></span>
-                                                    @if (CanDelete)
-                                                    {
-                                                        <MudIconButton Icon="@Icons.Filled.Delete" OnClick="@(() => OpenDeleteEpisodeDialog(episode))" Color="Color.Error" />
-                                                    }
-                                                </div>
-                                                <div class="ep-body">
-                                                    @episode.Description
-                                                </div>
-                                                <div class="ep-foot">
-                                                    <span class="spacer"></span>
-                                                    <MudIconButton Icon="@Icons.Filled.OpenInNew" OnClick="@(() => OpenEpisode(episode.Id))" Color="Color.Secondary" />
-                                                    @if (Series.IsMine)
-                                                    {
-                                                        @if (episode.Seen)
-                                                        {
-                                                            <MudIconButton Icon="@Icons.Filled.VisibilityOff" OnClick="@(() => SetEpisodeSeenStatus(episode.Id, false))" Color="Color.Primary" />
-                                                        }
-                                                        else
-                                                        {
-                                                            <MudIconButton Icon="@Icons.Filled.Visibility" OnClick="@(() => SetEpisodeSeenStatus(episode.Id, true))" Color="Color.Primary" />
-                                                        }
-                                                    }
-                                                </div>
-                                            </div>
-                                        }
-
-                                        @if (season.Episodes.Count == 0)
-                                        {
-                                            <div class="text-center">Season does not have any episode yet.</div>
-                                        }
-
-                                        <div class="episode-action">
-                                            <span class="spacer"></span>
-                                            @if (CanAddOrEdit)
-                                            {
-                                                <MudIconButton Icon="@Icons.Filled.Add" OnClick="@(() => AddIncrementedEpisode(season.Id))" Color="Color.Primary" />
-                                            }
-                                            @if (Series.IsMine)
-                                            {
-                                                @if (season.Episodes != null && season.Episodes.Count > 0)
-                                                {
-                                                    @if (season.IsSeen)
-                                                    {
-                                                        <MudIconButton Icon="@Icons.Filled.VisibilityOff" OnClick="@(() => SetSeasonSeenStatus(season.Id, false))" Color="Color.Primary" />
-                                                    }
-                                                    else
-                                                    {
-                                                        <MudIconButton Icon="@Icons.Filled.Visibility" OnClick="@(() => SetSeasonSeenStatus(season.Id, true))" Color="Color.Primary" />
-                                                    }
-                                                }
-                                            }
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <SeasonEditorComponent Season="@season" CanDelete="@CanDelete" CanAddOrEdit="@CanAddOrEdit" SeriesIsMine="@Series.IsMine" Changed="@Changed"/>
                         }
 
                         @if (Series.Seasons.Count == 0)
@@ -222,7 +151,8 @@
                             <span class="spacer"></span>
                             @if (CanAddOrEdit)
                             {
-                                <MudIconButton Icon="@Icons.Filled.Add" OnClick="AddIncrementedSeason" Color="Color.Primary" />
+                                <MudIconButton Icon="@Icons.Filled.Add" OnClick="AddIncrementedSeason" Color="Color.Primary"/>
+                                <MudIconButton Icon="@Icons.Filled.AddBox" OnClick="AddMultipleIncrementedSeason" Color="Color.Secondary" />
                             }
                         </div>
                     </div>
@@ -238,7 +168,7 @@
 
                         <div class="input-panel">
                             <div class="col col-12 p-1">
-                                <MudTextField @bind-Value="Comment" Label="Comment" FullWidth="true" Variant="Variant.Outlined" Lines="3" />
+                                <MudTextField @bind-Value="Comment" Label="Comment" FullWidth="true" Variant="Variant.Outlined" Lines="3"/>
                             </div>
                             <div class="down-row">
                                 <span class="spacer"></span>

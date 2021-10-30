@@ -27,20 +27,23 @@ namespace EventManager.Client.Services
 
             var body = new HttpBody<List<EpisodeSeenStatusModel>>(models);
 
-            return await this.Http.Update<List<EpisodeSeenStatusModel>>(settings, body);
+            return await this.Http.Update(settings, body);
         }
 
         /// <inheritdoc />
-        public async Task<bool> AddIncremented(int seasonId)
+        public async Task<bool> AddIncremented(int seasonId, int count)
         {
             var pathParams = new HttpPathParameters();
-            pathParams.Add<int>(seasonId, -1);
+            pathParams.Add(seasonId, -1);
+            
+            var queryParams = new HttpQueryParameters();
+            queryParams.Add("count", count);
 
-            var settings = new HttpSettings($"{this.Url}", null, pathParams, "Episode adding");
+            var settings = new HttpSettings($"{this.Url}", queryParams, pathParams, "Episode adding");
 
             var body = new HttpBody<object>(null);
 
-            return await this.Http.Create<object>(settings, body);
+            return await this.Http.Create(settings, body);
         }
 
         /// <inheritdoc />

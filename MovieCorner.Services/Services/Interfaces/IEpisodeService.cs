@@ -22,7 +22,8 @@ namespace MovieCorner.Services.Services.Interfaces
         /// The episode number will be next number after the last episode.
         /// </summary>
         /// <param name="seasonId">Season Id</param>
-        void AddIncremented(int seasonId);
+        /// <param name="count">Number of new episodes</param>
+        void AddIncremented(int seasonId, int count);
 
         /// <summary>
         /// Delete episode by the given Id.

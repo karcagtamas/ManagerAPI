@@ -1,5 +1,8 @@
+using EventManager.Client.Enums;
 using EventManager.Client.Models;
+using EventManager.Client.Services;
 using EventManager.Client.Services.Interfaces;
+using EventManager.Client.Shared.Common;
 using EventManager.Client.Shared.Components.SL;
 using ManagerAPI.Shared.DTOs.SL;
 using ManagerAPI.Shared.Models.SL;
@@ -54,19 +57,31 @@ namespace EventManager.Client.Pages.SL
             this.IsLoading = false;
             this.StateHasChanged();
         }
-
-        private async void DeleteDecremented()
+        
+        private async void OpenDeleteDialog()
         {
-            if (await this.EpisodeService.DeleteDecremented(this.Id))
+            var parameters = new DialogParameters {{"Input", new ConfirmDialogInput {
+                Name = Episode.Title,
+                Action = ConfirmType.Delete,
+                DeleteFunction = async () => await EpisodeService.DeleteDecremented(Id)
+            }}};
+            var dialog = DialogService.Show<ConfirmDialog>("Episode Delete", parameters);
+            var result = await dialog.Result;
+
+            if (!result.Cancelled)
             {
-                this.Navigation.NavigateTo("/series");
+                this.BackToSeries();
             }
         }
 
         private async void OpenEditEpisodeDialog()
         {
             var parameters = new DialogParameters { { "EpisodeId", Id } };
-            var dialog = DialogService.Show<EpisodeDialog>("Edit Episode", parameters);
+            var dialog = DialogService.Show<EpisodeDialog>("Edit Episode", parameters, new DialogOptions
+            {
+                FullWidth = true,
+                MaxWidth = MaxWidth.Medium
+            });
             var result = await dialog.Result;
 
             if (!result.Cancelled)
@@ -94,6 +109,11 @@ namespace EventManager.Client.Pages.SL
             {
                 await this.GetEpisode();
             }
+        }
+
+        private void BackToSeries()
+        {
+            Navigation.NavigateTo($"series/{Episode}");
         }
     }
 }

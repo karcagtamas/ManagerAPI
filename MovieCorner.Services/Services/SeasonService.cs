@@ -78,19 +78,26 @@ namespace MovieCorner.Services.Services
         }
 
         /// <inheritdoc />
-        public void AddIncremented(int seriesId)
+        public void AddIncremented(int seriesId, int count)
         {
+            var seasons = new List<Season>();
             var last = this.GetList(x => x.Series.Id == seriesId).OrderBy(x => x.Number).LastOrDefault();
-
             int number = last?.Number + 1 ?? 1;
 
-            var season = new Season
+            for (int i = 0; i < count; i++)
             {
-                Number = number,
-                SeriesId = seriesId
-            };
+                var season = new Season
+                {
+                    Number = number,
+                    SeriesId = seriesId
+                };
+                
+                seasons.Add(season);
 
-            this.Add(season);
+                number += 1;
+            }
+
+            this.AddRange(seasons);
         }
 
         /// <inheritdoc />

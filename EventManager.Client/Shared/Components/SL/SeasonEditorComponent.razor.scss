@@ -1,0 +1,33 @@
+﻿@import "../../../Styles/_common.scss";
+
+.season {
+  margin-bottom: 0.6rem;
+  margin-top: 0.6rem;
+  border-bottom: $primary-secondary-trans 3px solid;
+  border-radius: $border-radius;
+  padding: 0.5rem;
+  background-color: $white-trans;
+
+  .head {
+    color: $primary;
+    font-weight: bold;
+    display: flex;
+
+    .spacer {
+      flex-grow: 1;
+    }
+  }
+
+  .body {
+    .episodes {
+
+      .episode-action {
+        display: flex;
+
+        .spacer {
+          flex-grow: 1;
+        }
+      }
+    }
+  }
+}

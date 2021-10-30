@@ -33,12 +33,20 @@
             <AuthorizeView Roles="Administrator,Status Library User,Status Library Moderator,Status Library Administrator,Root">
                 <Authorized>
                     <MudNavGroup Title="Status Library">
-                        <MudNavLink Href="/my-movies">My Movies</MudNavLink>
-                        <MudNavLink Href="/my-books">My Books</MudNavLink>
-                        <MudNavLink Href="/my-series">My Series</MudNavLink>
-                        <MudNavLink Href="/movies">Movies</MudNavLink>
-                        <MudNavLink Href="/books">Books</MudNavLink>
-                        <MudNavLink Href="/series">Series</MudNavLink>
+                        <MudNavGroup Title="Movies">
+                            <MudNavLink Href="/movies">List</MudNavLink>
+                            <MudNavLink Href="/my-movies">My List</MudNavLink>
+                            <MudNavLink Href="/movie-categories">Categories</MudNavLink>
+                        </MudNavGroup>
+                        <MudNavGroup Title="Books">
+                            <MudNavLink Href="/books">List</MudNavLink>
+                            <MudNavLink Href="/my-books">My List</MudNavLink>
+                        </MudNavGroup>
+                        <MudNavGroup Title="Series">
+                            <MudNavLink Href="/series">List</MudNavLink>
+                            <MudNavLink Href="/my-series">My List</MudNavLink>
+                            <MudNavLink Href="/series-categories">Categories</MudNavLink>
+                        </MudNavGroup>
                     </MudNavGroup>
                 </Authorized>
                 <NotAuthorized></NotAuthorized>

@@ -54,9 +54,11 @@ namespace MovieCorner.Services.Profiles
             this.CreateMap<Episode, MyEpisodeDto>()
                 .ForMember(dest => dest.IsSeen, opt => opt.Ignore())
                 .ForMember(dest => dest.IsMine, opt => opt.Ignore())
-                .ForMember(dest => dest.SeenOn, opt => opt.Ignore());
+                .ForMember(dest => dest.SeenOn, opt => opt.Ignore())
+                .ForMember(dest => dest.SeriesId, opt => opt.MapFrom(src => src.Season.SeriesId));
             this.CreateMap<EpisodeShortModel, Episode>();
-            this.CreateMap<Episode, EpisodeDto>();
+            this.CreateMap<Episode, EpisodeDto>()
+                .ForMember(dest => dest.SeriesId, opt => opt.MapFrom(src => src.Season.SeriesId));
             this.CreateMap<SeriesImageModel, Series>();
             this.CreateMap<SeriesCategory, SeriesCategoryDto>();
             this.CreateMap<SeriesCategoryModel, SeriesCategory>();

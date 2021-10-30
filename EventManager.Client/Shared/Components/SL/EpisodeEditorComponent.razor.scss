@@ -1,0 +1,32 @@
+﻿@import "../../../Styles/_common.scss";
+
+.episode {
+  margin-bottom: .6rem;
+  margin-top: .6rem;
+  border-bottom: $primary-secondary-trans 3px solid;
+  border-radius: $border-radius;
+  padding: 0.5rem;
+  background-color: $white-trans;
+
+  .ep-head {
+    color: $primary;
+    font-style: italic;
+    display: flex;
+
+    .spacer {
+      flex-grow: 1;
+    }
+  }
+
+  .ep-body {
+    padding: 0.4rem;
+  }
+
+  .ep-foot {
+    display: flex;
+
+    .spacer {
+      flex-grow: 1;
+    }
+  }
+}

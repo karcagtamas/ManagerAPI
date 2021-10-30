@@ -3,7 +3,7 @@
     /// <summary>
     /// Movie category data object
     /// </summary>
-    public class MovieCategoryDto
+    public class MovieCategoryDto : IIdentified
     {
         /// <summary>
         /// Id

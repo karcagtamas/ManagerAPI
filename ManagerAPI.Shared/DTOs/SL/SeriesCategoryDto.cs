@@ -3,7 +3,7 @@
     /// <summary>
     /// Series category data object
     /// </summary>
-    public class SeriesCategoryDto
+    public class SeriesCategoryDto : IIdentified
     {
         /// <summary>
         /// Id

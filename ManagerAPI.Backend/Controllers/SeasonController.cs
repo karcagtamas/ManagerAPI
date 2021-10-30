@@ -47,11 +47,12 @@ namespace ManagerAPI.Backend.Controllers
         /// Add incremented endpoint
         /// </summary>
         /// <param name="seriesId">Path param id</param>
-        [HttpPost("{seriesId}")]
+        /// <param name="count">Count of new seasons</param>
+        [HttpPost("{seriesId:int}")]
         [Authorize(Roles = "Administrator,Root,Moderator,Status Library Moderator,Status Library Administrator")]
-        public IActionResult AddIncremented(int seriesId)
+        public IActionResult AddIncremented(int seriesId, [FromQuery] int count)
         {
-            this._seasonService.AddIncremented(seriesId);
+            this._seasonService.AddIncremented(seriesId, count);
             return this.Ok();
         }
 

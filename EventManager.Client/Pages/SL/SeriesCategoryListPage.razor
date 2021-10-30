@@ -1,0 +1,31 @@
+@page "/series-categories"
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize(Roles = "Administrator,Status Library User,Status Library Moderator,Status Library Administrator,Root")]
+
+<div class="sl-series-categories">
+    <h1 class="em-page-title">Series Categories</h1>
+
+    @if (IsLoading)
+    {
+    <Loader></Loader>
+    }
+    else
+    {
+    <div class="action-bar">
+        @if (CanAdd)
+        {
+        <MudIconButton Icon="@Icons.Filled.Add" OnClick="OpenAddSeriesCategoryDialog" Color="Color.Primary" />
+        }
+    </div>
+    @if (SeriesCategoryList != null && SeriesCategoryList.Count > 0)
+    {
+    <div class="cat-list">
+        <ListTable Header="Header" Body="SeriesCategoryList" TList="ManagerAPI.Shared.DTOs.SL.SeriesCategoryDto" ShowFilter="true" OnRowClick="@(e => OpenEditSeriesCategoryDialog(e))"></ListTable>
+    </div>
+    }
+    else
+    {
+    <div class="text-center">Series category list is empty</div>
+    }
+    }
+</div>
