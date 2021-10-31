@@ -73,13 +73,13 @@
                         </div>
                     </div>
                     <div class="data-row">
-                        <strong>Ignored works: </strong>
+                        <strong>Work relations: </strong>
                         <div class="row-body">
-                            @foreach (var ignoredWork in Works)
+                            @foreach (var status in _workStatusList)
                             {
                                 <div class="data-row">
-                                    <strong>@ignoredWork.Name: </strong>
-                                    @(WorkIsIgnored(Person, ignoredWork) ? "Ignored" : "Not Ignored")
+                                    <strong>@status.Name: </strong>
+                                    @status.WorkList
                                 </div>
                             }
                         </div>

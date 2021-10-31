@@ -36,9 +36,11 @@ namespace MovieCorner.Services.Profiles
                 .ForMember(dest => dest.IsSeen, opt => opt.Ignore())
                 .ForMember(dest => dest.Rate, opt => opt.Ignore())
                 .ForMember(dest => dest.AddedOn, opt => opt.Ignore())
+                .ForMember(dest => dest.Seasons, opt => opt.MapFrom(src => src.Seasons.OrderBy(s => s.Number).ToList()))
                 .ForMember(dest => dest.Categories,
                     opt => opt.MapFrom(src => src.Categories.Select(x => x.Category.Name)));
-            this.CreateMap<Season, MySeasonDto>();
+            this.CreateMap<Season, MySeasonDto>()
+                .ForMember(dest => dest.Episodes, opt => opt.MapFrom(src => src.Episodes.OrderBy(e => e.Number).ToList()));
             this.CreateMap<Episode, MyEpisodeListDto>()
                 .ForMember(dest => dest.Seen, opt => opt.Ignore());
             this.CreateMap<Series, SeriesDto>()

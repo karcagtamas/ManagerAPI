@@ -53,11 +53,10 @@
                     <div class="data-row">
                         <strong>Hour statuses: </strong>
                         <div class="row-body">
-                            @foreach (var table in Work.Tables)
+                            @foreach (var status in _statusList)
                             {
                                 <div class="data-row">
-                                    <strong>@ManagerAPI.Shared.Helpers.WriteHelper.HourInterval(table.Date, 1): </strong>
-                                    @(table.IsActive ? "Active" : "Not Active")
+                                    <strong>@status.Interval: </strong> @status.Value (@status.Length h)
                                 </div>
                             }
                         </div>

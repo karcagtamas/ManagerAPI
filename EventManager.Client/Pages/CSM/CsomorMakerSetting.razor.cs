@@ -237,14 +237,12 @@ namespace EventManager.Client.Pages.CSM
             if (type == "start")
             {
                 this.Model.StartTime = (TimeSpan)time;
-                this.Model.Start.AddHours(-this.Model.Start.Hour);
-                this.Model.Start.AddHours(((TimeSpan)time).Hours);
+                this.Model.Start = this.Model.Start.AddHours(-this.Model.Start.Hour).AddHours(((TimeSpan)time).Hours);
             }
             if (type == "finish")
             {
                 this.Model.FinishTime = (TimeSpan)time;
-                this.Model.Finish.AddHours(-this.Model.Finish.Hour);
-                this.Model.Finish.AddHours(((TimeSpan)time).Hours);
+                this.Model.Start = this.Model.Start.AddHours(-this.Model.Finish.Hour).AddHours(((TimeSpan)time).Hours);
             }
 
             ReSetup();
