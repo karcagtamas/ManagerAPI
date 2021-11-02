@@ -200,7 +200,10 @@ namespace ManagerAPI.Backend
 
             app.UseAuthentication();
 
-            app.UseHttpsRedirection();
+            if (env.IsDevelopment())
+            {
+                app.UseHttpsRedirection();
+            }
 
             app.UseRouting();
 

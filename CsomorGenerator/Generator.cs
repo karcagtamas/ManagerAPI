@@ -1,10 +1,10 @@
 ﻿using ManagerAPI.Shared.DTOs.CSM;
 using ManagerAPI.Shared.Models;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CsomorGenerator
 {
@@ -13,9 +13,9 @@ namespace CsomorGenerator
     /// </summary>
     public class Generator
     {
-        private GeneratorSettings settings;
+        private readonly GeneratorSettings _settings;
 
-        private readonly int GenerateLimit = 500;
+        private readonly int _generateLimit = 100;
 
         /// <summary>
         /// Init Builder
@@ -23,7 +23,7 @@ namespace CsomorGenerator
         /// <param name="settings">Settings</param>
         public Generator(GeneratorSettings settings)
         {
-            this.settings = settings;
+            this._settings = settings;
         }
 
         /// <summary>
@@ -42,15 +42,20 @@ namespace CsomorGenerator
             // Pre settings
             SetWorkHours();
 
-            settings.Works.ForEach(work =>
+            this._settings.Works.ForEach(work =>
             {
                 this.GenerateToWork(work.Id);
             });
 
-            settings.HasGeneratedCsomor = true;
-            settings.LastGeneration = DateTime.Now;
+            this._settings.HasGeneratedCsomor = true;
+            this._settings.LastGeneration = DateTime.Now;
 
-            return settings;
+            return this._settings;
+        }
+
+        private static int CalculateWorkHourSummary(IEnumerable<Work> works, ICollection persons)
+        {
+            return works.Sum(x => x.Tables.Count(y => y.IsActive)) + persons.Count * 2;
         }
 
         /// <summary>
@@ -59,18 +64,18 @@ namespace CsomorGenerator
         private void SetWorkHours()
         {
             // All hour
-            int hours = settings.Works.Sum(x => x.Tables.Count(y => y.IsActive));
+            int hours = CalculateWorkHourSummary(this._settings.Works, this._settings.Persons);
 
             // Add hours to the persons
             while (hours > 0)
             {
-                for (int i = 0; i < settings.Persons.Count && hours > 0; i++)
+                for (int i = 0; i < this._settings.Persons.Count && hours > 0; i++)
                 {
                     // Max hours
-                    int availableHours = settings.Persons[i].Tables.Count(x => x.IsAvailable);
-                    if (settings.Persons[i].Hours < availableHours)
+                    int availableHours = this._settings.Persons[i].Tables.Count(x => x.IsAvailable);
+                    if (this._settings.Persons[i].Hours < availableHours)
                     {
-                        settings.Persons[i].Hours++;
+                        this._settings.Persons[i].Hours++;
                         hours--;
                     }
                 }
@@ -84,39 +89,114 @@ namespace CsomorGenerator
         /// <returns>List of modified persons</returns>
         private void GenerateToWork(string workId)
         {
-            var work = settings.Works.FirstOrDefault(x => x.Id == workId);
+            var work = this._settings.Works.FirstOrDefault(x => x.Id == workId);
 
             if (work == null)
             {
                 throw new MessageException("Invalid work Id");
             }
-
-            for (int i = 0; i < work.Tables.Count; i++)
+            
+            work.Tables.ForEach(table =>
             {
-                var table = work.Tables[i];
+                var doChange = false;
+                var changeCounter = 0;
 
-                this.GenerateToDate(ref table, workId, 0);
+                do
+                {
+                    var counter = 0;
+                    DateGenerateResult result;
 
-                work.Tables[i] = table;
-            }
+                    if (doChange)
+                    {
+                        var person = this.GetValidRandomPerson();
+
+                        if (person is null)
+                        {
+                            throw new MessageException("Need a valid person for the change");
+                        }
+                        
+                        var pastResult = GetPersonFromThePast(table.Date, person);
+
+                        if (pastResult is not null)
+                        {
+                            var prevPersonId = pastResult.Table.PersonId;
+                            var prevPerson = _settings.Persons.Find(x => x.Id == prevPersonId);
+
+                            if (prevPerson is null)
+                            {
+                                throw new MessageException("Empty person");
+                            }
+
+                            pastResult.Table.PersonId = person.Id;
+                            var prevPTable = prevPerson.Tables.FirstOrDefault(x => CompareDates(pastResult.Table.Date, x.Date));
+                            var pTable = person.Tables.FirstOrDefault(x => CompareDates(pastResult.Table.Date, x.Date));
+
+                            if (prevPTable is null || pTable is null)
+                            {
+                                throw new ArgumentException("Table is missing");
+                            }
+                            prevPTable.WorkId = null;
+                            pTable.WorkId = pastResult.Work.Id;
+                        }
+                        
+                        changeCounter++;
+
+                        if (changeCounter > 50)
+                        {
+                            break;
+                        }
+                    }
+                
+                    do
+                    {
+                        result = this.GenerateToDate(workId, table.Id);
+                        counter++;
+
+                        if (counter <= this._generateLimit)
+                        {
+                            continue;
+                        }
+
+                        doChange = true;
+                        break;
+                    } while (!result.IsSuccess && result.TryAgain);
+                } while (doChange);
+            });
         }
 
         /// <summary>
         /// Generate csomor for table
         /// </summary>
-        /// <param name="table">Work table</param>
         /// <param name="workId">Work Id</param>
-        /// <param name="counter">Counter against infinite loop</param>
-        private void GenerateToDate(ref WorkTable table, string workId, int counter = 0)
+        /// <param name="tableId">Table Id</param>
+        private DateGenerateResult GenerateToDate(string workId, string tableId)
         {
-            var person = this.GetValidRandomPerson();
+            var work = this._settings.Works.FirstOrDefault(x => x.Id == workId);
 
-            if (person == null)
+            if (work is null)
             {
-                return;
+                throw new MessageException("Invalid work Id");
             }
 
-            if (WorkerIsValid(person, table.Date, workId, settings.MaxWorkHour))
+            var table = work.Tables.FirstOrDefault(x => x.Id == tableId);
+
+            if (table is null)
+            {
+                throw new MessageException("Invalid table Id");
+            }
+
+            var person = this.GetValidRandomPerson();
+
+            if (person is null)
+            {
+                return new DateGenerateResult
+                {
+                    TryAgain = false,
+                    IsSuccess = false
+                };
+            }
+
+            if (WorkerIsValid(person, table.Date, workId, this._settings.MaxWorkHour))
             {
                 table.PersonId = person.Id;
                 var date = table.Date;
@@ -129,20 +209,54 @@ namespace CsomorGenerator
 
                 pTable.WorkId = workId;
                 person.Hours--;
+
+                return new DateGenerateResult { TryAgain = false, IsSuccess = true };
             }
-            else if (counter < this.GenerateLimit)
+            
+            return new DateGenerateResult { TryAgain = true, IsSuccess = false };
+        }
+
+        private SwitchResult GetPersonFromThePast(DateTime end, Person current)
+        {
+            var r = new Random();
+            var dateList = GetValidDatesFromPast(current, end);
+            Work work;
+            WorkTable table;
+            int count = 0;
+
+            do {
+                var workIndex = r.Next(this._settings.Works.Count);
+                var dateIndex = r.Next(dateList.Count);
+
+                work = this._settings.Works[workIndex];
+                table = work.Tables.FirstOrDefault(x => CompareDates(x.Date, dateList[dateIndex]));
+
+                if (table is null)
+                {
+                    throw new MessageException("Invalid table");
+                }
+                
+                count++;
+
+                if (count >= 50)
+                {
+                    return null;
+                }
+            } while (!WorkerIsValid(current, table.Date, work.Id, this._settings.MaxWorkHour));
+
+            return new SwitchResult
             {
-                if (counter > 100)
-                {
-                    // TODO: Worker switch
-                    Console.WriteLine("Bigger than 100");
-                    return;
-                }
-                else
-                {
-                    this.GenerateToDate(ref table, workId, counter++);
-                }
-            }
+                Work = work,
+                Table = table
+            };
+        }
+
+        private List<DateTime> GetValidDatesFromPast(Person person, DateTime end)
+        {
+            return person.Tables
+                .Where(x => x.IsAvailable && x.WorkId == null && GetLength(x.Date, end) > 0)
+                .Select(x => x.Date)
+                .ToList();
         }
 
         /// <summary>
@@ -153,22 +267,22 @@ namespace CsomorGenerator
         private Person GetValidRandomPerson()
         {
             var r = new Random();
-            var validList = settings.Persons.Where(x => !x.IsIgnored && x.Hours != 0).ToList();
+            var validList = this._settings.Persons.Where(x => !x.IsIgnored && x.Hours != 0).ToList();
 
             return validList.Count == 0 ? null : validList[r.Next(validList.Count)];
         }
 
         /// <summary>
-        /// Precheck simple generation
+        /// Pre-check simple generation
         /// </summary>
         /// <returns>Is startable or not</returns>
         private bool PreCheck()
         {
             return
-                CheckPersons(settings.Persons, settings.Works) // Check persons
-                && CheckWorks(settings.Works)  // Check works
-                && CheckHours(settings)  // Check hours
-                && CheckSum(settings); // Check sums
+                CheckPersons(this._settings.Persons, this._settings.Works) // Check persons
+                && CheckWorks(this._settings.Works)  // Check works
+                && CheckHours(this._settings)  // Check hours
+                && CheckSum(this._settings); // Check sums
         }
 
         /// <summary>
@@ -272,7 +386,7 @@ namespace CsomorGenerator
         {
             // Sums
             int personSum = settings.Persons.Sum(x => x.Tables.Count(y => y.IsAvailable));
-            int workSum = settings.Works.Sum(x => x.Tables.Count(y => y.IsActive));
+            int workSum = CalculateWorkHourSummary(settings.Works, ImmutableList<Person>.Empty);
 
             // Work sum has to be less than person sum's 90% and minus the res hour sum
             if (workSum > (personSum * 0.75) - GetLength(settings.Start, settings.Finish) / (settings.MaxWorkHour + settings.MinRestHour) * settings.MinRestHour)
@@ -363,7 +477,6 @@ namespace CsomorGenerator
             }
 
             // Person is not available or already has any work
-            bool a = string.IsNullOrEmpty(table.WorkId);
             if (!table.IsAvailable || !string.IsNullOrEmpty(table.WorkId))
             {
                 return false;
@@ -382,6 +495,19 @@ namespace CsomorGenerator
             }
 
             return true;
+        }
+
+        class SwitchResult
+        {
+            public Work Work { get; set; }
+            public WorkTable Table {  get; set; }
+        }
+
+        class DateGenerateResult
+        {
+            public bool IsSuccess { get; set; }
+
+            public bool TryAgain { get; set; }
         }
     }
 }
