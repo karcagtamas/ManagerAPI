@@ -24,6 +24,7 @@
                 @if (IsEditable && !IsEdit)
                 {
                     <MudIconButton Icon="@Icons.Filled.Edit" OnClick="@(() => IsEdit = true)" Color="Color.Primary" Disabled="CheckRole(CsomorRole.Read)"/>
+                    <MudIconButton Icon="@Icons.Filled.Remove" OnClick="Remove" Color="Color.Error" Disabled="CheckRole(CsomorRole.Read)" />
                 }
                 @if (IsEditable && IsEdit)
                 {

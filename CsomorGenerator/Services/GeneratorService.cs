@@ -92,6 +92,7 @@ namespace CsomorGenerator.Services
                 throw this._logger.LogInvalidThings(user, GeneratorServiceSource, CsomorThing, CsomorDoesNotExistMessage);
             }
 
+            // Eliminate persons from work table
             csomor.Works.ToList().ForEach(x =>
             {
                 x.Tables.ToList().ForEach(y =>
@@ -101,6 +102,8 @@ namespace CsomorGenerator.Services
                 });
 
             });
+            
+            // Eliminate works from persons
             csomor.Persons.ToList().ForEach(x =>
             {
                 x.Tables.ToList().ForEach(y =>
@@ -111,6 +114,7 @@ namespace CsomorGenerator.Services
             });
             this._context.SaveChanges();
 
+            // Remove works
             csomor.Works.ToList().ForEach(x =>
             {
                 this._context.CsomorWorkTables.RemoveRange(x.Tables);
@@ -118,6 +122,7 @@ namespace CsomorGenerator.Services
                 this._context.SaveChanges();
             });
 
+            // Remove persons
             csomor.Persons.ToList().ForEach(x =>
             {
                 this._context.CsomorPersonTables.RemoveRange(x.Tables);

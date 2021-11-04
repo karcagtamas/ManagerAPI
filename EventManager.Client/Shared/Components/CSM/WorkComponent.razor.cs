@@ -23,6 +23,12 @@ namespace EventManager.Client.Shared.Components.CSM
         /// </summary>
         [Parameter]
         public EventCallback StateChanged { get; set; }
+        
+        /// <summary>
+        /// Removed event
+        /// </summary>
+        [Parameter]
+        public EventCallback<string> Removed { get; set; }
 
         /// <summary>
         /// Role checker
@@ -89,6 +95,11 @@ namespace EventManager.Client.Shared.Components.CSM
         private string GetStatus(bool status)
         {
             return status ? "Active" : "Not Active";
+        }
+        
+        private void Remove()
+        {
+            Removed.InvokeAsync(Work.Id);
         }
 
         class WorkStatus

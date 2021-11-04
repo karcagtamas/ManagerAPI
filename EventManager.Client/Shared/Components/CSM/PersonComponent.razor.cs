@@ -24,6 +24,12 @@ namespace EventManager.Client.Shared.Components.CSM
         /// </summary>
         [Parameter]
         public EventCallback StateChanged { get; set; }
+        
+        /// <summary>
+        /// Removed event
+        /// </summary>
+        [Parameter]
+        public EventCallback<string> Removed { get; set; }
 
         /// <summary>
         /// Role checker
@@ -41,7 +47,7 @@ namespace EventManager.Client.Shared.Components.CSM
         /// Is editable
         /// </summary>
         [Parameter]
-        public bool IsEditable { get; set; } = false;
+        public bool IsEditable { get; set; }
 
         private bool IsEdit { get; set; } = false;
         private bool IsOpened { get; set; } = false;
@@ -148,6 +154,11 @@ namespace EventManager.Client.Shared.Components.CSM
         private string GetStatus(bool status)
         {
             return status ? "Available" : "Not Available";
+        }
+
+        private void Remove()
+        {
+            Removed.InvokeAsync(Person.Id);
         }
     }
 

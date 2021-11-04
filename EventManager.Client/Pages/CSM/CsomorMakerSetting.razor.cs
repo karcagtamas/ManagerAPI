@@ -172,6 +172,11 @@ namespace EventManager.Client.Pages.CSM
             return true;
         }
 
+        private string GetPersonsTabTitle()
+        {
+            return $"Persons ({Model.Persons.Count})";
+        }
+
         private void AddWork()
         {
             if (this.WorkContext.Validate() && this.AddWork(this.WorkModel))
@@ -200,6 +205,11 @@ namespace EventManager.Client.Pages.CSM
             this.StateHasChanged();
             this.Toaster.Add($"Work added ({work.Name})", Severity.Success);
             return true;
+        }
+
+        private string GetWorksTabTitle()
+        {
+            return $"Works ({Model.Works.Count})";
         }
 
         private void StateChanged()
@@ -413,6 +423,23 @@ namespace EventManager.Client.Pages.CSM
             {
                 this.AddWork(new WorkModel(c));
             }
+        }
+
+        private long GetEventLength()
+        {
+            return (Model.Finish.Ticks - Model.Start.Ticks) / 36000000000;
+        }
+
+        private void RemovePerson(string id)
+        {
+            this.Model.Persons.RemoveAll(x => x.Id == id);
+            this.StateChanged();
+        }
+
+        private void RemoveWork(string id)
+        {
+            this.Model.Works.RemoveAll(x => x.Id == id);
+            this.StateChanged();
         }
     }
 }
