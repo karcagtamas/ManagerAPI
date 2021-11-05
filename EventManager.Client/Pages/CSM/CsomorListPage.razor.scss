@@ -8,6 +8,7 @@
 
     .action-bar {
         @include action-panel;
+        margin-bottom: .4rem;
     }
 
     .lists {
@@ -27,6 +28,8 @@
             flex-grow: 1;
             width: 100%;
             overflow: auto;
+            margin-top: .4rem;
+            margin-bottom: 0;
 
             .elements {
                 display: grid;

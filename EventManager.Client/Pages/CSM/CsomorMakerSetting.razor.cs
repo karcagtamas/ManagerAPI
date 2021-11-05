@@ -144,11 +144,13 @@ namespace EventManager.Client.Pages.CSM
 
         private void AddPerson()
         {
-            if (this.PersonContext.Validate() && this.AddPerson(this.PersonModel))
+            if (!this.PersonContext.Validate() || !this.AddPerson(this.PersonModel))
             {
-                this.PersonModel = new PersonModel();
-                this.PersonContext = new EditContext(this.PersonModel);
+                return;
             }
+
+            this.PersonModel = new PersonModel();
+            this.PersonContext = new EditContext(this.PersonModel);
         }
 
         private bool AddPerson(PersonModel person)
@@ -166,19 +168,31 @@ namespace EventManager.Client.Pages.CSM
 
             person.SetTables(this.Model.Start, this.Model.Finish);
             this.Model.Persons.Add(person);
-            this.IsModifiedState = true;
-            this.StateHasChanged();
+            this.StateChanged(true);
             this.Toaster.Add($"Person added ({person.Name})", Severity.Success);
             return true;
+        }
+        
+        private bool AddPersonRange(IEnumerable<PersonModel> models)
+        {
+            this.StateChanged(true);
+            return true;
+        }
+
+        private string GetPersonsTabTitle()
+        {
+            return $"Persons ({Model.Persons.Count})";
         }
 
         private void AddWork()
         {
-            if (this.WorkContext.Validate() && this.AddWork(this.WorkModel))
+            if (!this.WorkContext.Validate() || !this.AddWork(this.WorkModel))
             {
-                this.WorkModel = new WorkModel();
-                this.WorkContext = new EditContext(this.WorkModel);
+                return;
             }
+
+            this.WorkModel = new WorkModel();
+            this.WorkContext = new EditContext(this.WorkModel);
         }
 
         private bool AddWork(WorkModel work)
@@ -196,16 +210,33 @@ namespace EventManager.Client.Pages.CSM
 
             work.SetTables(this.Model.Start, this.Model.Finish);
             this.Model.Works.Add(work);
-            this.IsModifiedState = true;
-            this.StateHasChanged();
+            this.StateChanged(true);
             this.Toaster.Add($"Work added ({work.Name})", Severity.Success);
             return true;
         }
 
-        private void StateChanged()
+        private bool AddWorkRange(IEnumerable<WorkModel> models)
         {
-            this.IsModifiedState = true;
-            this.StateHasChanged();
+            this.StateChanged(true);
+            return true;
+        }
+
+        private string GetWorksTabTitle()
+        {
+            return $"Works ({Model.Works.Count})";
+        }
+
+        private void StateChanged(bool needToReSetup = false)
+        {
+            if (needToReSetup)
+            {
+                this.ReSetup();
+            }
+            else
+            {
+                this.IsModifiedState = true;
+                this.StateHasChanged();
+            }
         }
 
         private void DateChanged(DateTime? date, string type)
@@ -224,7 +255,7 @@ namespace EventManager.Client.Pages.CSM
                 this.Model.Finish = ((DateTime)date).AddMinutes(-((DateTime)date).Minute);
             }
 
-            ReSetup();
+            this.StateChanged(true);
         }
 
         private void TimeChanged(TimeSpan? time, string type)
@@ -237,17 +268,15 @@ namespace EventManager.Client.Pages.CSM
             if (type == "start")
             {
                 this.Model.StartTime = (TimeSpan)time;
-                this.Model.Start.AddHours(-this.Model.Start.Hour);
-                this.Model.Start.AddHours(((TimeSpan)time).Hours);
+                this.Model.Start = this.Model.Start.AddHours(-this.Model.Start.Hour).AddHours(((TimeSpan)time).Hours);
             }
             if (type == "finish")
             {
                 this.Model.FinishTime = (TimeSpan)time;
-                this.Model.Finish.AddHours(-this.Model.Finish.Hour);
-                this.Model.Finish.AddHours(((TimeSpan)time).Hours);
+                this.Model.Start = this.Model.Start.AddHours(-this.Model.Finish.Hour).AddHours(((TimeSpan)time).Hours);
             }
 
-            ReSetup();
+            this.StateChanged(true);
         }
 
         private void ReSetup()
@@ -261,17 +290,19 @@ namespace EventManager.Client.Pages.CSM
 
         private async void Generate()
         {
-            if (!this.Context.IsModified())
+            if (this.Context.IsModified())
             {
-                var settings = await this.GeneratorService.GenerateSimple(new GeneratorSettings(this.Id, this.Model));
-                this.Model.Persons = settings.Persons.Select(x => new PersonModel(x)).ToList();
-                this.Model.Works = settings.Works.Select(x => new WorkModel(x)).ToList();
-                this.Model.HasGeneratedCsomor = settings.HasGeneratedCsomor;
-                this.Model.LastGeneration = settings.LastGeneration;
-                this.Settings = settings;
-                this.IsModifiedState = true;
-                this.StateHasChanged();
+                return;
             }
+
+            var settings = await this.GeneratorService.GenerateSimple(new GeneratorSettings(this.Id, this.Model));
+            this.Model.Persons = settings.Persons.Select(x => new PersonModel(x)).ToList();
+            this.Model.Works = settings.Works.Select(x => new WorkModel(x)).ToList();
+            this.Model.HasGeneratedCsomor = settings.HasGeneratedCsomor;
+            this.Model.LastGeneration = settings.LastGeneration;
+            this.Settings = settings;
+            this.IsModifiedState = true;
+            this.StateHasChanged();
         }
 
         private bool CanSave()
@@ -324,7 +355,10 @@ namespace EventManager.Client.Pages.CSM
 
             if (!result.Cancelled)
             {
-                this.Settings.IsPublic = !(bool)this.Settings.IsPublic;
+                if (this.Settings.IsPublic != null)
+                {
+                    this.Settings.IsPublic = !(bool)this.Settings.IsPublic;
+                }
                 this.StateHasChanged();
             }
         }
@@ -344,17 +378,8 @@ namespace EventManager.Client.Pages.CSM
 
         private bool CheckRole(params CsomorRole[] roles)
         {
-            foreach (var role in roles)
-            {
-                if (this.Role == role)
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return roles.Any(role => this.Role == role);
         }
-
 
         private async Task<string> GetContent(IReadOnlyList<IBrowserFile> files)
         {
@@ -403,18 +428,51 @@ namespace EventManager.Client.Pages.CSM
 
         private async void ImportPersons(InputFileChangeEventArgs e)
         {
-            foreach (string c in (await this.GetContent(e.GetMultipleFiles())).Split("\n"))
+            try
             {
-                this.AddPerson(new PersonModel(c));
+                var models = (await this.GetContent(e.GetMultipleFiles())).Split("\n")
+                    .Select(x => new PersonModel(x))
+                    .ToList();
+                
+                AddPersonRange(models);
+            }
+            catch (Exception)
+            {
+                Toaster.Add("Invalid row in the file", Severity.Error);
             }
         }
 
         private async void ImportWorks(InputFileChangeEventArgs e)
         {
-            foreach (string c in (await this.GetContent(e.GetMultipleFiles())).Split("\n"))
+            try
             {
-                this.AddWork(new WorkModel(c));
+                var models = (await this.GetContent(e.GetMultipleFiles())).Split("\n")
+                    .Select(x => new WorkModel(x))
+                    .ToList();
+                
+                AddWorkRange(models);
             }
+            catch (Exception)
+            {
+                Toaster.Add("Invalid row in the file", Severity.Error);
+            }
+        }
+
+        private long GetEventLength()
+        {
+            return (Model.Finish.Ticks - Model.Start.Ticks) / 36000000000;
+        }
+
+        private void RemovePerson(string id)
+        {
+            this.Model.Persons.RemoveAll(x => x.Id == id);
+            this.StateChanged(true);
+        }
+
+        private void RemoveWork(string id)
+        {
+            this.Model.Works.RemoveAll(x => x.Id == id);
+            this.StateChanged(true);
         }
     }
 }

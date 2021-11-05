@@ -7,11 +7,11 @@
             <span class="spacer"></span>
             @if (IsOpened)
             {
-                <MudIconButton Icon="@Icons.Filled.ExpandLess" OnClick="@(() => IsOpened = false)" Color="Color.Primary" />
+                <MudIconButton Icon="@Icons.Filled.ExpandLess" OnClick="@(() => IsOpened = false)" Color="Color.Primary"/>
             }
             else
             {
-                <MudIconButton Icon="@Icons.Filled.ExpandMore" OnClick="@(() => IsOpened = true)" Color="Color.Primary" />
+                <MudIconButton Icon="@Icons.Filled.ExpandMore" OnClick="@(() => IsOpened = true)" Color="Color.Primary"/>
             }
         </div>
     </div>
@@ -24,11 +24,12 @@
                 @if (IsEditable && !IsEdit)
                 {
                     <MudIconButton Icon="@Icons.Filled.Edit" OnClick="@(() => IsEdit = true)" Color="Color.Primary"
-                Disabled="CheckRole(CsomorRole.Read)" />
+                                   Disabled="CheckRole(CsomorRole.Read)"/>
+                    <MudIconButton Icon="@Icons.Filled.Remove" OnClick="Remove" Color="Color.Error" Disabled="CheckRole(CsomorRole.Read)"/>
                 }
                 @if (IsEditable && IsEdit)
                 {
-                    <MudIconButton Icon="@Icons.Filled.ArrowLeft" OnClick="@(() => IsEdit = false)" Color="Color.Primary" />
+                    <MudIconButton Icon="@Icons.Filled.ArrowLeft" OnClick="@(() => IsEdit = false)" Color="Color.Primary"/>
                 }
             </div>
             @if (IsEdit)
@@ -39,13 +40,12 @@
                         {
                             <span class="box">
                                 <MudCheckBox T="bool" Color="Color.Primary" Checked="table.IsActive"
-                        CheckedChanged="@((val) => ChangeIsActiveStatus(table, val))"
-                        Label="@ManagerAPI.Shared.Helpers.WriteHelper.HourInterval(table.Date, 1)" />
+                                             CheckedChanged="@((val) => ChangeIsActiveStatus(table, val))"
+                                             Label="@ManagerAPI.Shared.Helpers.WriteHelper.HourInterval(table.Date, 1)"/>
                             </span>
                         }
                     </div>
                 </div>
-
             }
             else
             {
@@ -53,11 +53,10 @@
                     <div class="data-row">
                         <strong>Hour statuses: </strong>
                         <div class="row-body">
-                            @foreach (var table in Work.Tables)
+                            @foreach (var status in _statusList)
                             {
                                 <div class="data-row">
-                                    <strong>@ManagerAPI.Shared.Helpers.WriteHelper.HourInterval(table.Date, 1): </strong>
-                                    @(table.IsActive ? "Active" : "Not Active")
+                                    <strong>@status.Interval: </strong> @status.Value (@status.Length h)
                                 </div>
                             }
                         </div>

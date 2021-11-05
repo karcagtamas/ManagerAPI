@@ -1,51 +1,64 @@
 ﻿@import '../../Styles/_common.scss';
 
 .setting {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  overflow: hidden;
+
+  .action-bar {
+    @include action-panel;
+    margin-bottom: .4rem;
+  }
+
+  .csomor {
     display: flex;
-    flex-grow: 1;
     flex-direction: column;
+    flex-grow: 1;
     overflow: hidden;
 
-    .action-bar {
-        @include action-panel;
+    @include main-panel;
+
+    margin-top: 0;
+    margin-bottom: 0;
+
+    .tabs {
+      flex-grow: 1;
+      width: 100% !important;
+      overflow: hidden;
     }
 
-    .csomor {
-        display: flex;
-        flex-direction: column;
-        flex-grow: 1;
-        overflow: hidden;
-
-        @include main-panel;
-
-        .tabs {
-            flex-grow: 1;
-            width: 100% !important;
-            overflow: hidden;
-        }
+    .details {
+      margin-right: 1rem;
+      margin-left: 1rem;
     }
+  }
 
-    .list {
-        flex-grow: 1;
-        overflow: auto;
-        .entity {
-            @include panel;
-            background-color: $white-trans;
-        }
+  .list {
+    flex-grow: 1;
+    overflow: auto;
+
+    .entity {
+      @include panel;
+      background-color: $white-trans;
     }
+  }
 }
 
 .action {
-    display: flex;
-    padding: 0 1rem;
+  display: flex;
+  padding: 0 1rem;
 
-    .spacer {
-        flex-grow: 1;
-    }
+  .spacer {
+    flex-grow: 1;
+  }
 }
 
 .group {
-    label {
-        margin-bottom: unset;
-    }
+  margin-left: 1rem;
+  margin-right: 1rem;
+
+  label {
+    margin-bottom: unset;
+  }
 }
