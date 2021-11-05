@@ -144,7 +144,7 @@
                         @foreach (var person in Model.Persons)
                         {
                             <PersonComponent Person="person" Works="Model.Works" RoleChecker="CheckRole"
-                                             StateChanged="StateChanged" IsEditable="true" Removed="RemovePerson">
+                                             StateChanged="@(() => StateChanged(true))" IsEditable="true" Removed="RemovePerson">
                             </PersonComponent>
                         }
                     </div>
@@ -186,7 +186,7 @@
                     <div class="list mt-1">
                         @foreach (var work in Model.Works)
                         {
-                            <WorkComponent Work="work" RoleChecker="CheckRole" StateChanged="StateChanged" IsEditable="true" Removed="RemoveWork">
+                            <WorkComponent Work="work" RoleChecker="CheckRole" StateChanged="@(() => StateChanged(true))" IsEditable="true" Removed="RemoveWork">
                             </WorkComponent>
                         }
                     </div>

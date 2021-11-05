@@ -9,7 +9,6 @@ using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs;
 using ManagerAPI.Shared.DTOs.CSM;
 using ManagerAPI.Shared.Enums;
-using ManagerAPI.Shared.Models;
 using ManagerAPI.Shared.Models.CSM;
 using System;
 using System.Collections.Generic;
@@ -119,7 +118,6 @@ namespace CsomorGenerator.Services
             {
                 this._context.CsomorWorkTables.RemoveRange(x.Tables);
                 this._context.CsomorWorks.Remove(x);
-                this._context.SaveChanges();
             });
 
             // Remove persons
@@ -127,8 +125,9 @@ namespace CsomorGenerator.Services
             {
                 this._context.CsomorPersonTables.RemoveRange(x.Tables);
                 this._context.CsomorPersons.Remove(x);
-                this._context.SaveChanges();
+                
             });
+            this._context.SaveChanges();
 
             this._mapper.Map(model, csomor);
 
@@ -260,11 +259,14 @@ namespace CsomorGenerator.Services
                 if (shareList.Select(y => y.UserId).ToList().Contains(x.Id))
                 {
                     var element = shareList.FirstOrDefault(y => y.UserId == x.Id);
-                    if (element.HasWriteAccess != x.HasWriteAccess)
+                    if (element != null)
                     {
-                        element.HasWriteAccess = x.HasWriteAccess;
+                        if (element.HasWriteAccess != x.HasWriteAccess)
+                        {
+                            element.HasWriteAccess = x.HasWriteAccess;
 
-                        this._context.SharedCsomors.Update(element);
+                            this._context.SharedCsomors.Update(element);
+                        }
                     }
                 }
                 else
@@ -339,7 +341,7 @@ namespace CsomorGenerator.Services
                     return CsomorRole.Owner;
                 }
 
-                var shared = csomor.SharedWith.Where(x => x.UserId == user.Id).FirstOrDefault();
+                var shared = csomor.SharedWith.FirstOrDefault(x => x.UserId == user.Id);
 
                 if (shared != null)
                 {
