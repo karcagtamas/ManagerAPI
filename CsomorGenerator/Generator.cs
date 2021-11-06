@@ -184,6 +184,16 @@ namespace CsomorGenerator
             {
                 throw new MessageException("Invalid table Id");
             }
+            
+            // Not need generate
+            if (!table.IsActive)
+            {
+                return new DateGenerateResult
+                {
+                    TryAgain = false,
+                    IsSuccess = true
+                };
+            }
 
             var person = this.GetValidRandomPerson();
 
@@ -195,7 +205,7 @@ namespace CsomorGenerator
                     IsSuccess = false
                 };
             }
-
+            
             if (WorkerIsValid(person, table.Date, workId, this._settings.MaxWorkHour))
             {
                 table.PersonId = person.Id;
@@ -234,6 +244,11 @@ namespace CsomorGenerator
                 if (table is null)
                 {
                     throw new MessageException("Invalid table");
+                }
+
+                if (!table.IsActive)
+                {
+                    continue;
                 }
                 
                 count++;
