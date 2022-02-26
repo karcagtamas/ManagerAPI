@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
+#nullable disable
+
 namespace ManagerAPI.DataAccess.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
@@ -14,8 +16,8 @@ namespace ManagerAPI.DataAccess.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Relational:MaxIdentifierLength", 64)
-                .HasAnnotation("ProductVersion", "5.0.5");
+                .HasAnnotation("ProductVersion", "6.0.2")
+                .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("ManagerAPI.Domain.Entities.CSM.Csomor", b =>
                 {
@@ -55,7 +57,8 @@ namespace ManagerAPI.DataAccess.Migrations
                         .HasDefaultValueSql("NOW()");
 
                     b.Property<string>("LastUpdaterId")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
 
                     b.Property<int>("MaxWorkHour")
                         .HasColumnType("int");
@@ -65,7 +68,7 @@ namespace ManagerAPI.DataAccess.Migrations
 
                     b.Property<string>("OwnerId")
                         .IsRequired()
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<DateTime>("Start")
                         .HasColumnType("datetime(6)");
@@ -73,7 +76,7 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(120)
-                        .HasColumnType("varchar(120) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(120)");
 
                     b.HasKey("Id");
 
@@ -87,7 +90,7 @@ namespace ManagerAPI.DataAccess.Migrations
             modelBuilder.Entity("ManagerAPI.Domain.Entities.CSM.CsomorPerson", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<int>("CsomorId")
                         .HasColumnType("int");
@@ -100,7 +103,7 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(120)
-                        .HasColumnType("varchar(120) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(120)");
 
                     b.Property<int>("PlusWorkCounter")
                         .ValueGeneratedOnAdd()
@@ -117,7 +120,7 @@ namespace ManagerAPI.DataAccess.Migrations
             modelBuilder.Entity("ManagerAPI.Domain.Entities.CSM.CsomorPersonTable", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime(6)");
@@ -129,10 +132,11 @@ namespace ManagerAPI.DataAccess.Migrations
 
                     b.Property<string>("PersonId")
                         .IsRequired()
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("WorkId")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
 
@@ -146,7 +150,7 @@ namespace ManagerAPI.DataAccess.Migrations
             modelBuilder.Entity("ManagerAPI.Domain.Entities.CSM.CsomorWork", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<int>("CsomorId")
                         .HasColumnType("int");
@@ -154,7 +158,7 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(80)
-                        .HasColumnType("varchar(80) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(80)");
 
                     b.HasKey("Id");
 
@@ -166,7 +170,7 @@ namespace ManagerAPI.DataAccess.Migrations
             modelBuilder.Entity("ManagerAPI.Domain.Entities.CSM.CsomorWorkTable", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime(6)");
@@ -177,11 +181,12 @@ namespace ManagerAPI.DataAccess.Migrations
                         .HasDefaultValue(false);
 
                     b.Property<string>("PersonId")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("WorkId")
                         .IsRequired()
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
 
@@ -195,10 +200,10 @@ namespace ManagerAPI.DataAccess.Migrations
             modelBuilder.Entity("ManagerAPI.Domain.Entities.CSM.IgnoredWork", b =>
                 {
                     b.Property<string>("PersonId")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("WorkId")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("PersonId", "WorkId");
 
@@ -210,7 +215,7 @@ namespace ManagerAPI.DataAccess.Migrations
             modelBuilder.Entity("ManagerAPI.Domain.Entities.CSM.UserCsomor", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<int>("CsomorId")
                         .HasColumnType("int");
@@ -240,12 +245,12 @@ namespace ManagerAPI.DataAccess.Migrations
 
                     b.Property<string>("DestinationId")
                         .IsRequired()
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Message")
                         .IsRequired()
                         .HasMaxLength(120)
-                        .HasColumnType("varchar(120) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(120)");
 
                     b.Property<bool?>("Response")
                         .HasColumnType("tinyint(1)");
@@ -257,7 +262,7 @@ namespace ManagerAPI.DataAccess.Migrations
 
                     b.Property<string>("SenderId")
                         .IsRequired()
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<DateTime>("SentDate")
                         .ValueGeneratedOnAdd()
@@ -276,10 +281,10 @@ namespace ManagerAPI.DataAccess.Migrations
             modelBuilder.Entity("ManagerAPI.Domain.Entities.Friends", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("FriendId")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<DateTime>("ConnectionDate")
                         .ValueGeneratedOnAdd()
@@ -306,7 +311,7 @@ namespace ManagerAPI.DataAccess.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
@@ -343,11 +348,11 @@ namespace ManagerAPI.DataAccess.Migrations
 
                     b.Property<string>("ReceiverId")
                         .IsRequired()
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("SenderId")
                         .IsRequired()
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Text")
                         .IsRequired()
@@ -371,7 +376,7 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasMaxLength(512)
-                        .HasColumnType("varchar(512) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(512)");
 
                     b.Property<DateTime>("Creation")
                         .ValueGeneratedOnAdd()
@@ -380,7 +385,7 @@ namespace ManagerAPI.DataAccess.Migrations
 
                     b.Property<string>("CreatorId")
                         .IsRequired()
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<DateTime>("LastUpdate")
                         .ValueGeneratedOnAdd()
@@ -389,7 +394,7 @@ namespace ManagerAPI.DataAccess.Migrations
 
                     b.Property<string>("LastUpdaterId")
                         .IsRequired()
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
 
@@ -414,7 +419,7 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(256)");
 
                     b.Property<bool>("IsRead")
                         .ValueGeneratedOnAdd()
@@ -423,7 +428,7 @@ namespace ManagerAPI.DataAccess.Migrations
 
                     b.Property<string>("OwnerId")
                         .IsRequired()
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<DateTime>("SentDate")
                         .ValueGeneratedOnAdd()
@@ -450,11 +455,11 @@ namespace ManagerAPI.DataAccess.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("ShortName")
                         .IsRequired()
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
@@ -507,7 +512,7 @@ namespace ManagerAPI.DataAccess.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
@@ -1225,418 +1230,6 @@ namespace ManagerAPI.DataAccess.Migrations
                         });
                 });
 
-            modelBuilder.Entity("ManagerAPI.Domain.Entities.PM.GroupRole", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<int>("AccessLevel")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("GroupRoles");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            AccessLevel = 0,
-                            Title = "Visitor"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            AccessLevel = 1,
-                            Title = "Normal"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            AccessLevel = 2,
-                            Title = "Editor"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            AccessLevel = 3,
-                            Title = "Moderator"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            AccessLevel = 4,
-                            Title = "Administrator"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            AccessLevel = 5,
-                            Title = "Owner"
-                        });
-                });
-
-            modelBuilder.Entity("ManagerAPI.Domain.Entities.PM.MarkType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(120)
-                        .HasColumnType("varchar(120) CHARACTER SET utf8mb4");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("MarkTypes");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Title = "Responsible"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Title = "Owner"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Title = "Modifier"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Title = "Leader"
-                        });
-                });
-
-            modelBuilder.Entity("ManagerAPI.Domain.Entities.PM.Plan", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("Creation")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime(6)")
-                        .HasDefaultValueSql("NOW()");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(512)
-                        .HasColumnType("varchar(512) CHARACTER SET utf8mb4");
-
-                    b.Property<DateTime?>("EndTime")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime(6)")
-                        .HasDefaultValueSql("NOW()");
-
-                    b.Property<bool>("IsPublic")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("tinyint(1)")
-                        .HasDefaultValue(false);
-
-                    b.Property<DateTime>("LastUpdate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime(6)")
-                        .HasDefaultValueSql("NOW()");
-
-                    b.Property<string>("OwnerId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
-
-                    b.Property<int?>("PlanTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("PriorityLevel")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("StartTime")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime(6)")
-                        .HasDefaultValueSql("NOW()");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("varchar(150) CHARACTER SET utf8mb4");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OwnerId");
-
-                    b.HasIndex("PlanTypeId");
-
-                    b.ToTable("Plans");
-                });
-
-            modelBuilder.Entity("ManagerAPI.Domain.Entities.PM.PlanGroup", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("Creation")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime(6)")
-                        .HasDefaultValueSql("NOW()");
-
-                    b.Property<string>("CreatorId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
-
-                    b.Property<bool>("IsArchived")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<DateTime>("LastUpdate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime(6)")
-                        .HasDefaultValueSql("NOW()");
-
-                    b.Property<string>("LastUpdaterId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreatorId");
-
-                    b.HasIndex("LastUpdaterId");
-
-                    b.ToTable("PlanGroups");
-                });
-
-            modelBuilder.Entity("ManagerAPI.Domain.Entities.PM.PlanGroupChatMessage", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<int>("GroupId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Message")
-                        .IsRequired()
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<string>("SenderId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
-
-                    b.Property<DateTime>("Sent")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime(6)")
-                        .HasDefaultValueSql("NOW()");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GroupId");
-
-                    b.HasIndex("SenderId");
-
-                    b.ToTable("PlanGroupChatMessages");
-                });
-
-            modelBuilder.Entity("ManagerAPI.Domain.Entities.PM.PlanGroupIdea", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("varchar(200) CHARACTER SET utf8mb4");
-
-                    b.Property<DateTime>("Creation")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime(6)")
-                        .HasDefaultValueSql("NOW()");
-
-                    b.Property<string>("CreatorId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
-
-                    b.Property<int>("GroupId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreatorId");
-
-                    b.HasIndex("GroupId");
-
-                    b.ToTable("PlanGroupIdeas");
-                });
-
-            modelBuilder.Entity("ManagerAPI.Domain.Entities.PM.PlanGroupPlan", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("Creation")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime(6)")
-                        .HasDefaultValueSql("NOW()");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(512)
-                        .HasColumnType("varchar(512) CHARACTER SET utf8mb4");
-
-                    b.Property<DateTime?>("EndTime")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int>("GroupId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsPublic")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("tinyint(1)")
-                        .HasDefaultValue(false);
-
-                    b.Property<DateTime?>("LastUpdate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime(6)")
-                        .HasDefaultValueSql("NOW()");
-
-                    b.Property<string>("LastUpdaterId")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
-
-                    b.Property<int?>("MarkTypeId")
-                        .IsRequired()
-                        .HasColumnType("int");
-
-                    b.Property<string>("MarkedUserId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
-
-                    b.Property<string>("OwnerId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
-
-                    b.Property<int?>("PlanTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("PriorityLevel")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("StartTime")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("varchar(150) CHARACTER SET utf8mb4");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GroupId");
-
-                    b.HasIndex("LastUpdaterId");
-
-                    b.HasIndex("MarkTypeId");
-
-                    b.HasIndex("MarkedUserId");
-
-                    b.HasIndex("OwnerId");
-
-                    b.HasIndex("PlanTypeId");
-
-                    b.ToTable("PlanGroupPlans");
-                });
-
-            modelBuilder.Entity("ManagerAPI.Domain.Entities.PM.PlanGroupPlanComment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("Comment")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4");
-
-                    b.Property<DateTime>("Creation")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime(6)")
-                        .HasDefaultValueSql("NOW()");
-
-                    b.Property<int>("PlanId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("SenderId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PlanId");
-
-                    b.HasIndex("SenderId");
-
-                    b.ToTable("PlanGroupPlanComments");
-                });
-
-            modelBuilder.Entity("ManagerAPI.Domain.Entities.PM.PlanType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PlanTypes");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Plan"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Future Idea"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Nice To Have"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "Learning"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Name = "Decision"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Name = "Event"
-                        });
-                });
-
             modelBuilder.Entity("ManagerAPI.Domain.Entities.SL.Book", b =>
                 {
                     b.Property<int>("Id")
@@ -1646,7 +1239,7 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.Property<string>("Author")
                         .IsRequired()
                         .HasMaxLength(150)
-                        .HasColumnType("varchar(150) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(150)");
 
                     b.Property<DateTime>("Creation")
                         .ValueGeneratedOnAdd()
@@ -1655,10 +1248,11 @@ namespace ManagerAPI.DataAccess.Migrations
 
                     b.Property<string>("CreatorId")
                         .IsRequired()
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Description")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime>("LastUpdate")
                         .ValueGeneratedOnAdd()
@@ -1667,12 +1261,12 @@ namespace ManagerAPI.DataAccess.Migrations
 
                     b.Property<string>("LastUpdaterId")
                         .IsRequired()
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(150)
-                        .HasColumnType("varchar(150) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(150)");
 
                     b.Property<DateTime?>("Publish")
                         .HasColumnType("datetime(6)");
@@ -1693,21 +1287,24 @@ namespace ManagerAPI.DataAccess.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasMaxLength(300)
-                        .HasColumnType("varchar(300) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(300)");
 
                     b.Property<byte[]>("ImageData")
+                        .IsRequired()
                         .HasColumnType("longblob");
 
                     b.Property<string>("ImageTitle")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime>("LastUpdate")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("LastUpdaterId")
                         .IsRequired()
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<int>("Number")
                         .HasColumnType("int");
@@ -1718,7 +1315,7 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(150)
-                        .HasColumnType("varchar(150) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(150)");
 
                     b.HasKey("Id");
 
@@ -1742,22 +1339,26 @@ namespace ManagerAPI.DataAccess.Migrations
 
                     b.Property<string>("CreatorId")
                         .IsRequired()
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasMaxLength(999)
-                        .HasColumnType("varchar(999) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(999)");
 
                     b.Property<string>("Director")
+                        .IsRequired()
                         .HasMaxLength(60)
-                        .HasColumnType("varchar(60) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(60)");
 
                     b.Property<byte[]>("ImageData")
+                        .IsRequired()
                         .HasColumnType("longblob");
 
                     b.Property<string>("ImageTitle")
+                        .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("varchar(100) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(100)");
 
                     b.Property<DateTime>("LastUpdate")
                         .ValueGeneratedOnAdd()
@@ -1766,7 +1367,7 @@ namespace ManagerAPI.DataAccess.Migrations
 
                     b.Property<string>("LastUpdaterId")
                         .IsRequired()
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<int?>("Length")
                         .HasColumnType("int");
@@ -1777,11 +1378,12 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(150)
-                        .HasColumnType("varchar(150) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(150)");
 
                     b.Property<string>("TrailerUrl")
+                        .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("varchar(200) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(200)");
 
                     b.HasKey("Id");
 
@@ -1801,7 +1403,7 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(120)
-                        .HasColumnType("varchar(120) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(120)");
 
                     b.HasKey("Id");
 
@@ -1839,7 +1441,7 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.Property<string>("Comment")
                         .IsRequired()
                         .HasMaxLength(500)
-                        .HasColumnType("varchar(500) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(500)");
 
                     b.Property<DateTime>("Creation")
                         .ValueGeneratedOnAdd()
@@ -1856,7 +1458,7 @@ namespace ManagerAPI.DataAccess.Migrations
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
 
@@ -1914,21 +1516,24 @@ namespace ManagerAPI.DataAccess.Migrations
 
                     b.Property<string>("CreatorId")
                         .IsRequired()
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasMaxLength(999)
-                        .HasColumnType("varchar(999) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(999)");
 
                     b.Property<int?>("EndYear")
                         .HasColumnType("int");
 
                     b.Property<byte[]>("ImageData")
+                        .IsRequired()
                         .HasColumnType("longblob");
 
                     b.Property<string>("ImageTitle")
+                        .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("varchar(100) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(100)");
 
                     b.Property<DateTime>("LastUpdate")
                         .ValueGeneratedOnAdd()
@@ -1937,7 +1542,7 @@ namespace ManagerAPI.DataAccess.Migrations
 
                     b.Property<string>("LastUpdaterId")
                         .IsRequired()
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<int?>("StartYear")
                         .HasColumnType("int");
@@ -1945,11 +1550,12 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(150)
-                        .HasColumnType("varchar(150) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(150)");
 
                     b.Property<string>("TrailerUrl")
+                        .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("varchar(200) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(200)");
 
                     b.HasKey("Id");
 
@@ -1969,7 +1575,7 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(120)
-                        .HasColumnType("varchar(120) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(120)");
 
                     b.HasKey("Id");
 
@@ -2007,7 +1613,7 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.Property<string>("Comment")
                         .IsRequired()
                         .HasMaxLength(500)
-                        .HasColumnType("varchar(500) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(500)");
 
                     b.Property<DateTime>("Creation")
                         .ValueGeneratedOnAdd()
@@ -2024,7 +1630,7 @@ namespace ManagerAPI.DataAccess.Migrations
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
 
@@ -2053,7 +1659,7 @@ namespace ManagerAPI.DataAccess.Migrations
             modelBuilder.Entity("ManagerAPI.Domain.Entities.SL.UserBook", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<int>("BookId")
                         .HasColumnType("int");
@@ -2081,7 +1687,7 @@ namespace ManagerAPI.DataAccess.Migrations
             modelBuilder.Entity("ManagerAPI.Domain.Entities.SL.UserEpisode", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<int>("EpisodeId")
                         .HasColumnType("int");
@@ -2104,7 +1710,7 @@ namespace ManagerAPI.DataAccess.Migrations
             modelBuilder.Entity("ManagerAPI.Domain.Entities.SL.UserMovie", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<int>("MovieId")
                         .HasColumnType("int");
@@ -2138,7 +1744,7 @@ namespace ManagerAPI.DataAccess.Migrations
             modelBuilder.Entity("ManagerAPI.Domain.Entities.SL.UserSeries", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<int>("SeriesId")
                         .HasColumnType("int");
@@ -2168,72 +1774,35 @@ namespace ManagerAPI.DataAccess.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Creation")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime(6)")
-                        .HasDefaultValueSql("NOW()");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<DateTime>("Deadline")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext");
 
                     b.Property<bool>("IsSolved")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("tinyint(1)")
-                        .HasDefaultValue(false);
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<DateTime>("LastUpdate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime(6)")
-                        .HasDefaultValueSql("NOW()");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("OwnerId")
                         .IsRequired()
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("varchar(100) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(100)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("OwnerId");
 
                     b.ToTable("Tasks");
-                });
-
-            modelBuilder.Entity("ManagerAPI.Domain.Entities.UserPlanGroup", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
-
-                    b.Property<int>("GroupId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("AddedById")
-                        .IsRequired()
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
-
-                    b.Property<DateTime>("Connection")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime(6)")
-                        .HasDefaultValueSql("NOW()");
-
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int");
-
-                    b.HasKey("UserId", "GroupId");
-
-                    b.HasIndex("AddedById");
-
-                    b.HasIndex("GroupId");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("UserPlanGroupsSwitch");
                 });
 
             modelBuilder.Entity("ManagerAPI.Domain.Entities.WM.WorkingDay", b =>
@@ -2250,7 +1819,7 @@ namespace ManagerAPI.DataAccess.Migrations
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
 
@@ -2275,7 +1844,7 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("varchar(100) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(100)");
 
                     b.HasKey("Id");
 
@@ -2315,7 +1884,8 @@ namespace ManagerAPI.DataAccess.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<decimal>("Length")
                         .HasColumnType("decimal(65,30)");
@@ -2323,7 +1893,7 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("varchar(200) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(200)");
 
                     b.Property<int>("WorkingDayId")
                         .HasColumnType("int");
@@ -2338,23 +1908,23 @@ namespace ManagerAPI.DataAccess.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Discriminator")
                         .IsRequired()
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Name")
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(256)");
 
                     b.Property<string>("NormalizedName")
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(256)");
 
                     b.HasKey("Id");
 
@@ -2362,7 +1932,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         .IsUnique()
                         .HasDatabaseName("RoleNameIndex");
 
-                    b.ToTable("AspNetRoles");
+                    b.ToTable("AspNetRoles", (string)null);
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("IdentityRole");
                 });
@@ -2374,41 +1944,41 @@ namespace ManagerAPI.DataAccess.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("ClaimType")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("RoleId")
                         .IsRequired()
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetRoleClaims");
+                    b.ToTable("AspNetRoleClaims", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Discriminator")
                         .IsRequired()
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(256)");
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("tinyint(1)");
@@ -2421,30 +1991,30 @@ namespace ManagerAPI.DataAccess.Migrations
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(256)");
 
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(256)");
 
                     b.Property<string>("PasswordHash")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext");
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("SecurityStamp")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(256)");
 
                     b.HasKey("Id");
 
@@ -2455,7 +2025,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
 
-                    b.ToTable("AspNetUsers");
+                    b.ToTable("AspNetUsers", (string)null);
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
                 });
@@ -2467,152 +2037,76 @@ namespace ManagerAPI.DataAccess.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("ClaimType")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserClaims");
+                    b.ToTable("AspNetUserClaims", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("ProviderDisplayName")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserLogins");
+                    b.ToTable("AspNetUserLogins", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("RoleId")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("UserId", "RoleId");
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetUserRoles");
+                    b.ToTable("AspNetUserRoles", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Value")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext");
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("ManagerAPI.Domain.Entities.WebsiteRole", b =>
-                {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityRole");
-
-                    b.Property<int>("AccessLevel")
-                        .HasColumnType("int");
-
-                    b.HasDiscriminator().HasValue("WebsiteRole");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "2f76c2fc-bbca-41ff-86ed-5ef43d41d8f9",
-                            ConcurrencyStamp = "36f016e1-6d49-4cd1-8869-c465e983aab7",
-                            Name = "Visitor",
-                            NormalizedName = "VISITOR",
-                            AccessLevel = 0
-                        },
-                        new
-                        {
-                            Id = "776474d7-8d01-4809-963e-c721f39dbb45",
-                            ConcurrencyStamp = "6427b27f-a984-493b-8440-d03ff98fdfd3",
-                            Name = "Normal",
-                            NormalizedName = "NORMAL",
-                            AccessLevel = 1
-                        },
-                        new
-                        {
-                            Id = "5e0a9192-793f-4c85-a0b1-3198295bf409",
-                            ConcurrencyStamp = "e0886ef8-fbd2-4e26-91cb-98e606c24669",
-                            Name = "Moderator",
-                            NormalizedName = "MODERATOR",
-                            AccessLevel = 2
-                        },
-                        new
-                        {
-                            Id = "936e42dc-5d3f-4355-bc3a-304a4fe4f518",
-                            ConcurrencyStamp = "7e4825cd-fe38-4f6c-b4ba-8a7d16a1eb4e",
-                            Name = "Administrator",
-                            NormalizedName = "ADMINISTRATOR",
-                            AccessLevel = 3
-                        },
-                        new
-                        {
-                            Id = "936e4ddc-5d3f-4355-af3a-304a4fe4f518",
-                            ConcurrencyStamp = "7803eb8b-a947-4a6f-8542-76599a7cf89a",
-                            Name = "Status Library User",
-                            NormalizedName = "STATUS LIBRARY USER",
-                            AccessLevel = 1
-                        },
-                        new
-                        {
-                            Id = "936e4ddc-5d3f-5466-af3a-3b4a4424d518",
-                            ConcurrencyStamp = "f3f304a8-a42d-49b7-bf46-5befd5b167f1",
-                            Name = "Status Library Moderator",
-                            NormalizedName = "STATUS LIBRARY MODERATOR",
-                            AccessLevel = 3
-                        },
-                        new
-                        {
-                            Id = "936d4dfc-5536-4d5f-af2a-304d4fe4f518",
-                            ConcurrencyStamp = "4a71b65a-7178-480b-93ff-aad89f800c02",
-                            Name = "Status Library Administrator",
-                            NormalizedName = "STATUS LIBRARY ADMINISTRATOR",
-                            AccessLevel = 3
-                        },
-                        new
-                        {
-                            Id = "fa5deb78-59c2-4faa-83dc-6c3369eedf20",
-                            ConcurrencyStamp = "c263e607-a09d-4193-ab44-848d6fff12b5",
-                            Name = "Root",
-                            NormalizedName = "ROOT",
-                            AccessLevel = 4
-                        });
+                    b.ToTable("AspNetUserTokens", (string)null);
                 });
 
             modelBuilder.Entity("ManagerAPI.Domain.Entities.User", b =>
@@ -2620,29 +2114,34 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
                     b.Property<string>("Allergy")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime?>("BirthDay")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("City")
+                        .IsRequired()
                         .HasMaxLength(120)
-                        .HasColumnType("varchar(120) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(120)");
 
                     b.Property<string>("Country")
+                        .IsRequired()
                         .HasMaxLength(120)
-                        .HasColumnType("varchar(120) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(120)");
 
                     b.Property<string>("FullName")
+                        .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("varchar(100) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(100)");
 
                     b.Property<int?>("GenderId")
                         .HasColumnType("int");
 
                     b.Property<string>("Group")
+                        .IsRequired()
                         .HasMaxLength(40)
-                        .HasColumnType("varchar(40) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(40)");
 
                     b.Property<bool>("IsActive")
                         .ValueGeneratedOnAdd()
@@ -2658,7 +2157,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         .HasColumnType("longblob");
 
                     b.Property<string>("ProfileImageTitle")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime>("RegistrationDate")
                         .ValueGeneratedOnAdd()
@@ -2666,11 +2165,13 @@ namespace ManagerAPI.DataAccess.Migrations
                         .HasDefaultValueSql("NOW()");
 
                     b.Property<string>("SecondaryEmail")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<string>("TShirtSize")
+                        .IsRequired()
                         .HasMaxLength(6)
-                        .HasColumnType("varchar(6) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(6)");
 
                     b.HasIndex("GenderId");
 
@@ -2681,7 +2182,7 @@ namespace ManagerAPI.DataAccess.Migrations
                         {
                             Id = "44045506-66fd-4af8-9d59-133c47d1787c",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "aed1cc8b-bb0f-4611-84fb-66adda08a665",
+                            ConcurrencyStamp = "7cf836a7-842c-41fe-902a-5e9f86fc5260",
                             Email = "karcagtamas@outlook.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -2689,39 +2190,27 @@ namespace ManagerAPI.DataAccess.Migrations
                             NormalizedUserName = "KARCAGTAMAS",
                             PasswordHash = "AQAAAAEAACcQAAAAEG9SljY4ow/I7990YZ15dSGvCesg0bad3pQSWi4ekt0RT8J5JuL3lQmNJCnxo2lGIA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "32ec8e40-c323-4d15-8ab3-37edcf2cbb69",
+                            SecurityStamp = "142b7322-39d8-4cb3-8816-582511857fa5",
                             TwoFactorEnabled = false,
                             UserName = "karcagtamas",
+                            Allergy = "",
+                            City = "",
+                            Country = "",
                             FullName = "Karcag Tamas",
+                            GenderId = 1,
+                            Group = "",
                             IsActive = true,
                             LastLogin = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            RegistrationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = "f8237fac-c6dc-47b0-8f71-b72f93368b02",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "27c15edc-8ee3-4b53-9bc6-5b4fb9303624",
-                            Email = "aron.klenovszky@gmail.com",
-                            EmailConfirmed = true,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "ARON.KLENOVSZKY@GMAIL.COM",
-                            NormalizedUserName = "AARONKAA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEL9QeDNFqEAq8WDl2/fXBSc02Tzxxnek963ILEw1L3aQsFysXXG4L3KvFYIVg/LpLA==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "a60878fe-c124-4039-b6db-61ef0a73f40c",
-                            TwoFactorEnabled = false,
-                            UserName = "aaronkaa",
-                            FullName = "Klenovszky Áron",
-                            IsActive = true,
-                            LastLogin = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            RegistrationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            ProfileImageTitle = "",
+                            RegistrationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SecondaryEmail = "",
+                            TShirtSize = ""
                         },
                         new
                         {
                             Id = "cd5e5069-59c8-4163-95c5-776fab95e51a",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b752e32c-f81e-4679-b3f1-e3b2e047f119",
+                            ConcurrencyStamp = "8707df4b-1c0e-4b65-84e0-a4996c4fa221",
                             Email = "root@karcags.hu",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -2729,33 +2218,96 @@ namespace ManagerAPI.DataAccess.Migrations
                             NormalizedUserName = "ROOT",
                             PasswordHash = "AQAAAAEAACcQAAAAEHdK+ODabrjejNLGhod4ftL37G5zT97p2g0Ck5dH9MchA2B/JFDiwb9kk9soZBPF5Q==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "6bd9afe8-0d4b-4726-a549-30bf5bef47e8",
+                            SecurityStamp = "f89f79b1-1cf1-43df-87a0-642dcee56552",
                             TwoFactorEnabled = false,
                             UserName = "root",
+                            Allergy = "",
+                            City = "",
+                            Country = "",
                             FullName = "Root",
+                            Group = "",
                             IsActive = true,
                             LastLogin = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            RegistrationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            ProfileImageTitle = "",
+                            RegistrationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SecondaryEmail = "",
+                            TShirtSize = ""
+                        });
+                });
+
+            modelBuilder.Entity("ManagerAPI.Domain.Entities.WebsiteRole", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityRole");
+
+                    b.Property<int>("AccessLevel")
+                        .HasColumnType("int");
+
+                    b.HasDiscriminator().HasValue("WebsiteRole");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "2f76c2fc-bbca-41ff-86ed-5ef43d41d8f9",
+                            ConcurrencyStamp = "63868519-e55d-480e-b291-c681bfdb95f0",
+                            Name = "Visitor",
+                            NormalizedName = "VISITOR",
+                            AccessLevel = 0
                         },
                         new
                         {
-                            Id = "fa2edf69-5fc8-a163-9fc5-726f3b94e51b",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "12294760-47a6-46cd-aa27-24e3e9663b9a",
-                            Email = "barni.pbs@gmail.com",
-                            EmailConfirmed = true,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "BARNI.PBS@GMAIL.COM",
-                            NormalizedUserName = "BARNI363HUN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEL9QeDNFqEAq8WDl2/fXBSc02Tzxxnek963ILEw1L3aQsFysXXG4L3KvFYIVg/LpLA==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "08423e1b-54ac-4385-85a0-e42ffdecfc54",
-                            TwoFactorEnabled = false,
-                            UserName = "barni363hun",
-                            FullName = "Root",
-                            IsActive = true,
-                            LastLogin = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            RegistrationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            Id = "776474d7-8d01-4809-963e-c721f39dbb45",
+                            ConcurrencyStamp = "acdc1508-d372-4765-8d83-593d6b53d1c0",
+                            Name = "Normal",
+                            NormalizedName = "NORMAL",
+                            AccessLevel = 1
+                        },
+                        new
+                        {
+                            Id = "5e0a9192-793f-4c85-a0b1-3198295bf409",
+                            ConcurrencyStamp = "83b020fb-c887-4d2d-b673-eb3989c76494",
+                            Name = "Moderator",
+                            NormalizedName = "MODERATOR",
+                            AccessLevel = 2
+                        },
+                        new
+                        {
+                            Id = "936e42dc-5d3f-4355-bc3a-304a4fe4f518",
+                            ConcurrencyStamp = "830bd94e-6014-442b-a4e6-cb018c2f374e",
+                            Name = "Administrator",
+                            NormalizedName = "ADMINISTRATOR",
+                            AccessLevel = 3
+                        },
+                        new
+                        {
+                            Id = "936e4ddc-5d3f-4355-af3a-304a4fe4f518",
+                            ConcurrencyStamp = "bd6f4de5-29ad-42b3-8f6b-9b9cc01cd1ce",
+                            Name = "Status Library User",
+                            NormalizedName = "STATUS LIBRARY USER",
+                            AccessLevel = 1
+                        },
+                        new
+                        {
+                            Id = "936e4ddc-5d3f-5466-af3a-3b4a4424d518",
+                            ConcurrencyStamp = "b3f06b57-7dba-4edb-8ba9-e4369f32eb11",
+                            Name = "Status Library Moderator",
+                            NormalizedName = "STATUS LIBRARY MODERATOR",
+                            AccessLevel = 3
+                        },
+                        new
+                        {
+                            Id = "936d4dfc-5536-4d5f-af2a-304d4fe4f518",
+                            ConcurrencyStamp = "1f25781a-1620-4cb2-aa41-1f48344c8358",
+                            Name = "Status Library Administrator",
+                            NormalizedName = "STATUS LIBRARY ADMINISTRATOR",
+                            AccessLevel = 3
+                        },
+                        new
+                        {
+                            Id = "fa5deb78-59c2-4faa-83dc-6c3369eedf20",
+                            ConcurrencyStamp = "7404ea79-d1b4-465f-8ed5-dacfed36e2d3",
+                            Name = "Root",
+                            NormalizedName = "ROOT",
+                            AccessLevel = 4
                         });
                 });
 
@@ -2763,7 +2315,8 @@ namespace ManagerAPI.DataAccess.Migrations
                 {
                     b.HasOne("ManagerAPI.Domain.Entities.User", "LastUpdater")
                         .WithMany("LastUpdatedCsomors")
-                        .HasForeignKey("LastUpdaterId");
+                        .HasForeignKey("LastUpdaterId")
+                        .IsRequired();
 
                     b.HasOne("ManagerAPI.Domain.Entities.User", "Owner")
                         .WithMany("OwnedCsomors")
@@ -2797,7 +2350,8 @@ namespace ManagerAPI.DataAccess.Migrations
 
                     b.HasOne("ManagerAPI.Domain.Entities.CSM.CsomorWork", "Work")
                         .WithMany("Persons")
-                        .HasForeignKey("WorkId");
+                        .HasForeignKey("WorkId")
+                        .IsRequired();
 
                     b.Navigation("Person");
 
@@ -2819,7 +2373,8 @@ namespace ManagerAPI.DataAccess.Migrations
                 {
                     b.HasOne("ManagerAPI.Domain.Entities.CSM.CsomorPerson", "Person")
                         .WithMany("Works")
-                        .HasForeignKey("PersonId");
+                        .HasForeignKey("PersonId")
+                        .IsRequired();
 
                     b.HasOne("ManagerAPI.Domain.Entities.CSM.CsomorWork", "Work")
                         .WithMany("Tables")
@@ -2982,149 +2537,6 @@ namespace ManagerAPI.DataAccess.Migrations
                         .IsRequired();
 
                     b.Navigation("System");
-                });
-
-            modelBuilder.Entity("ManagerAPI.Domain.Entities.PM.Plan", b =>
-                {
-                    b.HasOne("ManagerAPI.Domain.Entities.User", "Owner")
-                        .WithMany("Plans")
-                        .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
-
-                    b.HasOne("ManagerAPI.Domain.Entities.PM.PlanType", "PlanType")
-                        .WithMany("Plans")
-                        .HasForeignKey("PlanTypeId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
-
-                    b.Navigation("Owner");
-
-                    b.Navigation("PlanType");
-                });
-
-            modelBuilder.Entity("ManagerAPI.Domain.Entities.PM.PlanGroup", b =>
-                {
-                    b.HasOne("ManagerAPI.Domain.Entities.User", "Creator")
-                        .WithMany("CreatedPlanGroups")
-                        .HasForeignKey("CreatorId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
-
-                    b.HasOne("ManagerAPI.Domain.Entities.User", "LastUpdater")
-                        .WithMany("LastUpdatedPlanGroups")
-                        .HasForeignKey("LastUpdaterId")
-                        .OnDelete(DeleteBehavior.ClientNoAction)
-                        .IsRequired();
-
-                    b.Navigation("Creator");
-
-                    b.Navigation("LastUpdater");
-                });
-
-            modelBuilder.Entity("ManagerAPI.Domain.Entities.PM.PlanGroupChatMessage", b =>
-                {
-                    b.HasOne("ManagerAPI.Domain.Entities.PM.PlanGroup", "Group")
-                        .WithMany("Messages")
-                        .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
-
-                    b.HasOne("ManagerAPI.Domain.Entities.User", "Sender")
-                        .WithMany("SentPlanGroupChatMessages")
-                        .HasForeignKey("SenderId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
-
-                    b.Navigation("Group");
-
-                    b.Navigation("Sender");
-                });
-
-            modelBuilder.Entity("ManagerAPI.Domain.Entities.PM.PlanGroupIdea", b =>
-                {
-                    b.HasOne("ManagerAPI.Domain.Entities.User", "Creator")
-                        .WithMany("CreatedPlanGroupIdeas")
-                        .HasForeignKey("CreatorId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
-
-                    b.HasOne("ManagerAPI.Domain.Entities.PM.PlanGroup", "Group")
-                        .WithMany("Ideas")
-                        .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
-
-                    b.Navigation("Creator");
-
-                    b.Navigation("Group");
-                });
-
-            modelBuilder.Entity("ManagerAPI.Domain.Entities.PM.PlanGroupPlan", b =>
-                {
-                    b.HasOne("ManagerAPI.Domain.Entities.PM.PlanGroup", "Group")
-                        .WithMany("Plans")
-                        .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
-
-                    b.HasOne("ManagerAPI.Domain.Entities.User", "LastUpdater")
-                        .WithMany("LastUpdatedPlanGroupPlans")
-                        .HasForeignKey("LastUpdaterId")
-                        .OnDelete(DeleteBehavior.ClientNoAction);
-
-                    b.HasOne("ManagerAPI.Domain.Entities.PM.MarkType", "MarkType")
-                        .WithMany("MarkedPlans")
-                        .HasForeignKey("MarkTypeId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
-
-                    b.HasOne("ManagerAPI.Domain.Entities.User", "MarkedUser")
-                        .WithMany("MarkedOnGroupPlans")
-                        .HasForeignKey("MarkedUserId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
-
-                    b.HasOne("ManagerAPI.Domain.Entities.User", "Owner")
-                        .WithMany("CreatedPlanGroupPlans")
-                        .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
-
-                    b.HasOne("ManagerAPI.Domain.Entities.PM.PlanType", "PlanType")
-                        .WithMany("GroupPlans")
-                        .HasForeignKey("PlanTypeId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
-
-                    b.Navigation("Group");
-
-                    b.Navigation("LastUpdater");
-
-                    b.Navigation("MarkedUser");
-
-                    b.Navigation("MarkType");
-
-                    b.Navigation("Owner");
-
-                    b.Navigation("PlanType");
-                });
-
-            modelBuilder.Entity("ManagerAPI.Domain.Entities.PM.PlanGroupPlanComment", b =>
-                {
-                    b.HasOne("ManagerAPI.Domain.Entities.PM.PlanGroupPlan", "Plan")
-                        .WithMany("Comments")
-                        .HasForeignKey("PlanId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
-
-                    b.HasOne("ManagerAPI.Domain.Entities.User", "Sender")
-                        .WithMany("CreatedPlanGroupPlanComment")
-                        .HasForeignKey("SenderId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
-
-                    b.Navigation("Plan");
-
-                    b.Navigation("Sender");
                 });
 
             modelBuilder.Entity("ManagerAPI.Domain.Entities.SL.Book", b =>
@@ -3377,41 +2789,6 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.Navigation("Owner");
                 });
 
-            modelBuilder.Entity("ManagerAPI.Domain.Entities.UserPlanGroup", b =>
-                {
-                    b.HasOne("ManagerAPI.Domain.Entities.User", "AddedBy")
-                        .WithMany("AddedUsersToGroups")
-                        .HasForeignKey("AddedById")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
-
-                    b.HasOne("ManagerAPI.Domain.Entities.PM.PlanGroup", "Group")
-                        .WithMany("Users")
-                        .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
-
-                    b.HasOne("ManagerAPI.Domain.Entities.PM.GroupRole", "Role")
-                        .WithMany("GroupMembers")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
-
-                    b.HasOne("ManagerAPI.Domain.Entities.User", "User")
-                        .WithMany("Groups")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
-
-                    b.Navigation("AddedBy");
-
-                    b.Navigation("Group");
-
-                    b.Navigation("Role");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("ManagerAPI.Domain.Entities.WM.WorkingDay", b =>
                 {
                     b.HasOne("ManagerAPI.Domain.Entities.WM.WorkingDayType", "Type")
@@ -3550,39 +2927,6 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.Navigation("Notifications");
                 });
 
-            modelBuilder.Entity("ManagerAPI.Domain.Entities.PM.GroupRole", b =>
-                {
-                    b.Navigation("GroupMembers");
-                });
-
-            modelBuilder.Entity("ManagerAPI.Domain.Entities.PM.MarkType", b =>
-                {
-                    b.Navigation("MarkedPlans");
-                });
-
-            modelBuilder.Entity("ManagerAPI.Domain.Entities.PM.PlanGroup", b =>
-                {
-                    b.Navigation("Ideas");
-
-                    b.Navigation("Messages");
-
-                    b.Navigation("Plans");
-
-                    b.Navigation("Users");
-                });
-
-            modelBuilder.Entity("ManagerAPI.Domain.Entities.PM.PlanGroupPlan", b =>
-                {
-                    b.Navigation("Comments");
-                });
-
-            modelBuilder.Entity("ManagerAPI.Domain.Entities.PM.PlanType", b =>
-                {
-                    b.Navigation("GroupPlans");
-
-                    b.Navigation("Plans");
-                });
-
             modelBuilder.Entity("ManagerAPI.Domain.Entities.SL.Book", b =>
                 {
                     b.Navigation("ConnectedUsers");
@@ -3640,29 +2984,17 @@ namespace ManagerAPI.DataAccess.Migrations
 
             modelBuilder.Entity("ManagerAPI.Domain.Entities.User", b =>
                 {
-                    b.Navigation("AddedUsersToGroups");
-
                     b.Navigation("CreatedBooks");
 
                     b.Navigation("CreatedMovies");
 
                     b.Navigation("CreatedNews");
 
-                    b.Navigation("CreatedPlanGroupIdeas");
-
-                    b.Navigation("CreatedPlanGroupPlanComment");
-
-                    b.Navigation("CreatedPlanGroupPlans");
-
-                    b.Navigation("CreatedPlanGroups");
-
                     b.Navigation("CreatedSeries");
 
                     b.Navigation("FriendListLeft");
 
                     b.Navigation("FriendListRight");
-
-                    b.Navigation("Groups");
 
                     b.Navigation("LastUpdatedBooks");
 
@@ -3672,13 +3004,7 @@ namespace ManagerAPI.DataAccess.Migrations
 
                     b.Navigation("LastUpdatedMovies");
 
-                    b.Navigation("LastUpdatedPlanGroupPlans");
-
-                    b.Navigation("LastUpdatedPlanGroups");
-
                     b.Navigation("LastUpdatedSeries");
-
-                    b.Navigation("MarkedOnGroupPlans");
 
                     b.Navigation("MovieComments");
 
@@ -3694,8 +3020,6 @@ namespace ManagerAPI.DataAccess.Migrations
 
                     b.Navigation("OwnedCsomors");
 
-                    b.Navigation("Plans");
-
                     b.Navigation("ReceivedFriendRequest");
 
                     b.Navigation("ReceivedMessages");
@@ -3703,8 +3027,6 @@ namespace ManagerAPI.DataAccess.Migrations
                     b.Navigation("SentFriendRequest");
 
                     b.Navigation("SentMessages");
-
-                    b.Navigation("SentPlanGroupChatMessages");
 
                     b.Navigation("SeriesComments");
 

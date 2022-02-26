@@ -66,12 +66,12 @@ namespace ManagerAPI.Domain.Entities
         /// <summary>
         /// Profile image title
         /// </summary>
-        public string ProfileImageTitle { get; set; } = string.Empty;
+        public string? ProfileImageTitle { get; set; } = string.Empty;
 
         /// <summary>
         /// Profile image
         /// </summary>
-        public byte[] ProfileImageData { get; set; } = default!;
+        public byte[]? ProfileImageData { get; set; } = default!;
 
         /// <summary>
         /// Country
@@ -93,7 +93,7 @@ namespace ManagerAPI.Domain.Entities
         /// <summary>
         /// Gender
         /// </summary>
-        public virtual Gender Gender { get; set; } = default!;
+        public virtual Gender? Gender { get; set; } = default!;
 
         /// <summary>
         /// Notifications

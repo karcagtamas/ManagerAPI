@@ -2,29 +2,38 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
+#nullable disable
+
 namespace ManagerAPI.DataAccess.Migrations
 {
-    /// <inheritdoc />
     public partial class Init : Migration
     {
-        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AlterDatabase()
+                .Annotation("MySql:CharSet", "utf8mb4");
+
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
-                    Discriminator = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: false),
+                    Id = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Discriminator = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     AccessLevel = table.Column<int>(type: "int", nullable: true),
-                    Name = table.Column<string>(type: "varchar(256) CHARACTER SET utf8mb4", maxLength: 256, nullable: true),
-                    NormalizedName = table.Column<string>(type: "varchar(256) CHARACTER SET utf8mb4", maxLength: 256, nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true)
+                    Name = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    NormalizedName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ConcurrencyStamp = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetRoles", x => x.Id);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "Genders",
@@ -32,39 +41,14 @@ namespace ManagerAPI.DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: false)
+                    Name = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Genders", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "GroupRoles",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Title = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: false),
-                    AccessLevel = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_GroupRoles", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "MarkTypes",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Title = table.Column<string>(type: "varchar(120) CHARACTER SET utf8mb4", maxLength: 120, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MarkTypes", x => x.Id);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "MovieCategories",
@@ -72,12 +56,14 @@ namespace ManagerAPI.DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "varchar(120) CHARACTER SET utf8mb4", maxLength: 120, nullable: false)
+                    Name = table.Column<string>(type: "varchar(120)", maxLength: 120, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_MovieCategories", x => x.Id);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "NotificationSystems",
@@ -85,26 +71,16 @@ namespace ManagerAPI.DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: false),
-                    ShortName = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: false)
+                    Name = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ShortName = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_NotificationSystems", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "PlanTypes",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PlanTypes", x => x.Id);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "SeriesCategories",
@@ -112,12 +88,14 @@ namespace ManagerAPI.DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "varchar(120) CHARACTER SET utf8mb4", maxLength: 120, nullable: false)
+                    Name = table.Column<string>(type: "varchar(120)", maxLength: 120, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SeriesCategories", x => x.Id);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "WorkingDayTypes",
@@ -125,13 +103,15 @@ namespace ManagerAPI.DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Title = table.Column<string>(type: "varchar(100) CHARACTER SET utf8mb4", maxLength: 100, nullable: false),
+                    Title = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     DayIsActive = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_WorkingDayTypes", x => x.Id);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
@@ -139,9 +119,12 @@ namespace ManagerAPI.DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    RoleId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
-                    ClaimType = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    ClaimValue = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true)
+                    RoleId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ClaimType = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ClaimValue = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -152,37 +135,56 @@ namespace ManagerAPI.DataAccess.Migrations
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "AspNetUsers",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
-                    Discriminator = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: false),
-                    FullName = table.Column<string>(type: "varchar(100) CHARACTER SET utf8mb4", maxLength: 100, nullable: true),
+                    Id = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Discriminator = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    FullName = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     IsActive = table.Column<bool>(type: "tinyint(1)", nullable: true, defaultValue: true),
                     RegistrationDate = table.Column<DateTime>(type: "datetime(6)", nullable: true, defaultValueSql: "NOW()"),
                     LastLogin = table.Column<DateTime>(type: "datetime(6)", nullable: true, defaultValueSql: "NOW()"),
-                    SecondaryEmail = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    TShirtSize = table.Column<string>(type: "varchar(6) CHARACTER SET utf8mb4", maxLength: 6, nullable: true),
-                    Allergy = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    Group = table.Column<string>(type: "varchar(40) CHARACTER SET utf8mb4", maxLength: 40, nullable: true),
+                    SecondaryEmail = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    TShirtSize = table.Column<string>(type: "varchar(6)", maxLength: 6, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Allergy = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Group = table.Column<string>(type: "varchar(40)", maxLength: 40, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     BirthDay = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    ProfileImageTitle = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
+                    ProfileImageTitle = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     ProfileImageData = table.Column<byte[]>(type: "longblob", nullable: true),
-                    Country = table.Column<string>(type: "varchar(120) CHARACTER SET utf8mb4", maxLength: 120, nullable: true),
+                    Country = table.Column<string>(type: "varchar(120)", maxLength: 120, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     GenderId = table.Column<int>(type: "int", nullable: true),
-                    City = table.Column<string>(type: "varchar(120) CHARACTER SET utf8mb4", maxLength: 120, nullable: true),
-                    UserName = table.Column<string>(type: "varchar(256) CHARACTER SET utf8mb4", maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "varchar(256) CHARACTER SET utf8mb4", maxLength: 256, nullable: true),
-                    Email = table.Column<string>(type: "varchar(256) CHARACTER SET utf8mb4", maxLength: 256, nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "varchar(256) CHARACTER SET utf8mb4", maxLength: 256, nullable: true),
+                    City = table.Column<string>(type: "varchar(120)", maxLength: 120, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    UserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    NormalizedUserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Email = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    NormalizedEmail = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     EmailConfirmed = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    PasswordHash = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    SecurityStamp = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
+                    PasswordHash = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    SecurityStamp = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ConcurrencyStamp = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    PhoneNumber = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     PhoneNumberConfirmed = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     TwoFactorEnabled = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: true),
@@ -198,7 +200,8 @@ namespace ManagerAPI.DataAccess.Migrations
                         principalTable: "Genders",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "NotificationTypes",
@@ -206,7 +209,8 @@ namespace ManagerAPI.DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Title = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: false),
+                    Title = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     ImportanceLevel = table.Column<int>(type: "int", nullable: false),
                     SystemId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -219,7 +223,8 @@ namespace ManagerAPI.DataAccess.Migrations
                         principalTable: "NotificationSystems",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "AspNetUserClaims",
@@ -227,9 +232,12 @@ namespace ManagerAPI.DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    UserId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
-                    ClaimType = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    ClaimValue = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true)
+                    UserId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ClaimType = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ClaimValue = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -240,16 +248,21 @@ namespace ManagerAPI.DataAccess.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
-                    ProviderKey = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
-                    ProviderDisplayName = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    UserId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false)
+                    LoginProvider = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ProviderKey = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ProviderDisplayName = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    UserId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -260,14 +273,17 @@ namespace ManagerAPI.DataAccess.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "AspNetUserRoles",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
-                    RoleId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false)
+                    UserId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    RoleId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -284,16 +300,21 @@ namespace ManagerAPI.DataAccess.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "AspNetUserTokens",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
-                    LoginProvider = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
-                    Name = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
-                    Value = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true)
+                    UserId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    LoginProvider = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Name = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Value = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -304,7 +325,8 @@ namespace ManagerAPI.DataAccess.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "Books",
@@ -312,12 +334,17 @@ namespace ManagerAPI.DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "varchar(150) CHARACTER SET utf8mb4", maxLength: 150, nullable: false),
-                    Author = table.Column<string>(type: "varchar(150) CHARACTER SET utf8mb4", maxLength: 150, nullable: false),
-                    Description = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
+                    Name = table.Column<string>(type: "varchar(150)", maxLength: 150, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Author = table.Column<string>(type: "varchar(150)", maxLength: 150, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Description = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Publish = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    CreatorId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
-                    LastUpdaterId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    CreatorId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    LastUpdaterId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Creation = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()"),
                     LastUpdate = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()")
                 },
@@ -336,7 +363,8 @@ namespace ManagerAPI.DataAccess.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "Csomors",
@@ -344,11 +372,14 @@ namespace ManagerAPI.DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Title = table.Column<string>(type: "varchar(120) CHARACTER SET utf8mb4", maxLength: 120, nullable: false),
+                    Title = table.Column<string>(type: "varchar(120)", maxLength: 120, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Creation = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()"),
-                    OwnerId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    OwnerId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     LastUpdate = table.Column<DateTime>(type: "datetime(6)", nullable: true, defaultValueSql: "NOW()"),
-                    LastUpdaterId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: true),
+                    LastUpdaterId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Start = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     Finish = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     MaxWorkHour = table.Column<int>(type: "int", nullable: false),
@@ -365,15 +396,14 @@ namespace ManagerAPI.DataAccess.Migrations
                         name: "FK_Csomors_AspNetUsers_LastUpdaterId",
                         column: x => x.LastUpdaterId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Csomors_AspNetUsers_OwnerId",
                         column: x => x.OwnerId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
+                        principalColumn: "Id");
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "FriendRequests",
@@ -381,10 +411,13 @@ namespace ManagerAPI.DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    SenderId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
-                    DestinationId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    SenderId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    DestinationId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     SentDate = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()"),
-                    Message = table.Column<string>(type: "varchar(120) CHARACTER SET utf8mb4", maxLength: 120, nullable: false),
+                    Message = table.Column<string>(type: "varchar(120)", maxLength: 120, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Response = table.Column<bool>(type: "tinyint(1)", nullable: true),
                     ResponseDate = table.Column<DateTime>(type: "datetime(6)", nullable: true, defaultValueSql: "NOW()")
                 },
@@ -403,7 +436,8 @@ namespace ManagerAPI.DataAccess.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "Messages",
@@ -412,8 +446,10 @@ namespace ManagerAPI.DataAccess.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Text = table.Column<string>(type: "nvarchar(400)", nullable: false),
-                    SenderId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
-                    ReceiverId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    SenderId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ReceiverId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Date = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()")
                 },
                 constraints: table =>
@@ -431,7 +467,8 @@ namespace ManagerAPI.DataAccess.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "Movies",
@@ -439,16 +476,23 @@ namespace ManagerAPI.DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Title = table.Column<string>(type: "varchar(150) CHARACTER SET utf8mb4", maxLength: 150, nullable: false),
-                    Description = table.Column<string>(type: "varchar(999) CHARACTER SET utf8mb4", maxLength: 999, nullable: true),
+                    Title = table.Column<string>(type: "varchar(150)", maxLength: 150, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Description = table.Column<string>(type: "varchar(999)", maxLength: 999, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     ReleaseYear = table.Column<int>(type: "int", nullable: true),
                     Length = table.Column<int>(type: "int", nullable: true),
-                    Director = table.Column<string>(type: "varchar(60) CHARACTER SET utf8mb4", maxLength: 60, nullable: true),
-                    TrailerUrl = table.Column<string>(type: "varchar(200) CHARACTER SET utf8mb4", maxLength: 200, nullable: true),
-                    ImageTitle = table.Column<string>(type: "varchar(100) CHARACTER SET utf8mb4", maxLength: 100, nullable: true),
-                    ImageData = table.Column<byte[]>(type: "longblob", nullable: true),
-                    CreatorId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
-                    LastUpdaterId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    Director = table.Column<string>(type: "varchar(60)", maxLength: 60, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    TrailerUrl = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ImageTitle = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ImageData = table.Column<byte[]>(type: "longblob", nullable: false),
+                    CreatorId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    LastUpdaterId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Creation = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()"),
                     LastUpdate = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()")
                 },
@@ -467,7 +511,8 @@ namespace ManagerAPI.DataAccess.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "News",
@@ -475,10 +520,13 @@ namespace ManagerAPI.DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Content = table.Column<string>(type: "varchar(512) CHARACTER SET utf8mb4", maxLength: 512, nullable: false),
-                    CreatorId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    Content = table.Column<string>(type: "varchar(512)", maxLength: 512, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CreatorId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Creation = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()"),
-                    LastUpdaterId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    LastUpdaterId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     LastUpdate = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()")
                 },
                 constraints: table =>
@@ -496,70 +544,8 @@ namespace ManagerAPI.DataAccess.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "PlanGroups",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: false),
-                    CreatorId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
-                    Creation = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()"),
-                    LastUpdaterId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
-                    LastUpdate = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()"),
-                    IsArchived = table.Column<bool>(type: "tinyint(1)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PlanGroups", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_PlanGroups_AspNetUsers_CreatorId",
-                        column: x => x.CreatorId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_PlanGroups_AspNetUsers_LastUpdaterId",
-                        column: x => x.LastUpdaterId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Plans",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Title = table.Column<string>(type: "varchar(150) CHARACTER SET utf8mb4", maxLength: 150, nullable: false),
-                    Description = table.Column<string>(type: "varchar(512) CHARACTER SET utf8mb4", maxLength: 512, nullable: true),
-                    OwnerId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
-                    Creation = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()"),
-                    LastUpdate = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()"),
-                    StartTime = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()"),
-                    EndTime = table.Column<DateTime>(type: "datetime(6)", nullable: true, defaultValueSql: "NOW()"),
-                    PriorityLevel = table.Column<int>(type: "int", nullable: true),
-                    IsPublic = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false),
-                    PlanTypeId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Plans", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Plans_AspNetUsers_OwnerId",
-                        column: x => x.OwnerId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Plans_PlanTypes_PlanTypeId",
-                        column: x => x.PlanTypeId,
-                        principalTable: "PlanTypes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "Series",
@@ -567,17 +553,23 @@ namespace ManagerAPI.DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Title = table.Column<string>(type: "varchar(150) CHARACTER SET utf8mb4", maxLength: 150, nullable: false),
-                    Description = table.Column<string>(type: "varchar(999) CHARACTER SET utf8mb4", maxLength: 999, nullable: true),
+                    Title = table.Column<string>(type: "varchar(150)", maxLength: 150, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Description = table.Column<string>(type: "varchar(999)", maxLength: 999, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     StartYear = table.Column<int>(type: "int", nullable: true),
                     EndYear = table.Column<int>(type: "int", nullable: true),
-                    TrailerUrl = table.Column<string>(type: "varchar(200) CHARACTER SET utf8mb4", maxLength: 200, nullable: true),
-                    ImageTitle = table.Column<string>(type: "varchar(100) CHARACTER SET utf8mb4", maxLength: 100, nullable: true),
-                    ImageData = table.Column<byte[]>(type: "longblob", nullable: true),
+                    TrailerUrl = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ImageTitle = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ImageData = table.Column<byte[]>(type: "longblob", nullable: false),
                     Creation = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()"),
                     LastUpdate = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()"),
-                    CreatorId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
-                    LastUpdaterId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false)
+                    CreatorId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    LastUpdaterId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -594,7 +586,8 @@ namespace ManagerAPI.DataAccess.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "Tasks",
@@ -602,12 +595,15 @@ namespace ManagerAPI.DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Title = table.Column<string>(type: "varchar(100) CHARACTER SET utf8mb4", maxLength: 100, nullable: false),
-                    Description = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: false),
-                    IsSolved = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false),
-                    OwnerId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
-                    Creation = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()"),
-                    LastUpdate = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()"),
+                    Title = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Description = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    IsSolved = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    OwnerId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Creation = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    LastUpdate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     Deadline = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
@@ -619,7 +615,8 @@ namespace ManagerAPI.DataAccess.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "WorkingDays",
@@ -628,7 +625,8 @@ namespace ManagerAPI.DataAccess.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Day = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    UserId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    UserId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     TypeId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -646,7 +644,8 @@ namespace ManagerAPI.DataAccess.Migrations
                         principalTable: "WorkingDayTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "Notifications",
@@ -654,9 +653,11 @@ namespace ManagerAPI.DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Content = table.Column<string>(type: "varchar(256) CHARACTER SET utf8mb4", maxLength: 256, nullable: false),
+                    Content = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     SentDate = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()"),
-                    OwnerId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    OwnerId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     IsRead = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false),
                     Archived = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false),
                     TypeId = table.Column<int>(type: "int", nullable: false)
@@ -676,14 +677,16 @@ namespace ManagerAPI.DataAccess.Migrations
                         principalTable: "NotificationTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "UserBookSwitch",
                 columns: table => new
                 {
                     BookId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    UserId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Read = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false),
                     ReadOn = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     AddOn = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()")
@@ -703,14 +706,17 @@ namespace ManagerAPI.DataAccess.Migrations
                         principalTable: "Books",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "CsomorPersons",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
-                    Name = table.Column<string>(type: "varchar(120) CHARACTER SET utf8mb4", maxLength: 120, nullable: false),
+                    Id = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Name = table.Column<string>(type: "varchar(120)", maxLength: 120, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     CsomorId = table.Column<int>(type: "int", nullable: false),
                     PlusWorkCounter = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
                     IsIgnored = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false)
@@ -722,16 +728,18 @@ namespace ManagerAPI.DataAccess.Migrations
                         name: "FK_CsomorPersons_Csomors_CsomorId",
                         column: x => x.CsomorId,
                         principalTable: "Csomors",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
+                        principalColumn: "Id");
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "CsomorWorks",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
-                    Name = table.Column<string>(type: "varchar(80) CHARACTER SET utf8mb4", maxLength: 80, nullable: false),
+                    Id = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Name = table.Column<string>(type: "varchar(80)", maxLength: 80, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     CsomorId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -741,15 +749,16 @@ namespace ManagerAPI.DataAccess.Migrations
                         name: "FK_CsomorWorks_Csomors_CsomorId",
                         column: x => x.CsomorId,
                         principalTable: "Csomors",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
+                        principalColumn: "Id");
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "SharedCsomors",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    UserId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     CsomorId = table.Column<int>(type: "int", nullable: false),
                     SharedOn = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()"),
                     HasWriteAccess = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false)
@@ -761,22 +770,23 @@ namespace ManagerAPI.DataAccess.Migrations
                         name: "FK_SharedCsomors_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_SharedCsomors_Csomors_CsomorId",
                         column: x => x.CsomorId,
                         principalTable: "Csomors",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
+                        principalColumn: "Id");
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "Friends",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
-                    FriendId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    UserId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    FriendId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     ConnectionDate = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()"),
                     RequestId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -801,7 +811,8 @@ namespace ManagerAPI.DataAccess.Migrations
                         principalTable: "FriendRequests",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "MovieComments",
@@ -810,10 +821,12 @@ namespace ManagerAPI.DataAccess.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     MovieId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    UserId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Creation = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()"),
                     LastUpdate = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()"),
-                    Comment = table.Column<string>(type: "varchar(500) CHARACTER SET utf8mb4", maxLength: 500, nullable: false)
+                    Comment = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -830,7 +843,8 @@ namespace ManagerAPI.DataAccess.Migrations
                         principalTable: "Movies",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "MovieMovieCategorySwitch",
@@ -854,14 +868,16 @@ namespace ManagerAPI.DataAccess.Migrations
                         principalTable: "Movies",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "UserMovieSwitch",
                 columns: table => new
                 {
                     MovieId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    UserId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     IsSeen = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false),
                     IsAdded = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     SeenOn = table.Column<DateTime>(type: "datetime(6)", nullable: true),
@@ -883,163 +899,8 @@ namespace ManagerAPI.DataAccess.Migrations
                         principalTable: "Movies",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "PlanGroupChatMessages",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Message = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: false),
-                    SenderId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
-                    Sent = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()"),
-                    GroupId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PlanGroupChatMessages", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_PlanGroupChatMessages_AspNetUsers_SenderId",
-                        column: x => x.SenderId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_PlanGroupChatMessages_PlanGroups_GroupId",
-                        column: x => x.GroupId,
-                        principalTable: "PlanGroups",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "PlanGroupIdeas",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Content = table.Column<string>(type: "varchar(200) CHARACTER SET utf8mb4", maxLength: 200, nullable: false),
-                    CreatorId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
-                    Creation = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()"),
-                    GroupId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PlanGroupIdeas", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_PlanGroupIdeas_AspNetUsers_CreatorId",
-                        column: x => x.CreatorId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_PlanGroupIdeas_PlanGroups_GroupId",
-                        column: x => x.GroupId,
-                        principalTable: "PlanGroups",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "PlanGroupPlans",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Title = table.Column<string>(type: "varchar(150) CHARACTER SET utf8mb4", maxLength: 150, nullable: false),
-                    Description = table.Column<string>(type: "varchar(512) CHARACTER SET utf8mb4", maxLength: 512, nullable: true),
-                    OwnerId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
-                    Creation = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()"),
-                    LastUpdaterId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: true),
-                    LastUpdate = table.Column<DateTime>(type: "datetime(6)", nullable: true, defaultValueSql: "NOW()"),
-                    StartTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    EndTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    PriorityLevel = table.Column<int>(type: "int", nullable: true),
-                    IsPublic = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false),
-                    PlanTypeId = table.Column<int>(type: "int", nullable: true),
-                    MarkedUserId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
-                    MarkTypeId = table.Column<int>(type: "int", nullable: false),
-                    GroupId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PlanGroupPlans", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_PlanGroupPlans_AspNetUsers_LastUpdaterId",
-                        column: x => x.LastUpdaterId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_PlanGroupPlans_AspNetUsers_MarkedUserId",
-                        column: x => x.MarkedUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_PlanGroupPlans_AspNetUsers_OwnerId",
-                        column: x => x.OwnerId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_PlanGroupPlans_MarkTypes_MarkTypeId",
-                        column: x => x.MarkTypeId,
-                        principalTable: "MarkTypes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_PlanGroupPlans_PlanGroups_GroupId",
-                        column: x => x.GroupId,
-                        principalTable: "PlanGroups",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_PlanGroupPlans_PlanTypes_PlanTypeId",
-                        column: x => x.PlanTypeId,
-                        principalTable: "PlanTypes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "UserPlanGroupsSwitch",
-                columns: table => new
-                {
-                    UserId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
-                    GroupId = table.Column<int>(type: "int", nullable: false),
-                    RoleId = table.Column<int>(type: "int", nullable: false),
-                    Connection = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()"),
-                    AddedById = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UserPlanGroupsSwitch", x => new { x.UserId, x.GroupId });
-                    table.ForeignKey(
-                        name: "FK_UserPlanGroupsSwitch_AspNetUsers_AddedById",
-                        column: x => x.AddedById,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_UserPlanGroupsSwitch_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_UserPlanGroupsSwitch_GroupRoles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "GroupRoles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_UserPlanGroupsSwitch_PlanGroups_GroupId",
-                        column: x => x.GroupId,
-                        principalTable: "PlanGroups",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "Seasons",
@@ -1059,7 +920,8 @@ namespace ManagerAPI.DataAccess.Migrations
                         principalTable: "Series",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "SeriesComments",
@@ -1068,10 +930,12 @@ namespace ManagerAPI.DataAccess.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     SeriesId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    UserId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Creation = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()"),
                     LastUpdate = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()"),
-                    Comment = table.Column<string>(type: "varchar(500) CHARACTER SET utf8mb4", maxLength: 500, nullable: false)
+                    Comment = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -1088,7 +952,8 @@ namespace ManagerAPI.DataAccess.Migrations
                         principalTable: "Series",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "SeriesSeriesCategoriesSwitch",
@@ -1112,14 +977,16 @@ namespace ManagerAPI.DataAccess.Migrations
                         principalTable: "SeriesCategories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "UserSeriesSwitch",
                 columns: table => new
                 {
                     SeriesId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    UserId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     IsAdded = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     AddedOn = table.Column<DateTime>(type: "datetime(6)", nullable: true, defaultValueSql: "NOW()"),
                     Rate = table.Column<int>(type: "int", nullable: true)
@@ -1139,7 +1006,8 @@ namespace ManagerAPI.DataAccess.Migrations
                         principalTable: "Series",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "WorkingFields",
@@ -1147,8 +1015,10 @@ namespace ManagerAPI.DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Title = table.Column<string>(type: "varchar(200) CHARACTER SET utf8mb4", maxLength: 200, nullable: false),
-                    Description = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
+                    Title = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Description = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Length = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
                     WorkingDayId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -1161,17 +1031,21 @@ namespace ManagerAPI.DataAccess.Migrations
                         principalTable: "WorkingDays",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "CsomorPersonTables",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    Id = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Date = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    PersonId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    PersonId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     IsAvailable = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false),
-                    WorkId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: true)
+                    WorkId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -1180,25 +1054,27 @@ namespace ManagerAPI.DataAccess.Migrations
                         name: "FK_CsomorPersonTables_CsomorPersons_PersonId",
                         column: x => x.PersonId,
                         principalTable: "CsomorPersons",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_CsomorPersonTables_CsomorWorks_WorkId",
                         column: x => x.WorkId,
                         principalTable: "CsomorWorks",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
+                        principalColumn: "Id");
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "CsomorWorkTables",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    Id = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Date = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    WorkId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    WorkId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     IsActive = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false),
-                    PersonId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: true)
+                    PersonId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -1207,22 +1083,23 @@ namespace ManagerAPI.DataAccess.Migrations
                         name: "FK_CsomorWorkTables_CsomorPersons_PersonId",
                         column: x => x.PersonId,
                         principalTable: "CsomorPersons",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_CsomorWorkTables_CsomorWorks_WorkId",
                         column: x => x.WorkId,
                         principalTable: "CsomorWorks",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
+                        principalColumn: "Id");
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "IgnoredWorks",
                 columns: table => new
                 {
-                    PersonId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
-                    WorkId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false)
+                    PersonId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    WorkId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -1231,43 +1108,14 @@ namespace ManagerAPI.DataAccess.Migrations
                         name: "FK_IgnoredWorks_CsomorPersons_PersonId",
                         column: x => x.PersonId,
                         principalTable: "CsomorPersons",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_IgnoredWorks_CsomorWorks_WorkId",
                         column: x => x.WorkId,
                         principalTable: "CsomorWorks",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "PlanGroupPlanComments",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Comment = table.Column<string>(type: "varchar(256) CHARACTER SET utf8mb4", maxLength: 256, nullable: false),
-                    SenderId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
-                    Creation = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "NOW()"),
-                    PlanId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PlanGroupPlanComments", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_PlanGroupPlanComments_AspNetUsers_SenderId",
-                        column: x => x.SenderId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_PlanGroupPlanComments_PlanGroupPlans_PlanId",
-                        column: x => x.PlanId,
-                        principalTable: "PlanGroupPlans",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
+                        principalColumn: "Id");
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "Episodes",
@@ -1275,14 +1123,18 @@ namespace ManagerAPI.DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Title = table.Column<string>(type: "varchar(150) CHARACTER SET utf8mb4", maxLength: 150, nullable: false),
+                    Title = table.Column<string>(type: "varchar(150)", maxLength: 150, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Number = table.Column<int>(type: "int", nullable: false),
-                    Description = table.Column<string>(type: "varchar(300) CHARACTER SET utf8mb4", maxLength: 300, nullable: true),
+                    Description = table.Column<string>(type: "varchar(300)", maxLength: 300, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     SeasonId = table.Column<int>(type: "int", nullable: false),
-                    LastUpdaterId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    LastUpdaterId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     LastUpdate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    ImageTitle = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    ImageData = table.Column<byte[]>(type: "longblob", nullable: true)
+                    ImageTitle = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ImageData = table.Column<byte[]>(type: "longblob", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1299,13 +1151,15 @@ namespace ManagerAPI.DataAccess.Migrations
                         principalTable: "Seasons",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "UserEpisodeSwitch",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "varchar(255) CHARACTER SET utf8mb4", nullable: false),
+                    UserId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     EpisodeId = table.Column<int>(type: "int", nullable: false),
                     Seen = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false),
                     SeenOn = table.Column<DateTime>(type: "datetime(6)", nullable: true)
@@ -1325,33 +1179,28 @@ namespace ManagerAPI.DataAccess.Migrations
                         principalTable: "Episodes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "AccessLevel", "ConcurrencyStamp", "Discriminator", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "fa5deb78-59c2-4faa-83dc-6c3369eedf20", 4, "c263e607-a09d-4193-ab44-848d6fff12b5", "WebsiteRole", "Root", "ROOT" },
-                    { "936e4ddc-5d3f-5466-af3a-3b4a4424d518", 3, "f3f304a8-a42d-49b7-bf46-5befd5b167f1", "WebsiteRole", "Status Library Moderator", "STATUS LIBRARY MODERATOR" },
-                    { "936e4ddc-5d3f-4355-af3a-304a4fe4f518", 1, "7803eb8b-a947-4a6f-8542-76599a7cf89a", "WebsiteRole", "Status Library User", "STATUS LIBRARY USER" },
-                    { "936e42dc-5d3f-4355-bc3a-304a4fe4f518", 3, "7e4825cd-fe38-4f6c-b4ba-8a7d16a1eb4e", "WebsiteRole", "Administrator", "ADMINISTRATOR" },
-                    { "5e0a9192-793f-4c85-a0b1-3198295bf409", 2, "e0886ef8-fbd2-4e26-91cb-98e606c24669", "WebsiteRole", "Moderator", "MODERATOR" },
-                    { "776474d7-8d01-4809-963e-c721f39dbb45", 1, "6427b27f-a984-493b-8440-d03ff98fdfd3", "WebsiteRole", "Normal", "NORMAL" },
-                    { "2f76c2fc-bbca-41ff-86ed-5ef43d41d8f9", 0, "36f016e1-6d49-4cd1-8869-c465e983aab7", "WebsiteRole", "Visitor", "VISITOR" },
-                    { "936d4dfc-5536-4d5f-af2a-304d4fe4f518", 3, "4a71b65a-7178-480b-93ff-aad89f800c02", "WebsiteRole", "Status Library Administrator", "STATUS LIBRARY ADMINISTRATOR" }
+                    { "2f76c2fc-bbca-41ff-86ed-5ef43d41d8f9", 0, "63868519-e55d-480e-b291-c681bfdb95f0", "WebsiteRole", "Visitor", "VISITOR" },
+                    { "5e0a9192-793f-4c85-a0b1-3198295bf409", 2, "83b020fb-c887-4d2d-b673-eb3989c76494", "WebsiteRole", "Moderator", "MODERATOR" },
+                    { "776474d7-8d01-4809-963e-c721f39dbb45", 1, "acdc1508-d372-4765-8d83-593d6b53d1c0", "WebsiteRole", "Normal", "NORMAL" },
+                    { "936d4dfc-5536-4d5f-af2a-304d4fe4f518", 3, "1f25781a-1620-4cb2-aa41-1f48344c8358", "WebsiteRole", "Status Library Administrator", "STATUS LIBRARY ADMINISTRATOR" },
+                    { "936e42dc-5d3f-4355-bc3a-304a4fe4f518", 3, "830bd94e-6014-442b-a4e6-cb018c2f374e", "WebsiteRole", "Administrator", "ADMINISTRATOR" },
+                    { "936e4ddc-5d3f-4355-af3a-304a4fe4f518", 1, "bd6f4de5-29ad-42b3-8f6b-9b9cc01cd1ce", "WebsiteRole", "Status Library User", "STATUS LIBRARY USER" },
+                    { "936e4ddc-5d3f-5466-af3a-3b4a4424d518", 3, "b3f06b57-7dba-4edb-8ba9-e4369f32eb11", "WebsiteRole", "Status Library Moderator", "STATUS LIBRARY MODERATOR" },
+                    { "fa5deb78-59c2-4faa-83dc-6c3369eedf20", 4, "7404ea79-d1b4-465f-8ed5-dacfed36e2d3", "WebsiteRole", "Root", "ROOT" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "Allergy", "BirthDay", "City", "ConcurrencyStamp", "Country", "Discriminator", "Email", "EmailConfirmed", "FullName", "GenderId", "Group", "IsActive", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "ProfileImageData", "ProfileImageTitle", "SecondaryEmail", "SecurityStamp", "TShirtSize", "TwoFactorEnabled", "UserName" },
-                values: new object[,]
-                {
-                    { "fa2edf69-5fc8-a163-9fc5-726f3b94e51b", 0, null, null, null, "12294760-47a6-46cd-aa27-24e3e9663b9a", null, "User", "barni.pbs@gmail.com", true, "Root", null, null, true, false, null, "BARNI.PBS@GMAIL.COM", "BARNI363HUN", "AQAAAAEAACcQAAAAEL9QeDNFqEAq8WDl2/fXBSc02Tzxxnek963ILEw1L3aQsFysXXG4L3KvFYIVg/LpLA==", null, false, null, null, null, "08423e1b-54ac-4385-85a0-e42ffdecfc54", null, false, "barni363hun" },
-                    { "cd5e5069-59c8-4163-95c5-776fab95e51a", 0, null, null, null, "b752e32c-f81e-4679-b3f1-e3b2e047f119", null, "User", "root@karcags.hu", true, "Root", null, null, true, false, null, "ROOT@KARCAGS.HU", "ROOT", "AQAAAAEAACcQAAAAEHdK+ODabrjejNLGhod4ftL37G5zT97p2g0Ck5dH9MchA2B/JFDiwb9kk9soZBPF5Q==", null, false, null, null, null, "6bd9afe8-0d4b-4726-a549-30bf5bef47e8", null, false, "root" },
-                    { "f8237fac-c6dc-47b0-8f71-b72f93368b02", 0, null, null, null, "27c15edc-8ee3-4b53-9bc6-5b4fb9303624", null, "User", "aron.klenovszky@gmail.com", true, "Klenovszky Áron", null, null, true, false, null, "ARON.KLENOVSZKY@GMAIL.COM", "AARONKAA", "AQAAAAEAACcQAAAAEL9QeDNFqEAq8WDl2/fXBSc02Tzxxnek963ILEw1L3aQsFysXXG4L3KvFYIVg/LpLA==", null, false, null, null, null, "a60878fe-c124-4039-b6db-61ef0a73f40c", null, false, "aaronkaa" },
-                    { "44045506-66fd-4af8-9d59-133c47d1787c", 0, null, null, null, "aed1cc8b-bb0f-4611-84fb-66adda08a665", null, "User", "karcagtamas@outlook.com", true, "Karcag Tamas", null, null, true, false, null, "KARCAGTAMAS@OUTLOOK.COM", "KARCAGTAMAS", "AQAAAAEAACcQAAAAEG9SljY4ow/I7990YZ15dSGvCesg0bad3pQSWi4ekt0RT8J5JuL3lQmNJCnxo2lGIA==", null, false, null, null, null, "32ec8e40-c323-4d15-8ab3-37edcf2cbb69", null, false, "karcagtamas" }
-                });
+                values: new object[] { "cd5e5069-59c8-4163-95c5-776fab95e51a", 0, "", null, "", "8707df4b-1c0e-4b65-84e0-a4996c4fa221", "", "User", "root@karcags.hu", true, "Root", null, "", true, false, null, "ROOT@KARCAGS.HU", "ROOT", "AQAAAAEAACcQAAAAEHdK+ODabrjejNLGhod4ftL37G5zT97p2g0Ck5dH9MchA2B/JFDiwb9kk9soZBPF5Q==", null, false, null, "", "", "f89f79b1-1cf1-43df-87a0-642dcee56552", "", false, "root" });
 
             migrationBuilder.InsertData(
                 table: "Genders",
@@ -1359,32 +1208,8 @@ namespace ManagerAPI.DataAccess.Migrations
                 values: new object[,]
                 {
                     { 1, "Male" },
-                    { 3, "Other" },
-                    { 2, "Female" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "GroupRoles",
-                columns: new[] { "Id", "AccessLevel", "Title" },
-                values: new object[,]
-                {
-                    { 6, 5, "Owner" },
-                    { 1, 0, "Visitor" },
-                    { 5, 4, "Administrator" },
-                    { 3, 2, "Editor" },
-                    { 4, 3, "Moderator" },
-                    { 2, 1, "Normal" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "MarkTypes",
-                columns: new[] { "Id", "Title" },
-                values: new object[,]
-                {
-                    { 3, "Modifier" },
-                    { 2, "Owner" },
-                    { 1, "Responsible" },
-                    { 4, "Leader" }
+                    { 2, "Female" },
+                    { 3, "Other" }
                 });
 
             migrationBuilder.InsertData(
@@ -1411,27 +1236,14 @@ namespace ManagerAPI.DataAccess.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "PlanTypes",
-                columns: new[] { "Id", "Name" },
-                values: new object[,]
-                {
-                    { 6, "Event" },
-                    { 5, "Decision" },
-                    { 4, "Learning" },
-                    { 3, "Nice To Have" },
-                    { 2, "Future Idea" },
-                    { 1, "Plan" }
-                });
-
-            migrationBuilder.InsertData(
                 table: "SeriesCategories",
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { 2, "Action" },
                     { 1, "Drama" },
-                    { 4, "Sci-fi" },
-                    { 3, "Romantic" }
+                    { 2, "Action" },
+                    { 3, "Romantic" },
+                    { 4, "Sci-fi" }
                 });
 
             migrationBuilder.InsertData(
@@ -1450,111 +1262,116 @@ namespace ManagerAPI.DataAccess.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "Allergy", "BirthDay", "City", "ConcurrencyStamp", "Country", "Discriminator", "Email", "EmailConfirmed", "FullName", "GenderId", "Group", "IsActive", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "ProfileImageData", "ProfileImageTitle", "SecondaryEmail", "SecurityStamp", "TShirtSize", "TwoFactorEnabled", "UserName" },
+                values: new object[] { "44045506-66fd-4af8-9d59-133c47d1787c", 0, "", null, "", "7cf836a7-842c-41fe-902a-5e9f86fc5260", "", "User", "karcagtamas@outlook.com", true, "Karcag Tamas", 1, "", true, false, null, "KARCAGTAMAS@OUTLOOK.COM", "KARCAGTAMAS", "AQAAAAEAACcQAAAAEG9SljY4ow/I7990YZ15dSGvCesg0bad3pQSWi4ekt0RT8J5JuL3lQmNJCnxo2lGIA==", null, false, null, "", "", "142b7322-39d8-4cb3-8816-582511857fa5", "", false, "karcagtamas" });
+
+            migrationBuilder.InsertData(
                 table: "NotificationTypes",
                 columns: new[] { "Id", "ImportanceLevel", "SystemId", "Title" },
                 values: new object[,]
                 {
                     { 1, 2, 1, "Login" },
-                    { 82, 1, 4, "Season Deleted" },
-                    { 81, 1, 4, "Season Added" },
-                    { 80, 1, 4, "My Series List Updated" },
-                    { 79, 1, 4, "Series Updated" },
-                    { 78, 1, 4, "Series Deleted" },
-                    { 77, 1, 4, "Series Added" },
-                    { 76, 1, 4, "My Movie List Updated" },
-                    { 75, 1, 4, "Movie Seen Status Updated" },
-                    { 74, 1, 4, "My Book List Updated" },
-                    { 73, 1, 4, "Book Read Status Updated" },
-                    { 72, 1, 4, "Book Updated" },
-                    { 71, 1, 4, "Book Deleted" },
-                    { 70, 1, 4, "Book Added" },
-                    { 69, 1, 4, "Movie Updated" },
-                    { 68, 1, 4, "Movie Deleted" },
-                    { 67, 1, 4, "Movie Added" },
-                    { 38, 3, 2, "Event PayOut Updated" },
-                    { 37, 3, 2, "Event PayOut Deleted" },
-                    { 36, 3, 2, "Event PayOut Added" },
-                    { 35, 1, 2, "Event ToDo Updated" },
-                    { 34, 2, 2, "Event ToDo Deleted" },
-                    { 83, 1, 4, "Season Updated" },
-                    { 84, 1, 4, "Episode Added" },
-                    { 85, 1, 4, "Episode Deleted" },
-                    { 86, 1, 4, "Episode Updated" },
-                    { 58, 2, 5, "Working Day Type Added" },
-                    { 57, 1, 5, "Working Day Updated" },
-                    { 56, 1, 5, "Working Day Deleted" },
-                    { 55, 1, 5, "Working Day Added" },
-                    { 54, 1, 5, "Working Field Updated" },
-                    { 53, 1, 5, "Working Field Deleted" },
-                    { 52, 1, 5, "Working Field Added" },
-                    { 101, 1, 4, "Series Comment Updated" },
-                    { 100, 2, 4, "Series Comment Deleted" },
-                    { 99, 2, 4, "Series Comment Added" },
-                    { 33, 2, 2, "Event ToDo Added" },
-                    { 98, 2, 4, "Series Category Updated" },
-                    { 96, 2, 4, "Series Category Added" },
-                    { 95, 1, 4, "Movie Comment Updated" },
-                    { 94, 2, 4, "Movie Comment Deleted" },
-                    { 93, 2, 4, "Movie Comment Added" },
-                    { 92, 2, 4, "Movie Category Updated" },
-                    { 91, 2, 4, "Movie Category Deleted" },
-                    { 90, 2, 4, "Movie Category Added" },
-                    { 89, 1, 4, "Season Seen Status Updated" },
-                    { 88, 1, 4, "Series Seen Status Updated" },
-                    { 87, 1, 4, "Episode Seen Status Updated" },
-                    { 97, 2, 4, "Series Category Deleted" },
-                    { 59, 3, 5, "Working Day Type Deleted" },
-                    { 32, 2, 2, "Role Removed In An Event" },
-                    { 30, 2, 2, "Role Added In An Event" },
-                    { 61, 1, 1, "Message Added" },
-                    { 51, 3, 1, "News Deleted" },
-                    { 50, 1, 1, "News Updated" },
-                    { 49, 2, 1, "News Added" },
-                    { 48, 3, 1, "Friend Removed" },
-                    { 47, 2, 1, "You Has a new Friend" },
-                    { 46, 2, 1, "Friend Request Declined" },
-                    { 45, 2, 1, "Friend Request Accepted" },
-                    { 44, 1, 1, "Friend Request Sent" },
-                    { 43, 2, 1, "Friend Request Received" },
-                    { 42, 3, 1, "Profile Disabled" },
-                    { 41, 2, 1, "Username Changed" },
-                    { 40, 1, 1, "Profile Image Changed" },
-                    { 39, 3, 1, "Password Changed" },
-                    { 8, 1, 1, "ToDo Updated" },
-                    { 7, 2, 1, "ToDo Deleted" },
-                    { 6, 2, 1, "ToDo Added" },
-                    { 5, 1, 1, "Message Arrived" },
-                    { 4, 3, 1, "My Profile Updated" },
-                    { 3, 1, 1, "Logout" },
                     { 2, 3, 1, "Registration" },
+                    { 3, 1, 1, "Logout" },
+                    { 4, 3, 1, "My Profile Updated" },
+                    { 5, 1, 1, "Message Arrived" },
+                    { 6, 2, 1, "ToDo Added" },
+                    { 7, 2, 1, "ToDo Deleted" },
+                    { 8, 1, 1, "ToDo Updated" },
+                    { 9, 3, 2, "Event Created" },
+                    { 10, 3, 2, "Event Disabled" },
+                    { 11, 2, 2, "Event Published" },
+                    { 12, 1, 2, "Event Locked" },
+                    { 13, 2, 2, "Event Updated" },
+                    { 14, 1, 2, "Event Message Arrived" },
+                    { 15, 2, 2, "Event Member Invited" },
+                    { 16, 2, 2, "Invitation Accepted" },
+                    { 17, 2, 2, "Invitation Declined" },
+                    { 18, 1, 2, "Invited To An Event" },
+                    { 19, 1, 2, "Accept Event Invitation" },
+                    { 20, 1, 2, "Decline Event Invitation" },
+                    { 21, 3, 2, "Event Member Removed" },
+                    { 22, 3, 2, "Removed From An Event" },
+                    { 23, 2, 2, "Event Evolved To Sport Event" },
+                    { 24, 2, 2, "Event Evolved To GT Event" },
+                    { 25, 1, 2, "Event Date Changed" },
+                    { 26, 2, 2, "Event Role Added" },
+                    { 27, 2, 2, "Event Role Updated" },
+                    { 28, 3, 2, "Event Role Deleted" },
+                    { 29, 2, 2, "Event Role Added To A User" },
+                    { 30, 2, 2, "Role Added In An Event" },
+                    { 31, 2, 2, "Event Role Removed From A User" },
+                    { 32, 2, 2, "Role Removed In An Event" },
+                    { 33, 2, 2, "Event ToDo Added" },
+                    { 34, 2, 2, "Event ToDo Deleted" },
+                    { 35, 1, 2, "Event ToDo Updated" },
+                    { 36, 3, 2, "Event PayOut Added" },
+                    { 37, 3, 2, "Event PayOut Deleted" },
+                    { 38, 3, 2, "Event PayOut Updated" },
+                    { 39, 3, 1, "Password Changed" },
+                    { 40, 1, 1, "Profile Image Changed" },
+                    { 41, 2, 1, "Username Changed" },
+                    { 42, 3, 1, "Profile Disabled" },
+                    { 43, 2, 1, "Friend Request Received" },
+                    { 44, 1, 1, "Friend Request Sent" },
+                    { 45, 2, 1, "Friend Request Accepted" },
+                    { 46, 2, 1, "Friend Request Declined" },
+                    { 47, 2, 1, "You Has a new Friend" },
+                    { 48, 3, 1, "Friend Removed" },
+                    { 49, 2, 1, "News Added" },
+                    { 50, 1, 1, "News Updated" },
+                    { 51, 3, 1, "News Deleted" },
+                    { 52, 1, 5, "Working Field Added" },
+                    { 53, 1, 5, "Working Field Deleted" },
+                    { 54, 1, 5, "Working Field Updated" },
+                    { 55, 1, 5, "Working Day Added" },
+                    { 56, 1, 5, "Working Day Deleted" },
+                    { 57, 1, 5, "Working Day Updated" },
+                    { 58, 2, 5, "Working Day Type Added" },
+                    { 59, 3, 5, "Working Day Type Deleted" },
+                    { 60, 2, 5, "Working Day Type Updated" },
+                    { 61, 1, 1, "Message Added" },
                     { 62, 1, 1, "Message Deleted" },
                     { 63, 1, 1, "Message Updated" },
                     { 64, 2, 1, "Gender Added" },
                     { 65, 3, 1, "Gender Deleted" },
-                    { 29, 2, 2, "Event Role Added To A User" },
-                    { 28, 3, 2, "Event Role Deleted" },
-                    { 27, 2, 2, "Event Role Updated" },
-                    { 26, 2, 2, "Event Role Added" },
-                    { 25, 1, 2, "Event Date Changed" },
-                    { 24, 2, 2, "Event Evolved To GT Event" },
-                    { 23, 2, 2, "Event Evolved To Sport Event" },
-                    { 22, 3, 2, "Removed From An Event" },
-                    { 21, 3, 2, "Event Member Removed" },
-                    { 20, 1, 2, "Decline Event Invitation" },
-                    { 31, 2, 2, "Event Role Removed From A User" },
-                    { 19, 1, 2, "Accept Event Invitation" },
-                    { 17, 2, 2, "Invitation Declined" },
-                    { 16, 2, 2, "Invitation Accepted" },
-                    { 15, 2, 2, "Event Member Invited" },
-                    { 14, 1, 2, "Event Message Arrived" },
-                    { 13, 2, 2, "Event Updated" },
-                    { 12, 1, 2, "Event Locked" },
-                    { 11, 2, 2, "Event Published" },
-                    { 10, 3, 2, "Event Disabled" },
-                    { 9, 3, 2, "Event Created" },
                     { 66, 2, 1, "Gender Updated" },
-                    { 18, 1, 2, "Invited To An Event" },
-                    { 60, 2, 5, "Working Day Type Updated" }
+                    { 67, 1, 4, "Movie Added" },
+                    { 68, 1, 4, "Movie Deleted" },
+                    { 69, 1, 4, "Movie Updated" },
+                    { 70, 1, 4, "Book Added" },
+                    { 71, 1, 4, "Book Deleted" },
+                    { 72, 1, 4, "Book Updated" },
+                    { 73, 1, 4, "Book Read Status Updated" },
+                    { 74, 1, 4, "My Book List Updated" },
+                    { 75, 1, 4, "Movie Seen Status Updated" },
+                    { 76, 1, 4, "My Movie List Updated" },
+                    { 77, 1, 4, "Series Added" },
+                    { 78, 1, 4, "Series Deleted" },
+                    { 79, 1, 4, "Series Updated" },
+                    { 80, 1, 4, "My Series List Updated" },
+                    { 81, 1, 4, "Season Added" },
+                    { 82, 1, 4, "Season Deleted" },
+                    { 83, 1, 4, "Season Updated" },
+                    { 84, 1, 4, "Episode Added" },
+                    { 85, 1, 4, "Episode Deleted" },
+                    { 86, 1, 4, "Episode Updated" },
+                    { 87, 1, 4, "Episode Seen Status Updated" },
+                    { 88, 1, 4, "Series Seen Status Updated" },
+                    { 89, 1, 4, "Season Seen Status Updated" },
+                    { 90, 2, 4, "Movie Category Added" },
+                    { 91, 2, 4, "Movie Category Deleted" },
+                    { 92, 2, 4, "Movie Category Updated" },
+                    { 93, 2, 4, "Movie Comment Added" },
+                    { 94, 2, 4, "Movie Comment Deleted" },
+                    { 95, 1, 4, "Movie Comment Updated" },
+                    { 96, 2, 4, "Series Category Added" },
+                    { 97, 2, 4, "Series Category Deleted" },
+                    { 98, 2, 4, "Series Category Updated" },
+                    { 99, 2, 4, "Series Comment Added" },
+                    { 100, 2, 4, "Series Comment Deleted" },
+                    { 101, 1, 4, "Series Comment Updated" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -1745,86 +1562,6 @@ namespace ManagerAPI.DataAccess.Migrations
                 column: "SystemId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PlanGroupChatMessages_GroupId",
-                table: "PlanGroupChatMessages",
-                column: "GroupId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PlanGroupChatMessages_SenderId",
-                table: "PlanGroupChatMessages",
-                column: "SenderId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PlanGroupIdeas_CreatorId",
-                table: "PlanGroupIdeas",
-                column: "CreatorId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PlanGroupIdeas_GroupId",
-                table: "PlanGroupIdeas",
-                column: "GroupId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PlanGroupPlanComments_PlanId",
-                table: "PlanGroupPlanComments",
-                column: "PlanId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PlanGroupPlanComments_SenderId",
-                table: "PlanGroupPlanComments",
-                column: "SenderId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PlanGroupPlans_GroupId",
-                table: "PlanGroupPlans",
-                column: "GroupId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PlanGroupPlans_LastUpdaterId",
-                table: "PlanGroupPlans",
-                column: "LastUpdaterId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PlanGroupPlans_MarkedUserId",
-                table: "PlanGroupPlans",
-                column: "MarkedUserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PlanGroupPlans_MarkTypeId",
-                table: "PlanGroupPlans",
-                column: "MarkTypeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PlanGroupPlans_OwnerId",
-                table: "PlanGroupPlans",
-                column: "OwnerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PlanGroupPlans_PlanTypeId",
-                table: "PlanGroupPlans",
-                column: "PlanTypeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PlanGroups_CreatorId",
-                table: "PlanGroups",
-                column: "CreatorId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PlanGroups_LastUpdaterId",
-                table: "PlanGroups",
-                column: "LastUpdaterId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Plans_OwnerId",
-                table: "Plans",
-                column: "OwnerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Plans_PlanTypeId",
-                table: "Plans",
-                column: "PlanTypeId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Seasons_SeriesId",
                 table: "Seasons",
                 column: "SeriesId");
@@ -1880,21 +1617,6 @@ namespace ManagerAPI.DataAccess.Migrations
                 column: "MovieId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserPlanGroupsSwitch_AddedById",
-                table: "UserPlanGroupsSwitch",
-                column: "AddedById");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserPlanGroupsSwitch_GroupId",
-                table: "UserPlanGroupsSwitch",
-                column: "GroupId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserPlanGroupsSwitch_RoleId",
-                table: "UserPlanGroupsSwitch",
-                column: "RoleId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_UserSeriesSwitch_SeriesId",
                 table: "UserSeriesSwitch",
                 column: "SeriesId");
@@ -1915,7 +1637,6 @@ namespace ManagerAPI.DataAccess.Migrations
                 column: "WorkingDayId");
         }
 
-        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
@@ -1961,18 +1682,6 @@ namespace ManagerAPI.DataAccess.Migrations
                 name: "Notifications");
 
             migrationBuilder.DropTable(
-                name: "PlanGroupChatMessages");
-
-            migrationBuilder.DropTable(
-                name: "PlanGroupIdeas");
-
-            migrationBuilder.DropTable(
-                name: "PlanGroupPlanComments");
-
-            migrationBuilder.DropTable(
-                name: "Plans");
-
-            migrationBuilder.DropTable(
                 name: "SeriesComments");
 
             migrationBuilder.DropTable(
@@ -1992,9 +1701,6 @@ namespace ManagerAPI.DataAccess.Migrations
 
             migrationBuilder.DropTable(
                 name: "UserMovieSwitch");
-
-            migrationBuilder.DropTable(
-                name: "UserPlanGroupsSwitch");
 
             migrationBuilder.DropTable(
                 name: "UserSeriesSwitch");
@@ -2021,9 +1727,6 @@ namespace ManagerAPI.DataAccess.Migrations
                 name: "NotificationTypes");
 
             migrationBuilder.DropTable(
-                name: "PlanGroupPlans");
-
-            migrationBuilder.DropTable(
                 name: "SeriesCategories");
 
             migrationBuilder.DropTable(
@@ -2036,9 +1739,6 @@ namespace ManagerAPI.DataAccess.Migrations
                 name: "Movies");
 
             migrationBuilder.DropTable(
-                name: "GroupRoles");
-
-            migrationBuilder.DropTable(
                 name: "WorkingDays");
 
             migrationBuilder.DropTable(
@@ -2046,15 +1746,6 @@ namespace ManagerAPI.DataAccess.Migrations
 
             migrationBuilder.DropTable(
                 name: "NotificationSystems");
-
-            migrationBuilder.DropTable(
-                name: "MarkTypes");
-
-            migrationBuilder.DropTable(
-                name: "PlanGroups");
-
-            migrationBuilder.DropTable(
-                name: "PlanTypes");
 
             migrationBuilder.DropTable(
                 name: "Seasons");
