@@ -8,7 +8,7 @@ namespace ManagerAPI.Services.Services.Interfaces
     /// <summary>
     /// Task Service
     /// </summary>
-    public interface ITaskService : IRepository<Task>
+    public interface ITaskService : IRepository<Domain.Entities.Task>
     {
         /// <summary>
         /// Get tasks for the current user

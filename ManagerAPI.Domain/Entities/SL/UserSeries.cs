@@ -16,7 +16,7 @@ namespace ManagerAPI.Domain.Entities.SL
         /// <summary>
         /// Sender
         /// </summary>
-        [Required] public string UserId { get; set; }
+        [Required] public string UserId { get; set; } = string.Empty;
 
         /// <summary>
         /// Is added
@@ -36,11 +36,11 @@ namespace ManagerAPI.Domain.Entities.SL
         /// <summary>
         /// Series
         /// </summary>
-        public virtual Series Series { get; set; }
+        public virtual Series Series { get; set; } = default!;
 
         /// <summary>
         /// User
         /// </summary>
-        public virtual User User { get; set; }
+        public virtual User User { get; set; } = default!;
     }
 }

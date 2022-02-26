@@ -8,23 +8,23 @@
         /// <summary>
         /// Mail address
         /// </summary>
-        public string Mail { get; set; }
+        public string Mail { get; set; } = string.Empty;
 
         /// <summary>
         /// Display name
         /// </summary>
-        public string DisplayName { get; set; }
+        public string DisplayName { get; set; } = string.Empty;
 
         /// <summary>
         /// Password
         /// </summary>
-        public string Password { get; set; }
+        public string Password { get; set; } = string.Empty;
 
 
         /// <summary>
         /// Host
         /// </summary>
-        public string Host { get; set; }
+        public string Host { get; set; } = string.Empty;
 
         /// <summary>
         /// Port

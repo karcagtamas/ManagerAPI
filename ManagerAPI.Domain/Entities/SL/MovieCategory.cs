@@ -15,15 +15,15 @@ namespace ManagerAPI.Domain.Entities.SL
         /// <summary>
         /// Name
         /// </summary>
-        [Required] [MaxLength(120)] public string Name { get; set; }
+        [Required] [MaxLength(120)] public string Name { get; set; } = string.Empty;
 
         /// <summary>
         /// Movies
         /// </summary>
-        public virtual ICollection<MovieMovieCategory> ConnectedMovies { get; set; }
+        public virtual ICollection<MovieMovieCategory> ConnectedMovies { get; set; } = default!;
 
         /// <inheritdoc />
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj != null && this.Id == ((Movie)obj).Id;
         }

@@ -12,7 +12,7 @@ namespace ManagerAPI.Backend.Controllers
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
-    public class TaskController : MyController<Task, TaskModel, TaskListDto, TaskDto>
+    public class TaskController : MyController<Domain.Entities.Task, TaskModel, TaskListDto, TaskDto>
     {
         private readonly ITaskService _taskService;
 

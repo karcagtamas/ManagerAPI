@@ -8,6 +8,6 @@ namespace ManagerAPI.Services.Utils
         /// <summary>
         /// JWT secret
         /// </summary>
-        public string JwtSecret { get; set; }
+        public string JwtSecret { get; set; } = string.Empty;
     }
 }

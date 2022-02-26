@@ -18,7 +18,7 @@ namespace ManagerAPI.Domain.Entities.WM
         /// </summary>
         [Required]
         [MaxLength(100)]
-        public string Title { get; set; }
+        public string Title { get; set; } = string.Empty;
 
         /// <summary>
         /// Day is active
@@ -29,10 +29,10 @@ namespace ManagerAPI.Domain.Entities.WM
         /// <summary>
         /// Working days
         /// </summary>
-        public virtual ICollection<WorkingDay> WorkingDays { get; set; }
+        public virtual ICollection<WorkingDay> WorkingDays { get; set; } = default!;
 
         /// <inheritdoc />
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj != null && this.Id == ((WorkingDayType)obj).Id;
         }

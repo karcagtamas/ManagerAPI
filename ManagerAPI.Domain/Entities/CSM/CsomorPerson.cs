@@ -11,12 +11,12 @@ namespace ManagerAPI.Domain.Entities.CSM
         /// <summary>
         /// Id
         /// </summary>
-        [Required] public string Id { get; set; }
+        [Required] public string Id { get; set; } = string.Empty;
 
         /// <summary>
         /// Name
         /// </summary>
-        [Required] [MaxLength(120)] public string Name { get; set; }
+        [Required] [MaxLength(120)] public string Name { get; set; } = string.Empty;
 
         /// <summary>
         /// Csomor
@@ -36,21 +36,21 @@ namespace ManagerAPI.Domain.Entities.CSM
         /// <summary>
         /// Csomor
         /// </summary>
-        public virtual Csomor Csomor { get; set; }
+        public virtual Csomor Csomor { get; set; } = default!;
 
         /// <summary>
         /// Tables
         /// </summary>
-        public virtual ICollection<CsomorPersonTable> Tables { get; set; }
+        public virtual ICollection<CsomorPersonTable> Tables { get; set; } = default!;
 
         /// <summary>
         /// Works
         /// </summary>
-        public virtual ICollection<CsomorWorkTable> Works { get; set; }
+        public virtual ICollection<CsomorWorkTable> Works { get; set; } = default!;
 
         /// <summary>
         /// Ignored works
         /// </summary>
-        public virtual ICollection<IgnoredWork> IgnoredWorks { get; set; }
+        public virtual ICollection<IgnoredWork> IgnoredWorks { get; set; } = default!;
     }
 }

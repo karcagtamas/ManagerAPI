@@ -17,8 +17,8 @@ namespace ManagerAPI.Services.Profiles
         /// </summary>
         public TaskProfile()
         {
-            this.CreateMap<Task, TaskDto>();
-            this.CreateMap<IGrouping<DateTime, Task>, TaskDateDto>()
+            this.CreateMap<Domain.Entities.Task, TaskDto>();
+            this.CreateMap<IGrouping<DateTime, Domain.Entities.Task>, TaskDateDto>()
                 .ForMember(dest => dest.Deadline, opt => opt.MapFrom(src => src.Key))
                 .ForMember(dest => dest.TaskList, opt => opt.MapFrom(src => src.ToList()))
                 .ForMember(dest => dest.OutOfRange,
@@ -26,9 +26,9 @@ namespace ManagerAPI.Services.Profiles
                         src.Key < DateTime.Now && src.Count(x => !x.IsSolved) != 0))
                 .ForMember(dest => dest.AllSolved,
                     opt => opt.MapFrom(src => src.ToList().All(x => x.IsSolved)));
-            this.CreateMap<TaskModel, Task>()
+            this.CreateMap<TaskModel, Domain.Entities.Task>()
                 .ForMember(dest => dest.Deadline, opt => opt.MapFrom(src => (DateTime)src.Deadline));
-            this.CreateMap<Task, TaskListDto>();
+            this.CreateMap<Domain.Entities.Task, TaskListDto>();
         }
     }
 }

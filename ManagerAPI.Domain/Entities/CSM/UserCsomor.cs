@@ -12,7 +12,7 @@ namespace ManagerAPI.Domain.Entities.CSM
         /// User
         /// </summary>
         [Required]
-        public string UserId { get; set; }
+        public string UserId { get; set; } = string.Empty;
 
         /// <summary>
         /// Csomor
@@ -35,11 +35,11 @@ namespace ManagerAPI.Domain.Entities.CSM
         /// <summary>
         /// User
         /// </summary>
-        public virtual User User { get; set; }
+        public virtual User User { get; set; } = default!;
 
         /// <summary>
         /// Csomor
         /// </summary>
-        public virtual Csomor Csomor { get; set; }
+        public virtual Csomor Csomor { get; set; } = default!;
     }
 }

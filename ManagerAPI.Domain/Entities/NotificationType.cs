@@ -18,7 +18,7 @@ namespace ManagerAPI.Domain.Entities
         /// Title
         /// </summary>
         [Required]
-        public string Title { get; set; }
+        public string Title { get; set; } = string.Empty;
 
         /// <summary>
         /// Importance level
@@ -35,11 +35,11 @@ namespace ManagerAPI.Domain.Entities
         /// <summary>
         /// System
         /// </summary>
-        public virtual NotificationSystem System { get; set; }
+        public virtual NotificationSystem System { get; set; } = default!;
 
         /// <summary>
         /// Connected notification
         /// </summary>
-        public virtual ICollection<Notification> Notifications { get; set; }
+        public virtual ICollection<Notification> Notifications { get; set; } = default!;
     }
 }

@@ -3,8 +3,8 @@
 <MudLayout>
     <MudAppBar Elevation="1">
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start"
-            OnClick="@((e) => DrawerToggle())" />
-        <MudAppBarSpacer />
+                       OnClick="@((e) => DrawerToggle())" />
+        <MudSpacer></MudSpacer>
         <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End" />
     </MudAppBar>
     <MainNavigator IsOpen="_drawerOpen" />

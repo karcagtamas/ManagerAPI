@@ -12,13 +12,13 @@ namespace ManagerAPI.Domain.Entities
         /// User Id
         /// </summary>
         [Required]
-        public string UserId { get; set; }
+        public string UserId { get; set; } = string.Empty;
 
         /// <summary>
         /// Friend Id
         /// </summary>
         [Required]
-        public string FriendId { get; set; }
+        public string FriendId { get; set; } = string.Empty;
 
         /// <summary>
         /// Connection date
@@ -35,16 +35,16 @@ namespace ManagerAPI.Domain.Entities
         /// <summary>
         /// User
         /// </summary>
-        public virtual User User { get; set; }
+        public virtual User User { get; set; } = default!;
 
         /// <summary>
         /// Friend
         /// </summary>
-        public virtual User Friend { get; set; }
+        public virtual User Friend { get; set; } = default!;
 
         /// <summary>
         /// Friend Request
         /// </summary>
-        public virtual FriendRequest Request { get; set; }
+        public virtual FriendRequest Request { get; set; } = default!;
     }
 }

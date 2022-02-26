@@ -19,13 +19,13 @@ namespace ManagerAPI.Domain.Entities
         /// Sender
         /// </summary>
         [Required]
-        public string SenderId { get; set; }
+        public string SenderId { get; set; } = string.Empty;
 
         /// <summary>
         /// Destination user
         /// </summary>
         [Required]
-        public string DestinationId { get; set; }
+        public string DestinationId { get; set; } = string.Empty;
 
         /// <summary>
         /// Sent date
@@ -38,7 +38,7 @@ namespace ManagerAPI.Domain.Entities
         /// </summary>
         [Required]
         [MaxLength(120)]
-        public string Message { get; set; }
+        public string Message { get; set; } = string.Empty;
 
         /// <summary>
         /// Response
@@ -53,16 +53,16 @@ namespace ManagerAPI.Domain.Entities
         /// <summary>
         /// Sender
         /// </summary>
-        public virtual User Sender { get; set; }
+        public virtual User Sender { get; set; } = default!;
 
         /// <summary>
         /// Destination user
         /// </summary>
-        public virtual User Destination { get; set; }
+        public virtual User Destination { get; set; } = default!;
 
         /// <summary>
         /// Friends
         /// </summary>
-        public virtual ICollection<Friends> FriendCollection { get; set; }
+        public virtual ICollection<Friends> FriendCollection { get; set; } = default!;
     }
 }

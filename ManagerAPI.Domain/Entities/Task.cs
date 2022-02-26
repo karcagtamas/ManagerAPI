@@ -1,6 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace ManagerAPI.Domain.Entities
 {
@@ -18,13 +16,13 @@ namespace ManagerAPI.Domain.Entities
         /// </summary>
         [Required]
         [MaxLength(100)]
-        public string Title { get; set; }
+        public string Title { get; set; } = string.Empty;
 
         /// <summary>
         /// Description
         /// </summary>
         [Required]
-        public string Description { get; set; }
+        public string Description { get; set; } = string.Empty;
 
         /// <summary>
         /// Task is solved
@@ -36,7 +34,7 @@ namespace ManagerAPI.Domain.Entities
         /// Owner
         /// </summary>
         [Required]
-        public string OwnerId { get; set; }
+        public string OwnerId { get; set; } = string.Empty;
 
         /// <summary>
         /// Creation
@@ -59,10 +57,10 @@ namespace ManagerAPI.Domain.Entities
         /// <summary>
         /// Owner
         /// </summary>
-        public virtual User Owner { get; set; }
+        public virtual User Owner { get; set; } = default!;
 
         /// <inheritdoc />
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj != null && this.Id == ((Task)obj).Id;
         }

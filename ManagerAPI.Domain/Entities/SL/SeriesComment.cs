@@ -19,7 +19,7 @@ namespace ManagerAPI.Domain.Entities.SL
         /// <summary>
         /// User
         /// </summary>
-        [Required] public string UserId { get; set; }
+        [Required] public string UserId { get; set; } = string.Empty;
 
         /// <summary>
         /// Creation
@@ -34,16 +34,16 @@ namespace ManagerAPI.Domain.Entities.SL
         /// <summary>
         /// Comment
         /// </summary>
-        [Required] [MaxLength(500)] public string Comment { get; set; }
+        [Required][MaxLength(500)] public string Comment { get; set; } = string.Empty;
 
         /// <summary>
         /// Sender
         /// </summary>
-        public virtual Series Series { get; set; }
+        public virtual Series Series { get; set; } = default!;
 
         /// <summary>
         /// User
         /// </summary>
-        public virtual User User { get; set; }
+        public virtual User User { get; set; } = default!;
     }
 }

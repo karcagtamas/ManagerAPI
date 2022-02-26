@@ -18,7 +18,7 @@ namespace ManagerAPI.Domain.Entities.SL
         /// Sender
         /// </summary>
         [Required]
-        public string UserId { get; set; }
+        public string UserId { get; set; } = string.Empty;
 
         /// <summary>
         /// Is read
@@ -40,11 +40,11 @@ namespace ManagerAPI.Domain.Entities.SL
         /// <summary>
         /// Book
         /// </summary>
-        public virtual Book Book { get; set; }
+        public virtual Book Book { get; set; } = default!;
 
         /// <summary>
         /// User
         /// </summary>        
-        public virtual User User { get; set; }
+        public virtual User User { get; set; } = default!;
     }
 }

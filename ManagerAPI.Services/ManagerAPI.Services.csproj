@@ -1,35 +1,35 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <TargetFramework>net5.0</TargetFramework>
-        <Version>0.7.3</Version>
-        <Authors>karcagtamas@outlook.com</Authors>
-        <Company>karcags</Company>
-        <PackageVersion>1.0.0</PackageVersion>
-        <LangVersion>default</LangVersion>
-    </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<Version>0.7.3</Version>
+		<Authors>karcagtamas@outlook.com</Authors>
+		<Company>karcags</Company>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
 
-    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-      <DocumentationFile>bin\Debug\net5.0\ManagerAPI.Services.xml</DocumentationFile>
-    </PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+		<DocumentationFile>bin\Debug\net5.0\ManagerAPI.Services.xml</DocumentationFile>
+	</PropertyGroup>
 
-    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-      <DocumentationFile>bin\Release\net5.0\ManagerAPI.Services.xml</DocumentationFile>
-    </PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+		<DocumentationFile>bin\Release\net5.0\ManagerAPI.Services.xml</DocumentationFile>
+	</PropertyGroup>
 
-    <ItemGroup>
-      <PackageReference Include="AutoMapper" Version="10.1.1" />
-      <PackageReference Include="ClosedXML" Version="0.95.4" />
-      <PackageReference Include="DinkToPdf" Version="1.0.8" />
-      <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.10.0" />
-      <PackageReference Include="System.Collections" Version="4.3.0" />
-      <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.10.0" />
-    </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="AutoMapper" Version="11.0.1" />
+		<PackageReference Include="ClosedXML" Version="0.95.4" />
+		<PackageReference Include="DinkToPdf" Version="1.0.8" />
+		<PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.16.0" />
+		<PackageReference Include="System.Collections" Version="4.3.0" />
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.16.0" />
+	</ItemGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\ManagerAPI.DataAccess\ManagerAPI.DataAccess.csproj" />
-      <ProjectReference Include="..\ManagerAPI.Domain\ManagerAPI.Domain.csproj" />
-      <ProjectReference Include="..\ManagerAPI.Shared\ManagerAPI.Shared.csproj" />
-    </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\ManagerAPI.DataAccess\ManagerAPI.DataAccess.csproj" />
+		<ProjectReference Include="..\ManagerAPI.Domain\ManagerAPI.Domain.csproj" />
+		<ProjectReference Include="..\ManagerAPI.Shared\ManagerAPI.Shared.csproj" />
+	</ItemGroup>
 
 </Project>

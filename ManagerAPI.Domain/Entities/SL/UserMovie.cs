@@ -16,7 +16,7 @@ namespace ManagerAPI.Domain.Entities.SL
         /// <summary>
         /// User
         /// </summary>
-        [Required] public string UserId { get; set; }
+        [Required] public string UserId { get; set; } = string.Empty;
 
         /// <summary>
         /// Is seen
@@ -46,11 +46,11 @@ namespace ManagerAPI.Domain.Entities.SL
         /// <summary>
         /// Movie
         /// </summary>
-        public virtual Movie Movie { get; set; }
+        public virtual Movie Movie { get; set; } = default!;
 
         /// <summary>
         /// User
         /// </summary>
-        public virtual User User { get; set; }
+        public virtual User User { get; set; } = default!;
     }
 }

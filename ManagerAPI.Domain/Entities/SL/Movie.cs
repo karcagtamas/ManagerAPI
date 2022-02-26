@@ -16,12 +16,12 @@ namespace ManagerAPI.Domain.Entities.SL
         /// <summary>
         /// Title
         /// </summary>
-        [Required] [MaxLength(150)] public string Title { get; set; }
+        [Required] [MaxLength(150)] public string Title { get; set; } = string.Empty;
 
         /// <summary>
         /// Description
         /// </summary>
-        [MaxLength(999)] public string Description { get; set; }
+        [MaxLength(999)] public string Description { get; set; } = string.Empty;
 
         /// <summary>
         /// Release year
@@ -36,32 +36,32 @@ namespace ManagerAPI.Domain.Entities.SL
         /// <summary>
         /// Director
         /// </summary>
-        [MaxLength(60)] public string Director { get; set; }
+        [MaxLength(60)] public string Director { get; set; } = string.Empty;
 
         /// <summary>
         /// Trailer url
         /// </summary>
-        [MaxLength(200)] public string TrailerUrl { get; set; }
+        [MaxLength(200)] public string TrailerUrl { get; set; } = string.Empty;
 
         /// <summary>
         /// Image title
         /// </summary>
-        [MaxLength(100)] public string ImageTitle { get; set; }
+        [MaxLength(100)] public string ImageTitle { get; set; } = string.Empty;
 
         /// <summary>
         /// Image
         /// </summary>
-        public byte[] ImageData { get; set; }
+        public byte[] ImageData { get; set; } = default!;
 
         /// <summary>
         /// Creator
         /// </summary>
-        [Required] public string CreatorId { get; set; }
+        [Required] public string CreatorId { get; set; } = string.Empty;
 
         /// <summary>
         /// Last updater
         /// </summary>
-        [Required] public string LastUpdaterId { get; set; }
+        [Required] public string LastUpdaterId { get; set; } = string.Empty;
 
         /// <summary>
         /// Creation
@@ -76,30 +76,30 @@ namespace ManagerAPI.Domain.Entities.SL
         /// <summary>
         /// Creator
         /// </summary>
-        public virtual User Creator { get; set; }
+        public virtual User Creator { get; set; } = default!;
 
         /// <summary>
         /// Last updater
         /// </summary>
-        public virtual User LastUpdater { get; set; }
+        public virtual User LastUpdater { get; set; } = default!;
 
         /// <summary>
         /// Users
         /// </summary>
-        public virtual ICollection<UserMovie> ConnectedUsers { get; set; }
+        public virtual ICollection<UserMovie> ConnectedUsers { get; set; } = default!;
 
         /// <summary>
         /// Categories
         /// </summary>
-        public virtual ICollection<MovieMovieCategory> Categories { get; set; }
+        public virtual ICollection<MovieMovieCategory> Categories { get; set; } = default!;
 
         /// <summary>
         /// Comments
         /// </summary>
-        public virtual ICollection<MovieComment> Comments { get; set; }
+        public virtual ICollection<MovieComment> Comments { get; set; } = default!;
 
         /// <inheritdoc />
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj != null && this.Id == ((Movie)obj).Id;
         }

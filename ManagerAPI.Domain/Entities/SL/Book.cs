@@ -18,19 +18,19 @@ namespace ManagerAPI.Domain.Entities.SL
         /// </summary>
         [Required]
         [MaxLength(150)]
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
         /// <summary>
         /// Author
         /// </summary>
         [Required]
         [MaxLength(150)]
-        public string Author { get; set; }
+        public string Author { get; set; } = string.Empty;
 
         /// <summary>
         /// Description
         /// </summary>
-        public string Description { get; set; }
+        public string Description { get; set; } = string.Empty;
 
         /// <summary>
         /// Publish
@@ -41,13 +41,13 @@ namespace ManagerAPI.Domain.Entities.SL
         /// Creator
         /// </summary>
         [Required]
-        public string CreatorId { get; set; }
+        public string CreatorId { get; set; } = string.Empty;
 
         /// <summary>
         /// Last updater
         /// </summary>
         [Required]
-        public string LastUpdaterId { get; set; }
+        public string LastUpdaterId { get; set; } = string.Empty;
 
         /// <summary>
         /// Creation
@@ -65,21 +65,21 @@ namespace ManagerAPI.Domain.Entities.SL
         /// Creator
         /// </summary>
         [Required]
-        public virtual User Creator { get; set; }
+        public virtual User Creator { get; set; } = default!;
 
         /// <summary>
         /// Last updater
         /// </summary>
         [Required]
-        public virtual User LastUpdater { get; set; }
+        public virtual User LastUpdater { get; set; } = default!;
 
         /// <summary>
         /// Users
         /// </summary>
-        public virtual ICollection<UserBook> ConnectedUsers { get; set; }
+        public virtual ICollection<UserBook> ConnectedUsers { get; set; } = default!;
 
         /// <inheritdoc />
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj != null && this.Id == ((Book)obj).Id;
         }

@@ -18,7 +18,7 @@ namespace ManagerAPI.Domain.Entities.CSM
         /// <summary>
         /// Title
         /// </summary>
-        [Required] [MaxLength(120)] public string Title { get; set; }
+        [Required] [MaxLength(120)] public string Title { get; set; } = string.Empty;
 
         /// <summary>
         /// Creation
@@ -28,7 +28,7 @@ namespace ManagerAPI.Domain.Entities.CSM
         /// <summary>
         /// Owner
         /// </summary>
-        [Required] public string OwnerId { get; set; }
+        [Required] public string OwnerId { get; set; } = string.Empty;
 
         /// <summary>
         /// Last update
@@ -38,7 +38,7 @@ namespace ManagerAPI.Domain.Entities.CSM
         /// <summary>
         /// Last updater
         /// </summary>
-        public string LastUpdaterId { get; set; }
+        public string LastUpdaterId { get; set; } = string.Empty;
 
         /// <summary>
         /// Start
@@ -89,26 +89,26 @@ namespace ManagerAPI.Domain.Entities.CSM
         /// <summary>
         /// Owner
         /// </summary>
-        public virtual User Owner { get; set; }
+        public virtual User Owner { get; set; } = default!;
 
         /// <summary>
         /// Last updater
         /// </summary>
-        public virtual User LastUpdater { get; set; }
+        public virtual User LastUpdater { get; set; } = default!;
 
         /// <summary>
         /// Persons
         /// </summary>
-        public virtual ICollection<CsomorPerson> Persons { get; set; }
+        public virtual ICollection<CsomorPerson> Persons { get; set; } = default!;
 
         /// <summary>
         /// Works
         /// </summary>
-        public virtual ICollection<CsomorWork> Works { get; set; }
+        public virtual ICollection<CsomorWork> Works { get; set; } = default!;
 
         /// <summary>
         /// Shared with
         /// </summary>
-        public virtual ICollection<UserCsomor> SharedWith { get; set; }
+        public virtual ICollection<UserCsomor> SharedWith { get; set; } = default!;
     }
 }

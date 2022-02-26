@@ -20,11 +20,11 @@ namespace ManagerAPI.Domain.Entities.SL
         /// <summary>
         /// Movie
         /// </summary>
-        public virtual Movie Movie { get; set; }
+        public virtual Movie Movie { get; set; } = default!;
 
         /// <summary>
         /// Category
         /// </summary>
-        public virtual MovieCategory Category { get; set; }
+        public virtual MovieCategory Category { get; set; } = default!;
     }
 }

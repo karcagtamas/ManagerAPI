@@ -13,11 +13,11 @@
         /// <summary>
         /// Equals
         /// </summary>
-        bool Equals(object obj);
+        bool Equals(object? obj);
 
         /// <summary>
         /// To string
         /// </summary>
-        string ToString();
+        string? ToString();
     }
 }

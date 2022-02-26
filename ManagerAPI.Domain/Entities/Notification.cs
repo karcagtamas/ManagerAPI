@@ -17,7 +17,7 @@ namespace ManagerAPI.Domain.Entities
         /// </summary>
         [Required]
         [MaxLength(256)]
-        public string Content { get; set; }
+        public string Content { get; set; } = string.Empty;
 
         /// <summary>
         /// Sent date
@@ -29,7 +29,7 @@ namespace ManagerAPI.Domain.Entities
         /// Owner
         /// </summary>
         [Required]
-        public string OwnerId { get; set; }
+        public string OwnerId { get; set; } = string.Empty;
 
         /// <summary>
         /// Notification is read
@@ -52,11 +52,11 @@ namespace ManagerAPI.Domain.Entities
         /// <summary>
         /// Owner
         /// </summary>
-        public virtual User Owner { get; set; }
+        public virtual User Owner { get; set; } = default!;
 
         /// <summary>
         /// Type
         /// </summary>
-        public virtual NotificationType Type { get; set; }
+        public virtual NotificationType Type { get; set; } = default!;
     }
 }

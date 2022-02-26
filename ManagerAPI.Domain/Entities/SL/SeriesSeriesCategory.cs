@@ -20,11 +20,11 @@ namespace ManagerAPI.Domain.Entities.SL
         /// <summary>
         /// Series
         /// </summary>
-        public virtual Series Series { get; set; }
+        public virtual Series Series { get; set; } = default!;
 
         /// <summary>
         /// Category
         /// </summary>
-        public virtual SeriesCategory Category { get; set; }
+        public virtual SeriesCategory Category { get; set; } = default!;
     }
 }

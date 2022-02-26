@@ -24,7 +24,7 @@ namespace ManagerAPI.Domain.Entities.WM
         /// User
         /// </summary>
         [Required]
-        public string UserId { get; set; }
+        public string UserId { get; set; } = string.Empty;
 
         /// <summary>
         /// Type
@@ -35,20 +35,20 @@ namespace ManagerAPI.Domain.Entities.WM
         /// <summary>
         /// Type
         /// </summary>
-        public virtual WorkingDayType Type { get; set; }
+        public virtual WorkingDayType Type { get; set; } = default!;
 
         /// <summary>
         /// User
         /// </summary>
-        public virtual User User { get; set; }
+        public virtual User User { get; set; } = default!;
 
         /// <summary>
         /// Working fields
         /// </summary>
-        public virtual ICollection<WorkingField> WorkingFields { get; set; }
+        public virtual ICollection<WorkingField> WorkingFields { get; set; } = default!;
 
         /// <inheritdoc />
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj != null && this.Id == ((WorkingDay)obj).Id;
         }

@@ -16,6 +16,10 @@ namespace ManagerAPI.Domain.Entities
         /// <returns>Built string</returns>
         public static string BuildString<T>(T entity, params string[] properties)
         {
+            if (entity is null)
+            {
+                return "";
+            }
             var type = entity.GetType();
             var values = new List<string>();
             foreach (string prop in properties)
@@ -24,7 +28,7 @@ namespace ManagerAPI.Domain.Entities
 
                 if (property != null)
                 {
-                    values.Add(property.GetValue(entity)?.ToString());
+                    values.Add(property.GetValue(entity)?.ToString() ?? string.Empty);
                 }
             }
 

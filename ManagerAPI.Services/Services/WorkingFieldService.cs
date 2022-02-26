@@ -5,62 +5,58 @@ using ManagerAPI.Domain.Enums.WM;
 using ManagerAPI.Services.Common.Repository;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.WM;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
-namespace ManagerAPI.Services.Services
+namespace ManagerAPI.Services.Services;
+
+/// <summary>
+/// Working Field Service
+/// </summary>
+public class WorkingFieldService : Repository<WorkingField, WorkingManagerNotificationType>, IWorkingFieldService
 {
     /// <summary>
-    /// Working Field Service
+    /// Injector Constructor
     /// </summary>
-    public class WorkingFieldService : Repository<WorkingField, WorkingManagerNotificationType>, IWorkingFieldService
+    /// <param name="context">Database Context</param>
+    /// <param name="mapper">Mapper</param>
+    /// <param name="utilsService">Utils Service</param>
+    /// <param name="notificationService">Notification Service</param>
+    /// <param name="loggerService">Logger Service</param>
+    public WorkingFieldService(DatabaseContext context, IMapper mapper, IUtilsService utilsService,
+        INotificationService notificationService, ILoggerService loggerService) : base(context, loggerService,
+        utilsService, notificationService, mapper, "Working field", new NotificationArguments
+        {
+            CreateArguments = new List<string> { "Length" },
+            DeleteArguments = new List<string> { "WorkingDay.Day" },
+            UpdateArguments = new List<string> { "WorkingDay.Day" }
+        })
     {
-        /// <summary>
-        /// Injector Constructor
-        /// </summary>
-        /// <param name="context">Database Context</param>
-        /// <param name="mapper">Mapper</param>
-        /// <param name="utilsService">Utils Service</param>
-        /// <param name="notificationService">Notification Service</param>
-        /// <param name="loggerService">Logger Service</param>
-        public WorkingFieldService(DatabaseContext context, IMapper mapper, IUtilsService utilsService,
-            INotificationService notificationService, ILoggerService loggerService) : base(context, loggerService,
-            utilsService, notificationService, mapper, "Working field", new NotificationArguments
-            {
-                CreateArguments = new List<string> { "Length" },
-                DeleteArguments = new List<string> { "WorkingDay.Day" },
-                UpdateArguments = new List<string> { "WorkingDay.Day" }
-            })
-        {
-        }
+    }
 
-        /// <inheritdoc />
-        public WorkingWeekStatDto GetWeekStat(DateTime week)
-        {
-            var user = this.Utils.GetCurrentUser();
+    /// <inheritdoc />
+    public WorkingWeekStatDto GetWeekStat(DateTime week)
+    {
+        var user = this.Utils.GetCurrentUser();
 
-            var list = this.Mapper.Map<WorkingWeekStatDto>(this.GetList(x =>
-                x.WorkingDay.Day >= week && x.WorkingDay.Day <= week.AddDays(7) && x.WorkingDay.User.Id == user.Id));
+        var list = this.Mapper.Map<WorkingWeekStatDto>(this.GetList(x =>
+            x.WorkingDay.Day >= week && x.WorkingDay.Day <= week.AddDays(7) && x.WorkingDay.User.Id == user.Id));
 
-            this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get week stat for"),
-                list.Fields.Select(x => x.Id).ToList());
+        this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get week stat for"),
+            list.Fields.Select(x => x.Id).ToList());
 
-            return list;
-        }
+        return list;
+    }
 
-        /// <inheritdoc />
-        public WorkingMonthStatDto GetMonthStat(int year, int month)
-        {
-            var user = this.Utils.GetCurrentUser();
+    /// <inheritdoc />
+    public WorkingMonthStatDto GetMonthStat(int year, int month)
+    {
+        var user = this.Utils.GetCurrentUser();
 
-            var list = this.Mapper.Map<WorkingMonthStatDto>(this.GetList(x =>
-                x.WorkingDay.Day.Year == year && x.WorkingDay.Day.Month == month && x.WorkingDay.User.Id == user.Id));
+        var list = this.Mapper.Map<WorkingMonthStatDto>(this.GetList(x =>
+            x.WorkingDay.Day.Year == year && x.WorkingDay.Day.Month == month && x.WorkingDay.User.Id == user.Id));
 
-            this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get month stat for"),
-                list.Fields.Select(x => x.Id).ToList());
+        this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get month stat for"),
+            list.Fields.Select(x => x.Id).ToList());
 
-            return list;
-        }
+        return list;
     }
 }

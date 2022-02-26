@@ -11,7 +11,7 @@ namespace ManagerAPI.Domain.Entities.SL
         /// <summary>
         /// User
         /// </summary>
-        [Required] public string UserId { get; set; }
+        [Required] public string UserId { get; set; } = string.Empty;
 
         /// <summary>
         /// Episode
@@ -31,11 +31,11 @@ namespace ManagerAPI.Domain.Entities.SL
         /// <summary>
         /// User
         /// </summary>
-        public virtual User User { get; set; }
+        public virtual User User { get; set; } = default!;
 
         /// <summary>
         /// Episode
         /// </summary>
-        public virtual Episode Episode { get; set; }
+        public virtual Episode Episode { get; set; } = default!;
     }
 }

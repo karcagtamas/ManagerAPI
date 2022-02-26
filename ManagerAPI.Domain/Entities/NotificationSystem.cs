@@ -18,17 +18,17 @@ namespace ManagerAPI.Domain.Entities
         /// Name
         /// </summary>
         [Required]
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
         /// <summary>
         /// Short name
         /// </summary>
         [Required]
-        public string ShortName { get; set; }
+        public string ShortName { get; set; } = string.Empty;
 
         /// <summary>
         /// Connected notification types
         /// </summary>
-        public virtual ICollection<NotificationType> Types { get; set; }
+        public virtual ICollection<NotificationType> Types { get; set; } = default!;
     }
 }

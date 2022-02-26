@@ -26,12 +26,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
-using MovieCorner.Services.Profiles;
-using MovieCorner.Services.Services;
-using MovieCorner.Services.Services.Interfaces;
-using PlanManager.Services.Profiles;
-using PlanManager.Services.Services;
-using PlanManager.Services.Services.Interfaces;
+using StatusLibrary.Services.Profiles;
+using StatusLibrary.Services.Services;
+using StatusLibrary.Services.Services.Interfaces;
 using System;
 using System.Text;
 
@@ -81,7 +78,6 @@ namespace ManagerAPI.Backend
             var mapperConfig = new MapperConfiguration(x =>
             {
                 x.AddProfile(new UserProfile());
-                x.AddProfile(new PlanProfile());
                 x.AddProfile(new NotificationProfile());
                 x.AddProfile(new FriendProfile());
                 x.AddProfile(new MessageProfile());
@@ -111,7 +107,6 @@ namespace ManagerAPI.Backend
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IUtilsService, UtilsService>();
             services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IPlanService, PlanService>();
             services.AddScoped<INotificationService, NotificationService>();
             services.AddScoped<IFriendService, FriendService>();
             services.AddScoped<IMessageService, MessageService>();

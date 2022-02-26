@@ -16,7 +16,7 @@ namespace ManagerAPI.Domain.Entities.SL
         /// <summary>
         /// Title
         /// </summary>
-        [Required] [MaxLength(150)] public string Title { get; set; }
+        [Required] [MaxLength(150)] public string Title { get; set; } = string.Empty;
 
         /// <summary>
         /// Number
@@ -29,7 +29,7 @@ namespace ManagerAPI.Domain.Entities.SL
         /// <summary>
         /// Description
         /// </summary>
-        [MaxLength(300)] public string Description { get; set; }
+        [MaxLength(300)] public string Description { get; set; } = string.Empty;
 
         /// <summary>
         /// Season
@@ -39,7 +39,7 @@ namespace ManagerAPI.Domain.Entities.SL
         /// <summary>
         /// Last updater
         /// </summary>
-        [Required] public string LastUpdaterId { get; set; }
+        [Required] public string LastUpdaterId { get; set; } = string.Empty;
 
         /// <summary>
         /// Last update
@@ -49,30 +49,30 @@ namespace ManagerAPI.Domain.Entities.SL
         /// <summary>
         /// Image title
         /// </summary>
-        public string ImageTitle { get; set; }
+        public string ImageTitle { get; set; } = string.Empty;
 
         /// <summary>
         /// Image
         /// </summary>
-        public byte[] ImageData { get; set; }
+        public byte[] ImageData { get; set; } = default!;
 
         /// <summary>
         /// Season
         /// </summary>
-        public virtual Season Season { get; set; }
+        public virtual Season Season { get; set; } = default!;
 
         /// <summary>
         /// Last updater
         /// </summary>
-        public virtual User LastUpdater { get; set; }
+        public virtual User LastUpdater { get; set; } = default!;
 
         /// <summary>
         /// Users
         /// </summary>
-        public virtual ICollection<UserEpisode> ConnectedUsers { get; set; }
+        public virtual ICollection<UserEpisode> ConnectedUsers { get; set; } = default!;
 
         /// <inheritdoc />
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj != null && ((Episode)obj).Id == this.Id;
         }

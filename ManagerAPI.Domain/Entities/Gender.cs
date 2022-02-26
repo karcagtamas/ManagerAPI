@@ -18,11 +18,11 @@ namespace ManagerAPI.Domain.Entities
         /// Name
         /// </summary>
         [Required]
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
         /// <summary>
         /// Connected users
         /// </summary>
-        public virtual ICollection<User> Users { get; set; }
+        public virtual ICollection<User> Users { get; set; } = default!;
     }
 }

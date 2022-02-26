@@ -17,12 +17,12 @@ namespace ManagerAPI.Domain.Entities.WM
         /// </summary>
         [Required]
         [MaxLength(200)]
-        public string Title { get; set; }
+        public string Title { get; set; } = string.Empty;
 
         /// <summary>
         /// Description
         /// </summary>
-        public string Description { get; set; }
+        public string Description { get; set; } = string.Empty;
 
         /// <summary>
         /// Length
@@ -39,10 +39,10 @@ namespace ManagerAPI.Domain.Entities.WM
         /// <summary>
         /// Working day
         /// </summary>
-        public virtual WorkingDay WorkingDay { get; set; }
+        public virtual WorkingDay WorkingDay { get; set; } = default!;
 
         /// <inheritdoc />
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj != null && this.Id == ((WorkingField)obj).Id;
         }

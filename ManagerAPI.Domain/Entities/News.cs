@@ -17,13 +17,13 @@ namespace ManagerAPI.Domain.Entities
         /// </summary>
         [Required]
         [MaxLength(512)]
-        public string Content { get; set; }
+        public string Content { get; set; } = string.Empty;
 
         /// <summary>
         /// Creator
         /// </summary>
         [Required]
-        public string CreatorId { get; set; }
+        public string CreatorId { get; set; } = string.Empty;
 
         /// <summary>
         /// Creation
@@ -35,7 +35,7 @@ namespace ManagerAPI.Domain.Entities
         /// Last updater
         /// </summary>
         [Required]
-        public string LastUpdaterId { get; set; }
+        public string LastUpdaterId { get; set; } = string.Empty;
 
         /// <summary>
         /// Last update
@@ -46,11 +46,11 @@ namespace ManagerAPI.Domain.Entities
         /// <summary>
         /// Creator
         /// </summary>
-        public virtual User Creator { get; set; }
+        public virtual User Creator { get; set; } = default!;
 
         /// <summary>
         /// Last updater
         /// </summary>
-        public virtual User LastUpdater { get; set; }
+        public virtual User LastUpdater { get; set; } = default!;
     }
 }

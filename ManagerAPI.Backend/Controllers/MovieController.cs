@@ -4,8 +4,7 @@ using ManagerAPI.Shared.DTOs.SL;
 using ManagerAPI.Shared.Models.SL;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MovieCorner.Services.Services.Interfaces;
-using System.Collections.Generic;
+using StatusLibrary.Services.Services.Interfaces;
 
 namespace ManagerAPI.Backend.Controllers
 {

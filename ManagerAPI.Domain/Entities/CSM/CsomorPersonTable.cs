@@ -11,7 +11,7 @@ namespace ManagerAPI.Domain.Entities.CSM
         /// <summary>
         /// Id
         /// </summary>
-        [Required] public string Id { get; set; }
+        [Required] public string Id { get; set; } = string.Empty;
 
         /// <summary>
         /// Date
@@ -23,7 +23,7 @@ namespace ManagerAPI.Domain.Entities.CSM
         /// Person
         /// </summary>
         [Required]
-        public string PersonId { get; set; }
+        public string PersonId { get; set; } = string.Empty;
 
         /// <summary>
         /// Is available
@@ -34,16 +34,16 @@ namespace ManagerAPI.Domain.Entities.CSM
         /// <summary>
         /// Work
         /// </summary>
-        public string WorkId { get; set; }
+        public string WorkId { get; set; } = string.Empty;
 
         /// <summary>
         /// Person
         /// </summary>
-        public virtual CsomorPerson Person { get; set; }
+        public virtual CsomorPerson Person { get; set; } = default!;
 
         /// <summary>
         /// Work
         /// </summary>
-        public virtual CsomorWork Work { get; set; }
+        public virtual CsomorWork Work { get; set; } = default!;
     }
 }

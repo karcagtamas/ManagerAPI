@@ -28,15 +28,15 @@ namespace ManagerAPI.Domain.Entities.SL
         /// <summary>
         /// Series
         /// </summary>
-        public virtual Series Series { get; set; }
+        public virtual Series Series { get; set; } = default!;
 
         /// <summary>
         /// Episodes
         /// </summary>
-        public virtual ICollection<Episode> Episodes { get; set; }
+        public virtual ICollection<Episode> Episodes { get; set; } = default!;
 
         /// <inheritdoc />
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj != null && this.Id == ((Season)obj).Id;
         }

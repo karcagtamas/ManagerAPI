@@ -3,83 +3,79 @@ using ManagerAPI.Domain.Entities;
 using ManagerAPI.Services.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
-namespace ManagerAPI.Services.Services
+namespace ManagerAPI.Services.Services;
+
+/// <inheritdoc />
+public class UtilsService : IUtilsService
 {
-    /// <inheritdoc />
-    public class UtilsService : IUtilsService
+    private readonly IHttpContextAccessor _contextAccessor;
+    private readonly DatabaseContext _context;
+
+    /// <summary>
+    /// Utils Service constructor
+    /// </summary>
+    /// <param name="contextAccessor">Context Accessor</param>
+    /// <param name="context">Context</param>
+    public UtilsService(IHttpContextAccessor contextAccessor, DatabaseContext context)
     {
-        private readonly IHttpContextAccessor _contextAccessor;
-        private readonly DatabaseContext _context;
+        this._contextAccessor = contextAccessor;
+        this._context = context;
+    }
 
-        /// <summary>
-        /// Utils Service constructor
-        /// </summary>
-        /// <param name="contextAccessor">Context Accessor</param>
-        /// <param name="context">Context</param>
-        public UtilsService(IHttpContextAccessor contextAccessor, DatabaseContext context)
+    /// <inheritdoc />
+    public User GetCurrentUser()
+    {
+        string userId = this.GetCurrentUserId();
+        var user = this._context.AppUsers.Find(userId);
+        if (user == null)
         {
-            this._contextAccessor = contextAccessor;
-            this._context = context;
+            throw new Exception("Invalid user Id");
         }
 
-        /// <inheritdoc />
-        public User GetCurrentUser()
+        return user;
+    }
+
+    /// <inheritdoc />
+    public string GetCurrentUserId()
+    {
+        string userId = this._contextAccessor.HttpContext.User.Claims.First(c => c.Type == "UserId").Value;
+        return userId;
+    }
+
+    /// <inheritdoc />
+    public string InjectString(string baseText, params string[] args)
+    {
+        string res = baseText;
+
+        for (int i = 0; i < args.Length; i++)
         {
-            string userId = this.GetCurrentUserId();
-            var user = this._context.AppUsers.Find(userId);
-            if (user == null)
+            // Get placeholder from the current interaction
+            string placeholder = "{i}".Replace('i', i.ToString()[0]);
+
+            // Placeholder does not exist in the base text
+            if (!res.Contains(placeholder))
             {
-                throw new Exception("Invalid user Id");
+                throw new ArgumentException($"Placer holder is missing with number: {i}");
             }
 
-            return user;
+            // Inject params instead of placeholder
+            res = res.Replace(placeholder, $"{args[i]}");
         }
 
-        /// <inheritdoc />
-        public string GetCurrentUserId()
-        {
-            string userId = this._contextAccessor.HttpContext.User.Claims.First(c => c.Type == "UserId").Value;
-            return userId;
-        }
+        return res;
+    }
 
-        /// <inheritdoc />
-        public string InjectString(string baseText, params string[] args)
-        {
-            string res = baseText;
+    /// <inheritdoc />
+    public string UserDisplay(User user)
+    {
+        return $"{user.UserName} ({user.Id})";
+    }
 
-            for (int i = 0; i < args.Length; i++)
-            {
-                // Get placeholder from the current interaction
-                string placeholder = "{i}".Replace('i', i.ToString()[0]);
-
-                // Placeholder does not exist in the base text
-                if (!res.Contains(placeholder))
-                {
-                    throw new ArgumentException($"Placer holder is missing with number: {i}");
-                }
-
-                // Inject params instead of placeholder
-                res = res.Replace(placeholder, $"{args[i]}");
-            }
-
-            return res;
-        }
-
-        /// <inheritdoc />
-        public string UserDisplay(User user)
-        {
-            return $"{user.UserName} ({user.Id})";
-        }
-
-        /// <inheritdoc />
-        public string ErrorsToString(IEnumerable<IdentityError> errors)
-        {
-            var list = errors.ToList();
-            return list.FirstOrDefault()?.Description;
-        }
+    /// <inheritdoc />
+    public string ErrorsToString(IEnumerable<IdentityError> errors)
+    {
+        var list = errors.ToList();
+        return list.FirstOrDefault()?.Description;
     }
 }
