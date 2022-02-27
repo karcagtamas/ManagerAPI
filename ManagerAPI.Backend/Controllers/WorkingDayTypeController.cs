@@ -12,7 +12,7 @@ namespace ManagerAPI.Backend.Controllers
     /// </summary>
     [Route("api/working-day-type")]
     [ApiController]
-    public class WorkingDayTypeController : MyController<WorkingDayType, WorkingDayTypeModel, WorkingDayTypeListDto, WorkingDayTypeDto>
+    public class WorkingDayTypeController : MyController<WorkingDayType, int, WorkingDayTypeModel, WorkingDayTypeListDto, WorkingDayTypeDto>
     {
         /// <summary>
         /// Init working day type controller

@@ -1,62 +1,62 @@
+using KarcagS.Common.Tools.Entities;
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace ManagerAPI.Domain.Entities.WM
+namespace ManagerAPI.Domain.Entities.WM;
+
+/// <summary>
+/// Working field
+/// </summary>
+public class WorkingField : IEntity<int>
 {
+    /// <inheritdoc />
+    [Required]
+    public int Id { get; set; }
+
     /// <summary>
-    /// Working field
+    /// Title
     /// </summary>
-    public class WorkingField : IEntity
+    [Required]
+    [MaxLength(200)]
+    public string Title { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Description
+    /// </summary>
+    public string Description { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Length
+    /// </summary>
+    [Required]
+    public decimal Length { get; set; }
+
+    /// <summary>
+    /// Working day
+    /// </summary>
+    [Required]
+    public int WorkingDayId { get; set; }
+
+    /// <summary>
+    /// Working day
+    /// </summary>
+    public virtual WorkingDay WorkingDay { get; set; } = default!;
+
+    /// <inheritdoc />
+    public override bool Equals(object? obj)
     {
-        /// <inheritdoc />
-        [Required]
-        public int Id { get; set; }
+        return obj != null && this.Id == ((WorkingField)obj).Id;
+    }
 
-        /// <summary>
-        /// Title
-        /// </summary>
-        [Required]
-        [MaxLength(200)]
-        public string Title { get; set; } = string.Empty;
+    /// <inheritdoc />
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(this.Id, this.Title, this.Description, this.Length, this.WorkingDayId);
+    }
 
-        /// <summary>
-        /// Description
-        /// </summary>
-        public string Description { get; set; } = string.Empty;
-
-        /// <summary>
-        /// Length
-        /// </summary>
-        [Required]
-        public decimal Length { get; set; }
-
-        /// <summary>
-        /// Working day
-        /// </summary>
-        [Required]
-        public int WorkingDayId { get; set; }
-
-        /// <summary>
-        /// Working day
-        /// </summary>
-        public virtual WorkingDay WorkingDay { get; set; } = default!;
-
-        /// <inheritdoc />
-        public override bool Equals(object? obj)
-        {
-            return obj != null && this.Id == ((WorkingField)obj).Id;
-        }
-
-        /// <inheritdoc />
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(this.Id, this.Title, this.Description, this.Length, this.WorkingDayId);
-        }
-
-        /// <inheritdoc />
-        public override string ToString()
-        {
-            return $"{this.Id} - {this.Title}";
-        }
+    /// <inheritdoc />
+    public override string ToString()
+    {
+        return $"{this.Id} - {this.Title}";
     }
 }

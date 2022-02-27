@@ -1,4 +1,7 @@
 using AutoMapper;
+using KarcagS.Common.Tools.HttpInterceptor;
+using KarcagS.Common.Tools.Repository;
+using KarcagS.Common.Tools.Services;
 using ManagerAPI.DataAccess;
 using ManagerAPI.Domain.Entities;
 using ManagerAPI.Domain.Enums;
@@ -6,191 +9,194 @@ using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs;
 using ManagerAPI.Shared.Models;
 using Microsoft.AspNetCore.Identity;
-using System;
 using System.Globalization;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace ManagerAPI.Services.Services
+namespace ManagerAPI.Services.Services;
+
+/// <summary>
+/// User Service
+/// </summary>
+public class UserService : MapperRepository<User, string>, IUserService
 {
+    // Injects
+    private readonly UserManager<User> userManager;
+    private readonly INotificationService notificationService;
+
     /// <summary>
-    /// User Service
+    /// User Service constructor
     /// </summary>
-    public class UserService : IUserService
+    /// <param name="context">Database Context</param>
+    /// <param name="mapper">Mapper</param>
+    /// <param name="utilsService">Utils Service</param>
+    /// <param name="userManager">User manager</param>
+    /// <param name="notificationService">Notification Service</param>
+    /// <param name="loggerService">Logger Service</param>
+    public UserService(DatabaseContext context, IMapper mapper, IUtilsService utilsService,
+        UserManager<User> userManager,
+        INotificationService notificationService, ILoggerService loggerService) : base(context, loggerService, utilsService, mapper, "User")
     {
-        // Action
-        private const string DisableUserAction = "disable user";
-        private const string UpdateUserNameAction = "update username";
-        private const string UpdatePasswordAction = "update password";
-        private const string UpdateImageAction = "update image";
-        private const string UpdateUserAction = "update user";
+        this.userManager = userManager;
+        this.notificationService = notificationService;
+    }
 
-        // Messages
-        private const string NewEqualOldUserNameMessage = "New username is equal with the old username";
-        private const string IncorrectOldPasswordMessage = "Incorrect old password";
-        private const string OldAndNewPasswordCannotBeSameMessage = "Old and new password cannot be same";
-        private const string ImageCannotBeEmptyMessage = "Image cannot be empty";
-        private const string ErrorDuringUserUpdateMessage = "Error during the user update";
+    /// <inheritdoc />
+    public async Task<UserDto> GetUser()
+    {
+        var userId = Utils.GetCurrentUserId<string>();
 
-        // Things
-        private const string UsernameThing = "username";
-        private const string PasswordThing = "password";
-        private const string ImageThing = "image";
-        private const string UserUpdateObjectThing = "update object";
-
-        // Injects
-        private readonly DatabaseContext _context;
-        private readonly IMapper _mapper;
-        private readonly IUtilsService _utilsService;
-        private readonly UserManager<User> _userManager;
-        private readonly INotificationService _notificationService;
-        private readonly ILoggerService _loggerService;
-
-        /// <summary>
-        /// User Service constructor
-        /// </summary>
-        /// <param name="context">Database Context</param>
-        /// <param name="mapper">Mapper</param>
-        /// <param name="utilsService">Utils Service</param>
-        /// <param name="userManager">User manager</param>
-        /// <param name="notificationService">Notification Service</param>
-        /// <param name="loggerService">Logger Service</param>
-        public UserService(DatabaseContext context, IMapper mapper, IUtilsService utilsService,
-            UserManager<User> userManager,
-            INotificationService notificationService, ILoggerService loggerService)
+        if (userId is null)
         {
-            this._context = context;
-            this._mapper = mapper;
-            this._utilsService = utilsService;
-            this._userManager = userManager;
-            this._notificationService = notificationService;
-            this._loggerService = loggerService;
+            throw new ArgumentNullException(nameof(userId));
         }
 
-        /// <inheritdoc />
-        public async Task<UserDto> GetUser()
+        var user = Get(userId);
+        var list = (await this.userManager.GetRolesAsync(user)).ToList();
+
+
+        var userDto = GetMapped<UserDto>(userId);
+        userDto.Roles = this.Context.Set<WebsiteRole>().OrderByDescending(x => x.AccessLevel).Where(x => list.Contains(x.Name))
+            .Select(x => x.Name).ToList();
+
+        return userDto;
+    }
+
+    /// <inheritdoc />
+    public UserShortDto GetShortUser()
+    {
+        var userId = Utils.GetCurrentUserId<string>();
+
+        if (userId is null)
         {
-            var user = this._utilsService.GetCurrentUser();
-
-            var userDto = this._mapper.Map<UserDto>(user);
-            var list = (await this._userManager.GetRolesAsync(user)).ToList();
-            userDto.Roles = this._context.AppRoles.OrderByDescending(x => x.AccessLevel).Where(x => list.Contains(x.Name))
-                .Select(x => x.Name).ToList();
-
-            this._loggerService.LogInformation(user, nameof(UserService), "get user", user.Id);
-            return userDto;
+            throw new ArgumentNullException(nameof(userId));
         }
 
-        /// <inheritdoc />
-        public UserShortDto GetShortUser()
-        {
-            var user = this._utilsService.GetCurrentUser();
+        return GetMapped<UserShortDto>(userId);
+    }
 
-            var userDto = this._mapper.Map<UserShortDto>(user);
-            this._loggerService.LogInformation(user, nameof(UserService), "get short user", user.Id);
-            return userDto;
+    /// <inheritdoc />
+    public void UpdateUser(UserModel model)
+    {
+        var userId = Utils.GetCurrentUserId<string>();
+
+        if (userId is null)
+        {
+            throw new ArgumentNullException(nameof(userId));
         }
 
-        /// <inheritdoc />
-        public void UpdateUser(UserModel model)
+        if (model is null)
         {
-            var user = this._utilsService.GetCurrentUser();
-            if (model == null)
+            throw new ServerException("Invalid model");
+        }
+
+        UpdateByModel(userId, model);
+        Persist();
+
+        this.notificationService.AddSystemNotificationByType(SystemNotificationType.MyProfileUpdated, Get(userId));
+    }
+
+    /// <inheritdoc />
+    public void UpdateProfileImage(byte[] image)
+    {
+        var user = Utils.GetCurrentUser<User, string>();
+
+        if (image == null || image.Length == 0)
+        {
+            throw new ServerException("Invalid image");
+        }
+
+        user.ProfileImageData = image;
+        user.ProfileImageTitle = DateTime.Now.ToString(CultureInfo.InvariantCulture);
+        Update(user);
+        Persist();
+
+        this.notificationService.AddSystemNotificationByType(SystemNotificationType.ProfileImageChanged, user);
+    }
+
+    /// <inheritdoc />
+    public async System.Threading.Tasks.Task UpdatePassword(string oldPassword, string newPassword)
+    {
+        var user = Utils.GetCurrentUser<User, string>();
+
+        if (await this.userManager.CheckPasswordAsync(user, oldPassword))
+        {
+            if (newPassword == oldPassword)
             {
-                throw this._loggerService.LogInvalidThings(user, nameof(UserService), UserUpdateObjectThing,
-                    ErrorDuringUserUpdateMessage);
+                throw new ServerException("Two passwords have to be different");
             }
 
-            this._mapper.Map(model, user);
-
-            this._context.AppUsers.Update(user);
-            this._context.SaveChanges();
-            this._loggerService.LogInformation(user, nameof(UserService), UpdateUserAction, user.Id);
-            this._notificationService.AddSystemNotificationByType(SystemNotificationType.MyProfileUpdated, user);
+            var result = await this.userManager.ChangePasswordAsync(user, oldPassword, newPassword);
+            if (!result.Succeeded)
+            {
+                throw new ServerException("Error during the password change");
+            }
         }
-
-        /// <inheritdoc />
-        public void UpdateProfileImage(byte[] image)
+        else
         {
-            var user = this._utilsService.GetCurrentUser();
-
-            if (image == null || image.Length == 0)
-            {
-                throw this._loggerService.LogInvalidThings(user, nameof(UserService), ImageThing, ImageCannotBeEmptyMessage);
-            }
-
-            user.ProfileImageData = image;
-            user.ProfileImageTitle = DateTime.Now.ToString(CultureInfo.InvariantCulture);
-            this._context.AppUsers.Update(user);
-            this._context.SaveChanges();
-            this._loggerService.LogInformation(user, nameof(UserService), UpdateImageAction, user.Id);
-            this._notificationService.AddSystemNotificationByType(SystemNotificationType.ProfileImageChanged, user);
+            throw new ServerException("Invalid password");
         }
 
-        /// <inheritdoc />
-        public async System.Threading.Tasks.Task UpdatePassword(string oldPassword, string newPassword)
+        this.notificationService.AddSystemNotificationByType(SystemNotificationType.PasswordChanged, user);
+    }
+
+    /// <inheritdoc />
+    public async System.Threading.Tasks.Task UpdateUsername(string newUsername)
+    {
+        var user = Utils.GetCurrentUser<User, string>();
+        if (newUsername != user.UserName)
         {
-            var user = this._utilsService.GetCurrentUser();
-
-            if (await this._userManager.CheckPasswordAsync(user, oldPassword))
+            var result = await this.userManager.SetUserNameAsync(user, newUsername);
+            if (!result.Succeeded)
             {
-                if (newPassword == oldPassword)
-                {
-                    throw this._loggerService.LogInvalidThings(user, nameof(UserService), PasswordThing,
-                        OldAndNewPasswordCannotBeSameMessage);
-                }
-
-                var result = await this._userManager.ChangePasswordAsync(user, oldPassword, newPassword);
-                if (!result.Succeeded)
-                {
-                    throw this._loggerService.LogInvalidThings(user, nameof(UserService), PasswordThing,
-                        this._utilsService.ErrorsToString(result.Errors));
-                }
+                throw new ServerException("Error during the username change");
             }
-            else
-            {
-                throw this._loggerService.LogInvalidThings(user, nameof(UserService), PasswordThing,
-                    IncorrectOldPasswordMessage);
-            }
-
-            this._loggerService.LogInformation(user, nameof(UserService), UpdatePasswordAction, user.Id);
-            this._notificationService.AddSystemNotificationByType(SystemNotificationType.PasswordChanged, user);
         }
-
-        /// <inheritdoc />
-        public async System.Threading.Tasks.Task UpdateUsername(string newUsername)
+        else
         {
-            var user = this._utilsService.GetCurrentUser();
-            if (newUsername != user.UserName)
-            {
-                var result = await this._userManager.SetUserNameAsync(user, newUsername);
-                if (!result.Succeeded)
-                {
-                    throw this._loggerService.LogInvalidThings(user, nameof(UserService), UsernameThing,
-                        this._utilsService.ErrorsToString(result.Errors));
-                }
-            }
-            else
-            {
-                throw this._loggerService.LogInvalidThings(user, nameof(UserService), UsernameThing,
-                    NewEqualOldUserNameMessage);
-            }
-
-            this._loggerService.LogInformation(user, nameof(UserService), UpdateUserNameAction, user.Id);
-            this._notificationService.AddSystemNotificationByType(SystemNotificationType.UsernameChanged, user,
-                user.UserName, newUsername);
+            throw new ServerException("Two user names have to be different");
         }
 
-        /// <inheritdoc />
-        public void DisableUser()
-        {
-            var user = this._utilsService.GetCurrentUser();
-            user.IsActive = false;
+        this.notificationService.AddSystemNotificationByType(SystemNotificationType.UsernameChanged, user,
+            user.UserName, newUsername);
+    }
 
-            this._context.AppUsers.Update(user);
-            this._context.SaveChanges();
-            this._loggerService.LogInformation(user, nameof(UserService), DisableUserAction, user.Id);
-            this._notificationService.AddSystemNotificationByType(SystemNotificationType.ProfileDisabled, user);
-        }
+    /// <inheritdoc />
+    public void DisableUser()
+    {
+        var user = Utils.GetCurrentUser<User, string>();
+        user.IsActive = false;
+        Update(user);
+        Persist();
+
+        this.notificationService.AddSystemNotificationByType(SystemNotificationType.ProfileDisabled, user);
+    }
+
+    /// <inheritdoc />
+    public User? GetByRefreshToken(string token, string clientId)
+    {
+        return GetList(x => x.RefreshTokens.Any(t => t.Token == token && t.ClientId == clientId)).FirstOrDefault();
+    }
+
+    /// <inheritdoc />
+    public User? GetByName(string userName)
+    {
+        return userManager.Users.SingleOrDefault(user => user.UserName == userName);
+    }
+
+    /// <inheritdoc />
+    public T GetMappedByName<T>(string userName)
+    {
+        return Mapper.Map<T>(GetByName(userName));
+    }
+
+    /// <inheritdoc />
+    public User? GetByEmail(string email)
+    {
+        return userManager.Users.SingleOrDefault(user => user.Email == email);
+    }
+
+    /// <inheritdoc />
+    public bool IsExist(string userName, string email)
+    {
+        return userManager.Users.Any(user => user.Email == email || user.UserName == userName);
     }
 }

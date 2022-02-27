@@ -1,4 +1,4 @@
-using System;
+using KarcagS.Common.Tools.Entities;
 using System.ComponentModel.DataAnnotations;
 
 namespace ManagerAPI.Domain.Entities
@@ -6,7 +6,7 @@ namespace ManagerAPI.Domain.Entities
     /// <summary>
     /// News
     /// </summary>
-    public class News : IEntity
+    public class News : IEntity<int>
     {
         /// <inheritdoc />
         [Required]

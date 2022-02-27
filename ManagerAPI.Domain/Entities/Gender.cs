@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using KarcagS.Common.Tools.Entities;
 using System.ComponentModel.DataAnnotations;
 
 namespace ManagerAPI.Domain.Entities
@@ -6,7 +6,7 @@ namespace ManagerAPI.Domain.Entities
     /// <summary>
     /// Gender
     /// </summary>
-    public class Gender : IEntity
+    public class Gender : IEntity<int>
     {
         /// <summary>
         /// Id

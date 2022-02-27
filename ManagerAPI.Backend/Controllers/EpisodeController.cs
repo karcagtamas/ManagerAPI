@@ -14,7 +14,7 @@ namespace ManagerAPI.Backend.Controllers;
 [Route("api/[controller]")]
 [ApiController]
 [Authorize(Roles = "Administrator,Status Library User,Status Library Moderator,Status Library Administrator,Root")]
-public class EpisodeController : MyController<Episode, EpisodeModel, EpisodeListDto, EpisodeDto>
+public class EpisodeController : MyController<Episode, int, EpisodeModel, EpisodeListDto, EpisodeDto>
 {
     private readonly IEpisodeService _episodeService;
 
@@ -86,7 +86,7 @@ public class EpisodeController : MyController<Episode, EpisodeModel, EpisodeList
     [Authorize(Roles = "Administrator,Root,Moderator,Status Library Moderator,Status Library Administrator")]
     public IActionResult UpdateShort(int id, [FromBody] EpisodeShortModel model)
     {
-        this._episodeService.Update<EpisodeShortModel>(id, model);
+        this._episodeService.UpdateByModel(id, model);
         return this.Ok();
     }
 

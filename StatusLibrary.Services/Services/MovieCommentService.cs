@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using KarcagS.Common.Tools.Services;
 using ManagerAPI.DataAccess;
+using ManagerAPI.Domain.Entities;
 using ManagerAPI.Domain.Entities.SL;
 using ManagerAPI.Domain.Enums.SL;
-using ManagerAPI.Services.Common.Repository;
+using ManagerAPI.Services.Repositories;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.SL;
 using StatusLibrary.Services.Services.Interfaces;
@@ -10,7 +12,7 @@ using StatusLibrary.Services.Services.Interfaces;
 namespace StatusLibrary.Services.Services;
 
 /// <inheritdoc />
-public class MovieCommentService : Repository<MovieComment, StatusLibraryNotificationType>, IMovieCommentService
+public class MovieCommentService : NotificationRepository<MovieComment, int, StatusLibraryNotificationType>, IMovieCommentService
 {
     private readonly DatabaseContext _databaseContext;
 
@@ -23,7 +25,7 @@ public class MovieCommentService : Repository<MovieComment, StatusLibraryNotific
     /// <param name="notification">Notification Service</param>
     /// <param name="mapper">Mapper</param>
     public MovieCommentService(DatabaseContext context, ILoggerService logger, IUtilsService utils,
-        INotificationService notification, IMapper mapper) : base(context, logger, utils, notification, mapper,
+        INotificationService notification, IMapper mapper) : base(context, logger, utils, mapper, notification,
         "Movie Comment", new NotificationArguments
         {
             DeleteArguments = new List<string>(),
@@ -37,7 +39,7 @@ public class MovieCommentService : Repository<MovieComment, StatusLibraryNotific
     /// <inheritdoc />
     public List<MovieCommentListDto> GetList(int movieId)
     {
-        var user = this.Utils.GetCurrentUser();
+        var user = this.Utils.GetCurrentUser<User, string>();
 
         var movie = this._databaseContext.Movies.Find(movieId);
 

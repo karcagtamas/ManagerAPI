@@ -14,7 +14,7 @@ namespace ManagerAPI.Backend.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class NewsController : MyController<News, PostModel, NewsListDto, NewsDto>
+    public class NewsController : MyController<News, int, PostModel, NewsListDto, NewsDto>
     {
         private readonly INewsService _newsService;
 

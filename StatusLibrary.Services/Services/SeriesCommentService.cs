@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using KarcagS.Common.Tools.Services;
 using ManagerAPI.DataAccess;
+using ManagerAPI.Domain.Entities;
 using ManagerAPI.Domain.Entities.SL;
 using ManagerAPI.Domain.Enums.SL;
-using ManagerAPI.Services.Common.Repository;
+using ManagerAPI.Services.Repositories;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.SL;
 using StatusLibrary.Services.Services.Interfaces;
@@ -10,7 +12,7 @@ using StatusLibrary.Services.Services.Interfaces;
 namespace StatusLibrary.Services.Services;
 
 /// <inheritdoc />
-public class SeriesCommentService : Repository<SeriesComment, StatusLibraryNotificationType>, ISeriesCommentService
+public class SeriesCommentService : NotificationRepository<SeriesComment, int, StatusLibraryNotificationType>, ISeriesCommentService
 {
     private readonly DatabaseContext _databaseContext;
 
@@ -23,7 +25,7 @@ public class SeriesCommentService : Repository<SeriesComment, StatusLibraryNotif
     /// <param name="notification">Notification Service</param>
     /// <param name="mapper">Mapper</param>
     public SeriesCommentService(DatabaseContext context, ILoggerService logger, IUtilsService utils,
-        INotificationService notification, IMapper mapper) : base(context, logger, utils, notification, mapper,
+        INotificationService notification, IMapper mapper) : base(context, logger, utils, mapper, notification,
         "Series Comment", new NotificationArguments
         {
             DeleteArguments = new List<string>(),
@@ -37,7 +39,7 @@ public class SeriesCommentService : Repository<SeriesComment, StatusLibraryNotif
     /// <inheritdoc />
     public List<SeriesCommentListDto> GetList(int seriesId)
     {
-        var user = this.Utils.GetCurrentUser();
+        var user = this.Utils.GetCurrentUser<User, string>();
 
         var series = this._databaseContext.Series.Find(seriesId);
 

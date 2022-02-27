@@ -14,7 +14,7 @@ namespace ManagerAPI.Backend.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class GenderController : MyController<Gender, GenderModel, GenderListDto, GenderDto>
+    public class GenderController : MyController<Gender, int, GenderModel, GenderListDto, GenderDto>
     {
         /// <summary>
         /// Injector Constructor

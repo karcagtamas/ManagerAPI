@@ -1,15 +1,14 @@
 using ManagerAPI.Domain.Entities;
-using ManagerAPI.Services.Common.Repository;
+using ManagerAPI.Services.Repositories;
 using ManagerAPI.Shared.DTOs;
 using ManagerAPI.Shared.Models;
-using System.Collections.Generic;
 
 namespace ManagerAPI.Services.Services.Interfaces
 {
     /// <summary>
     /// Message Service
     /// </summary>
-    public interface IMessageService : IRepository<Message>
+    public interface IMessageService : INotificationRepository<Message, int>
     {
         /// <summary>
         /// Get current user's messages

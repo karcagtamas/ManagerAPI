@@ -13,7 +13,7 @@ namespace ManagerAPI.Backend.Controllers
     /// </summary>
     [Route("api/working-day")]
     [ApiController]
-    public class WorkingDayController : MyController<WorkingDay, WorkingDayModel, WorkingDayListDto, WorkingDayDto>
+    public class WorkingDayController : MyController<WorkingDay, int, WorkingDayModel, WorkingDayListDto, WorkingDayDto>
     {
         private readonly IWorkingDayService _workingDayService;
 

@@ -1,5 +1,5 @@
 ﻿using ManagerAPI.Domain.Entities.SL;
-using ManagerAPI.Services.Common.Repository;
+using ManagerAPI.Services.Repositories;
 using ManagerAPI.Shared.DTOs.SL;
 
 namespace StatusLibrary.Services.Services.Interfaces;
@@ -7,7 +7,7 @@ namespace StatusLibrary.Services.Services.Interfaces;
 /// <summary>
 /// Series Comment Service
 /// </summary>
-public interface ISeriesCommentService : IRepository<SeriesComment>
+public interface ISeriesCommentService : INotificationRepository<SeriesComment, int>
 {
     /// <summary>
     /// Get list of comments for the given series.

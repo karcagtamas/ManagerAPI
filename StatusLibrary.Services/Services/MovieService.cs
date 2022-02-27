@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
+using KarcagS.Common.Tools.HttpInterceptor;
+using KarcagS.Common.Tools.Services;
 using ManagerAPI.DataAccess;
+using ManagerAPI.Domain.Entities;
 using ManagerAPI.Domain.Entities.SL;
 using ManagerAPI.Domain.Enums.SL;
-using ManagerAPI.Services.Common.Repository;
+using ManagerAPI.Services.Repositories;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.SL;
 using ManagerAPI.Shared.Models.SL;
@@ -11,13 +14,8 @@ using StatusLibrary.Services.Services.Interfaces;
 namespace StatusLibrary.Services.Services;
 
 /// <inheritdoc />
-public class MovieService : Repository<Movie, StatusLibraryNotificationType>, IMovieService
+public class MovieService : NotificationRepository<Movie, int, StatusLibraryNotificationType>, IMovieService
 {
-    // Things
-    private const string UserMovieThing = "user-movie";
-
-    // Messages
-    private const string UserMovieConnectionDoesNotExistMessage = "User Movie connection does not exist";
 
     // Injects
     private readonly DatabaseContext _databaseContext;
@@ -32,7 +30,7 @@ public class MovieService : Repository<Movie, StatusLibraryNotificationType>, IM
     /// <param name="notificationService"></param>
     public MovieService(DatabaseContext context, IMapper mapper, IUtilsService utilsService,
         ILoggerService loggerService, INotificationService notificationService) : base(context, loggerService,
-        utilsService, notificationService, mapper, "Movie",
+        utilsService, mapper, notificationService, "Movie",
         new NotificationArguments
         {
             DeleteArguments = new List<string> { "Title" },
@@ -46,12 +44,9 @@ public class MovieService : Repository<Movie, StatusLibraryNotificationType>, IM
     /// <inheritdoc />
     public List<MyMovieListDto> GetMyList()
     {
-        var user = this.Utils.GetCurrentUser();
+        var user = this.Utils.GetCurrentUser<User, string>();
 
         var list = user.MyMovies.Where(x => x.IsAdded).ToList();
-
-        this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get my"),
-            list.Select(x => x.Movie.Id).ToList());
 
         return this.Mapper.Map<List<MyMovieListDto>>(list).OrderBy(x => x.Title).ToList();
     }
@@ -59,9 +54,9 @@ public class MovieService : Repository<Movie, StatusLibraryNotificationType>, IM
     /// <inheritdoc />
     public MyMovieDto GetMy(int id)
     {
-        var user = this.Utils.GetCurrentUser();
+        var user = this.Utils.GetCurrentUser<User, string>();
 
-        var movie = this.Get<MyMovieDto>(id);
+        var movie = this.GetMapped<MyMovieDto>(id);
         var myMovie = user.MyMovies.FirstOrDefault(x => x.Movie.Id == movie.Id);
         movie.IsMine = myMovie?.IsAdded ?? false;
 
@@ -70,21 +65,18 @@ public class MovieService : Repository<Movie, StatusLibraryNotificationType>, IM
         movie.SeenOn = myMovie?.SeenOn;
         movie.Rate = myMovie?.Rate ?? 0;
 
-        this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get my"), movie.Id);
-
         return movie;
     }
 
     /// <inheritdoc />
     public void UpdateSeenStatus(int id, bool seen)
     {
-        var user = this.Utils.GetCurrentUser();
+        var user = this.Utils.GetCurrentUser<User, string>();
 
         var userMovie = this._databaseContext.UserMovieSwitch.Find(user.Id, id);
         if (userMovie == null)
         {
-            throw this.Logger.LogInvalidThings(user, this.GetService(), UserMovieThing,
-                UserMovieConnectionDoesNotExistMessage);
+            throw new ServerException("Movie not found");
         }
 
         userMovie.IsSeen = seen;
@@ -92,9 +84,7 @@ public class MovieService : Repository<Movie, StatusLibraryNotificationType>, IM
         this._databaseContext.UserMovieSwitch.Update(userMovie);
         this._databaseContext.SaveChanges();
 
-        this.Logger.LogInformation(user, this.GetService(), this.GetEvent("set seen status for"),
-            userMovie.Movie.Id);
-        this.Notification.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.MovieSeenStatusUpdated,
+        this.NotificationService.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.MovieSeenStatusUpdated,
             user,
             userMovie.Movie.Title, seen ? "Seen" : "Unseen");
     }
@@ -102,7 +92,7 @@ public class MovieService : Repository<Movie, StatusLibraryNotificationType>, IM
     /// <inheritdoc />
     public void UpdateMyMovies(List<int> ids)
     {
-        var user = this.Utils.GetCurrentUser();
+        var user = this.Utils.GetCurrentUser<User, string>();
 
         var currentMappings = this._databaseContext.UserMovieSwitch.Where(x => x.UserId == user.Id).ToList();
         foreach (var i in currentMappings)
@@ -132,15 +122,14 @@ public class MovieService : Repository<Movie, StatusLibraryNotificationType>, IM
         }
 
         this._databaseContext.SaveChanges();
-        this.Logger.LogInformation(user, this.GetService(), this.GetEvent("update my"), ids);
-        this.Notification.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.MyMovieListUpdated,
+        this.NotificationService.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.MyMovieListUpdated,
             user);
     }
 
     /// <inheritdoc />
     public void AddMovieToMyMovies(int id)
     {
-        var user = this.Utils.GetCurrentUser();
+        var user = this.Utils.GetCurrentUser<User, string>();
 
         var mapping =
             this._databaseContext.UserMovieSwitch.FirstOrDefault(x => x.UserId == user.Id && x.MovieId == id);
@@ -151,8 +140,7 @@ public class MovieService : Repository<Movie, StatusLibraryNotificationType>, IM
             { MovieId = id, UserId = user.Id, IsSeen = false, AddedOn = DateTime.Now, IsAdded = true };
             this._databaseContext.UserMovieSwitch.Add(mapping);
             this._databaseContext.SaveChanges();
-            this.Logger.LogInformation(user, this.GetService(), this.GetEvent("add my"), id);
-            this.Notification.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.MyMovieListUpdated,
+            this.NotificationService.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.MyMovieListUpdated,
                 user);
         }
         else
@@ -160,8 +148,7 @@ public class MovieService : Repository<Movie, StatusLibraryNotificationType>, IM
             mapping.AddedOn = DateTime.Now;
             mapping.IsAdded = true;
             this._databaseContext.UserMovieSwitch.Update(mapping);
-            this.Logger.LogInformation(user, this.GetService(), this.GetEvent("add my"), id);
-            this.Notification.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.MyMovieListUpdated,
+            this.NotificationService.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.MyMovieListUpdated,
                 user);
         }
     }
@@ -169,7 +156,7 @@ public class MovieService : Repository<Movie, StatusLibraryNotificationType>, IM
     /// <inheritdoc />
     public void RemoveMovieFromMyMovies(int id)
     {
-        var user = this.Utils.GetCurrentUser();
+        var user = this.Utils.GetCurrentUser<User, string>();
 
         var mapping =
             this._databaseContext.UserMovieSwitch.FirstOrDefault(x => x.UserId == user.Id && x.MovieId == id);
@@ -180,8 +167,7 @@ public class MovieService : Repository<Movie, StatusLibraryNotificationType>, IM
             mapping.AddedOn = null;
             this._databaseContext.UserMovieSwitch.Update(mapping);
             this._databaseContext.SaveChanges();
-            this.Logger.LogInformation(user, this.GetService(), this.GetEvent("delete my"), id);
-            this.Notification.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.MyMovieListUpdated,
+            this.NotificationService.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.MyMovieListUpdated,
                 user);
         }
     }
@@ -189,9 +175,9 @@ public class MovieService : Repository<Movie, StatusLibraryNotificationType>, IM
     /// <inheritdoc />
     public List<MyMovieSelectorListDto> GetMySelectorList(bool onlyMine)
     {
-        var user = this.Utils.GetCurrentUser();
+        var user = this.Utils.GetCurrentUser<User, string>();
 
-        var list = this.GetAll<MyMovieSelectorListDto>().OrderBy(x => x.Title).ToList();
+        var list = this.GetAllMapped<MyMovieSelectorListDto>().OrderBy(x => x.Title).ToList();
         foreach (var t in list)
         {
             var myMovie = user.MyMovies.FirstOrDefault(x => x.Movie.Id == t.Id);
@@ -203,9 +189,6 @@ public class MovieService : Repository<Movie, StatusLibraryNotificationType>, IM
         {
             list = list.Where(x => x.IsMine).ToList();
         }
-
-        this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get my selector"),
-            list.Select(x => x.Id).ToList());
 
         return list;
     }
@@ -228,7 +211,7 @@ public class MovieService : Repository<Movie, StatusLibraryNotificationType>, IM
     /// <inheritdoc />
     public void UpdateCategories(int id, MovieCategoryUpdateModel model)
     {
-        var user = this.Utils.GetCurrentUser();
+        var user = this.Utils.GetCurrentUser<User, string>();
 
         var movie = this._databaseContext.Movies.Find(id);
 
@@ -257,14 +240,13 @@ public class MovieService : Repository<Movie, StatusLibraryNotificationType>, IM
         }
 
         this._databaseContext.SaveChanges();
-        this.Logger.LogInformation(user, this.GetService(), this.GetEvent("update"), movie.Id);
-        this.Notification.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.UpdateMovie, user);
+        this.NotificationService.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.UpdateMovie, user);
     }
 
     /// <inheritdoc />
     public void UpdateRate(int id, MovieRateModel model)
     {
-        var user = this.Utils.GetCurrentUser();
+        var user = this.Utils.GetCurrentUser<User, string>();
 
         var map = user.MyMovies.FirstOrDefault(x => x.Movie.Id == id);
 
@@ -273,7 +255,6 @@ public class MovieService : Repository<Movie, StatusLibraryNotificationType>, IM
             map.Rate = model.Rate;
             this._databaseContext.UserMovieSwitch.Update(map);
             this._databaseContext.SaveChanges();
-            this.Logger.LogInformation(user, this.GetService(), this.GetEvent("rate"), map.Movie.Id);
         }
         else
         {
@@ -281,7 +262,6 @@ public class MovieService : Repository<Movie, StatusLibraryNotificationType>, IM
             { UserId = user.Id, MovieId = id, IsAdded = false, IsSeen = false, Rate = model.Rate };
             this._databaseContext.UserMovieSwitch.Add(map);
             this._databaseContext.SaveChanges();
-            this.Logger.LogInformation(user, this.GetService(), this.GetEvent("rate"), id);
         }
     }
 }

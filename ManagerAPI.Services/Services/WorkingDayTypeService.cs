@@ -1,14 +1,15 @@
 ﻿using AutoMapper;
+using KarcagS.Common.Tools.Services;
 using ManagerAPI.DataAccess;
 using ManagerAPI.Domain.Entities.WM;
 using ManagerAPI.Domain.Enums.WM;
-using ManagerAPI.Services.Common.Repository;
+using ManagerAPI.Services.Repositories;
 using ManagerAPI.Services.Services.Interfaces;
 
 namespace ManagerAPI.Services.Services;
 
 /// <inheritdoc />
-public class WorkingDayTypeService : Repository<WorkingDayType, WorkingManagerNotificationType>,
+public class WorkingDayTypeService : NotificationRepository<WorkingDayType, int, WorkingManagerNotificationType>,
     IWorkingDayTypeService
 {
     /// <summary>
@@ -21,7 +22,7 @@ public class WorkingDayTypeService : Repository<WorkingDayType, WorkingManagerNo
     /// <param name="loggerService">Logger Service</param>
     public WorkingDayTypeService(DatabaseContext context, IMapper mapper, IUtilsService utilsService,
         INotificationService notificationService, ILoggerService loggerService) : base(context, loggerService,
-        utilsService, notificationService, mapper, "Working day type",
+        utilsService, mapper, notificationService, "Working day type",
         new NotificationArguments
         {
             CreateArguments = new List<string> { "Title" },

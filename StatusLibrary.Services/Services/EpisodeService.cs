@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using KarcagS.Common.Tools.Services;
 using ManagerAPI.DataAccess;
+using ManagerAPI.Domain.Entities;
 using ManagerAPI.Domain.Entities.SL;
 using ManagerAPI.Domain.Enums.SL;
-using ManagerAPI.Services.Common.Repository;
+using ManagerAPI.Services.Repositories;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.SL;
 using ManagerAPI.Shared.Models.SL;
@@ -11,7 +13,7 @@ using StatusLibrary.Services.Services.Interfaces;
 namespace StatusLibrary.Services.Services;
 
 /// <inheritdoc />
-public class EpisodeService : Repository<Episode, StatusLibraryNotificationType>, IEpisodeService
+public class EpisodeService : NotificationRepository<Episode, int, StatusLibraryNotificationType>, IEpisodeService
 {
     // Injects
     private readonly DatabaseContext _databaseContext;
@@ -26,7 +28,7 @@ public class EpisodeService : Repository<Episode, StatusLibraryNotificationType>
     /// <param name="notificationService">Notification Service</param>
     public EpisodeService(DatabaseContext context, IMapper mapper, IUtilsService utilsService,
         ILoggerService loggerService, INotificationService notificationService) : base(context, loggerService,
-        utilsService, notificationService, mapper, "Episode", new NotificationArguments
+        utilsService, mapper, notificationService, "Episode", new NotificationArguments
         {
             DeleteArguments = new List<string> { "Number" },
             UpdateArguments = new List<string> { "Number" },
@@ -39,7 +41,7 @@ public class EpisodeService : Repository<Episode, StatusLibraryNotificationType>
     /// <inheritdoc />
     public void UpdateSeenStatus(int id, bool seen)
     {
-        var user = this.Utils.GetCurrentUser();
+        var user = this.Utils.GetCurrentUser<User, string>();
 
         var episode = this._databaseContext.Episodes.FirstOrDefault(x => x.Id == id);
         if (episode != null)
@@ -68,8 +70,7 @@ public class EpisodeService : Repository<Episode, StatusLibraryNotificationType>
 
             this._databaseContext.SaveChanges();
 
-            this.Logger.LogInformation(user, this.GetService(), this.GetEvent("set episode seen status for"), id);
-            this.Notification.AddStatusLibraryNotificationByType(
+            this.NotificationService.AddStatusLibraryNotificationByType(
                 StatusLibraryNotificationType.EpisodeSeenStatusUpdated, user, episode.Season.Series.Title,
                 episode.Season.Number.ToString(), episode.Number.ToString(), seen ? "Seen" : "Unseen");
         }
@@ -95,7 +96,8 @@ public class EpisodeService : Repository<Episode, StatusLibraryNotificationType>
 
             number += 1;
         }
-        this.AddRange(episodes);
+        this.CreateRange(episodes);
+        Persist();
     }
 
     /// <inheritdoc />
@@ -105,7 +107,7 @@ public class EpisodeService : Repository<Episode, StatusLibraryNotificationType>
         int seasonId = season.Season.Id;
         int number = season.Number;
 
-        this.Remove(episodeId);
+        this.DeleteById(episodeId);
 
         var episodes = this.GetList(x => x.Season.Id == seasonId).OrderBy(x => x.Number).Select(x =>
         {
@@ -118,20 +120,19 @@ public class EpisodeService : Repository<Episode, StatusLibraryNotificationType>
         }).ToList();
 
         this.UpdateRange(episodes);
+        Persist();
     }
 
     /// <inheritdoc />
     public MyEpisodeDto GetMy(int id)
     {
-        var user = this.Utils.GetCurrentUser();
+        var user = this.Utils.GetCurrentUser<User, string>();
 
-        var episode = this.Get<MyEpisodeDto>(id);
+        var episode = this.GetMapped<MyEpisodeDto>(id);
         var myEpisode = user.MyEpisodes.FirstOrDefault(x => x.Episode.Id == episode.Id);
         episode.IsMine = myEpisode != null;
         episode.IsSeen = myEpisode?.Seen ?? false;
         episode.SeenOn = myEpisode?.SeenOn;
-
-        this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get my"), episode.Id);
 
         return episode;
     }
@@ -139,17 +140,7 @@ public class EpisodeService : Repository<Episode, StatusLibraryNotificationType>
     /// <inheritdoc />
     public void UpdateImage(int id, EpisodeImageModel model)
     {
-        var user = this.Utils.GetCurrentUser();
-
-        var episode = this._databaseContext.Episodes.Find(id);
-
-        if (episode == null)
-        {
-            return;
-        }
-
-        this.Mapper.Map(model, episode);
-
-        this.Update(episode);
+        UpdateByModel(id, model);
+        Persist();
     }
 }

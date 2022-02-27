@@ -1,33 +1,30 @@
 ﻿using AutoMapper;
 using CsomorGenerator.Services.Interfaces;
+using KarcagS.Common.Tools.Export;
+using KarcagS.Common.Tools.Export.Excel;
+using KarcagS.Common.Tools.HttpInterceptor;
+using KarcagS.Common.Tools.Services;
 using ManagerAPI.DataAccess;
 using ManagerAPI.Domain.Entities;
 using ManagerAPI.Domain.Entities.CSM;
 using ManagerAPI.Services.Common.Excel;
 using ManagerAPI.Services.Common.PDF;
-using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs;
 using ManagerAPI.Shared.DTOs.CSM;
 using ManagerAPI.Shared.Enums;
 using ManagerAPI.Shared.Models.CSM;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace CsomorGenerator.Services
 {
     /// <inheritdoc />
     public class GeneratorService : IGeneratorService
     {
-        private const string CsomorDoesNotExistMessage = "Csomor does not exist";
-        private const string CsomorThing = "csomor";
-        private const string GeneratorServiceSource = "Generator Service";
         private readonly DatabaseContext _context;
         private readonly IMapper _mapper;
         private readonly IUtilsService _utils;
         private readonly ILoggerService _logger;
-        private readonly IExcelService _excelService;
-        private readonly IPDFService _pdfService;
+        private readonly ICsomorExcelService _excelService;
+        private readonly ICsomorPDFService _pdfService;
 
         /// <summary>
         /// Init Generator Service
@@ -38,7 +35,7 @@ namespace CsomorGenerator.Services
         /// <param name="logger">Logger Service</param>
         /// <param name="excelService">Excel Service</param>
         /// <param name="pdfService">PDF Service</param>
-        public GeneratorService(DatabaseContext context, IMapper mapper, IUtilsService utils, ILoggerService logger, IExcelService excelService, IPDFService pdfService)
+        public GeneratorService(DatabaseContext context, IMapper mapper, IUtilsService utils, ILoggerService logger, ICsomorExcelService excelService, ICsomorPDFService pdfService)
         {
             this._context = context;
             this._mapper = mapper;
@@ -63,7 +60,7 @@ namespace CsomorGenerator.Services
         /// <inheritdoc />
         public int Create(GeneratorSettingsModel model)
         {
-            var user = this._utils.GetCurrentUser();
+            var user = this._utils.GetCurrentUser<User, string>();
 
             var csomor = this._mapper.Map<Csomor>(model);
             csomor.OwnerId = user.Id;
@@ -74,21 +71,19 @@ namespace CsomorGenerator.Services
             this._context.Csomors.Add(csomor);
             this._context.SaveChanges();
 
-            this._logger.LogInformation(user, GeneratorServiceSource, "create csomor", csomor.Id);
-
             return csomor.Id;
         }
 
         /// <inheritdoc />
         public void Update(int id, GeneratorSettingsModel model)
         {
-            var user = this._utils.GetCurrentUser();
+            var user = this._utils.GetCurrentUser<User, string>();
 
             var csomor = this._context.Csomors.Find(id);
 
             if (csomor == null)
             {
-                throw this._logger.LogInvalidThings(user, GeneratorServiceSource, CsomorThing, CsomorDoesNotExistMessage);
+                throw new ServerException("Csomor does not exist");
             }
 
             // Eliminate persons from work table
@@ -139,36 +134,32 @@ namespace CsomorGenerator.Services
 
             this._context.Csomors.Update(csomor);
             this._context.SaveChanges();
-
-            this._logger.LogInformation(user, GeneratorServiceSource, "update csomor", csomor.Id);
         }
 
         /// <inheritdoc />
         public void Delete(int id)
         {
-            var user = this._utils.GetCurrentUser();
+            var user = this._utils.GetCurrentUser<User, string>();
 
             var csomor = this._context.Csomors.Find(id);
 
             if (csomor == null)
             {
-                throw this._logger.LogInvalidThings(user, GeneratorServiceSource, CsomorThing, CsomorDoesNotExistMessage);
+                throw new ServerException("Csomor does not exist");
             }
 
             this._context.Csomors.Remove(csomor);
             this._context.SaveChanges();
-
-            this._logger.LogInformation(user, GeneratorServiceSource, "delete csomor", id);
         }
 
         /// <inheritdoc />
         public GeneratorSettings Get(int id)
         {
-            User user;
+            User? user;
 
             try
             {
-                user = this._utils.GetCurrentUser();
+                user = this._utils.GetCurrentUser<User, string>();
             }
             catch (Exception)
             {
@@ -181,23 +172,13 @@ namespace CsomorGenerator.Services
             {
                 if (user == null)
                 {
-                    throw this._logger.LogAnonymousInvalidThings(GeneratorServiceSource, CsomorThing, CsomorDoesNotExistMessage);
+                    throw new ServerException("User does not exist");
                 }
                 else
                 {
-                    throw this._logger.LogInvalidThings(user, GeneratorServiceSource, CsomorThing, CsomorDoesNotExistMessage);
+                    throw new ServerException("Csomor does not exist");
                 }
             }
-
-            if (user == null)
-            {
-                this._logger.LogAnonymousInformation(GeneratorServiceSource, "get csomor", id);
-            }
-            else
-            {
-                this._logger.LogInformation(user, GeneratorServiceSource, "get csomor", id);
-            }
-
 
             return this._mapper.Map<GeneratorSettings>(csomor);
         }
@@ -209,13 +190,11 @@ namespace CsomorGenerator.Services
 
             try
             {
-                var user = this._utils.GetCurrentUser();
-
-                this._logger.LogInformation(user, GeneratorServiceSource, "get csomor", list.Select(x => x.Id).ToList());
+                var user = this._utils.GetCurrentUser<User, string>();
             }
             catch (Exception)
             {
-                this._logger.LogAnonymousInformation(GeneratorServiceSource, "get csomor", list.Select(x => x.Id).ToList());
+                
             }
 
             return list;
@@ -224,11 +203,9 @@ namespace CsomorGenerator.Services
         /// <inheritdoc />
         public List<CsomorListDTO> GetOwnedList()
         {
-            var user = this._utils.GetCurrentUser();
+            var user = this._utils.GetCurrentUser<User, string>();
 
             var list = this._mapper.Map<List<CsomorListDTO>>(user.OwnedCsomors.OrderBy(x => x.Id));
-
-            this._logger.LogInformation(user, GeneratorServiceSource, "get csomor", list.Select(x => x.Id).ToList());
 
             return list;
         }
@@ -236,11 +213,9 @@ namespace CsomorGenerator.Services
         /// <inheritdoc />
         public List<CsomorListDTO> GetSharedList()
         {
-            var user = this._utils.GetCurrentUser();
+            var user = this._utils.GetCurrentUser<User, string>();
 
             var list = this._mapper.Map<List<CsomorListDTO>>(user.SharedCsomors.Select(x => x.Csomor).OrderBy(x => x.Id));
-
-            this._logger.LogInformation(user, GeneratorServiceSource, "get csomor", list.Select(x => x.Id).ToList());
 
             return list;
         }
@@ -248,9 +223,14 @@ namespace CsomorGenerator.Services
         /// <inheritdoc />
         public void Share(int id, List<CsomorAccessModel> models)
         {
-            var user = this._utils.GetCurrentUser();
+            var user = this._utils.GetCurrentUser<User, string>();
 
             var csomor = this._context.Csomors.Find(id);
+
+            if (csomor is null)
+            {
+                throw new ServerException("Csomor does not exist");
+            }
 
             var shareList = csomor.SharedWith.ToList();
 
@@ -291,26 +271,22 @@ namespace CsomorGenerator.Services
             });
 
             this._context.SaveChanges();
-
-            this._logger.LogInformation(user, GeneratorServiceSource, "update shared", models.Select(x => x.Id).ToList());
         }
 
         /// <inheritdoc />
         public void ChangePublicStatus(int id, GeneratorPublishModel model)
         {
-            var user = this._utils.GetCurrentUser();
+            var user = this._utils.GetCurrentUser<User, string>();
             var csomor = this._context.Csomors.Find(id);
 
             if (csomor == null)
             {
-                throw this._logger.LogInvalidThings(user, GeneratorServiceSource, CsomorThing, CsomorDoesNotExistMessage);
+                throw new ServerException("Csomor does not exist");
             }
 
             csomor.IsPublic = model.Status;
             this._context.Update(csomor);
             this._context.SaveChanges();
-
-            this._logger.LogInformation(user, GeneratorServiceSource, model.Status ? "publish" : "unpublish" + " csomor", id);
         }
 
         /// <inheritdoc />
@@ -320,7 +296,7 @@ namespace CsomorGenerator.Services
 
             try
             {
-                user = this._utils.GetCurrentUser();
+                user = this._utils.GetCurrentUser<User, string>();
             }
             catch
             {
@@ -331,7 +307,7 @@ namespace CsomorGenerator.Services
 
             if (csomor == null)
             {
-                throw this._logger.LogInvalidThings(user, GeneratorServiceSource, CsomorThing, CsomorDoesNotExistMessage);
+                throw new ServerException("Csomor does not exist"); ;
             }
 
             if (user != null)
@@ -367,27 +343,25 @@ namespace CsomorGenerator.Services
         /// <inheritdoc />
         public ExportResult ExportPdf(int id, CsomorType type, List<string> filterList)
         {
-            var user = this._utils.GetCurrentUser();
+            var user = this._utils.GetCurrentUser<User, string>();
 
             var csomor = this._context.Csomors.Find(id);
 
             if (csomor == null)
             {
-                throw this._logger.LogInvalidThings(user, GeneratorServiceSource, CsomorThing, CsomorDoesNotExistMessage);
+                throw new ServerException("Csomor does not exist");
             }
 
             if (type == CsomorType.Work)
             {
                 var works = csomor.Works.Where(x => !filterList.Contains(x.Id)).ToList();
                 var result = this._pdfService.GenerateWorkCsomor(works);
-                this._logger.LogInformation(user, GeneratorServiceSource, "export works", id);
                 return result;
             }
             else
             {
                 var persons = csomor.Persons.Where(x => !filterList.Contains(x.Id)).ToList();
                 var result = this._pdfService.GeneratePersonCsomor(persons);
-                this._logger.LogInformation(user, GeneratorServiceSource, "export persons", id);
                 return result;
             }
         }
@@ -395,27 +369,25 @@ namespace CsomorGenerator.Services
         /// <inheritdoc />
         public ExportResult ExportXls(int id, CsomorType type, List<string> filterList)
         {
-            var user = this._utils.GetCurrentUser();
+            var user = this._utils.GetCurrentUser<User, string>();
 
             var csomor = this._context.Csomors.Find(id);
 
             if (csomor == null)
             {
-                throw this._logger.LogInvalidThings(user, GeneratorServiceSource, CsomorThing, CsomorDoesNotExistMessage);
+                throw new ServerException("Csomor does not exist");
             }
 
             if (type == CsomorType.Work)
             {
                 var works = csomor.Works.Where(x => !filterList.Contains(x.Id)).ToList();
                 var result = this._excelService.GenerateWorkCsomor(works);
-                this._logger.LogInformation(user, GeneratorServiceSource, "export works", id);
                 return result;
             }
             else
             {
                 var persons = csomor.Persons.Where(x => !filterList.Contains(x.Id)).ToList();
                 var result = this._excelService.GeneratePersonCsomor(persons);
-                this._logger.LogInformation(user, GeneratorServiceSource, "export persons", id);
                 return result;
             }
         }
@@ -423,34 +395,32 @@ namespace CsomorGenerator.Services
         /// <inheritdoc />
         public List<CsomorAccessDTO> GetSharedPersonList(int id)
         {
-            var user = this._utils.GetCurrentUser();
+            var user = this._utils.GetCurrentUser<User, string>();
 
             var csomor = this._context.Csomors.Find(id);
 
             if (csomor == null)
             {
-                throw this._logger.LogInvalidThings(user, GeneratorServiceSource, CsomorThing, CsomorDoesNotExistMessage);
+                throw new ServerException("Csomor does not exist");
             }
 
-            this._logger.LogInformation(user, GeneratorServiceSource, "get shared persons", id);
             return this._mapper.Map<List<CsomorAccessDTO>>(csomor.SharedWith);
         }
 
         /// <inheritdoc />
         public List<UserShortDto> GetCorrectPersonsForSharing(int id, string name)
         {
-            var user = this._utils.GetCurrentUser();
+            var user = this._utils.GetCurrentUser<User, string>();
 
             var csomor = this._context.Csomors.Find(id);
 
             if (csomor == null)
             {
-                throw this._logger.LogInvalidThings(user, GeneratorServiceSource, CsomorThing, CsomorDoesNotExistMessage);
+                throw new ServerException("Csomor does not exist");
             }
 
             var alreadyAdded = this.GetSharedPersonList(id).Select(x => x.Id).ToList();
             var users = this._context.AppUsers.Where(x => x.Id != csomor.Owner.Id && !alreadyAdded.Contains(x.Id) && (x.UserName.Contains(name) || x.FullName.Contains(name) || x.Email.Contains(name))).OrderBy(x => x.UserName).ThenBy(x => x.FullName).ThenBy(x => x.Email).Take(5).ToList();
-            this._logger.LogInformation(user, GeneratorServiceSource, "get correct persons", id);
             return this._mapper.Map<List<UserShortDto>>(users);
         }
     }

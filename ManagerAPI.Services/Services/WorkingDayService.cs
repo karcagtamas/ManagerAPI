@@ -1,15 +1,18 @@
 ﻿using AutoMapper;
+using KarcagS.Common.Tools.HttpInterceptor;
+using KarcagS.Common.Tools.Services;
 using ManagerAPI.DataAccess;
+using ManagerAPI.Domain.Entities;
 using ManagerAPI.Domain.Entities.WM;
 using ManagerAPI.Domain.Enums.WM;
-using ManagerAPI.Services.Common.Repository;
+using ManagerAPI.Services.Repositories;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.WM;
 
 namespace ManagerAPI.Services.Services;
 
 /// <inheritdoc />
-public class WorkingDayService : Repository<WorkingDay, WorkingManagerNotificationType>, IWorkingDayService
+public class WorkingDayService : NotificationRepository<WorkingDay, int, WorkingManagerNotificationType>, IWorkingDayService
 {
     // Injects
     private readonly DatabaseContext _databaseContext;
@@ -24,7 +27,7 @@ public class WorkingDayService : Repository<WorkingDay, WorkingManagerNotificati
     /// <param name="notificationService">Notification Service</param>
     public WorkingDayService(DatabaseContext context, IMapper mapper, IUtilsService utilsService,
         ILoggerService loggerService, INotificationService notificationService) : base(context, loggerService,
-        utilsService, notificationService, mapper, "Working day",
+        utilsService, mapper, notificationService, "Working day",
         new NotificationArguments
         {
             CreateArguments = new List<string> { "Day" },
@@ -38,31 +41,27 @@ public class WorkingDayService : Repository<WorkingDay, WorkingManagerNotificati
     /// <inheritdoc />
     public WorkingDayListDto Get(DateTime day)
     {
-        var user = this.Utils.GetCurrentUser();
+        var user = this.Utils.GetCurrentUser<User, string>();
         var workingDay = user.WorkingDays.FirstOrDefault(x => x.Day == day);
 
         if (workingDay == null)
         {
-            throw this.Logger.LogInvalidThings(user, this.GetService(), this.Entity, this.GetEntityErrorMessage());
+            throw new ServerException("Day not exists");
         }
 
         var dto = this.Mapper.Map<WorkingDayListDto>(workingDay);
-        this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get"), dto.Id);
         return dto;
     }
 
     /// <inheritdoc />
     public WorkingDayStatDto Stat(int id)
     {
-        var user = this.Utils.GetCurrentUser();
         var workingDay = this._databaseContext.WorkingDays.Find(id);
 
         if (workingDay == null)
         {
-            throw this.Logger.LogInvalidThings(user, this.GetService(), this.Entity, this.GetEntityErrorMessage());
+            throw new ServerException("Day not exists");
         }
-
-        this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get stat for"), workingDay.Id);
 
         return this.Mapper.Map<WorkingDayStatDto>(workingDay);
     }

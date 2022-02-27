@@ -14,7 +14,7 @@ namespace ManagerAPI.Backend.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize(Roles = "Administrator,Status Library User,Status Library Moderator,Status Library Administrator,Root")]
-    public class SeasonController : MyController<Season, SeasonModel, SeasonListDto, SeasonDto>
+    public class SeasonController : MyController<Season, int, SeasonModel, SeasonListDto, SeasonDto>
     {
         private readonly ISeasonService _seasonService;
 

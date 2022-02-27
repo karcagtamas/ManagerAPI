@@ -14,7 +14,7 @@ namespace ManagerAPI.Backend.Controllers;
 [Route("api/movie-category")]
 [ApiController]
 [Authorize(Roles = "Administrator,Status Library User,Status Library Moderator,Status Library Administrator,Root")]
-public class MovieCategoryController : MyController<MovieCategory, MovieCategoryModel, MovieCategoryDto, MovieCategoryDto>
+public class MovieCategoryController : MyController<MovieCategory, int, MovieCategoryModel, MovieCategoryDto, MovieCategoryDto>
 {
     private readonly IMovieCategoryService _movieCategoryService;
 

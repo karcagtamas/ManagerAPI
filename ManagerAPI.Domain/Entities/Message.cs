@@ -1,4 +1,4 @@
-﻿using System;
+﻿using KarcagS.Common.Tools.Entities;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -7,7 +7,7 @@ namespace ManagerAPI.Domain.Entities
     /// <summary>
     /// Message
     /// </summary>
-    public class Message : IEntity
+    public class Message : IEntity<int>
     {
         /// <inheritdoc />
         [Key]

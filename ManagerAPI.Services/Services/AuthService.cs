@@ -1,8 +1,10 @@
+using KarcagS.Common.Tools.HttpInterceptor;
 using ManagerAPI.DataAccess;
 using ManagerAPI.Domain.Entities;
 using ManagerAPI.Domain.Enums;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Services.Utils;
+using ManagerAPI.Shared.DTOs;
 using ManagerAPI.Shared.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
@@ -19,100 +21,143 @@ namespace ManagerAPI.Services.Services
     /// <inheritdoc />
     public class AuthService : IAuthService
     {
-        private readonly UserManager<User> _userManager;
-        private readonly ApplicationSettings _appSettings;
-        private readonly ILogger<AuthService> _logger;
-        private readonly DatabaseContext _context;
+        private readonly UserManager<User> userManager;
+        private readonly RoleManager<WebsiteRole> roleManager;
+        private readonly IUserService userService;
+        private readonly ITokenService tokenService;
         private readonly INotificationService _notificationService;
-        private readonly IUtilsService _utilsService;
 
         /// <summary>
         /// Auth Service constructor
         /// </summary>
         /// <param name="userManager">User Manager</param>
-        /// <param name="appSettings">App Settings</param>
-        /// <param name="logger">Logger</param>
-        /// <param name="context">Database Context</param>
+        /// <param name="roleManager">Role Manager</param>
+        /// <param name="userService">User Service</param>
+        /// <param name="tokenService">Token Service</param>
         /// <param name="notificationService">Notification Service</param>
-        /// <param name="utilsService">Utils Service</param>
-        public AuthService(UserManager<User> userManager, IOptions<ApplicationSettings> appSettings,
-            ILogger<AuthService> logger, DatabaseContext context,
-            INotificationService notificationService, IUtilsService utilsService)
+        public AuthService(UserManager<User> userManager, RoleManager<WebsiteRole> roleManager, IUserService userService, ITokenService tokenService, INotificationService notificationService)
         {
-            this._userManager = userManager;
-            this._appSettings = appSettings.Value;
-            this._logger = logger;
-            this._context = context;
+            this.userManager = userManager;
+            this.roleManager = roleManager;
+            this.userService = userService;
+            this.tokenService = tokenService;
             this._notificationService = notificationService;
-            this._utilsService = utilsService;
         }
 
         /// <inheritdoc />
         public async System.Threading.Tasks.Task Registration(RegistrationModel model)
         {
-            var appUser = new User
+            if (userService.IsExist(model.UserName, model.Email))
             {
+                throw new ServerException("User already created");
+            }
+
+            var user = new User
+            {
+                Id = Guid.NewGuid().ToString(),
                 UserName = model.UserName,
+                FullName = model.FullName,
                 Email = model.Email,
-                FullName = model.FullName
+                LastLogin = DateTime.Now,
+                RegistrationDate = DateTime.Now,
+                IsActive = true
             };
-            var result = await this._userManager.CreateAsync(appUser, model.Password);
-            if (result.Succeeded)
+
+            var result = await userManager.CreateAsync(user, model.Password);
+
+            await AddDefaultRoleByResult(result, user);
+
+            this._notificationService.AddSystemNotificationByType(SystemNotificationType.Registration, user);
+        }
+
+        /// <inheritdoc />
+        public async Task<TokenDTO> Login(LoginModel model)
+        {
+            var user = userManager.Users.SingleOrDefault(u => u.UserName == model.UserName);
+
+            if (user is null)
             {
-                var user = await this._userManager.FindByNameAsync(appUser.UserName);
-                await this._userManager.AddToRoleAsync(user, Roles.NormalWebsiteRole);
-                this._logger.LogInformation($"{user.UserName}'s registration was successfully with e-mail {user.Email}");
-                this._notificationService.AddSystemNotificationByType(SystemNotificationType.Registration, user);
+                throw new ServerException("User not found");
+            }
+
+            if (!user.IsActive)
+            {
+                throw new ServerException("User is disabled");
+            }
+
+            if (!await userManager.CheckPasswordAsync(user, model.Password))
+                throw new ServerException("Incorrect username or password");
+
+            user.LastLogin = DateTime.Now;
+            userService.Update(user);
+            userService.Persist();
+
+            return await CreateTokensAndSave(user, Guid.NewGuid().ToString());
+
+        }
+
+        /// <inheritdoc />
+        public void Logout(string userName, string clientId)
+        {
+            if (string.IsNullOrEmpty(userName))
+            {
+                throw new ArgumentException("User is not logged in");
+            }
+
+            var user = userService.GetByName(userName);
+
+            if (user is null)
+            {
+                throw new ArgumentException("User does not exist");
+            }
+
+            foreach (var token in user.RefreshTokens)
+            {
+                if (token.IsActive && token.ClientId == clientId)
+                {
+                    token.Revoked = DateTime.Now;
+                }
+            }
+
+            userService.Update(user);
+            userService.Persist();
+            this._notificationService.AddSystemNotificationByType(SystemNotificationType.Logout, user);
+        }
+
+        private async System.Threading.Tasks.Task AddDefaultRoleByResult(IdentityResult result, User user)
+        {
+            if (!result.Succeeded)
+            {
+                throw new ArgumentException(result.Errors.FirstOrDefault()?.Description);
             }
             else
             {
-                throw new MessageException(this._utilsService.ErrorsToString(result.Errors));
-            }
-        }
-
-        /// <inheritdoc />
-        public async Task<string> Login(LoginModel model)
-        {
-            var user = await this._userManager.FindByNameAsync(model.UserName);
-            if (user != null && user.IsActive && await this._userManager.CheckPasswordAsync(user, model.Password))
-            {
-                var roles = await this._userManager.GetRolesAsync(user);
-                var claims = new Claim[3 + roles.Count];
-                claims[0] = new Claim("UserId", user.Id);
-                claims[1] = new Claim(ClaimTypes.Name, user.UserName);
-                claims[2] = new Claim(ClaimTypes.Email, user.Email);
-                for (int i = 3; i < claims.Length; i++)
+                if (await roleManager.RoleExistsAsync(Roles.NormalWebsiteRole.ToString()))
                 {
-                    claims[i] = new Claim(ClaimTypes.Role, roles[i - 3]);
+                    await userManager.AddToRoleAsync(user, Roles.NormalWebsiteRole.ToString());
                 }
-
-                var tokenDescriptor = new SecurityTokenDescriptor
-                {
-                    Subject = new ClaimsIdentity(claims),
-                    Expires = DateTime.UtcNow.AddDays(1),
-                    SigningCredentials = new SigningCredentials(
-                        new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this._appSettings.JwtSecret)),
-                        SecurityAlgorithms.HmacSha256Signature)
-                };
-                var tokenHandler = new JwtSecurityTokenHandler();
-                var securityToken = tokenHandler.CreateToken(tokenDescriptor);
-                string token = tokenHandler.WriteToken(securityToken);
-                user.LastLogin = DateTime.Now;
-                this._context.AppUsers.Update(user);
-                await this._context.SaveChangesAsync();
-                this._logger.LogInformation($"User {user.UserName} successfully logged in.");
-                this._notificationService.AddSystemNotificationByType(SystemNotificationType.Login, user);
-                return token;
             }
-
-            throw new MessageException("Username or password is incorrect.");
         }
 
-        /// <inheritdoc />
-        public void Logout(string userId)
+        private async Task<TokenDTO> CreateTokensAndSave(User user, string clientId)
         {
-            var user = this._context.AppUsers.Find(userId);
-            this._notificationService.AddSystemNotificationByType(SystemNotificationType.Logout, user);
+            var refreshToken = user.RefreshTokens.FirstOrDefault(t => t.IsActive && t.ClientId == clientId);
+            if (refreshToken is null)
+            {
+                refreshToken = tokenService.BuildRefreshToken(clientId);
+                user.RefreshTokens.Add(refreshToken);
+                userService.Update(user);
+                userService.Persist();
+            }
+
+            return new TokenDTO
+            {
+                AccessToken = tokenService.BuildAccessToken(userService.GetMapped<UserTokenDTO>(user.Id),
+                    await userManager.GetRolesAsync(user)),
+                RefreshToken = refreshToken.Token,
+                ClientId = clientId,
+                UserId = user.Id
+            };
         }
     }
 }

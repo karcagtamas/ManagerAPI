@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using KarcagS.Common.Tools.Services;
 using ManagerAPI.DataAccess;
+using ManagerAPI.Domain.Entities;
 using ManagerAPI.Domain.Entities.SL;
 using ManagerAPI.Domain.Enums.SL;
-using ManagerAPI.Services.Common.Repository;
+using ManagerAPI.Services.Repositories;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.SL;
 using StatusLibrary.Services.Services.Interfaces;
@@ -10,7 +12,7 @@ using StatusLibrary.Services.Services.Interfaces;
 namespace StatusLibrary.Services.Services;
 
 /// <inheritdoc />
-public class MovieCategoryService : Repository<MovieCategory, StatusLibraryNotificationType>, IMovieCategoryService
+public class MovieCategoryService : NotificationRepository<MovieCategory, int, StatusLibraryNotificationType>, IMovieCategoryService
 {
     private readonly DatabaseContext _databaseContext;
 
@@ -23,7 +25,7 @@ public class MovieCategoryService : Repository<MovieCategory, StatusLibraryNotif
     /// <param name="notification">Notification Service</param>
     /// <param name="mapper">Mapper</param>
     public MovieCategoryService(DatabaseContext context, ILoggerService logger, IUtilsService utils,
-        INotificationService notification, IMapper mapper) : base(context, logger, utils, notification, mapper,
+        INotificationService notification, IMapper mapper) : base(context, logger, utils, mapper, notification,
         "Movie Category", new NotificationArguments
         {
             DeleteArguments = new List<string> { "Name" },
@@ -37,9 +39,9 @@ public class MovieCategoryService : Repository<MovieCategory, StatusLibraryNotif
     /// <inheritdoc />
     public List<MovieCategorySelectorListDto> GetSelectorList(int movieId)
     {
-        var user = this.Utils.GetCurrentUser();
+        var user = this.Utils.GetCurrentUser<User, string>();
 
-        var list = this.GetAll<MovieCategorySelectorListDto>().OrderBy(x => x.Name).ToList();
+        var list = this.GetAllMapped<MovieCategorySelectorListDto>().OrderBy(x => x.Name).ToList();
         var movie = this._databaseContext.Movies.FirstOrDefault(x => x.Id == movieId);
 
         var selected = movie != null
@@ -50,9 +52,6 @@ public class MovieCategoryService : Repository<MovieCategory, StatusLibraryNotif
         {
             t.IsSelected = selected.Any(x => x.Id == t.Id);
         }
-
-        this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get selector"),
-            list.Select(x => x.Id).ToList());
 
         return list;
     }

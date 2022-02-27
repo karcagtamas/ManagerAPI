@@ -1,14 +1,12 @@
-﻿using ManagerAPI.Domain.Entities;
-using ManagerAPI.Services.Common.Repository;
+﻿using ManagerAPI.Services.Repositories;
 using ManagerAPI.Shared.DTOs;
-using System.Collections.Generic;
 
 namespace ManagerAPI.Services.Services.Interfaces
 {
     /// <summary>
     /// Task Service
     /// </summary>
-    public interface ITaskService : IRepository<Domain.Entities.Task>
+    public interface ITaskService : INotificationRepository<Domain.Entities.Task, int>
     {
         /// <summary>
         /// Get tasks for the current user

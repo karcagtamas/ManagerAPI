@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
+using KarcagS.Common.Tools.Services;
 using ManagerAPI.DataAccess;
 using ManagerAPI.Domain.Entities;
 using ManagerAPI.Domain.Enums;
-using ManagerAPI.Services.Common.Repository;
+using ManagerAPI.Services.Repositories;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs;
 using ManagerAPI.Shared.Helpers;
@@ -10,10 +11,8 @@ using ManagerAPI.Shared.Helpers;
 namespace ManagerAPI.Services.Services;
 
 /// <inheritdoc />
-public class TaskService : Repository<Domain.Entities.Task, SystemNotificationType>, ITaskService
+public class TaskService : NotificationRepository<Domain.Entities.Task, int, SystemNotificationType>, ITaskService
 {
-    // Action
-    private const string GetTasksAction = "get tasks";
 
     /// <summary>
     /// Task Service
@@ -25,7 +24,7 @@ public class TaskService : Repository<Domain.Entities.Task, SystemNotificationTy
     /// <param name="notificationService">Notification Service</param>
     public TaskService(DatabaseContext context, IMapper mapper, IUtilsService utilsService,
         ILoggerService loggerService, INotificationService notificationService)
-        : base(context, loggerService, utilsService, notificationService, mapper, "Task",
+        : base(context, loggerService, utilsService, mapper, notificationService, "Task",
             new NotificationArguments
             {
                 DeleteArguments = new List<string> { "Title" },
@@ -38,7 +37,7 @@ public class TaskService : Repository<Domain.Entities.Task, SystemNotificationTy
     /// <inheritdoc />
     public List<TaskDateDto> GetDate(bool? isSolved)
     {
-        var user = this.Utils.GetCurrentUser();
+        var user = this.Utils.GetCurrentUser<User, string>();
         var list = this.Mapper.Map<List<TaskDateDto>>(user.Tasks.GroupBy(x => DateHelper.ToDay(x.Deadline))
             .OrderBy(x => x.Key).ToList());
 
@@ -50,9 +49,6 @@ public class TaskService : Repository<Domain.Entities.Task, SystemNotificationTy
                 return x;
             }).Where(x => x.TaskList.Count > 0).ToList();
         }
-
-        this.Logger.LogInformation(user, nameof(TaskService), GetTasksAction,
-            list.Select(x => string.Join(", ", x.TaskList.Select(y => y.Id.ToString()))).ToList());
 
         return list;
     }

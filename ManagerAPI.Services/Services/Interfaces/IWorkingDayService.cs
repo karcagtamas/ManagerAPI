@@ -1,14 +1,13 @@
 ﻿using ManagerAPI.Domain.Entities.WM;
-using ManagerAPI.Services.Common.Repository;
+using ManagerAPI.Services.Repositories;
 using ManagerAPI.Shared.DTOs.WM;
-using System;
 
 namespace ManagerAPI.Services.Services.Interfaces
 {
     /// <summary>
     /// Working Day Service
     /// </summary>
-    public interface IWorkingDayService : IRepository<WorkingDay>
+    public interface IWorkingDayService : INotificationRepository<WorkingDay, int>
     {
         /// <summary>
         /// Get working day by date

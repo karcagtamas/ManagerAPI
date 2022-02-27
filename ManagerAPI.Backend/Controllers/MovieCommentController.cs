@@ -14,7 +14,7 @@ namespace ManagerAPI.Backend.Controllers;
 [Route("api/movie-comment")]
 [ApiController]
 [Authorize(Roles = "Administrator,Status Library User,Status Library Moderator,Status Library Administrator,Root")]
-public class MovieCommentController : MyController<MovieComment, MovieCommentModel, MovieCommentListDto, MovieCommentDto>
+public class MovieCommentController : MyController<MovieComment, int, MovieCommentModel, MovieCommentListDto, MovieCommentDto>
 {
     private readonly IMovieCommentService _movieCommentService;
 
@@ -46,7 +46,7 @@ public class MovieCommentController : MyController<MovieComment, MovieCommentMod
         "Administrator,Status Library User,Status Library Moderator,Status Library Administrator,Root")]
     public override IActionResult Create([FromBody] MovieCommentModel model)
     {
-        this._movieCommentService.Add<MovieCommentModel>(model);
+        this._movieCommentService.CreateFromModel(model);
         return this.Ok();
     }
 
@@ -59,7 +59,7 @@ public class MovieCommentController : MyController<MovieComment, MovieCommentMod
         "Administrator,Status Library User,Status Library Moderator,Status Library Administrator,Root")]
     public override IActionResult Delete(int id)
     {
-        this._movieCommentService.Remove(id);
+        this._movieCommentService.DeleteById(id);
         return this.Ok();
     }
 
@@ -73,7 +73,7 @@ public class MovieCommentController : MyController<MovieComment, MovieCommentMod
         "Administrator,Status Library User,Status Library Moderator,Status Library Administrator,Root")]
     public override IActionResult Update(int id, MovieCommentModel model)
     {
-        this._movieCommentService.Update<MovieCommentModel>(id, model);
+        this._movieCommentService.UpdateByModel(id, model);
         return this.Ok();
     }
 }

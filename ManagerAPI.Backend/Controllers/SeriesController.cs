@@ -14,7 +14,7 @@ namespace ManagerAPI.Backend.Controllers
     [Route("api/[controller]")]
     [Authorize(Roles = "Administrator,Status Library User,Status Library Moderator,Status Library Administrator,Root")]
     [ApiController]
-    public class SeriesController : MyController<Series, SeriesModel, SeriesListDto, SeriesDto>
+    public class SeriesController : MyController<Series, int, SeriesModel, SeriesListDto, SeriesDto>
     {
         private readonly ISeriesService _seriesService;
 
@@ -146,7 +146,7 @@ namespace ManagerAPI.Backend.Controllers
         [Authorize(Roles = "Administrator,Root,Moderator,Status Library Moderator,Status Library Administrator")]
         public override IActionResult Create([FromBody] SeriesModel model)
         {
-            this._seriesService.Add<SeriesModel>(model);
+            this._seriesService.CreateFromModel(model);
             return this.Ok();
         }
 
@@ -158,7 +158,7 @@ namespace ManagerAPI.Backend.Controllers
         [Authorize(Roles = "Administrator,Root,Status Library Administrator")]
         public override IActionResult Delete(int id)
         {
-            this._seriesService.Remove(id);
+            this._seriesService.DeleteById(id);
             return this.Ok();
         }
 
@@ -172,7 +172,7 @@ namespace ManagerAPI.Backend.Controllers
         [Authorize(Roles = "Administrator,Root,Moderator,Status Library Moderator,Status Library Administrator")]
         public override IActionResult Update(int id, SeriesModel model)
         {
-            this._seriesService.Update<SeriesModel>(id, model);
+            this._seriesService.UpdateByModel(id, model);
             return this.Ok();
         }
     }

@@ -1,15 +1,17 @@
 ﻿using AutoMapper;
+using KarcagS.Common.Tools.Services;
 using ManagerAPI.DataAccess;
+using ManagerAPI.Domain.Entities;
 using ManagerAPI.Domain.Entities.SL;
 using ManagerAPI.Domain.Enums.SL;
-using ManagerAPI.Services.Common.Repository;
+using ManagerAPI.Services.Repositories;
 using ManagerAPI.Services.Services.Interfaces;
 using StatusLibrary.Services.Services.Interfaces;
 
 namespace StatusLibrary.Services.Services;
 
 /// <inheritdoc />
-public class SeasonService : Repository<Season, StatusLibraryNotificationType>, ISeasonService
+public class SeasonService : NotificationRepository<Season, int, StatusLibraryNotificationType>, ISeasonService
 {
     // Injects
     private readonly DatabaseContext _databaseContext;
@@ -24,7 +26,7 @@ public class SeasonService : Repository<Season, StatusLibraryNotificationType>, 
     /// <param name="notificationService">Notification Service</param>
     public SeasonService(DatabaseContext context, IMapper mapper, IUtilsService utilsService,
         ILoggerService loggerService, INotificationService notificationService) : base(context, loggerService,
-        utilsService, notificationService, mapper, "Season",
+        utilsService, mapper, notificationService, "Season",
         new NotificationArguments
         {
             DeleteArguments = new List<string> { "Number" },
@@ -38,7 +40,7 @@ public class SeasonService : Repository<Season, StatusLibraryNotificationType>, 
     /// <inheritdoc />
     public void UpdateSeenStatus(int id, bool seen)
     {
-        var user = this.Utils.GetCurrentUser();
+        var user = this.Utils.GetCurrentUser<User, string>();
         var season = this._databaseContext.Seasons.Find(id);
 
         var episodes = this._databaseContext.Episodes.Where(x => x.Season.Id == id).ToList();
@@ -69,8 +71,7 @@ public class SeasonService : Repository<Season, StatusLibraryNotificationType>, 
 
         this._databaseContext.SaveChanges();
 
-        this.Logger.LogInformation(user, this.GetService(), this.GetEvent("set season seen status for"), id);
-        this.Notification.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.SeasonSeenStatusUpdated,
+        this.NotificationService.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.SeasonSeenStatusUpdated,
             user, season?.Series.Title ?? "", season?.Number.ToString() ?? "", seen ? "Seen" : "Unseen");
     }
 
@@ -94,7 +95,8 @@ public class SeasonService : Repository<Season, StatusLibraryNotificationType>, 
             number += 1;
         }
 
-        this.AddRange(seasons);
+        this.CreateRange(seasons);
+        Persist();
     }
 
     /// <inheritdoc />
@@ -104,7 +106,7 @@ public class SeasonService : Repository<Season, StatusLibraryNotificationType>, 
         int seriesId = season.Series.Id;
         int number = season.Number;
 
-        this.Remove(seasonId);
+        this.DeleteById(seasonId);
 
         var seasons = this.GetList(x => x.SeriesId == seriesId).OrderBy(x => x.Number).Select(x =>
         {
@@ -117,5 +119,6 @@ public class SeasonService : Repository<Season, StatusLibraryNotificationType>, 
         }).ToList();
 
         this.UpdateRange(seasons);
+        Persist();
     }
 }

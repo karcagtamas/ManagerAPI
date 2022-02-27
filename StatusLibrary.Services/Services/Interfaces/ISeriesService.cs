@@ -1,5 +1,5 @@
 ﻿using ManagerAPI.Domain.Entities.SL;
-using ManagerAPI.Services.Common.Repository;
+using ManagerAPI.Services.Repositories;
 using ManagerAPI.Shared.DTOs.SL;
 using ManagerAPI.Shared.Models.SL;
 
@@ -8,7 +8,7 @@ namespace StatusLibrary.Services.Services.Interfaces;
 /// <summary>
 /// Series Service
 /// </summary>
-public interface ISeriesService : IRepository<Series>
+public interface ISeriesService : INotificationRepository<Series, int>
 {
     /// <summary>
     /// Gets my list

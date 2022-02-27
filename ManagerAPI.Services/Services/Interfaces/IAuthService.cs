@@ -1,5 +1,5 @@
+using ManagerAPI.Shared.DTOs;
 using ManagerAPI.Shared.Models;
-using System.Threading.Tasks;
 
 namespace ManagerAPI.Services.Services.Interfaces
 {
@@ -20,12 +20,13 @@ namespace ManagerAPI.Services.Services.Interfaces
         /// </summary>
         /// <param name="model">Model for the login with login credentials</param>
         /// <returns>Token</returns>
-        Task<string> Login(LoginModel model);
+        Task<TokenDTO> Login(LoginModel model);
 
         /// <summary>
         /// Logout
         /// </summary>
-        /// <param name="userId">User Id</param>
-        void Logout(string userId);
+        /// <param name="userName">Username</param>
+        /// <param name="clientId">Client Id</param>
+        void Logout(string userName, string clientId);
     }
 }

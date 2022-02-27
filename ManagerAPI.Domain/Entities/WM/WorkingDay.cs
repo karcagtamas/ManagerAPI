@@ -1,14 +1,12 @@
-using System;
-using System.Collections.Generic;
+using KarcagS.Common.Tools.Entities;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ManagerAPI.Domain.Entities.WM
 {
     /// <summary>
     /// Working day
     /// </summary>
-    public class WorkingDay : IEntity
+    public class WorkingDay : IEntity<int>
     {
         /// <inheritdoc />
         [Key]

@@ -1,5 +1,5 @@
 using ManagerAPI.Domain.Entities.SL;
-using ManagerAPI.Services.Common.Repository;
+using ManagerAPI.Services.Repositories;
 using ManagerAPI.Shared.DTOs.SL;
 using ManagerAPI.Shared.Models.SL;
 
@@ -8,7 +8,7 @@ namespace StatusLibrary.Services.Services.Interfaces;
 /// <summary>
 /// Episode service
 /// </summary>
-public interface IEpisodeService : IRepository<Episode>
+public interface IEpisodeService : INotificationRepository<Episode, int>
 {
     /// <summary>
     /// Update seen status for episode

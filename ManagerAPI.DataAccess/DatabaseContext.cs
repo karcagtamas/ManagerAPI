@@ -13,187 +13,192 @@ namespace ManagerAPI.DataAccess
     public class DatabaseContext : IdentityDbContext
     {
         /// <summary>
+        /// Refresh tokens
+        /// </summary>
+        public DbSet<RefreshToken> RefreshTokens { get; set; } = default!;
+
+        /// <summary>
         /// Genders
         /// </summary>
-        public DbSet<Gender> Genders { get; set; }
+        public DbSet<Gender> Genders { get; set; } = default!;
 
         /// <summary>
         /// AppUsers
         /// </summary>
-        public DbSet<User> AppUsers { get; set; }
+        public DbSet<User> AppUsers { get; set; } = default!;
 
         /// <summary>
         /// AppRoles
         /// </summary>
-        public DbSet<WebsiteRole> AppRoles { get; set; }
+        public DbSet<WebsiteRole> AppRoles { get; set; } = default!;
 
         /// <summary>
         /// NotificationSystems
         /// </summary>
-        public DbSet<NotificationSystem> NotificationSystems { get; set; }
+        public DbSet<NotificationSystem> NotificationSystems { get; set; } = default!;
 
         /// <summary>
         /// NotificationTypes
         /// </summary>
-        public DbSet<NotificationType> NotificationTypes { get; set; }
+        public DbSet<NotificationType> NotificationTypes { get; set; } = default!;
 
         /// <summary>
         /// Notifications
         /// </summary>
-        public DbSet<Notification> Notifications { get; set; }
+        public DbSet<Notification> Notifications { get; set; } = default!;
 
         /// <summary>
         /// FriendRequests
         /// </summary>
-        public DbSet<FriendRequest> FriendRequests { get; set; }
+        public DbSet<FriendRequest> FriendRequests { get; set; } = default!;
 
         /// <summary>
         /// Friends
         /// </summary>
-        public DbSet<Friends> Friends { get; set; }
+        public DbSet<Friends> Friends { get; set; } = default!;
 
         /// <summary>
         /// Messages
         /// </summary>
-        public DbSet<Message> Messages { get; set; }
+        public DbSet<Message> Messages { get; set; } = default!;
 
         /// <summary>
         /// News
         /// </summary>
-        public DbSet<News> News { get; set; }
+        public DbSet<News> News { get; set; } = default!;
 
         /// <summary>
         /// Tasks
         /// </summary>
-        public DbSet<Domain.Entities.Task> Tasks { get; set; }
+        public DbSet<Domain.Entities.Task> Tasks { get; set; } = default!;
 
         // WM
         /// <summary>
         /// WorkingDayTypes
         /// </summary>
-        public DbSet<WorkingDayType> WorkingDayTypes { get; set; }
+        public DbSet<WorkingDayType> WorkingDayTypes { get; set; } = default!;
 
         /// <summary>
         /// WorkingDays
         /// </summary>
-        public DbSet<WorkingDay> WorkingDays { get; set; }
+        public DbSet<WorkingDay> WorkingDays { get; set; } = default!;
 
         /// <summary>
         /// WorkingFields
         /// </summary>
-        public DbSet<WorkingField> WorkingFields { get; set; }
+        public DbSet<WorkingField> WorkingFields { get; set; } = default!;
 
         // SL
         /// <summary>
         /// MovieCategories
         /// </summary>
-        public DbSet<MovieCategory> MovieCategories { get; set; }
+        public DbSet<MovieCategory> MovieCategories { get; set; } = default!;
 
         /// <summary>
         /// Movies
         /// </summary>
-        public DbSet<Movie> Movies { get; set; }
+        public DbSet<Movie> Movies { get; set; } = default!;
 
         /// <summary>
         /// MovieComments
         /// </summary>
-        public DbSet<MovieComment> MovieComments { get; set; }
+        public DbSet<MovieComment> MovieComments { get; set; } = default!;
 
         /// <summary>
         /// MovieMovieCategorySwitch
         /// </summary>
-        public DbSet<MovieMovieCategory> MovieMovieCategorySwitch { get; set; }
+        public DbSet<MovieMovieCategory> MovieMovieCategorySwitch { get; set; } = default!;
 
         /// <summary>
         /// UserMovieSwitch
         /// </summary>
-        public DbSet<UserMovie> UserMovieSwitch { get; set; }
+        public DbSet<UserMovie> UserMovieSwitch { get; set; } = default!;
 
         /// <summary>
         /// SeriesCategories
         /// </summary>
-        public DbSet<SeriesCategory> SeriesCategories { get; set; }
+        public DbSet<SeriesCategory> SeriesCategories { get; set; } = default!;
 
         /// <summary>
         /// Series
         /// </summary>
-        public DbSet<Series> Series { get; set; }
+        public DbSet<Series> Series { get; set; } = default!;
 
         /// <summary>
         /// SeriesComments
         /// </summary>
-        public DbSet<SeriesComment> SeriesComments { get; set; }
+        public DbSet<SeriesComment> SeriesComments { get; set; } = default!;
 
         /// <summary>
         /// SeriesSeriesCategoriesSwitch
         /// </summary>
-        public DbSet<SeriesSeriesCategory> SeriesSeriesCategoriesSwitch { get; set; }
+        public DbSet<SeriesSeriesCategory> SeriesSeriesCategoriesSwitch { get; set; } = default!;
 
         /// <summary>
         /// UserSeriesSwitch
         /// </summary>
-        public DbSet<UserSeries> UserSeriesSwitch { get; set; }
+        public DbSet<UserSeries> UserSeriesSwitch { get; set; } = default!;
 
         /// <summary>
         /// Seasons
         /// </summary>
-        public DbSet<Season> Seasons { get; set; }
+        public DbSet<Season> Seasons { get; set; } = default!;
 
         /// <summary>
         /// Episodes
         /// </summary>
-        public DbSet<Episode> Episodes { get; set; }
+        public DbSet<Episode> Episodes { get; set; } = default!;
 
         /// <summary>
         /// UserEpisodeSwitch
         /// </summary>
-        public DbSet<UserEpisode> UserEpisodeSwitch { get; set; }
+        public DbSet<UserEpisode> UserEpisodeSwitch { get; set; } = default!;
 
         /// <summary>
         /// Books
         /// </summary>
-        public DbSet<Book> Books { get; set; }
+        public DbSet<Book> Books { get; set; } = default!;
 
         /// <summary>
         /// UserBookSwitch
         /// </summary>
-        public DbSet<UserBook> UserBookSwitch { get; set; }
+        public DbSet<UserBook> UserBookSwitch { get; set; } = default!;
 
         // CSM
         /// <summary>
         /// Csomors
         /// </summary>
-        public DbSet<Csomor> Csomors { get; set; }
+        public DbSet<Csomor> Csomors { get; set; } = default!;
 
         /// <summary>
         /// CsomorPersons
         /// </summary>
-        public DbSet<CsomorPerson> CsomorPersons { get; set; }
+        public DbSet<CsomorPerson> CsomorPersons { get; set; } = default!;
 
         /// <summary>
         /// CsomorWorks
         /// </summary>
-        public DbSet<CsomorWork> CsomorWorks { get; set; }
+        public DbSet<CsomorWork> CsomorWorks { get; set; } = default!;
 
         /// <summary>
         /// CsomorPersonTables
         /// </summary>
-        public DbSet<CsomorPersonTable> CsomorPersonTables { get; set; }
+        public DbSet<CsomorPersonTable> CsomorPersonTables { get; set; } = default!;
 
         /// <summary>
         /// CsomorWorkTables
         /// </summary>
-        public DbSet<CsomorWorkTable> CsomorWorkTables { get; set; }
+        public DbSet<CsomorWorkTable> CsomorWorkTables { get; set; } = default!;
 
         /// <summary>
         /// SharedCsomors
         /// </summary>
-        public DbSet<UserCsomor> SharedCsomors { get; set; }
+        public DbSet<UserCsomor> SharedCsomors { get; set; } = default!;
 
         /// <summary>
         /// IgnoredWorks
         /// </summary>
-        public DbSet<IgnoredWork> IgnoredWorks { get; set; }
+        public DbSet<IgnoredWork> IgnoredWorks { get; set; } = default!;
 
         /// <summary>
         /// Init DbContext
@@ -207,6 +212,16 @@ namespace ManagerAPI.DataAccess
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            // Refresh token
+            builder.Entity<RefreshToken>()
+                .HasIndex(t => t.Token)
+                .IsUnique();
+            builder.Entity<RefreshToken>()
+                .HasOne(x => x.User)
+                .WithMany(x => x.RefreshTokens)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.ClientCascade);
 
             // Gender table settings
             builder.Entity<Gender>()

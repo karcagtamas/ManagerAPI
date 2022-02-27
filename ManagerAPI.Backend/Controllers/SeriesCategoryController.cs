@@ -14,7 +14,7 @@ namespace ManagerAPI.Backend.Controllers
     [Route("api/series-category")]
     [ApiController]
     [Authorize(Roles = "Administrator,Status Library User,Status Library Moderator,Status Library Administrator,Root")]
-    public class SeriesCategoryController : MyController<SeriesCategory, SeriesCategoryModel, SeriesCategoryDto,
+    public class SeriesCategoryController : MyController<SeriesCategory, int, SeriesCategoryModel, SeriesCategoryDto,
             SeriesCategoryDto>
     {
         private readonly ISeriesCategoryService _seriesCategoryService;

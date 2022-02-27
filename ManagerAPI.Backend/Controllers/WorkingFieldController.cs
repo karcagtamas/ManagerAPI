@@ -13,7 +13,7 @@ namespace ManagerAPI.Backend.Controllers
     /// </summary>
     [Route("api/working-field")]
     [ApiController]
-    public class WorkingFieldController : MyController<WorkingField, WorkingFieldModel, WorkingFieldListDto, WorkingFieldDto>
+    public class WorkingFieldController : MyController<WorkingField, int, WorkingFieldModel, WorkingFieldListDto, WorkingFieldDto>
     {
         private readonly IWorkingFieldService _workingFieldService;
 

@@ -14,7 +14,7 @@ namespace ManagerAPI.Backend.Controllers
     [Route("api/[controller]")]
     [Authorize(Roles = "Administrator,Status Library User,Status Library Moderator,Status Library Administrator,Root")]
     [ApiController]
-    public class MovieController : MyController<Movie, MovieModel, MovieListDto, MovieDto>
+    public class MovieController : MyController<Movie, int, MovieModel, MovieListDto, MovieDto>
     {
         private readonly IMovieService _movieService;
 
@@ -150,7 +150,7 @@ namespace ManagerAPI.Backend.Controllers
         [Authorize(Roles = "Administrator,Root,Moderator,Status Library Moderator,Status Library Administrator")]
         public override IActionResult Create([FromBody] MovieModel model)
         {
-            this._movieService.Add<MovieModel>(model);
+            this._movieService.CreateFromModel(model);
             return this.Ok();
         }
 
@@ -162,7 +162,7 @@ namespace ManagerAPI.Backend.Controllers
         [Authorize(Roles = "Administrator,Root,Status Library Administrator")]
         public override IActionResult Delete(int id)
         {
-            this._movieService.Remove(id);
+            this._movieService.DeleteById(id);
             return this.Ok();
         }
 
@@ -175,7 +175,7 @@ namespace ManagerAPI.Backend.Controllers
         [Authorize(Roles = "Administrator,Root,Moderator,Status Library Moderator,Status Library Administrator")]
         public override IActionResult Update(int id, MovieModel model)
         {
-            this._movieService.Update<MovieModel>(id, model);
+            this._movieService.UpdateByModel(id, model);
             return this.Ok();
         }
     }

@@ -14,7 +14,7 @@ namespace ManagerAPI.Backend.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class MessageController : MyController<Message, MessageModel, MessageListDto, MessageDto>
+    public class MessageController : MyController<Message, int, MessageModel, MessageListDto, MessageDto>
     {
         private readonly IMessageService _messageService;
 

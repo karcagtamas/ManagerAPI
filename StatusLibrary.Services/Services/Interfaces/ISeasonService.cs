@@ -1,12 +1,12 @@
 using ManagerAPI.Domain.Entities.SL;
-using ManagerAPI.Services.Common.Repository;
+using ManagerAPI.Services.Repositories;
 
 namespace StatusLibrary.Services.Services.Interfaces;
 
 /// <summary>
 /// Season Service
 /// </summary>
-public interface ISeasonService : IRepository<Season>
+public interface ISeasonService : INotificationRepository<Season, int>
 {
     /// <summary>
     /// Update seen status for season's episodes

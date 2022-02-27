@@ -1,11 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using KarcagS.Common.Tools.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace ManagerAPI.Domain.Entities
 {
     /// <summary>
     /// Task
     /// </summary>
-    public class Task : IEntity
+    public class Task : IEntity<int>
     {
         /// <inheritdoc />
         [Required]

@@ -14,7 +14,7 @@ namespace ManagerAPI.Backend.Controllers
     [Route("api/series-comment")]
     [ApiController]
     [Authorize(Roles = "Administrator,Status Library User,Status Library Moderator,Status Library Administrator,Root")]
-    public class SeriesCommentController : MyController<SeriesComment, SeriesCommentModel, SeriesCommentListDto, SeriesCommentDto
+    public class SeriesCommentController : MyController<SeriesComment, int, SeriesCommentModel, SeriesCommentListDto, SeriesCommentDto
         >
     {
         private readonly ISeriesCommentService _seriesCommentService;
@@ -47,7 +47,7 @@ namespace ManagerAPI.Backend.Controllers
             "Administrator,Status Library User,Status Library Moderator,Status Library Administrator,Root")]
         public override IActionResult Create([FromBody] SeriesCommentModel model)
         {
-            this._seriesCommentService.Add<SeriesCommentModel>(model);
+            this._seriesCommentService.CreateFromModel(model);
             return this.Ok();
         }
 
@@ -60,7 +60,7 @@ namespace ManagerAPI.Backend.Controllers
             "Administrator,Status Library User,Status Library Moderator,Status Library Administrator,Root")]
         public override IActionResult Delete(int id)
         {
-            this._seriesCommentService.Remove(id);
+            this._seriesCommentService.DeleteById(id);
             return this.Ok();
         }
 
@@ -74,7 +74,7 @@ namespace ManagerAPI.Backend.Controllers
             "Administrator,Status Library User,Status Library Moderator,Status Library Administrator,Root")]
         public override IActionResult Update(int id, SeriesCommentModel model)
         {
-            this._seriesCommentService.Update<SeriesCommentModel>(id, model);
+            this._seriesCommentService.UpdateByModel(id, model);
             return this.Ok();
         }
     }

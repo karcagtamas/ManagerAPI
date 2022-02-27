@@ -1,5 +1,5 @@
 ﻿using ManagerAPI.Domain.Entities.SL;
-using ManagerAPI.Services.Common.Repository;
+using ManagerAPI.Services.Repositories;
 using ManagerAPI.Shared.DTOs.SL;
 
 namespace StatusLibrary.Services.Services.Interfaces;
@@ -7,7 +7,7 @@ namespace StatusLibrary.Services.Services.Interfaces;
 /// <summary>
 /// Book Service
 /// </summary>
-public interface IBookService : IRepository<Book>
+public interface IBookService : INotificationRepository<Book, int>
 {
     /// <summary>
     /// Gets my list

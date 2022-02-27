@@ -1,5 +1,5 @@
 ﻿using ManagerAPI.Domain.Entities.SL;
-using ManagerAPI.Services.Common.Repository;
+using ManagerAPI.Services.Repositories;
 using ManagerAPI.Shared.DTOs.SL;
 
 namespace StatusLibrary.Services.Services.Interfaces;
@@ -7,7 +7,7 @@ namespace StatusLibrary.Services.Services.Interfaces;
 /// <summary>
 /// Movie Category Service
 /// </summary>
-public interface IMovieCategoryService : IRepository<MovieCategory>
+public interface IMovieCategoryService : INotificationRepository<MovieCategory, int>
 {
     /// <summary>
     /// Gets selector list for the given movie.

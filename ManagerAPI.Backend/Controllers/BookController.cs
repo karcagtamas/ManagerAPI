@@ -14,7 +14,7 @@ namespace ManagerAPI.Backend.Controllers;
 [Route("api/[controller]")]
 [Authorize(Roles = "Administrator,Status Library User,Status Library Moderator,Status Library Administrator,Root")]
 [ApiController]
-public class BookController : MyController<Book, BookModel, BookListDto, BookDto>
+public class BookController : MyController<Book, int, BookModel, BookListDto, BookDto>
 {
     private readonly IBookService _bookService;
 
@@ -112,7 +112,7 @@ public class BookController : MyController<Book, BookModel, BookListDto, BookDto
     [Authorize(Roles = "Administrator,Root,Moderator,Status Library Moderator,Status Library Administrator")]
     public override IActionResult Create([FromBody] BookModel model)
     {
-        this._bookService.Add<BookModel>(model);
+        this._bookService.CreateFromModel(model);
         return this.Ok();
     }
 
@@ -124,7 +124,7 @@ public class BookController : MyController<Book, BookModel, BookListDto, BookDto
     [Authorize(Roles = "Administrator,Root,Status Library Administrator")]
     public override IActionResult Delete(int id)
     {
-        this._bookService.Remove(id);
+        this._bookService.DeleteById(id);
         return this.Ok();
     }
 
@@ -137,7 +137,7 @@ public class BookController : MyController<Book, BookModel, BookListDto, BookDto
     [Authorize(Roles = "Administrator,Root,Moderator,Status Library Moderator,Status Library Administrator")]
     public override IActionResult Update(int id, BookModel model)
     {
-        this._bookService.Update<BookModel>(id, model);
+        this._bookService.UpdateByModel(id, model);
         return this.Ok();
     }
 }

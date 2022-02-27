@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using KarcagS.Common.Tools.Services;
 using ManagerAPI.DataAccess;
+using ManagerAPI.Domain.Entities;
 using ManagerAPI.Domain.Entities.SL;
 using ManagerAPI.Domain.Enums.SL;
-using ManagerAPI.Services.Common.Repository;
+using ManagerAPI.Services.Repositories;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.SL;
 using StatusLibrary.Services.Services.Interfaces;
@@ -10,7 +12,7 @@ using StatusLibrary.Services.Services.Interfaces;
 namespace StatusLibrary.Services.Services;
 
 /// <inheritdoc />
-public class SeriesCategoryService : Repository<SeriesCategory, StatusLibraryNotificationType>,
+public class SeriesCategoryService : NotificationRepository<SeriesCategory, int, StatusLibraryNotificationType>,
     ISeriesCategoryService
 {
     private readonly DatabaseContext _databaseContext;
@@ -24,7 +26,7 @@ public class SeriesCategoryService : Repository<SeriesCategory, StatusLibraryNot
     /// <param name="notification">Notification Service</param>
     /// <param name="mapper">Mapper</param>
     public SeriesCategoryService(DatabaseContext context, ILoggerService logger, IUtilsService utils,
-        INotificationService notification, IMapper mapper) : base(context, logger, utils, notification, mapper,
+        INotificationService notification, IMapper mapper) : base(context, logger, utils, mapper, notification,
         "Series Category", new NotificationArguments
         {
             DeleteArguments = new List<string> { "Name" },
@@ -38,9 +40,9 @@ public class SeriesCategoryService : Repository<SeriesCategory, StatusLibraryNot
     /// <inheritdoc />
     public List<SeriesCategorySelectorListDto> GetSelectorList(int seriesId)
     {
-        var user = this.Utils.GetCurrentUser();
+        var user = this.Utils.GetCurrentUser<User, string>();
 
-        var list = this.GetAll<SeriesCategorySelectorListDto>().OrderBy(x => x.Name).ToList();
+        var list = this.GetAllMapped<SeriesCategorySelectorListDto>().OrderBy(x => x.Name).ToList();
         var series = this._databaseContext.Series.FirstOrDefault(x => x.Id == seriesId);
 
         var selected = series != null
@@ -51,9 +53,6 @@ public class SeriesCategoryService : Repository<SeriesCategory, StatusLibraryNot
         {
             t.IsSelected = selected.Any(x => x.Id == t.Id);
         }
-
-        this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get selector"),
-            list.Select(x => x.Id).ToList());
 
         return list;
     }

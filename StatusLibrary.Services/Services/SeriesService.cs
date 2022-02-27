@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using KarcagS.Common.Tools.Services;
 using ManagerAPI.DataAccess;
+using ManagerAPI.Domain.Entities;
 using ManagerAPI.Domain.Entities.SL;
 using ManagerAPI.Domain.Enums.SL;
-using ManagerAPI.Services.Common.Repository;
+using ManagerAPI.Services.Repositories;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.SL;
 using ManagerAPI.Shared.Models.SL;
@@ -11,7 +13,7 @@ using StatusLibrary.Services.Services.Interfaces;
 namespace StatusLibrary.Services.Services;
 
 /// <inheritdoc />
-public class SeriesService : Repository<Series, StatusLibraryNotificationType>, ISeriesService
+public class SeriesService : NotificationRepository<Series, int, StatusLibraryNotificationType>, ISeriesService
 {
     // Injects
     private readonly DatabaseContext _databaseContext;
@@ -26,7 +28,7 @@ public class SeriesService : Repository<Series, StatusLibraryNotificationType>, 
     /// <param name="notificationService"></param>
     public SeriesService(DatabaseContext context, IMapper mapper, IUtilsService utilsService,
         ILoggerService loggerService, INotificationService notificationService) : base(context, loggerService,
-        utilsService, notificationService, mapper, "Series",
+        utilsService, mapper, notificationService, "Series",
         new NotificationArguments
         {
             DeleteArguments = new List<string> { "Title" },
@@ -40,7 +42,7 @@ public class SeriesService : Repository<Series, StatusLibraryNotificationType>, 
     /// <inheritdoc />
     public void AddSeriesToMySeries(int id)
     {
-        var user = this.Utils.GetCurrentUser();
+        var user = this.Utils.GetCurrentUser<User, string>();
 
         var mapping =
             this._databaseContext.UserSeriesSwitch.FirstOrDefault(x => x.UserId == user.Id && x.SeriesId == id);
@@ -50,8 +52,7 @@ public class SeriesService : Repository<Series, StatusLibraryNotificationType>, 
             mapping = new UserSeries { SeriesId = id, UserId = user.Id, AddedOn = DateTime.Now, IsAdded = true };
             this._databaseContext.UserSeriesSwitch.Add(mapping);
             this._databaseContext.SaveChanges();
-            this.Logger.LogInformation(user, this.GetService(), this.GetEvent("add my"), id);
-            this.Notification.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.MySeriesListUpdated,
+            this.NotificationService.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.MySeriesListUpdated,
                 user);
         }
         else
@@ -59,8 +60,7 @@ public class SeriesService : Repository<Series, StatusLibraryNotificationType>, 
             mapping.AddedOn = DateTime.Now;
             mapping.IsAdded = true;
             this._databaseContext.UserSeriesSwitch.Update(mapping);
-            this.Logger.LogInformation(user, this.GetService(), this.GetEvent("add my"), id);
-            this.Notification.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.MySeriesListUpdated,
+            this.NotificationService.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.MySeriesListUpdated,
                 user);
         }
     }
@@ -68,9 +68,9 @@ public class SeriesService : Repository<Series, StatusLibraryNotificationType>, 
     /// <inheritdoc />
     public MySeriesDto GetMy(int id)
     {
-        var user = this.Utils.GetCurrentUser();
+        var user = this.Utils.GetCurrentUser<User, string>();
 
-        var series = this.Get<MySeriesDto>(id);
+        var series = this.GetMapped<MySeriesDto>(id);
         var mySeries = user.MySeries.FirstOrDefault(x => x.Series.Id == series.Id);
         series.IsMine = mySeries?.IsAdded ?? false;
         series.AddedOn = mySeries?.AddedOn;
@@ -90,21 +90,15 @@ public class SeriesService : Repository<Series, StatusLibraryNotificationType>, 
 
         series.IsSeen = series.Seasons.SelectMany(x => x.Episodes.Select(y => y.Seen)).All(x => x);
 
-
-        this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get my"), series.Id);
-
         return series;
     }
 
     /// <inheritdoc />
     public List<MySeriesListDto> GetMyList()
     {
-        var user = this.Utils.GetCurrentUser();
+        var user = this.Utils.GetCurrentUser<User, string>();
 
         var list = user.MySeries.ToList();
-
-        this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get my"),
-            list.Select(x => x.Series.Id).ToList());
 
         return this.Mapper.Map<List<MySeriesListDto>>(list).OrderBy(x => x.Title).ToList();
     }
@@ -112,9 +106,9 @@ public class SeriesService : Repository<Series, StatusLibraryNotificationType>, 
     /// <inheritdoc />
     public List<MySeriesSelectorListDto> GetMySelectorList(bool onlyMine)
     {
-        var user = this.Utils.GetCurrentUser();
+        var user = this.Utils.GetCurrentUser<User, string>();
 
-        var list = this.GetAll<MySeriesSelectorListDto>().OrderBy(x => x.Title).ToList();
+        var list = this.GetAllMapped<MySeriesSelectorListDto>().OrderBy(x => x.Title).ToList();
         foreach (var t in list)
         {
             var mySeries = user.MySeries.FirstOrDefault(x => x.Series.Id == t.Id);
@@ -125,9 +119,6 @@ public class SeriesService : Repository<Series, StatusLibraryNotificationType>, 
         {
             list = list.Where(x => x.IsMine).ToList();
         }
-
-        this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get my selector"),
-            list.Select(x => x.Id).ToList());
 
         return list;
     }
@@ -145,12 +136,13 @@ public class SeriesService : Repository<Series, StatusLibraryNotificationType>, 
         this.Mapper.Map(model, series);
 
         this.Update(series);
+        Persist();
     }
 
     /// <inheritdoc />
     public void UpdateCategories(int id, SeriesCategoryUpdateModel model)
     {
-        var user = this.Utils.GetCurrentUser();
+        var user = this.Utils.GetCurrentUser<User, string>();
 
         var series = this._databaseContext.Series.Find(id);
 
@@ -179,14 +171,13 @@ public class SeriesService : Repository<Series, StatusLibraryNotificationType>, 
         }
 
         this._databaseContext.SaveChanges();
-        this.Logger.LogInformation(user, this.GetService(), this.GetEvent("update"), series.Id);
-        this.Notification.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.UpdateSeries, user);
+        this.NotificationService.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.UpdateSeries, user);
     }
 
     /// <inheritdoc />
     public void UpdateRate(int id, SeriesRateModel model)
     {
-        var user = this.Utils.GetCurrentUser();
+        var user = this.Utils.GetCurrentUser<User, string>();
 
         var map = user.MySeries.FirstOrDefault(x => x.Series.Id == id);
 
@@ -195,7 +186,6 @@ public class SeriesService : Repository<Series, StatusLibraryNotificationType>, 
             map.Rate = model.Rate;
             this._databaseContext.UserSeriesSwitch.Update(map);
             this._databaseContext.SaveChanges();
-            this.Logger.LogInformation(user, this.GetService(), this.GetEvent("rate"), map.Series.Id);
         }
         else
         {
@@ -203,14 +193,13 @@ public class SeriesService : Repository<Series, StatusLibraryNotificationType>, 
             { UserId = user.Id, SeriesId = id, IsAdded = false, Rate = model.Rate };
             this._databaseContext.UserSeriesSwitch.Add(map);
             this._databaseContext.SaveChanges();
-            this.Logger.LogInformation(user, this.GetService(), this.GetEvent("rate"), id);
         }
     }
 
     /// <inheritdoc />
     public void RemoveSeriesFromMySeries(int id)
     {
-        var user = this.Utils.GetCurrentUser();
+        var user = this.Utils.GetCurrentUser<User, string>();
 
         var mapping =
             this._databaseContext.UserSeriesSwitch.FirstOrDefault(x => x.UserId == user.Id && x.SeriesId == id);
@@ -221,8 +210,7 @@ public class SeriesService : Repository<Series, StatusLibraryNotificationType>, 
             mapping.AddedOn = null;
             this._databaseContext.UserSeriesSwitch.Update(mapping);
             this._databaseContext.SaveChanges();
-            this.Logger.LogInformation(user, this.GetService(), this.GetEvent("delete my"), id);
-            this.Notification.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.MySeriesListUpdated,
+            this.NotificationService.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.MySeriesListUpdated,
                 user);
         }
     }
@@ -230,7 +218,7 @@ public class SeriesService : Repository<Series, StatusLibraryNotificationType>, 
     /// <inheritdoc />
     public void UpdateMySeries(List<int> ids)
     {
-        var user = this.Utils.GetCurrentUser();
+        var user = this.Utils.GetCurrentUser<User, string>();
 
         var currentMappings = this._databaseContext.UserSeriesSwitch.Where(x => x.UserId == user.Id).ToList();
         foreach (var i in currentMappings)
@@ -259,15 +247,14 @@ public class SeriesService : Repository<Series, StatusLibraryNotificationType>, 
         }
 
         this._databaseContext.SaveChanges();
-        this.Logger.LogInformation(user, this.GetService(), this.GetEvent("update my"), ids);
-        this.Notification.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.MySeriesListUpdated,
+        this.NotificationService.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.MySeriesListUpdated,
             user);
     }
 
     /// <inheritdoc />
     public void UpdateSeenStatus(int id, bool seen)
     {
-        var user = this.Utils.GetCurrentUser();
+        var user = this.Utils.GetCurrentUser<User, string>();
         var series = this._databaseContext.Series.Find(id);
 
         var episodes = this._databaseContext.Episodes.Where(x => x.Season.Series.Id == id).ToList();
@@ -298,8 +285,7 @@ public class SeriesService : Repository<Series, StatusLibraryNotificationType>, 
 
         this._databaseContext.SaveChanges();
 
-        this.Logger.LogInformation(user, this.GetService(), this.GetEvent("set series seen status for"), id);
-        this.Notification.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.SeriesSeenStatusUpdated,
+        this.NotificationService.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.SeriesSeenStatusUpdated,
             user, series?.Title ?? "", seen ? "Seen" : "Unseen");
     }
 }

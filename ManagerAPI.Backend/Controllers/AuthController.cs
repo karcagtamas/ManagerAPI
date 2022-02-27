@@ -1,4 +1,5 @@
 using ManagerAPI.Services.Services.Interfaces;
+using ManagerAPI.Shared.DTOs;
 using ManagerAPI.Shared.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,39 +15,47 @@ namespace ManagerAPI.Backend.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly IAuthService _authService;
+        private readonly IAuthService authService;
+        private readonly ITokenService tokenService;
 
         /// <summary>
         /// Init auth controller
         /// </summary>
         /// <param name="authService">Auth service</param>
-        public AuthController(IAuthService authService)
+        /// <param name="tokenService">Toke service</param>
+        public AuthController(IAuthService authService, ITokenService tokenService)
         {
-            this._authService = authService;
+            this.authService = authService;
+            this.tokenService = tokenService;
         }
 
         /// <summary>
         /// Registration endpoint
         /// </summary>
         /// <param name="model">Model</param>
-        [HttpPost("registration")]
+        [HttpPost("Registration")]
         [AllowAnonymous]
-        public async Task<IActionResult> Registration([FromBody] RegistrationModel model)
+        public async Task Registration([FromBody] RegistrationModel model)
         {
-            await this._authService.Registration(model);
-            return this.Ok();
+            await authService.Registration(model);
         }
 
         /// <summary>
         /// Login endpoint
         /// </summary>
         /// <param name="model">Model</param>
-        [HttpPost("login")]
+        [HttpPost("Login")]
         [AllowAnonymous]
-        public async Task<IActionResult> Login([FromBody] LoginModel model)
+        public async Task<TokenDTO> Login([FromBody] LoginModel model)
         {
-            string token = await this._authService.Login(model);
-            return this.Ok(token);
+            return await authService.Login(model);
+        }
+
+        [HttpGet("Refresh")]
+        [AllowAnonymous]
+        public async Task<TokenDTO> Refresh([FromQuery] string refreshToken, [FromQuery] string clientId)
+        {
+            return await tokenService.Refresh(refreshToken, clientId);
         }
     }
 }

@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
+using KarcagS.Common.Tools.HttpInterceptor;
+using KarcagS.Common.Tools.Services;
 using ManagerAPI.DataAccess;
+using ManagerAPI.Domain.Entities;
 using ManagerAPI.Domain.Entities.SL;
 using ManagerAPI.Domain.Enums.SL;
-using ManagerAPI.Services.Common.Repository;
+using ManagerAPI.Services.Repositories;
 using ManagerAPI.Services.Services.Interfaces;
 using ManagerAPI.Shared.DTOs.SL;
 using StatusLibrary.Services.Services.Interfaces;
@@ -10,13 +13,8 @@ using StatusLibrary.Services.Services.Interfaces;
 namespace StatusLibrary.Services.Services;
 
 /// <inheritdoc />
-public class BookService : Repository<Book, StatusLibraryNotificationType>, IBookService
+public class BookService : NotificationRepository<Book, int, StatusLibraryNotificationType>, IBookService
 {
-    // Things
-    private const string UserBookThing = "user-book";
-
-    // Messages
-    private const string UserBookConnectionDoesNotExistMessage = "User Book connection does not exist";
 
     // Injects
     private readonly DatabaseContext _databaseContext;
@@ -31,7 +29,7 @@ public class BookService : Repository<Book, StatusLibraryNotificationType>, IBoo
     /// <param name="notificationService"></param>
     public BookService(DatabaseContext context, IMapper mapper, IUtilsService utilsService,
         ILoggerService loggerService, INotificationService notificationService) : base(context, loggerService,
-        utilsService, notificationService, mapper, "Book",
+        utilsService, mapper, notificationService, "Book",
         new NotificationArguments
         {
             DeleteArguments = new List<string> { "Name" },
@@ -45,7 +43,7 @@ public class BookService : Repository<Book, StatusLibraryNotificationType>, IBoo
     /// <inheritdoc />
     public void AddBookToMyBooks(int id)
     {
-        var user = this.Utils.GetCurrentUser();
+        var user = this.Utils.GetCurrentUser<User, string>();
 
         var mapping =
             this._databaseContext.UserBookSwitch.FirstOrDefault(x => x.UserId == user.Id && x.BookId == id);
@@ -55,8 +53,7 @@ public class BookService : Repository<Book, StatusLibraryNotificationType>, IBoo
             mapping = new UserBook { BookId = id, UserId = user.Id, Read = false };
             this._databaseContext.UserBookSwitch.Add(mapping);
             this._databaseContext.SaveChanges();
-            this.Logger.LogInformation(user, this.GetService(), this.GetEvent("add my"), id);
-            this.Notification.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.MyBookListUpdated,
+            this.NotificationService.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.MyBookListUpdated,
                 user);
         }
     }
@@ -64,12 +61,9 @@ public class BookService : Repository<Book, StatusLibraryNotificationType>, IBoo
     /// <inheritdoc />
     public List<MyBookListDto> GetMyList()
     {
-        var user = this.Utils.GetCurrentUser();
+        var user = this.Utils.GetCurrentUser<User, string>();
 
         var list = user.MyBooks.ToList();
-
-        this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get my"),
-            list.Select(x => x.Book.Id).ToList());
 
         return this.Mapper.Map<List<MyBookListDto>>(list).OrderBy(x => x.Name).ToList();
     }
@@ -77,14 +71,12 @@ public class BookService : Repository<Book, StatusLibraryNotificationType>, IBoo
     /// <inheritdoc />
     public MyBookDto GetMy(int id)
     {
-        var user = this.Utils.GetCurrentUser();
+        var user = this.Utils.GetCurrentUser<User, string>();
 
-        var book = this.Get<MyBookDto>(id);
+        var book = this.GetMapped<MyBookDto>(id);
         var myBook = user.MyBooks.FirstOrDefault(x => x.Book.Id == book.Id);
         book.IsMine = myBook != null;
         book.IsRead = myBook != null && myBook.Read;
-
-        this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get my"), book.Id);
 
         return book;
     }
@@ -92,7 +84,7 @@ public class BookService : Repository<Book, StatusLibraryNotificationType>, IBoo
     /// <inheritdoc />
     public void RemoveBookFromMyBooks(int id)
     {
-        var user = this.Utils.GetCurrentUser();
+        var user = this.Utils.GetCurrentUser<User, string>();
 
         var mapping =
             this._databaseContext.UserBookSwitch.FirstOrDefault(x => x.UserId == user.Id && x.BookId == id);
@@ -101,8 +93,7 @@ public class BookService : Repository<Book, StatusLibraryNotificationType>, IBoo
         {
             this._databaseContext.UserBookSwitch.Remove(mapping);
             this._databaseContext.SaveChanges();
-            this.Logger.LogInformation(user, this.GetService(), this.GetEvent("delete my"), id);
-            this.Notification.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.MyBookListUpdated,
+            this.NotificationService.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.MyBookListUpdated,
                 user);
         }
     }
@@ -110,9 +101,9 @@ public class BookService : Repository<Book, StatusLibraryNotificationType>, IBoo
     /// <inheritdoc />
     public List<MyBookSelectorListDto> GetMySelectorList(bool onlyMine)
     {
-        var user = this.Utils.GetCurrentUser();
+        var user = this.Utils.GetCurrentUser<User, string>();
 
-        var list = this.GetAll<MyBookSelectorListDto>().OrderBy(x => x.Name).ToList();
+        var list = this.GetAllMapped<MyBookSelectorListDto>().OrderBy(x => x.Name).ToList();
         foreach (var t in list)
         {
             var myBook = user.MyBooks.FirstOrDefault(x => x.Book.Id == t.Id);
@@ -125,16 +116,13 @@ public class BookService : Repository<Book, StatusLibraryNotificationType>, IBoo
             list = list.Where(x => x.IsMine).ToList();
         }
 
-        this.Logger.LogInformation(user, this.GetService(), this.GetEvent("get my selector"),
-            list.Select(x => x.Id).ToList());
-
         return list;
     }
 
     /// <inheritdoc />
     public void UpdateMyBooks(List<int> ids)
     {
-        var user = this.Utils.GetCurrentUser();
+        var user = this.Utils.GetCurrentUser<User, string>();
 
         var currentMappings = this._databaseContext.UserBookSwitch.Where(x => x.UserId == user.Id).ToList();
         foreach (var i in currentMappings)
@@ -155,20 +143,18 @@ public class BookService : Repository<Book, StatusLibraryNotificationType>, IBoo
         }
 
         this._databaseContext.SaveChanges();
-        this.Logger.LogInformation(user, this.GetService(), this.GetEvent("update my"), ids);
-        this.Notification.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.MyBookListUpdated, user);
+        this.NotificationService.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.MyBookListUpdated, user);
     }
 
     /// <inheritdoc />
     public void UpdateReadStatus(int id, bool status)
     {
-        var user = this.Utils.GetCurrentUser();
+        var user = this.Utils.GetCurrentUser<User, string>();
 
         var userBook = this._databaseContext.UserBookSwitch.Find(user.Id, id);
         if (userBook == null)
         {
-            throw this.Logger.LogInvalidThings(user, this.GetService(), UserBookThing,
-                UserBookConnectionDoesNotExistMessage);
+            throw new ServerException("Book not found");
         }
 
         userBook.Read = status;
@@ -176,8 +162,7 @@ public class BookService : Repository<Book, StatusLibraryNotificationType>, IBoo
         this._databaseContext.UserBookSwitch.Update(userBook);
         this._databaseContext.SaveChanges();
 
-        this.Logger.LogInformation(user, this.GetService(), this.GetEvent("set read status for"), userBook.Book.Id);
-        this.Notification.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.BookReadStatusUpdated,
+        this.NotificationService.AddStatusLibraryNotificationByType(StatusLibraryNotificationType.BookReadStatusUpdated,
             user, userBook.Book.Name, status ? "Read" : "Unread");
     }
 }
