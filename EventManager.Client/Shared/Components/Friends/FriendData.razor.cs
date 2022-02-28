@@ -31,7 +31,7 @@ namespace EventManager.Client.Shared.Components.Friends
         /// </summary>
         [Parameter]
         public string FriendId { get; set; }
-        private FriendDataDto Friend { get; set; }
+        private FriendDataDto? Friend { get; set; }
         private bool IsLoading { get; set; } = true;
 
         /// <inheritdoc />

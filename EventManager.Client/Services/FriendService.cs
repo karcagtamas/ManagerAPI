@@ -1,10 +1,9 @@
-﻿using EventManager.Client.Http;
-using EventManager.Client.Models;
-using EventManager.Client.Services.Interfaces;
+﻿using EventManager.Client.Services.Interfaces;
+using KarcagS.Blazor.Common.Http;
+using KarcagS.Blazor.Common.Models;
 using ManagerAPI.Shared.DTOs;
 using ManagerAPI.Shared.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using ApplicationSettings = EventManager.Client.Models.ApplicationSettings;
 
 namespace EventManager.Client.Services
 {
@@ -12,58 +11,55 @@ namespace EventManager.Client.Services
     public class FriendService : IFriendService
     {
         private readonly string _url = ApplicationSettings.BaseApiUrl + "/friend";
-        private readonly IHelperService _helperService;
         private readonly IHttpService _httpService;
 
         /// <summary>
         /// Init Friend Service
         /// </summary>
-        /// <param name="helperService">Helper Service</param>
         /// <param name="httpService">HTTP Service</param>
-        public FriendService(IHelperService helperService, IHttpService httpService)
+        public FriendService(IHttpService httpService)
         {
-            this._helperService = helperService;
             this._httpService = httpService;
         }
 
         /// <inheritdoc />
-        public async Task<FriendDataDto> GetFriendData(string friendId)
+        public async Task<FriendDataDto?> GetFriendData(string friendId)
         {
             var pathParams = new HttpPathParameters();
-            pathParams.Add<string>(friendId, -1);
+            pathParams.Add(friendId);
 
-            var settings = new HttpSettings($"{this._url}/data", null, pathParams);
+            var settings = new HttpSettings(this._httpService.BuildUrl(this._url, "data")).AddPathParams(pathParams);
 
-            return await this._httpService.Get<FriendDataDto>(settings);
+            return await this._httpService.Get<FriendDataDto>(settings).ExecuteWithResult();
         }
 
         /// <inheritdoc />
         public async Task<List<FriendRequestListDto>> GetMyFriendRequests()
         {
-            var settings = new HttpSettings($"{this._url}/request");
+            var settings = new HttpSettings(this._httpService.BuildUrl(this._url, "request"));
 
-            return await this._httpService.Get<List<FriendRequestListDto>>(settings);
+            return await this._httpService.Get<List<FriendRequestListDto>>(settings).ExecuteWithResult() ?? new List<FriendRequestListDto>();
         }
 
         /// <inheritdoc />
         public async Task<List<FriendListDto>> GetMyFriends()
         {
-            var settings = new HttpSettings($"{this._url}");
+            var settings = new HttpSettings(this._url);
 
-            return await this._httpService.Get<List<FriendListDto>>(settings);
+            return await this._httpService.Get<List<FriendListDto>>(settings).ExecuteWithResult() ?? new List<FriendListDto>();
         }
 
         /// <inheritdoc />
         public async Task<bool> RemoveFriend(string friendId)
         {
             var pathParams = new HttpPathParameters();
-            pathParams.Add<string>(friendId, -1);
+            pathParams.Add(friendId);
 
             var toaster = new ToasterSettings("Friend removing");
 
-            var settings = new HttpSettings($"{this._url}", null, pathParams, toaster);
+            var settings = new HttpSettings(this._url).AddPathParams(pathParams).AddToaster(toaster);
 
-            return await this._httpService.Delete(settings);
+            return await this._httpService.Delete(settings).Execute();
         }
 
         /// <inheritdoc />
@@ -71,11 +67,11 @@ namespace EventManager.Client.Services
         {
             var toaster = new ToasterSettings("Friend request sending");
 
-            var settings = new HttpSettings($"{this._url}/request", null, null, toaster);
+            var settings = new HttpSettings(_httpService.BuildUrl(this._url, "request")).AddToaster(toaster);
 
             var body = new HttpBody<FriendRequestModel>(model);
 
-            return await this._httpService.Create<FriendRequestModel>(settings, body);
+            return await this._httpService.Post(settings, body).Execute();
         }
 
         /// <inheritdoc />
@@ -83,11 +79,11 @@ namespace EventManager.Client.Services
         {
             var toaster = new ToasterSettings("Friend request answering");
 
-            var settings = new HttpSettings($"{this._url}/request", null, null, toaster);
+            var settings = new HttpSettings(this._httpService.BuildUrl(this._url, "request")).AddToaster(toaster);
 
             var body = new HttpBody<FriendRequestResponseModel>(model);
 
-            return await this._httpService.Update<FriendRequestResponseModel>(settings, body);
+            return await this._httpService.Put(settings, body).Execute();
         }
     }
 }

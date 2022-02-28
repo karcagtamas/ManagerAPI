@@ -20,7 +20,7 @@ namespace EventManager.Client.Services.Interfaces
         /// </summary>
         /// <params name="model">Model</params>
         /// <returns>True if it was successful</returns>
-        Task<string> Login(LoginModel model);
+        Task<string?> Login(LoginModel model);
 
         /// <summary>
         /// Logout

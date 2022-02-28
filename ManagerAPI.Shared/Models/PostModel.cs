@@ -12,6 +12,6 @@ namespace ManagerAPI.Shared.Models
         /// </summary>
         [Required(ErrorMessage = "Field is required")]
         [MaxLength(512, ErrorMessage = "Max length is 512")]
-        public string Content { get; set; }
+        public string Content { get; set; } = string.Empty;
     }
 }

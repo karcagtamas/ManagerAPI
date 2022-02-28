@@ -44,6 +44,6 @@ namespace EventManager.Client.Services.Interfaces
         /// Get friend data by Id
         /// </summary>
         /// <param name="friendId">Friend Idd</param>
-        Task<FriendDataDto> GetFriendData(string friendId);
+        Task<FriendDataDto?> GetFriendData(string friendId);
     }
 }

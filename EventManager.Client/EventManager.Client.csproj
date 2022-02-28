@@ -12,11 +12,11 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-		<DocumentationFile>bin\Debug\net5.0\EventManager.Client.xml</DocumentationFile>
+		<DocumentationFile>bin\Debug\net6.0\EventManager.Client.xml</DocumentationFile>
 	</PropertyGroup>
 
 	<PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-		<DocumentationFile>bin\Release\net5.0\EventManager.Client.xml</DocumentationFile>
+		<DocumentationFile>bin\Release\net6.0\EventManager.Client.xml</DocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -39,7 +39,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Blazored.LocalStorage" Version="4.2.0" />
-		<PackageReference Include="KarcagS.Blazor.Common" Version="2.0.0" />
+		<PackageReference Include="KarcagS.Blazor.Common" Version="2.0.1" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.Web.Extensions" Version="5.0.0-preview9.20513.1" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.2" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.2" PrivateAssets="all" />

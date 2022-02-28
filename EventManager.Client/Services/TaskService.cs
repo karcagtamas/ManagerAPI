@@ -1,15 +1,12 @@
-﻿using EventManager.Client.Http;
-using EventManager.Client.Models;
+﻿using EventManager.Client.Models;
 using EventManager.Client.Services.Interfaces;
+using KarcagS.Blazor.Common.Http;
 using ManagerAPI.Shared.DTOs;
-using ManagerAPI.Shared.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace EventManager.Client.Services
 {
-    /// <inheritdoc />
-    public class TaskService : HttpCall<TaskListDto, TaskDto, TaskModel>, ITaskService
+    /// <inheritdoc cref="EventManager.Client.Services.Interfaces.ITaskService" />
+    public class TaskService : HttpCall<int>, ITaskService
     {
         private readonly IHelperService _helperService;
 
@@ -34,9 +31,9 @@ namespace EventManager.Client.Services
                 queryParams.Add<bool>("isSolved", (bool)isSolved);
             }
 
-            var settings = new HttpSettings($"{this.Url}/date", queryParams, null);
+            var settings = new HttpSettings(Http.BuildUrl(this.Url, "date")).AddQueryParams(queryParams);
 
-            return await this.Http.Get<List<TaskDateDto>>(settings);
+            return await this.Http.Get<List<TaskDateDto>>(settings).ExecuteWithResult() ?? new List<TaskDateDto>();
         }
     }
 }

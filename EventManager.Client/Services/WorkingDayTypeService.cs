@@ -1,13 +1,11 @@
-﻿using EventManager.Client.Http;
-using EventManager.Client.Models;
+﻿using EventManager.Client.Models;
 using EventManager.Client.Services.Interfaces;
-using ManagerAPI.Shared.DTOs.WM;
-using ManagerAPI.Shared.Models.WM;
+using KarcagS.Blazor.Common.Http;
 
 namespace EventManager.Client.Services
 {
-    /// <inheritdoc />
-    public class WorkingDayTypeService : HttpCall<WorkingDayTypeListDto, WorkingDayTypeDto, WorkingDayTypeModel>, IWorkingDayTypeService
+    /// <inheritdoc cref="EventManager.Client.Services.Interfaces.IWorkingDayTypeService" />
+    public class WorkingDayTypeService : HttpCall<int>, IWorkingDayTypeService
     {
         /// <summary>
         /// Init Working day Type Service

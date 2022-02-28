@@ -1,15 +1,13 @@
-using EventManager.Client.Http;
+using KarcagS.Blazor.Common.Http;
 using ManagerAPI.Shared.DTOs;
 using ManagerAPI.Shared.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace EventManager.Client.Services.Interfaces
 {
     /// <summary>
     /// Message Service
     /// </summary>
-    public interface IMessageService : IHttpCall<MessageListDto, MessageDto, MessageModel>
+    public interface IMessageService : IHttpCall<int>
     {
         /// <summary>
         /// Get messages

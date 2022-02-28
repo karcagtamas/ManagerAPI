@@ -1,15 +1,12 @@
-﻿using EventManager.Client.Http;
+﻿using KarcagS.Blazor.Common.Http;
 using ManagerAPI.Shared.DTOs.SL;
-using ManagerAPI.Shared.Models.SL;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace EventManager.Client.Services.Interfaces
 {
     /// <summary>
     /// Movie Category Service
     /// </summary>
-    public interface IMovieCategoryService : IHttpCall<MovieCategoryDto, MovieCategoryDto, MovieCategoryModel>
+    public interface IMovieCategoryService : IHttpCall<int>
     {
         /// <summary>
         /// Get selector list by Movie

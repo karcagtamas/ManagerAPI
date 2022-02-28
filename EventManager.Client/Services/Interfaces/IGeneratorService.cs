@@ -17,7 +17,7 @@ namespace EventManager.Client.Services.Interfaces
         /// </summary>
         /// <param name="settings">Generator settings</param>
         /// <returns>Modified settings</returns>
-        Task<GeneratorSettings> GenerateSimple(GeneratorSettings settings);
+        Task<GeneratorSettings?> GenerateSimple(GeneratorSettings settings);
 
         /// <summary>
         /// Create csomor
@@ -44,7 +44,7 @@ namespace EventManager.Client.Services.Interfaces
         /// </summary>
         /// <param name="id">Csomor Id</param>
         /// <returns>Settings</returns>
-        Task<GeneratorSettings> Get(int id);
+        Task<GeneratorSettings?> Get(int id);
 
         /// <summary>
         /// Get public list

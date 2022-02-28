@@ -1,15 +1,13 @@
-using EventManager.Client.Http;
+using KarcagS.Blazor.Common.Http;
 using ManagerAPI.Shared.DTOs.SL;
 using ManagerAPI.Shared.Models.SL;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace EventManager.Client.Services.Interfaces
 {
     /// <summary>
     /// Movie Service
     /// </summary>
-    public interface IMovieService : IHttpCall<MovieListDto, MovieDto, MovieModel>
+    public interface IMovieService : IHttpCall<int>
     {
         /// <summary>
         /// Get My list

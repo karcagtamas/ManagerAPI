@@ -17,14 +17,14 @@ namespace CsomorGenerator.Services.Interfaces
         /// </summary>
         /// <param name="settings">Source settings</param>
         /// <return>Modified settings</return>
-        GeneratorSettings Generate(GeneratorSettings settings);
+        GeneratorSettings? Generate(GeneratorSettings settings);
 
         /// <summary>
         /// Generate simple solution
         /// </summary>
         /// <param name="settings">Source settings</param>
         /// <return>Modified settings</return>
-        GeneratorSettings GenerateSimple(GeneratorSettings settings);
+        GeneratorSettings? GenerateSimple(GeneratorSettings settings);
 
         /// <summary>
         /// Create Csomor

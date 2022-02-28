@@ -18,7 +18,7 @@ namespace EventManager.Client.Pages.WM
         [Parameter] public DateTime Week { get; set; }
         [Inject] private NavigationManager NavigationManager { get; set; }
         [Inject] private IWorkingFieldService FieldService { get; set; }
-        private WorkingWeekStatDto WeekStat { get; set; }
+        private WorkingWeekStatDto? WeekStat { get; set; }
         private bool IsLoading { get; set; } = false;
 
         /// <inheritdoc />

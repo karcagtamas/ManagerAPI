@@ -1,15 +1,13 @@
-using EventManager.Client.Http;
+using KarcagS.Blazor.Common.Http;
 using ManagerAPI.Shared.DTOs.SL;
 using ManagerAPI.Shared.Models.SL;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace EventManager.Client.Services.Interfaces
 {
     /// <summary>
     /// Episode Service
     /// </summary>
-    public interface IEpisodeService : IHttpCall<EpisodeListDto, EpisodeDto, EpisodeModel>
+    public interface IEpisodeService : IHttpCall<int>
     {
         /// <summary>
         /// Update seen statues
@@ -35,7 +33,7 @@ namespace EventManager.Client.Services.Interfaces
         /// </summary>
         /// <param name="id">Episode Id</param>
         /// <returns>My Episode</returns>
-        Task<MyEpisodeDto> GetMy(int id);
+        Task<MyEpisodeDto?> GetMy(int id);
 
         /// <summary>
         /// short update for episode

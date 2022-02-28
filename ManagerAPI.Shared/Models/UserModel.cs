@@ -35,34 +35,34 @@ namespace ManagerAPI.Shared.Models
         /// </summary>
 
         [EmailAddress(ErrorMessage = "Must be valid E-mail")]
-        public string SecondaryEmail { get; set; }
+        public string? SecondaryEmail { get; set; }
 
         /// <summary>
         /// Phone Number
         /// </summary>
 
         [Phone(ErrorMessage = "Must be valid Phone Number")]
-        public string PhoneNumber { get; set; }
+        public string? PhoneNumber { get; set; }
 
         /// <summary>
         /// T-Shirt size
         /// </summary>
 
         [MaxLength(6, ErrorMessage = "Maximum length is 6")]
-        public string TShirtSize { get; set; }
+        public string? TShirtSize { get; set; }
 
         /// <summary>
         /// Allergy
         /// </summary>
 
-        public string Allergy { get; set; }
+        public string? Allergy { get; set; }
 
         /// <summary>
         /// Group
         /// </summary>
 
         [MaxLength(40, ErrorMessage = "Maximum length is 40")]
-        public string Group { get; set; }
+        public string? Group { get; set; }
 
         /// <summary>
         /// Birthy Day
@@ -75,7 +75,7 @@ namespace ManagerAPI.Shared.Models
         /// </summary>
 
         [MaxLength(120, ErrorMessage = "Maximum length is 120")]
-        public string Country { get; set; }
+        public string? Country { get; set; }
 
         /// <summary>
         /// Gender
@@ -88,18 +88,23 @@ namespace ManagerAPI.Shared.Models
         /// </summary>
 
         [MaxLength(120, ErrorMessage = "Maximum length is 120")]
-        public string City { get; set; }
+        public string? City { get; set; }
 
         /// <summary>
         /// Empty init
         /// </summary>
-        public UserModel() { }
+        public UserModel()
+        {
+            Id = string.Empty;
+            FullName = string.Empty;
+            Email = string.Empty;
+        }
 
         /// <summary>
         /// Model from user data object
         /// </summary>
         /// <param name="user">User</param>
-        public UserModel(UserDto user)
+        public UserModel(UserDto? user)
         {
             this.Id = user.Id;
             this.FullName = user.FullName;

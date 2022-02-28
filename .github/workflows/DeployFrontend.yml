@@ -30,8 +30,8 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
           passphrase: ${{ secrets.PASS }}
-          source: 'EventManager.Client/bin/Release/net5.0/publish/*'
-          target: '/var/www/eventmanager/'
+          source: "EventManager.Client/bin/Release/net6.0/publish/*"
+          target: "/var/www/eventmanager/"
       - name: Fix copy
         uses: appleboy/ssh-action@master
         with:
@@ -39,4 +39,4 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
           passphrase: ${{ secrets.PASS }}
-          script: cp -R /var/www/eventmanager/EventManager.Client/bin/Release/net5.0/publish/* /var/www/eventmanager/ && rm -Rf /var/www/eventmanager/EventManager.Client
+          script: cp -R /var/www/eventmanager/EventManager.Client/bin/Release/net6.0/publish/* /var/www/eventmanager/ && rm -Rf /var/www/eventmanager/EventManager.Client

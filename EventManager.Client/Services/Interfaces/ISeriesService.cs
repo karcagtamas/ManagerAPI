@@ -1,15 +1,13 @@
-using EventManager.Client.Http;
+using KarcagS.Blazor.Common.Http;
 using ManagerAPI.Shared.DTOs.SL;
 using ManagerAPI.Shared.Models.SL;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace EventManager.Client.Services.Interfaces
 {
     /// <summary>
     /// Series Service
     /// </summary>
-    public interface ISeriesService : IHttpCall<SeriesListDto, SeriesDto, SeriesModel>
+    public interface ISeriesService : IHttpCall<int>
     {
         /// <summary>
         /// Get my list

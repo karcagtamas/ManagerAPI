@@ -1,16 +1,13 @@
-﻿using EventManager.Client.Http;
-using EventManager.Client.Models;
+﻿using EventManager.Client.Models;
 using EventManager.Client.Services.Interfaces;
+using KarcagS.Blazor.Common.Http;
 using ManagerAPI.Shared.DTOs.WM;
 using ManagerAPI.Shared.Helpers;
-using ManagerAPI.Shared.Models.WM;
-using System;
-using System.Threading.Tasks;
 
 namespace EventManager.Client.Services
 {
-    /// <inheritdoc />
-    public class WorkingFieldService : HttpCall<WorkingFieldListDto, WorkingFieldDto, WorkingFieldModel>, IWorkingFieldService
+    /// <inheritdoc cref="EventManager.Client.Services.Interfaces.IWorkingFieldService" />
+    public class WorkingFieldService : HttpCall<int>, IWorkingFieldService
     {
         /// <summary>
         /// Init Working field Service
@@ -21,26 +18,26 @@ namespace EventManager.Client.Services
         }
 
         /// <inheritdoc />
-        public async Task<WorkingWeekStatDto> GetWeekStat(DateTime week)
+        public async Task<WorkingWeekStatDto?> GetWeekStat(DateTime week)
         {
             var pathParams = new HttpPathParameters();
-            pathParams.Add<string>(DateHelper.DateToNumberDayString(week), -1);
+            pathParams.Add(DateHelper.DateToNumberDayString(week));
 
-            var settings = new HttpSettings($"{this.Url}/week-stat", null, pathParams);
+            var settings = new HttpSettings(Http.BuildUrl(this.Url, "week-stat")).AddPathParams(pathParams);
 
-            return await this.Http.Get<WorkingWeekStatDto>(settings);
+            return await this.Http.Get<WorkingWeekStatDto>(settings).ExecuteWithResult();
         }
 
         /// <inheritdoc />
-        public async Task<WorkingMonthStatDto> GetMonthStat(int year, int month)
+        public async Task<WorkingMonthStatDto?> GetMonthStat(int year, int month)
         {
             var pathParams = new HttpPathParameters();
-            pathParams.Add<int>(year, -1);
-            pathParams.Add<int>(month, -1);
+            pathParams.Add(year);
+            pathParams.Add(month);
 
-            var settings = new HttpSettings($"{this.Url}/month-stat", null, pathParams);
+            var settings = new HttpSettings(Http.BuildUrl(this.Url, "month-stat")).AddPathParams(pathParams);
 
-            return await this.Http.Get<WorkingMonthStatDto>(settings);
+            return await this.Http.Get<WorkingMonthStatDto>(settings).ExecuteWithResult();
         }
     }
 }

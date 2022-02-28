@@ -23,7 +23,7 @@ namespace EventManager.Client.Pages.SL
         /// Episode Id
         /// </summary>
         [Parameter] public int Id { get; set; }
-        private MyEpisodeDto Episode { get; set; }
+        private MyEpisodeDto? Episode { get; set; }
         [Inject] private IEpisodeService EpisodeService { get; set; }
         [Inject] private NavigationManager Navigation { get; set; }
         [Inject] private IDialogService DialogService { get; set; }

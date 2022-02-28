@@ -1,15 +1,13 @@
-using EventManager.Client.Http;
 using EventManager.Client.Models;
 using EventManager.Client.Services.Interfaces;
+using KarcagS.Blazor.Common.Http;
 using ManagerAPI.Shared.DTOs.SL;
 using ManagerAPI.Shared.Models.SL;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace EventManager.Client.Services
 {
-    /// <inheritdoc />
-    public class EpisodeService : HttpCall<EpisodeListDto, EpisodeDto, EpisodeModel>, IEpisodeService
+    /// <inheritdoc cref="EventManager.Client.Services.Interfaces.IEpisodeService" />
+    public class EpisodeService : HttpCall<int>, IEpisodeService
     {
 
         /// <summary>
@@ -23,11 +21,11 @@ namespace EventManager.Client.Services
         /// <inheritdoc />
         public async Task<bool> UpdateSeenStatus(List<EpisodeSeenStatusModel> models)
         {
-            var settings = new HttpSettings($"{this.Url}/map/status", null, null, "My Episode seen status updating");
+            var settings = new HttpSettings(Http.BuildUrl(this.Url, "map", "status")).AddToaster("My Episode seen status updating");
 
             var body = new HttpBody<List<EpisodeSeenStatusModel>>(models);
 
-            return await this.Http.Update(settings, body);
+            return await this.Http.Post(settings, body).Execute();
         }
 
         /// <inheritdoc />
@@ -39,59 +37,59 @@ namespace EventManager.Client.Services
             var queryParams = new HttpQueryParameters();
             queryParams.Add("count", count);
 
-            var settings = new HttpSettings($"{this.Url}", queryParams, pathParams, "Episode adding");
+            var settings = new HttpSettings($"{this.Url}").AddPathParams(pathParams).AddQueryParams(queryParams).AddToaster("Episode adding");
 
-            var body = new HttpBody<object>(null);
+            var body = new HttpBody<object?>(null);
 
-            return await this.Http.Create(settings, body);
+            return await this.Http.Post(settings, body).Execute();
         }
 
         /// <inheritdoc />
         public async Task<bool> DeleteDecremented(int episodeId)
         {
             var pathParams = new HttpPathParameters();
-            pathParams.Add<int>(episodeId, -1);
+            pathParams.Add(episodeId);
 
-            var settings = new HttpSettings($"{this.Url}/decremented", null, pathParams, "Episode deleting");
+            var settings = new HttpSettings(Http.BuildUrl(this.Url, "decremented")).AddPathParams(pathParams).AddToaster("Episode deleting");
 
-            return await this.Http.Delete(settings);
+            return await this.Http.Delete(settings).Execute();
         }
 
         /// <inheritdoc />
-        public async Task<MyEpisodeDto> GetMy(int id)
+        public async Task<MyEpisodeDto?> GetMy(int id)
         {
             var pathParams = new HttpPathParameters();
-            pathParams.Add<int>(id, -1);
+            pathParams.Add(id);
 
-            var settings = new HttpSettings($"{this.Url}/my", null, pathParams);
+            var settings = new HttpSettings(Http.BuildUrl(this.Url, "my")).AddPathParams(pathParams);
 
-            return await this.Http.Get<MyEpisodeDto>(settings);
+            return await this.Http.Get<MyEpisodeDto>(settings).ExecuteWithResult();
         }
 
         /// <inheritdoc />
         public async Task<bool> UpdateShort(int id, EpisodeShortModel model)
         {
             var pathParams = new HttpPathParameters();
-            pathParams.Add<int>(id, -1);
+            pathParams.Add(id);
 
-            var settings = new HttpSettings($"{this.Url}/short", null, pathParams, "Episode updating");
+            var settings = new HttpSettings(Http.BuildUrl(this.Url, "short")).AddPathParams(pathParams).AddToaster("Episode updating");
 
             var body = new HttpBody<EpisodeShortModel>(model);
 
-            return await this.Http.Update<EpisodeShortModel>(settings, body);
+            return await this.Http.Put(settings, body).Execute();
         }
 
         /// <inheritdoc />
         public async Task<bool> UpdateImage(int id, EpisodeImageModel model)
         {
             var pathParams = new HttpPathParameters();
-            pathParams.Add<int>(id, -1);
+            pathParams.Add(id);
 
-            var settings = new HttpSettings($"{this.Url}/image", null, pathParams, "Episode image updating");
+            var settings = new HttpSettings(Http.BuildUrl(this.Url, "image")).AddPathParams(pathParams).AddToaster("Episode image updating");
 
             var body = new HttpBody<EpisodeImageModel>(model);
 
-            return await this.Http.Update<EpisodeImageModel>(settings, body);
+            return await this.Http.Put(settings, body).Execute();
         }
     }
 }

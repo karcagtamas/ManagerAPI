@@ -1,5 +1,4 @@
 ﻿using ManagerAPI.Shared.Models.CSM;
-using System;
 
 namespace ManagerAPI.Shared.DTOs.CSM
 {
@@ -26,12 +25,15 @@ namespace ManagerAPI.Shared.DTOs.CSM
         /// <summary>
         /// Work Id
         /// </summary>
-        public string WorkId { get; set; }
+        public string? WorkId { get; set; }
 
         /// <summary>
         /// Init Person Table
         /// </summary>
-        public PersonTable() { }
+        public PersonTable()
+        {
+            Id = string.Empty;
+        }
 
         /// <summary>
         /// Init Person Table

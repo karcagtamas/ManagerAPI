@@ -34,7 +34,7 @@ namespace ManagerAPI.Domain.Entities.CSM
         /// <summary>
         /// Work
         /// </summary>
-        public string WorkId { get; set; } = string.Empty;
+        public string? WorkId { get; set; } = string.Empty;
 
         /// <summary>
         /// Person
@@ -44,6 +44,6 @@ namespace ManagerAPI.Domain.Entities.CSM
         /// <summary>
         /// Work
         /// </summary>
-        public virtual CsomorWork Work { get; set; } = default!;
+        public virtual CsomorWork? Work { get; set; } = default!;
     }
 }

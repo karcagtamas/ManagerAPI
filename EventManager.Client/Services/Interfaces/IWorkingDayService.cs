@@ -1,15 +1,12 @@
-﻿using EventManager.Client.Http;
+﻿using KarcagS.Blazor.Common.Http;
 using ManagerAPI.Shared.DTOs.WM;
-using ManagerAPI.Shared.Models.WM;
-using System;
-using System.Threading.Tasks;
 
 namespace EventManager.Client.Services.Interfaces
 {
     /// <summary>
     /// Working day Service
     /// </summary>
-    public interface IWorkingDayService : IHttpCall<WorkingDayListDto, WorkingDayDto, WorkingDayModel>
+    public interface IWorkingDayService : IHttpCall<int>
     {
         /// <summary>
         /// Get by day
@@ -23,6 +20,6 @@ namespace EventManager.Client.Services.Interfaces
         /// </summary>
         /// <param name="id">Working day Id</param>
         /// <returns>Statistic</returns>
-        Task<WorkingDayStatDto> Stat(int id);
+        Task<WorkingDayStatDto?> Stat(int id);
     }
 }

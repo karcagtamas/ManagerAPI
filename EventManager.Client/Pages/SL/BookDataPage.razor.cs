@@ -20,7 +20,7 @@ namespace EventManager.Client.Pages.SL
         /// Book Id
         /// </summary>
         [Parameter] public int Id { get; set; }
-        private MyBookDto Book { get; set; }
+        private MyBookDto? Book { get; set; }
         [Inject] private IBookService BookService { get; set; }
         [Inject] private NavigationManager Navigation { get; set; }
         [Inject] private IDialogService DialogService { get; set; }

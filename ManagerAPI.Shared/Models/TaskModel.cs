@@ -1,5 +1,4 @@
 ﻿using ManagerAPI.Shared.DTOs;
-using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace ManagerAPI.Shared.Models
@@ -40,6 +39,8 @@ namespace ManagerAPI.Shared.Models
         /// </summary>
         public TaskModel()
         {
+            this.Title = string.Empty;
+            this.Description = string.Empty;
         }
 
         /// <summary>

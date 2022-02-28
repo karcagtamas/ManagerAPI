@@ -1,16 +1,12 @@
 using Blazored.LocalStorage;
-using EventManager.Client.Http;
 using EventManager.Client.Models;
 using EventManager.Client.Services;
 using EventManager.Client.Services.Interfaces;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Microsoft.Extensions.DependencyInjection;
 using MudBlazor;
 using MudBlazor.Services;
-using System;
-using System.Net.Http;
-using System.Threading.Tasks;
+using KarcagS.Blazor.Common.Http;
 
 namespace EventManager.Client
 {

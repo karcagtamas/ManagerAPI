@@ -1,16 +1,13 @@
-﻿using EventManager.Client.Http;
-using EventManager.Client.Models;
+﻿using EventManager.Client.Models;
 using EventManager.Client.Services.Interfaces;
+using KarcagS.Blazor.Common.Http;
 using ManagerAPI.Shared.DTOs.WM;
 using ManagerAPI.Shared.Helpers;
-using ManagerAPI.Shared.Models.WM;
-using System;
-using System.Threading.Tasks;
 
 namespace EventManager.Client.Services
 {
-    /// <inheritdoc />
-    public class WorkingDayService : HttpCall<WorkingDayListDto, WorkingDayDto, WorkingDayModel>, IWorkingDayService
+    /// <inheritdoc cref="EventManager.Client.Services.Interfaces.IWorkingDayService" />
+    public class WorkingDayService : HttpCall<int>, IWorkingDayService
     {
         /// <summary>
         /// Init Working day Service
@@ -24,23 +21,23 @@ namespace EventManager.Client.Services
         public async Task<WorkingDayListDto> Get(DateTime day)
         {
             var pathParams = new HttpPathParameters();
-            pathParams.Add<string>(DateHelper.DateToNumberDayString(day), -1);
+            pathParams.Add(DateHelper.DateToNumberDayString(day));
 
-            var settings = new HttpSettings($"{this.Url}/day", null, pathParams);
+            var settings = new HttpSettings(Http.BuildUrl(this.Url, "day")).AddPathParams(pathParams);
 
-            return await this.Http.Get<WorkingDayListDto>(settings);
+            return await this.Http.Get<WorkingDayListDto>(settings).ExecuteWithResult() ?? new WorkingDayListDto();
         }
 
         /// <inheritdoc />
-        public async Task<WorkingDayStatDto> Stat(int id)
+        public async Task<WorkingDayStatDto?> Stat(int id)
         {
             var pathParams = new HttpPathParameters();
-            pathParams.Add<int>(id, -1);
-            pathParams.Add<string>("stat", -1);
+            pathParams.Add(id);
+            pathParams.Add<string>("stat");
 
-            var settings = new HttpSettings($"{this.Url}", null, pathParams);
+            var settings = new HttpSettings(this.Url).AddPathParams(pathParams);
 
-            return await this.Http.Get<WorkingDayStatDto>(settings);
+            return await this.Http.Get<WorkingDayStatDto>(settings).ExecuteWithResult();
         }
     }
 }

@@ -13,13 +13,13 @@ namespace EventManager.Client.Services.Interfaces
         /// Get current user
         /// </summary>
         /// <returns>User</returns>
-        Task<UserDto> GetUser();
+        Task<UserDto?> GetUser();
 
         /// <summary>
         /// Get short object of current user
         /// </summary>
         /// <returns>User</returns>
-        Task<UserShortDto> GetShortUser();
+        Task<UserShortDto?> GetShortUser();
 
         /// <summary>
         /// Update user

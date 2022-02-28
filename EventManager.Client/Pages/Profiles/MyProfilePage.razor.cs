@@ -32,7 +32,7 @@ namespace EventManager.Client.Pages.Profiles
 
         [Inject] private IDialogService DialogService { get; set; }
 
-        private UserDto User { get; set; }
+        private UserDto? User { get; set; }
         private UserModel UserUpdate { get; set; }
         private List<GenderListDto> Genders { get; set; }
 

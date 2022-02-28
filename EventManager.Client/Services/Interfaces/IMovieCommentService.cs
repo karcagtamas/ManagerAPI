@@ -1,15 +1,12 @@
-﻿using EventManager.Client.Http;
+﻿using KarcagS.Blazor.Common.Http;
 using ManagerAPI.Shared.DTOs.SL;
-using ManagerAPI.Shared.Models.SL;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace EventManager.Client.Services.Interfaces
 {
     /// <summary>
     /// Movie Comment Service
     /// </summary>
-    public interface IMovieCommentService : IHttpCall<MovieCommentListDto, MovieCommentDto, MovieCommentModel>
+    public interface IMovieCommentService : IHttpCall<int>
     {
         /// <summary>
         /// Get list of comments by movie

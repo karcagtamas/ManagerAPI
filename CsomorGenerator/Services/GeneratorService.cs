@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using CsomorGenerator.Services.Interfaces;
 using KarcagS.Common.Tools.Export;
-using KarcagS.Common.Tools.Export.Excel;
 using KarcagS.Common.Tools.HttpInterceptor;
 using KarcagS.Common.Tools.Services;
 using ManagerAPI.DataAccess;
@@ -46,13 +45,13 @@ namespace CsomorGenerator.Services
         }
 
         /// <inheritdoc />
-        public GeneratorSettings Generate(GeneratorSettings settings)
+        public GeneratorSettings? Generate(GeneratorSettings settings)
         {
             return new Generator(settings).Build();
         }
 
         /// <inheritdoc />
-        public GeneratorSettings GenerateSimple(GeneratorSettings settings)
+        public GeneratorSettings? GenerateSimple(GeneratorSettings settings)
         {
             return Generate(settings);
         }
@@ -96,7 +95,7 @@ namespace CsomorGenerator.Services
                 });
 
             });
-            
+
             // Eliminate works from persons
             csomor.Persons.ToList().ForEach(x =>
             {
@@ -120,7 +119,7 @@ namespace CsomorGenerator.Services
             {
                 this._context.CsomorPersonTables.RemoveRange(x.Tables);
                 this._context.CsomorPersons.Remove(x);
-                
+
             });
             this._context.SaveChanges();
 
@@ -194,7 +193,7 @@ namespace CsomorGenerator.Services
             }
             catch (Exception)
             {
-                
+
             }
 
             return list;
@@ -292,7 +291,7 @@ namespace CsomorGenerator.Services
         /// <inheritdoc />
         public CsomorRole GetRoleForCsomor(int id)
         {
-            User user;
+            User? user;
 
             try
             {

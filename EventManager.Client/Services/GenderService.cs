@@ -1,13 +1,11 @@
-using EventManager.Client.Http;
 using EventManager.Client.Models;
 using EventManager.Client.Services.Interfaces;
-using ManagerAPI.Shared.DTOs;
-using ManagerAPI.Shared.Models;
+using KarcagS.Blazor.Common.Http;
 
 namespace EventManager.Client.Services
 {
-    /// <inheritdoc />
-    public class GenderService : HttpCall<GenderListDto, GenderDto, GenderModel>, IGenderService
+    /// <inheritdoc cref="EventManager.Client.Services.Interfaces.IGenderService" />
+    public class GenderService : HttpCall<int>, IGenderService
     {
         /// <summary>
         /// Init Gender Service

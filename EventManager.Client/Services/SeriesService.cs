@@ -1,15 +1,13 @@
-using EventManager.Client.Http;
 using EventManager.Client.Models;
 using EventManager.Client.Services.Interfaces;
+using KarcagS.Blazor.Common.Http;
 using ManagerAPI.Shared.DTOs.SL;
 using ManagerAPI.Shared.Models.SL;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace EventManager.Client.Services
 {
-    /// <inheritdoc />
-    public class SeriesService : HttpCall<SeriesListDto, SeriesDto, SeriesModel>, ISeriesService
+    /// <inheritdoc cref="EventManager.Client.Services.Interfaces.ISeriesService" />
+    public class SeriesService : HttpCall<int>, ISeriesService
     {
         /// <summary>
         /// Init Series Service
@@ -24,12 +22,12 @@ namespace EventManager.Client.Services
         public async Task<bool> AddSeriesToMySeries(int id)
         {
             var pathParams = new HttpPathParameters();
-            pathParams.Add<int>(id, -1);
-            var settings = new HttpSettings($"{this.Url}/map", null, pathParams, "Adding series to My Series");
+            pathParams.Add(id, -1);
+            var settings = new HttpSettings(this.Http.BuildUrl(this.Url, "map")).AddPathParams(pathParams).AddToaster("Adding series to My Series");
 
-            var body = new HttpBody<object>(null);
+            var body = new HttpBody<object?>(null);
 
-            return await this.Http.Create<object>(settings, body);
+            return await this.Http.Post(settings, body).Execute();
         }
 
         /// <inheritdoc />

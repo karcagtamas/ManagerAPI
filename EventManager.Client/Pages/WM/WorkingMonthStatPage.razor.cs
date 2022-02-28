@@ -28,7 +28,7 @@ namespace EventManager.Client.Pages.WM
         [Inject]
         private IWorkingFieldService FieldService { get; set; }
 
-        private WorkingMonthStatDto MonthStat { get; set; }
+        private WorkingMonthStatDto? MonthStat { get; set; }
         private bool IsLoading { get; set; }
 
         /// <inheritdoc />

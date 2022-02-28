@@ -1,15 +1,13 @@
-using EventManager.Client.Http;
 using EventManager.Client.Models;
 using EventManager.Client.Services.Interfaces;
+using KarcagS.Blazor.Common.Http;
 using ManagerAPI.Shared.DTOs;
 using ManagerAPI.Shared.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace EventManager.Client.Services
 {
-    /// <inheritdoc />
-    public class MessageService : HttpCall<MessageListDto, MessageDto, MessageModel>, IMessageService
+    /// <inheritdoc cref="EventManager.Client.Services.Interfaces.IMessageService" />
+    public class MessageService : HttpCall<int>, IMessageService
     {
         private readonly IHelperService _helperService;
 
@@ -30,19 +28,19 @@ namespace EventManager.Client.Services
             var pathParams = new HttpPathParameters();
             pathParams.Add<int>(friendId, -1);
 
-            var settings = new HttpSettings($"{this.Url}/friend", null, pathParams);
+            var settings = new HttpSettings(Http.BuildUrl(this.Url, "friend")).AddPathParams(pathParams);
 
-            return await this.Http.Get<List<MessageDto>>(settings);
+            return await this.Http.Get<List<MessageDto>>(settings).ExecuteWithResult() ?? new List<MessageDto>();
         }
 
         /// <inheritdoc />
         public async Task<bool> SendMessage(MessageModel model)
         {
-            var settings = new HttpSettings($"{this.Url}/send", null, null, "Message sending");
+            var settings = new HttpSettings(Http.BuildUrl(this.Url, "send")).AddToaster("Message sending");
 
             var body = new HttpBody<MessageModel>(model);
 
-            return await this.Http.Create<MessageModel>(settings, body);
+            return await this.Http.Post(settings, body).Execute();
         }
     }
 }

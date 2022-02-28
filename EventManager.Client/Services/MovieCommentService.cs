@@ -1,15 +1,12 @@
-﻿using EventManager.Client.Http;
-using EventManager.Client.Models;
+﻿using EventManager.Client.Models;
 using EventManager.Client.Services.Interfaces;
+using KarcagS.Blazor.Common.Http;
 using ManagerAPI.Shared.DTOs.SL;
-using ManagerAPI.Shared.Models.SL;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace EventManager.Client.Services
 {
-    /// <inheritdoc />
-    public class MovieCommentService : HttpCall<MovieCommentListDto, MovieCommentDto, MovieCommentModel>, IMovieCommentService
+    /// <inheritdoc cref="EventManager.Client.Services.Interfaces.IMovieCommentService" />
+    public class MovieCommentService : HttpCall<int>, IMovieCommentService
     {
         /// <summary>
         /// Init Movie Comment Service
@@ -23,11 +20,11 @@ namespace EventManager.Client.Services
         public async Task<List<MovieCommentListDto>> GetList(int movieId)
         {
             var pathParams = new HttpPathParameters();
-            pathParams.Add<int>(movieId, -1);
+            pathParams.Add(movieId);
 
-            var settings = new HttpSettings($"{this.Url}/movie", null, pathParams);
+            var settings = new HttpSettings($"{this.Url}/movie").AddPathParams(pathParams);
 
-            return await this.Http.Get<List<MovieCommentListDto>>(settings);
+            return await this.Http.Get<List<MovieCommentListDto>>(settings).ExecuteWithResult() ?? new List<MovieCommentListDto>();
         }
     }
 }

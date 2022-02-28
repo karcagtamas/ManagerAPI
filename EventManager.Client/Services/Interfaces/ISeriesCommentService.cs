@@ -1,15 +1,12 @@
-﻿using EventManager.Client.Http;
+﻿using KarcagS.Blazor.Common.Http;
 using ManagerAPI.Shared.DTOs.SL;
-using ManagerAPI.Shared.Models.SL;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace EventManager.Client.Services.Interfaces
 {
     /// <summary>
     /// Series Comment Service
     /// </summary>
-    public interface ISeriesCommentService : IHttpCall<SeriesCommentListDto, SeriesCommentDto, SeriesCommentModel>
+    public interface ISeriesCommentService : IHttpCall<int>
     {
         /// <summary>
         /// Get comments

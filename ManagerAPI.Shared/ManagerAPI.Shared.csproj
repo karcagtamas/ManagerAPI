@@ -10,11 +10,11 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-		<DocumentationFile>bin\Debug\net5.0\ManagerAPI.Shared.xml</DocumentationFile>
+		<DocumentationFile>bin\Debug\net6.0\ManagerAPI.Shared.xml</DocumentationFile>
 	</PropertyGroup>
 
 	<PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-		<DocumentationFile>bin\Release\net5.0\ManagerAPI.Shared.xml</DocumentationFile>
+		<DocumentationFile>bin\Release\net6.0\ManagerAPI.Shared.xml</DocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup>

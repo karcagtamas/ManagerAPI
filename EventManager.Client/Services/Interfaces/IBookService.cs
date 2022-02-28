@@ -1,15 +1,13 @@
-using EventManager.Client.Http;
+using KarcagS.Blazor.Common.Http;
 using ManagerAPI.Shared.DTOs.SL;
 using ManagerAPI.Shared.Models.SL;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace EventManager.Client.Services.Interfaces
 {
     /// <summary>
     /// Book Service
     /// </summary>
-    public interface IBookService : IHttpCall<BookListDto, BookDto, BookModel>
+    public interface IBookService : IHttpCall<int>
     {
         /// <summary>
         /// Get my list
@@ -22,7 +20,7 @@ namespace EventManager.Client.Services.Interfaces
         /// </summary>
         /// <param name="id">Book Id</param>
         /// <returns>Book</returns>
-        Task<MyBookDto> GetMy(int id);
+        Task<MyBookDto?> GetMy(int id);
 
         /// <summary>
         /// Update read statuses

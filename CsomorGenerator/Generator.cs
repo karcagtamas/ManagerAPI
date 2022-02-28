@@ -1,10 +1,7 @@
 ﻿using ManagerAPI.Shared.DTOs.CSM;
 using ManagerAPI.Shared.Models;
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Linq;
 
 namespace CsomorGenerator
 {
@@ -30,7 +27,7 @@ namespace CsomorGenerator
         /// Build table
         /// </summary>
         /// <returns>Fresh settings</returns>
-        public GeneratorSettings Build()
+        public GeneratorSettings? Build()
         {
             // Settings pre checking
             // If it is invalid, return null
@@ -95,7 +92,7 @@ namespace CsomorGenerator
             {
                 throw new MessageException("Invalid work Id");
             }
-            
+
             work.Tables.ForEach(table =>
             {
                 var doChange = false;
@@ -114,7 +111,7 @@ namespace CsomorGenerator
                         {
                             throw new MessageException("Need a valid person for the change");
                         }
-                        
+
                         var pastResult = GetPersonFromThePast(table.Date, person);
 
                         if (pastResult is not null)
@@ -138,7 +135,7 @@ namespace CsomorGenerator
                             prevPTable.WorkId = null;
                             pTable.WorkId = pastResult.Work.Id;
                         }
-                        
+
                         changeCounter++;
 
                         if (changeCounter > 50)
@@ -146,7 +143,7 @@ namespace CsomorGenerator
                             break;
                         }
                     }
-                
+
                     do
                     {
                         result = this.GenerateToDate(workId, table.Id);
@@ -184,7 +181,7 @@ namespace CsomorGenerator
             {
                 throw new MessageException("Invalid table Id");
             }
-            
+
             // Not need generate
             if (!table.IsActive)
             {
@@ -205,7 +202,7 @@ namespace CsomorGenerator
                     IsSuccess = false
                 };
             }
-            
+
             if (WorkerIsValid(person, table.Date, workId, this._settings.MaxWorkHour))
             {
                 table.PersonId = person.Id;
@@ -222,19 +219,20 @@ namespace CsomorGenerator
 
                 return new DateGenerateResult { TryAgain = false, IsSuccess = true };
             }
-            
+
             return new DateGenerateResult { TryAgain = true, IsSuccess = false };
         }
 
-        private SwitchResult GetPersonFromThePast(DateTime end, Person current)
+        private SwitchResult? GetPersonFromThePast(DateTime end, Person current)
         {
             var r = new Random();
             var dateList = GetValidDatesFromPast(current, end);
             Work work;
-            WorkTable table;
+            WorkTable? table;
             int count = 0;
 
-            do {
+            do
+            {
                 var workIndex = r.Next(this._settings.Works.Count);
                 var dateIndex = r.Next(dateList.Count);
 
@@ -250,7 +248,7 @@ namespace CsomorGenerator
                 {
                     continue;
                 }
-                
+
                 count++;
 
                 if (count >= 50)
@@ -259,11 +257,7 @@ namespace CsomorGenerator
                 }
             } while (!WorkerIsValid(current, table.Date, work.Id, this._settings.MaxWorkHour));
 
-            return new SwitchResult
-            {
-                Work = work,
-                Table = table
-            };
+            return new SwitchResult(work, table);
         }
 
         private List<DateTime> GetValidDatesFromPast(Person person, DateTime end)
@@ -279,7 +273,7 @@ namespace CsomorGenerator
         /// Filtered to active and available persons
         /// </summary>
         /// <returns>Randomized person</returns>
-        private Person GetValidRandomPerson()
+        private Person? GetValidRandomPerson()
         {
             var r = new Random();
             var validList = this._settings.Persons.Where(x => !x.IsIgnored && x.Hours != 0).ToList();
@@ -515,7 +509,13 @@ namespace CsomorGenerator
         class SwitchResult
         {
             public Work Work { get; set; }
-            public WorkTable Table {  get; set; }
+            public WorkTable Table { get; set; }
+
+            public SwitchResult(Work work, WorkTable workTable)
+            {
+                Work = work;
+                Table = workTable;
+            }
         }
 
         class DateGenerateResult

@@ -22,7 +22,7 @@ namespace EventManager.Client.Shared.Common
         [Inject]
         private INotificationService NotificationService { get; set; }
 
-        private UserShortDto User { get; set; }
+        private UserShortDto? User { get; set; }
         private int UnReadNotificationCount { get; set; }
 
         /// <inheritdoc />

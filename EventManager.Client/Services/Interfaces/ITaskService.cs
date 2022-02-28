@@ -1,15 +1,12 @@
-﻿using EventManager.Client.Http;
+﻿using KarcagS.Blazor.Common.Http;
 using ManagerAPI.Shared.DTOs;
-using ManagerAPI.Shared.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace EventManager.Client.Services.Interfaces
 {
     /// <summary>
     /// Task Service
     /// </summary>
-    public interface ITaskService : IHttpCall<TaskListDto, TaskDto, TaskModel>
+    public interface ITaskService : IHttpCall<int>
     {
         /// <summary>
         /// Get tasks by date
