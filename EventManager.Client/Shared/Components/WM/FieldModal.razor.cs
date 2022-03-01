@@ -35,7 +35,7 @@ public partial class FieldModal
     /// </summary>
     [Parameter]
     public int WorkingDayId { get; set; }
-    private WorkingFieldDto Field { get; set; }
+    private WorkingFieldDto? Field { get; set; }
 
     /// <inheritdoc />
     protected override async Task OnInitializedAsync()
@@ -51,12 +51,12 @@ public partial class FieldModal
 
         if (this.Id != 0)
         {
-            this.Field = await this.WorkingFieldService.Get(this.Id);
+            this.Field = await this.WorkingFieldService.Get<WorkingFieldDto>(this.Id);
             this.Model = new WorkingFieldModel
             {
-                Title = this.Field.Title,
-                Description = this.Field.Description,
-                Length = this.Field.Length
+                Title = this.Field?.Title ?? string.Empty,
+                Description = this.Field?.Description ?? string.Empty,
+                Length = this.Field?.Length ?? 0
             };
             this.IsEdit = true;
             this.Context = new EditContext(this.Model);
@@ -101,7 +101,7 @@ public partial class FieldModal
         }
         else
         {
-            if (await this.WorkingFieldService.CreateFromModel(this.Model))
+            if (await this.WorkingFieldService.Create(this.Model))
             {
                 Dialog.Close(DialogResult.Ok(true));
             }

@@ -29,7 +29,7 @@ namespace EventManager.Client.Shared.Components.SL
         private MovieModel Model { get; set; }
         private EditContext Context { get; set; }
         private bool IsEdit { get; set; }
-        private MovieDto Movie { get; set; }
+        private MovieDto? Movie { get; set; }
 
         /// <inheritdoc />
         protected override async Task OnInitializedAsync()
@@ -45,8 +45,8 @@ namespace EventManager.Client.Shared.Components.SL
 
             if (MovieId != null)
             {
-                this.Movie = await this.MovieService.Get((int)this.MovieId);
-                this.Model = new MovieModel(this.Movie);
+                this.Movie = await this.MovieService.Get<MovieDto>((int)this.MovieId);
+                this.Model = Movie is not null ? new MovieModel(this.Movie) : new MovieModel();
                 this.IsEdit = true;
                 this.Context = new EditContext(this.Model);
             }

@@ -27,7 +27,7 @@ namespace EventManager.Client.Shared.Components.Tasks
         private EditContext Context { get; set; }
         private TaskModel Model { get; set; }
         private bool IsEdit { get; set; }
-        private TaskDto Task { get; set; }
+        private TaskDto? Task { get; set; }
 
         /// <inheritdoc />
         protected override async Task OnInitializedAsync()
@@ -43,12 +43,12 @@ namespace EventManager.Client.Shared.Components.Tasks
             
             if (this.TaskId != null)
             {
-                this.Task = await this.TaskService.Get((int)TaskId);
+                this.Task = await this.TaskService.Get<TaskDto>((int)TaskId);
                 this.Model = new TaskModel
                 {
-                    Title = this.Task.Title,
-                    Description = this.Task.Description,
-                    Deadline = this.Task.Deadline
+                    Title = this.Task?.Title ?? string.Empty,
+                    Description = this.Task?.Description ?? string.Empty,
+                    Deadline = this.Task?.Deadline ?? DateTime.Now
                 };
                 this.IsEdit = true;
                 this.Context = new EditContext(this.Model);

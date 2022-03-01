@@ -1,6 +1,7 @@
 using EventManager.Client.Models;
 using EventManager.Client.Services.Interfaces;
 using KarcagS.Blazor.Common.Http;
+using KarcagS.Blazor.Common.Services;
 using ManagerAPI.Shared.DTOs;
 using ManagerAPI.Shared.Models;
 
@@ -9,17 +10,15 @@ namespace EventManager.Client.Services
     /// <inheritdoc cref="EventManager.Client.Services.Interfaces.IMessageService" />
     public class MessageService : HttpCall<int>, IMessageService
     {
-        private readonly IHelperService _helperService;
 
         /// <summary>
         /// Init Message Service
         /// </summary>
         /// <param name="httpService">HTTP Service</param>
-        /// <param name="helperService">Helper Service</param>
         /// <returns></returns>
-        public MessageService(IHttpService httpService, IHelperService helperService) : base(httpService, $"{ApplicationSettings.BaseApiUrl}/message", "Message")
+        public MessageService(IHttpService httpService) : base(httpService, $"{ApplicationSettings.BaseApiUrl}/message", "Message")
         {
-            this._helperService = helperService;
+            
         }
 
         /// <inheritdoc />

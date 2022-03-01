@@ -34,7 +34,6 @@
 
   "Jwt": {
     "Issuer": "karcags.hu",
-    "Key": "UniHelperSecretKey",
-    "JwtSecret": "0123456789012345678901Manager"
+    "Key": "0123456789012345678901Manager"
   }
 }

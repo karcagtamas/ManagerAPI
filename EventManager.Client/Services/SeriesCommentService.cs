@@ -1,15 +1,12 @@
-﻿using EventManager.Client.Http;
-using EventManager.Client.Models;
+﻿using EventManager.Client.Models;
 using EventManager.Client.Services.Interfaces;
+using KarcagS.Blazor.Common.Http;
 using ManagerAPI.Shared.DTOs.SL;
-using ManagerAPI.Shared.Models.SL;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace EventManager.Client.Services
 {
     /// <inheritdoc />
-    public class SeriesCommentService : HttpCall<SeriesCommentListDto, SeriesCommentDto, SeriesCommentModel>, ISeriesCommentService
+    public class SeriesCommentService : HttpCall<int>, ISeriesCommentService
     {
         /// <summary>
         /// Init Series Comment Service
@@ -20,14 +17,14 @@ namespace EventManager.Client.Services
         }
 
         /// <inheritdoc />
-        public async Task<List<SeriesCommentListDto>> GetList(int movieÍd)
+        public async Task<List<SeriesCommentListDto>> GetList(int seriesId)
         {
             var pathParams = new HttpPathParameters();
-            pathParams.Add<int>(movieÍd, -1);
+            pathParams.Add(seriesId);
 
-            var settings = new HttpSettings($"{this.Url}/series", null, pathParams);
+            var settings = new HttpSettings(Http.BuildUrl(Url, "series")).AddPathParams(pathParams);
 
-            return await this.Http.Get<List<SeriesCommentListDto>>(settings);
+            return await this.Http.Get<List<SeriesCommentListDto>>(settings).ExecuteWithResult() ?? new();
         }
     }
 }

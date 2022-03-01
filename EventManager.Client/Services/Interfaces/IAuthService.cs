@@ -28,6 +28,11 @@ namespace EventManager.Client.Services.Interfaces
         Task Logout();
 
         /// <summary>
+        /// Check user is not authorized
+        /// </summary>
+        void NotAuthorized();
+
+        /// <summary>
         /// User has a role from Input
         /// </summary>
         /// <params name="roles">Role list</params>
@@ -38,6 +43,6 @@ namespace EventManager.Client.Services.Interfaces
         /// User is logged in
         /// </summary>
         /// <returns>True if it is</returns>
-        Task<bool> IsLoggedIn();
+        bool IsLoggedIn();
     }
 }

@@ -1,15 +1,12 @@
-﻿using EventManager.Client.Http;
-using EventManager.Client.Models;
+﻿using EventManager.Client.Models;
 using EventManager.Client.Services.Interfaces;
+using KarcagS.Blazor.Common.Http;
 using ManagerAPI.Shared.DTOs.SL;
-using ManagerAPI.Shared.Models.SL;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace EventManager.Client.Services
 {
     /// <inheritdoc />
-    public class SeriesCategoryService : HttpCall<SeriesCategoryDto, SeriesCategoryDto, SeriesCategoryModel>, ISeriesCategoryService
+    public class SeriesCategoryService : HttpCall<int>, ISeriesCategoryService
     {
         /// <summary>
         /// Init Series Category Service
@@ -23,11 +20,11 @@ namespace EventManager.Client.Services
         public async Task<List<SeriesCategorySelectorListDto>> GetSelectorList(int movieId)
         {
             var pathParams = new HttpPathParameters();
-            pathParams.Add<int>(movieId, -1);
+            pathParams.Add(movieId);
 
-            var settings = new HttpSettings($"{this.Url}/selector", null, pathParams);
+            var settings = new HttpSettings(Http.BuildUrl(Url, "selector")).AddPathParams(pathParams);
 
-            return await this.Http.Get<List<SeriesCategorySelectorListDto>>(settings);
+            return await this.Http.Get<List<SeriesCategorySelectorListDto>>(settings).ExecuteWithResult() ?? new();
         }
     }
 }

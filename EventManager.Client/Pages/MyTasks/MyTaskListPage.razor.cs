@@ -50,7 +50,7 @@ namespace EventManager.Client.Pages.MyTasks
                 return;
             }
 
-            var taskData = await this.TaskService.Get(taskId);
+            var taskData = await this.TaskService.Get<TaskDto>(taskId);
             if (taskData == null)
             {
                 return;

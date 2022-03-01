@@ -20,7 +20,7 @@ namespace EventManager.Client.Services.Interfaces
         /// </summary>
         /// <param name="id">Series Id</param>
         /// <returns>My Series</returns>
-        Task<MySeriesDto> GetMy(int id);
+        Task<MySeriesDto?> GetMy(int id);
 
         /// <summary>
         /// Update my series

@@ -26,7 +26,7 @@ namespace EventManager.Client.Shared.Components.SL
         private EpisodeShortModel Model { get; set; }
         private EditContext Context { get; set; }
         private bool IsEdit { get; set; }
-        private EpisodeDto Episode { get; set; }
+        private EpisodeDto? Episode { get; set; }
 
         /// <inheritdoc />
         protected override async Task OnInitializedAsync()
@@ -40,8 +40,8 @@ namespace EventManager.Client.Shared.Components.SL
 
             if (this.EpisodeId != null)
             {
-                this.Episode = await this.EpisodeService.Get((int)this.EpisodeId);
-                this.Model = new EpisodeShortModel(this.Episode);
+                this.Episode = await this.EpisodeService.Get<EpisodeDto>((int)this.EpisodeId);
+                this.Model = Episode is not null ? new EpisodeShortModel(this.Episode) : new EpisodeShortModel();
                 this.IsEdit = true;
                 this.Context = new EditContext(this.Model);
             }

@@ -1,4 +1,5 @@
 ﻿using EventManager.Client.Services.Interfaces;
+using KarcagS.Blazor.Common.Services;
 using ManagerAPI.Shared.Helpers;
 using Microsoft.AspNetCore.Components;
 using System;

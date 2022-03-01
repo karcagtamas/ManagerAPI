@@ -30,7 +30,7 @@ namespace EventManager.Client.Shared.Components.SL
         private SeriesCategoryModel Model { get; set; }
         private EditContext Context { get; set; }
         private bool IsEdit { get; set; }
-        private SeriesCategoryDto SeriesCategory { get; set; }
+        private SeriesCategoryDto? SeriesCategory { get; set; }
 
         /// <inheritdoc />
         protected override async Task OnInitializedAsync()
@@ -44,8 +44,8 @@ namespace EventManager.Client.Shared.Components.SL
 
             if (SeriesCategoryId != null)
             {
-                this.SeriesCategory = await this.SeriesCategoryService.Get((int)this.SeriesCategoryId);
-                this.Model = new SeriesCategoryModel(this.SeriesCategory);
+                this.SeriesCategory = await this.SeriesCategoryService.Get<SeriesCategoryDto>((int)this.SeriesCategoryId);
+                this.Model = SeriesCategory is not null ? new SeriesCategoryModel(this.SeriesCategory) : new SeriesCategoryModel();
                 this.IsEdit = true;
                 this.Context = new EditContext(this.Model);
             }

@@ -48,7 +48,7 @@ namespace EventManager.Client.Pages.SL
         {
             this.IsLoading = true;
             this.StateHasChanged();
-            this.BookList = await this.BookService.GetAll("Name");
+            this.BookList = await this.BookService.GetAll<BookListDto>("Name");
             this.IsLoading = false;
             this.StateHasChanged();
         }

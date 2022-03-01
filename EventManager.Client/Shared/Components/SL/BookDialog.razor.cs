@@ -24,7 +24,7 @@ namespace EventManager.Client.Shared.Components.SL
         private BookModel Model { get; set; }
         private EditContext Context { get; set; }
         private bool IsEdit { get; set; }
-        private BookDto Book { get; set; }
+        private BookDto? Book { get; set; }
 
         /// <inheritdoc />
         protected override async Task OnInitializedAsync()
@@ -41,8 +41,8 @@ namespace EventManager.Client.Shared.Components.SL
 
             if (BookId != null)
             {
-                this.Book = await this.BookService.Get((int)BookId);
-                this.Model = new BookModel(this.Book);
+                this.Book = await this.BookService.Get<BookDto>((int)BookId);
+                this.Model = Book is not null ? new BookModel(this.Book) : new BookModel();
                 this.IsEdit = true;
                 this.Context = new EditContext(this.Model);
             }

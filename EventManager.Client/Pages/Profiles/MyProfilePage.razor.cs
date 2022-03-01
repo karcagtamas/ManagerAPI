@@ -1,5 +1,4 @@
 using EventManager.Client.Enums;
-using EventManager.Client.Models;
 using EventManager.Client.Services.Interfaces;
 using EventManager.Client.Shared.Common;
 using EventManager.Client.Shared.Components.MyProfile;
@@ -7,9 +6,6 @@ using ManagerAPI.Shared.DTOs;
 using ManagerAPI.Shared.Models;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace EventManager.Client.Pages.Profiles
 {
@@ -25,9 +21,6 @@ namespace EventManager.Client.Pages.Profiles
         private IAuthService AuthService { get; set; }
 
         [Inject]
-        private IHelperService HelperService { get; set; }
-
-        [Inject]
         private IGenderService GenderService { get; set; }
 
         [Inject] private IDialogService DialogService { get; set; }
@@ -35,11 +28,6 @@ namespace EventManager.Client.Pages.Profiles
         private UserDto? User { get; set; }
         private UserModel UserUpdate { get; set; }
         private List<GenderListDto> Genders { get; set; }
-
-        private bool ShowConfirmDialog { get; set; } = false;
-        private bool ShowChangePasswordDialog { get; set; } = false;
-        private bool ShowUploadProfileImageDialog { get; set; } = false;
-        private bool ShowChangeUsernameDialog { get; set; } = false;
         private string Image { get; set; }
         private string Roles { get; set; }
         private bool ProfileIsLoading { get; set; } = true;
@@ -68,7 +56,7 @@ namespace EventManager.Client.Pages.Profiles
 
         private async Task GetGenders()
         {
-            this.Genders = await this.GenderService.GetAll("Name");
+            this.Genders = await this.GenderService.GetAll<GenderListDto>("Name");
         }
 
         private async Task UpdateUser()

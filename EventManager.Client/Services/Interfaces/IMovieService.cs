@@ -19,7 +19,7 @@ namespace EventManager.Client.Services.Interfaces
         /// Get My Movie by Id
         /// </summary>
         /// <param name="id">Movie Id</param>
-        Task<MyMovieDto> GetMy(int id);
+        Task<MyMovieDto?> GetMy(int id);
 
         /// <summary>
         /// Update seen statues

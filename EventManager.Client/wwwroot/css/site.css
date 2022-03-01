@@ -13,7 +13,7 @@ body {
   display: flex;
 }
 
-app {
+#app {
   width: 100%;
 }
 

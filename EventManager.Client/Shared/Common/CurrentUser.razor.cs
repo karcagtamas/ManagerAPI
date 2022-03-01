@@ -1,7 +1,6 @@
 using EventManager.Client.Services.Interfaces;
 using ManagerAPI.Shared.DTOs;
 using Microsoft.AspNetCore.Components;
-using System.Threading.Tasks;
 
 namespace EventManager.Client.Shared.Common
 {
@@ -12,9 +11,6 @@ namespace EventManager.Client.Shared.Common
     {
         [Inject]
         private IUserService UserService { get; set; }
-
-        [Inject]
-        private IHelperService HelperService { get; set; }
 
         [Inject]
         private IAuthService AuthService { get; set; }

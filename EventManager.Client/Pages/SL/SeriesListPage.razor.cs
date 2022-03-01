@@ -46,7 +46,7 @@ namespace EventManager.Client.Pages.SL
         {
             this.IsLoading = true;
             this.StateHasChanged();
-            this.SeriesList = await this.SeriesService.GetAll("Title");
+            this.SeriesList = await this.SeriesService.GetAll<SeriesListDto>("Title");
             this.IsLoading = false;
             this.StateHasChanged();
         }

@@ -1,13 +1,11 @@
 ﻿using EventManager.Client.Services.Interfaces;
 using EventManager.Client.Shared.Components.WM;
+using KarcagS.Blazor.Common.Services;
 using ManagerAPI.Shared.DTOs.WM;
 using ManagerAPI.Shared.Helpers;
 using ManagerAPI.Shared.Models.WM;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace EventManager.Client.Pages.WM
 {
@@ -77,7 +75,7 @@ namespace EventManager.Client.Pages.WM
 
         private async Task GetWorkingDayTypes()
         {
-            this.WorkingDayTypes = await this.WorkingDayTypeService.GetAll("Title");
+            this.WorkingDayTypes = await this.WorkingDayTypeService.GetAll<WorkingDayTypeListDto>("Title");
         }
 
         private void Redirect(bool direction)

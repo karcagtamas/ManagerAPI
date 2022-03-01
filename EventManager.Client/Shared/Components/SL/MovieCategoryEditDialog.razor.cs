@@ -33,7 +33,7 @@ namespace EventManager.Client.Shared.Components.SL
         private MovieCategoryModel Model { get; set; }
         private EditContext Context { get; set; }
         private bool IsEdit { get; set; }
-        private MovieCategoryDto MovieCategory { get; set; }
+        private MovieCategoryDto? MovieCategory { get; set; }
 
         /// <inheritdoc />
         protected override async Task OnInitializedAsync()
@@ -47,8 +47,8 @@ namespace EventManager.Client.Shared.Components.SL
 
             if (MovieCategoryId != null)
             {
-                this.MovieCategory = await this.MovieCategoryService.Get((int)this.MovieCategoryId);
-                this.Model = new MovieCategoryModel(this.MovieCategory);
+                this.MovieCategory = await this.MovieCategoryService.Get<MovieCategoryDto>((int)this.MovieCategoryId);
+                this.Model = MovieCategory is not null ? new MovieCategoryModel(this.MovieCategory) : new MovieCategoryModel();
                 this.IsEdit = true;
                 this.Context = new EditContext(this.Model);
             }

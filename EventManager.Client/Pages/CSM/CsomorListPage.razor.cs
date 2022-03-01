@@ -28,7 +28,7 @@ namespace EventManager.Client.Pages.CSM
         /// <inheritdoc />
         protected override async Task OnInitializedAsync()
         {
-            this.IsLoggedIn = await this.Auth.IsLoggedIn();
+            this.IsLoggedIn = this.Auth.IsLoggedIn();
             await this.GetList();
         }
 

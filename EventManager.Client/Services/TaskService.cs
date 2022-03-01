@@ -8,17 +8,15 @@ namespace EventManager.Client.Services
     /// <inheritdoc cref="EventManager.Client.Services.Interfaces.ITaskService" />
     public class TaskService : HttpCall<int>, ITaskService
     {
-        private readonly IHelperService _helperService;
 
         /// <summary>
         /// Init Task Service
         /// </summary>
-        /// <param name="helperService"></param>
         /// <param name="httpService"></param>
         /// <returns></returns>
-        public TaskService(IHelperService helperService, IHttpService httpService) : base(httpService, $"{ApplicationSettings.BaseApiUrl}/task", "Task")
+        public TaskService(IHttpService httpService) : base(httpService, $"{ApplicationSettings.BaseApiUrl}/task", "Task")
         {
-            this._helperService = helperService;
+
         }
 
         /// <inheritdoc />

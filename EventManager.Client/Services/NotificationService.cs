@@ -1,9 +1,7 @@
-﻿using EventManager.Client.Http;
-using EventManager.Client.Models;
+﻿using EventManager.Client.Models;
 using EventManager.Client.Services.Interfaces;
+using KarcagS.Blazor.Common.Http;
 using ManagerAPI.Shared.DTOs;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace EventManager.Client.Services
 {
@@ -12,25 +10,22 @@ namespace EventManager.Client.Services
     {
         private readonly IHttpService _httpService;
         private readonly string _url = ApplicationSettings.BaseApiUrl + "/notification";
-        private readonly IHelperService _helperService;
 
         /// <summary>
         /// Init Notification Service
         /// </summary>
         /// <param name="httpService">HTTP Service</param>
-        /// <param name="helperService">Helper Service</param>
-        public NotificationService(IHttpService httpService, IHelperService helperService)
+        public NotificationService(IHttpService httpService)
         {
             this._httpService = httpService;
-            this._helperService = helperService;
         }
 
         /// <inheritdoc />
         public async Task<int?> GetCountOfUnReadNotifications()
         {
-            var settings = new HttpSettings($"{this._url}/unreads/count");
+            var settings = new HttpSettings(_httpService.BuildUrl(_url, "unreads", "count"));
 
-            return await this._httpService.GetInt(settings);
+            return await this._httpService.GetInt(settings).ExecuteWithResult();
         }
 
         /// <inheritdoc />
@@ -38,17 +33,17 @@ namespace EventManager.Client.Services
         {
             var settings = new HttpSettings($"{this._url}");
 
-            return await this._httpService.Get<List<NotificationDto>>(settings);
+            return await this._httpService.Get<List<NotificationDto>>(settings).ExecuteWithResult() ?? new();
         }
 
         /// <inheritdoc />
         public async Task<bool> SetUnReadsToRead(int[] ids)
         {
-            var settings = new HttpSettings($"{this._url}", null, null, "Notification refreshing");
+            var settings = new HttpSettings(this._url).AddToaster("Notification refreshing");
 
             var body = new HttpBody<int[]>(ids);
 
-            return await this._httpService.Update<int[]>(settings, body);
+            return await this._httpService.Put(settings, body).Execute();
         }
     }
 }

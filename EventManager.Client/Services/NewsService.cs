@@ -1,13 +1,11 @@
-using EventManager.Client.Http;
 using EventManager.Client.Models;
 using EventManager.Client.Services.Interfaces;
-using ManagerAPI.Shared.DTOs;
-using ManagerAPI.Shared.Models;
+using KarcagS.Blazor.Common.Http;
 
 namespace EventManager.Client.Services
 {
     /// <inheritdoc />
-    public class NewsService : HttpCall<NewsListDto, NewsDto, PostModel>, INewsService
+    public class NewsService : HttpCall<int>, INewsService
     {
         /// <summary>
         /// Init News Service

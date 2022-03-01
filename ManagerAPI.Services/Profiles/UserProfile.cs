@@ -21,6 +21,7 @@ namespace ManagerAPI.Services.Profiles
                     opt => opt.MapFrom(src => src.Gender == null ? null : (int?)src.Gender.Id))
                 .ForMember(dest => dest.LastLogin, opt => opt.MapFrom(src => src.LastLogin))
                 .ForMember(dest => dest.RegistrationDate, opt => opt.MapFrom(src => src.RegistrationDate));
+            CreateMap<User, UserTokenDTO>();
 
             this.CreateMap<UserModel, User>();
             this.CreateMap<User, UserShortDto>();

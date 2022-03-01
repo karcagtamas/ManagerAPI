@@ -42,7 +42,7 @@ namespace EventManager.Client.Pages.SL
         {
             this.IsLoading = true;
             this.StateHasChanged();
-            this.MovieCategoryList = await this.MovieCategoryService.GetAll("Name");
+            this.MovieCategoryList = await this.MovieCategoryService.GetAll<MovieCategoryDto>("Name");
             this.IsLoading = false;
             this.StateHasChanged();
         }

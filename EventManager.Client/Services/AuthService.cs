@@ -2,8 +2,11 @@ using Blazored.LocalStorage;
 using EventManager.Client.Models;
 using EventManager.Client.Services.Interfaces;
 using KarcagS.Blazor.Common.Http;
+using ManagerAPI.Shared.DTOs;
 using ManagerAPI.Shared.Models;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.WebUtilities;
 using System.Net.Http.Headers;
 using System.Security.Claims;
 
@@ -16,6 +19,8 @@ namespace EventManager.Client.Services
         private readonly HttpClient _httpClient;
         private readonly AuthenticationStateProvider _authenticationStateProvider;
         private readonly ILocalStorageService _localStorageService;
+        private readonly ITokenService tokenService;
+        private readonly NavigationManager navigationManager;
         private readonly string _url = ApplicationSettings.BaseApiUrl + "/auth";
 
         /// <summary>
@@ -26,12 +31,15 @@ namespace EventManager.Client.Services
         /// <params name="httpService">Auth state manager</params>
         /// <params name="httpService">Localstorage Service</params>
         /// <params name="httpService">Helper Service</params>
-        public AuthService(IHttpService httpService, HttpClient httpClient, AuthenticationStateProvider authenticationStateProvider, ILocalStorageService localStorageService)
+        public AuthService(IHttpService httpService, HttpClient httpClient, AuthenticationStateProvider authenticationStateProvider, ILocalStorageService localStorageService, ITokenService tokenService, NavigationManager navigationManager)
         {
             this._httpService = httpService;
             this._authenticationStateProvider = authenticationStateProvider;
             this._localStorageService = localStorageService;
             this._httpClient = httpClient;
+            this.tokenService = tokenService;
+            this.navigationManager = navigationManager;
+
         }
 
         /// <inheritdoc />
@@ -51,22 +59,23 @@ namespace EventManager.Client.Services
 
             var body = new HttpBody<LoginModel>(model);
 
-            string? result = await this._httpService.PostString(settings, body).ExecuteWithResult();
+            var user = await _httpService.PostWithResult<TokenDTO, LoginModel>(settings, body).ExecuteWithResult();
 
-            if (!string.IsNullOrEmpty(result))
-            {
-                await this._localStorageService.SetItemAsync("authToken", result);
-                this._httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", result);
-                ((ApiAuthenticationStateProvider)this._authenticationStateProvider).MarkUserAsAuthenticated();
-            }
+            if (user is null) return null;
 
-            return result;
+            await tokenService.SetUser(user);
+
+            ((ApiAuthenticationStateProvider)_authenticationStateProvider).MarkUserAsAuthenticated();
+
+            return user.UserId;
         }
 
         /// <inheritdoc />
         public async Task Logout()
         {
-            await ((ApiAuthenticationStateProvider)this._authenticationStateProvider).ClearStorage();
+            await tokenService.ClearUser();
+
+            ((ApiAuthenticationStateProvider)_authenticationStateProvider).MarkUserAsLoggedOut();
         }
 
         /// <inheritdoc />
@@ -80,9 +89,20 @@ namespace EventManager.Client.Services
         }
 
         /// <inheritdoc />
-        public async Task<bool> IsLoggedIn()
+        public bool IsLoggedIn()
         {
-            return !string.IsNullOrEmpty(await this._localStorageService.GetItemAsync<string>("authToken"));
+            return tokenService.UserInStore();
+        }
+
+        /// <inheritdoc />
+        public void NotAuthorized()
+        {
+            var query = new Dictionary<string, string>
+            {
+                ["redirectUri"] = navigationManager.Uri
+            };
+
+            navigationManager.NavigateTo(QueryHelpers.AddQueryString("/login", query));
         }
     }
 }
