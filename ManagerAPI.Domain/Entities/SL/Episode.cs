@@ -1,5 +1,5 @@
 ﻿using KarcagS.Common.Tools.Entities;
-using ManagerAPI.Shared.Annotations;
+using KarcagS.Shared.Attributes;
 using System.ComponentModel.DataAnnotations;
 
 namespace ManagerAPI.Domain.Entities.SL;

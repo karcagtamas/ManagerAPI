@@ -1,4 +1,4 @@
-using ManagerAPI.Shared.Annotations;
+using KarcagS.Shared.Attributes;
 using ManagerAPI.Shared.DTOs.SL;
 using System.ComponentModel.DataAnnotations;
 

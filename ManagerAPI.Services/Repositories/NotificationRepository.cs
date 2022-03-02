@@ -61,6 +61,48 @@ public class NotificationRepository<T, TKey, TNotification> : MapperRepository<T
         }
     }
 
+    /// <inheritdoc />
+    public override void Update(T entity)
+    {
+        base.Update(entity);
+        try
+        {
+            var user = this.Utils.GetCurrentUser<User, string>();
+
+
+            // Notification generate
+            var args = DetermineArguments(arguments.UpdateArguments, entity.GetType(), entity, user);
+
+            NotificationService.AddNotificationByType(typeof(TNotification),
+                Enum.Parse(typeof(TNotification), GetNotificationAction("update"), true), user,
+                args.ToArray());
+        }
+        catch (Exception)
+        {
+        }
+    }
+
+    /// <inheritdoc />
+    public override void Delete(T entity)
+    {
+        base.Delete(entity);
+        try
+        {
+            var user = this.Utils.GetCurrentUser<User, string>();
+
+
+            // Notification generate
+            var args = DetermineArguments(arguments.DeleteArguments, entity.GetType(), entity, user);
+
+            NotificationService.AddNotificationByType(typeof(TNotification),
+                Enum.Parse(typeof(TNotification), GetNotificationAction("delete"), true), user,
+                args.ToArray());
+        }
+        catch (Exception)
+        {
+        }
+    }
+
     private string GetNotificationAction(string action)
     {
         return string.Join("",

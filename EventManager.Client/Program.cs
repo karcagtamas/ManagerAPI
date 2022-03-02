@@ -25,7 +25,7 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.
 builder.Services.AddHttpService(config =>
 {
     config.IsTokenBearer = true;
-    config.UnauthorizedPath = "/logout";
+    config.UnauthorizedPath = "/auth/logout";
     config.AccessTokenName = "access-token";
     config.IsTokenRefresher = true;
     config.RefreshTokenName = "refresh-token";
